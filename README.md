@@ -82,7 +82,7 @@ Description of the directory structure
            |-- gnat (contains gnat specific files)
                 |
                 |-- aida_tests.gpr (use this file to build the tests)
-´´´
+```
 
 The are several directories called 'compiler', maybe a better name would be 'build_system'?
 
