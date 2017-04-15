@@ -43,7 +43,7 @@ To use the source code in this library do the following:
 
 Description of the directory structure
 --------------------------------------
-
+```
  |
  |-- src (after configuration of the Aida library, all the source code files can be found in this directory)
  |
@@ -82,6 +82,7 @@ Description of the directory structure
            |-- gnat (contains gnat specific files)
                 |
                 |-- aida_tests.gpr (use this file to build the tests)
+´´´
 
 The are several directories called 'compiler', maybe a better name would be 'build_system'?
 
