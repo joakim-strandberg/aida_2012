@@ -1,18 +1,81 @@
 About the Aida library
 ----------------------
 
-The source code in the Aida library conforms to the Ada 2012 standard.
+If you are considering making an Ada or SPARK application then the Aida library may
+be of interest to you. Developing formally verified software is very time consuming and thus expensive.
+The goal of the Aida library is to lower the cost of mission-critical and security-critical
+applications by providing common functionality implemented in formally verified software.
+
+The Aida library consists of (mostly) formally verified SPARK and conforms to the Ada 2012 standard.
 It has successfully been compiled using GNAT GPL 2016 on both Ubuntu 16.04 and Windows 10.
 
 Design goals:
 
- - Minimize external dependencies. In particular, no dependency on make to configure the library.
-   Before being able to use the library it must be configured. The traditional way to do
-   this is using make and makefiles. This is cumbersome on Windows where make is
-   not part of the OS out of the box. It means one must first install MSYS or something.
-   This is not necessary with the Aida library. If you have an Ada 2012 compiler you
-   are good to go.
+ - Minimize external dependencies. If you have an Ada 2012 compiler you are good to go.
  - Use SPARK whenever possible.
+
+The Aida library provides for example basic types (integers, strings,...) for use in projects.
+Consider:
+```
+with Aida.Types;
+with Aida.Text_IO;
+
+procedure Main is
+   use all type Aida.Types.Int32_T;
+   use all type Aida.Types.String_T;
+
+   User_Input : constant Aida.Types.String_T := "123";
+
+   I : constant Aida.Types.Int32_T := To_Int32 (User_Input);
+
+   Result : constant Aida.Types.String_T := To_String (I);
+begin
+   Aida.Text_IO.Put_Line ("User entered: ", Result);
+end Main;
+```
+The output of the application is:
+```
+User entered: 123
+```
+If one would like to formally verify the above code using the SPARK tools (GNAT GPL 2016)
+one would need to adjust the source code:
+```
+with Aida.Types;
+with Aida.Text_IO;
+
+procedure Main with SPARK_Mode is
+   use all type Aida.Types.Int32_T;
+   use all type Aida.Types.Character_T;
+   use all type Aida.Types.String_T;
+
+   User_Input : constant Aida.Types.String_T := "123";
+begin
+   if (for all I in User_Input'Range => Is_Digit (Aida.Types.Character_T (User_Input (I)))) then
+      declare
+         I : constant Aida.Types.Int32_T := To_Int32 (User_Input);
+
+         Result : constant Aida.Types.String_T := To_String (I);
+      begin
+         Aida.Text_IO.Put_Line ("User entered: ", Result);
+      end;
+   else
+      Aida.Text_IO.Put_Line (User_Input, " contains non-integer types.");
+   end if;
+end Main;
+```
+One possible interpretation of this result is that from the definition of the variable
+User_Input the SPARK tools only pay attention to the type of User_Input (it is of Aida.Types.String_T type)
+and the length of the "string", not the exact contents. Thus, to satisfy the
+preconditions of the To_Int32 (..) function one must first check that all characters
+are indeed integers by an explicit if-statement. Also note that keeping track on
+the exact contents of "string" types are usually not required during static code
+analysis since the exacts contents of user input are not known until run-time.
+
+The traditional way of converting an integer to a string is to use the Integer'Image (..)
+function and to use the Integer'Value (..) function to convert in the other direction.
+These functions lack the pre- and post-conditions that the SPARK tools need
+for static code analysis. The functions To_String (..) and
+To_Int32 (..) in the Aida library have all the pre- and post-conditions needed.
 
 Installation using the GNAT compiler
 ------------------------------------

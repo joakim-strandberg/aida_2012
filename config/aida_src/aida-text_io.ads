@@ -13,9 +13,28 @@ package Aida.Text_IO with SPARK_Mode is
                        S2 : Aida.Types.String_T) with
      Global => null;
 
+   procedure Put_Line (S1 : Aida.Types.String_T;
+                       S2 : String) with
+     Global => null;
+
    procedure Put_Line (S1 : String;
                        S2 : String;
                        S3 : String) with
+     Global => null;
+
+   procedure Put_Line (S1 : Aida.Types.String_T;
+                       S2 : String;
+                       S3 : String) with
+     Global => null;
+
+   procedure Put_Line (S1 : String;
+                       S2 : Aida.Types.String_T;
+                       S3 : String) with
+     Global => null;
+
+   procedure Put_Line (S1 : String;
+                       S2 : String;
+                       S3 : Aida.Types.String_T) with
      Global => null;
 
    procedure Put_Line (S1 : String;

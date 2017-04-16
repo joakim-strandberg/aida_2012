@@ -2,6 +2,10 @@ package Aida.Int32 with SPARK_Mode is
 
    type T is new Zzz_Int32_T;
 
+   function To_String (This : T) return Zzz_String_T with
+     Global => null,
+     Post   => To_String'Result'Length <= 11;
+
    -- Calculates the hash of an 32-bit integer based upon the following post
    -- on Stackoverlow:
    -- http://stackoverflow.com/questions/664014/what-integer-hash-function-are-good-that-accepts-an-integer-hash-key
