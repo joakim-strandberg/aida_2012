@@ -2,7 +2,7 @@ About the Aida library
 ----------------------
 
 If you are considering making an Ada or SPARK application then the Aida library may
-be of interest to you. Developing formally verified software is very time consuming and thus expensive.
+be of interest to you. Developing formally verified software is very time consuming and thus very expensive.
 The goal of the Aida library is to lower the cost of mission-critical and security-critical
 applications by providing common functionality implemented in formally verified software.
 
@@ -76,6 +76,34 @@ function and to use the Integer'Value (..) function to convert in the other dire
 These functions lack the pre- and post-conditions that the SPARK tools need
 for static code analysis. The functions To_String (..) and
 To_Int32 (..) in the Aida library have all the pre- and post-conditions needed.
+
+Important! When using the basic types, use the types defined in the Aida.Types package.
+Do not use the types starting with Zzz_ defined in the Aida package nor the types
+defined in the packages Aida.String, Aida.Int32 and so on. These types are defined in order to
+define the types in Aida.Types. The reason these "auxiliary" types have been defined
+is to avoid using "limited with" to be able to formally verify the software using
+the SPARK tools.
+
+Tip! If one is curious about the subprograms available by using "use all type"
+for the type Aida.Types.Int32, take a look at the subprograms defined in
+the package Aida.Int32, but as explained above, do not use the type Aida.Int32.T type directly.
+
+| Package                                 | Description                                                            |
+|-----------------------------------------|------------------------------------------------------------------------|
+| Aida.Bounded_String                     | Bounded string implementation in pure SPARK                            |
+| Aida.Character                          | Do not use this package directly, use the type Aida.Types.Character_T  |
+| Aida.Containers.Bounded_Hash_Map        | Bounded hash map implementation in pure SPARK                          |
+| Aida.Containers.Bounded_Vector          | Bounded vector implementation in pure SPARK                            |
+| Aida.Containers.Integer_To_String_Map   | Integer to String map in pure SPARK (no usage of bounded strings)      |
+| Aida.Directories                        | Think Ada.Directories but suitable for SPARK analysable code           |
+| Aida.Hash32                             | Do not use this package directly, use the type Aida.Types.Hash32_T     |
+| Aida.Int32                              | Do not use this package directly, use the type Aida.Types.Int32_T      |
+| Aida.Sequential_Stream_IO               | Think Ada.Sequential_IO but suitable for SPARK analysable code         |
+| Aida.String                             | Do not use this package directly, use the type Aida.Types.String_T     |
+| Aida.Text_IO                            | Think Ada.Text_IO but suitable for SPARK analysable code               |
+| Aida.Types                              | Contains the definitions of the basic types.                           |
+| Aida.Utf8                               | Subprograms providing UTF8 support implementation in pure SPARK        |
+| Aida.Utf8_Code_Point                    | UTF8 code point definition and subprograms implemented in pure SPARK   |
 
 Installation using the GNAT compiler
 ------------------------------------
