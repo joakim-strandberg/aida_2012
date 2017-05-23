@@ -56,6 +56,7 @@
 --
 
 with Ada.Containers;
+with Aida.Types;
 with Aida.UTF8_Code_Point;
 --  with Aida.Generic_Subprogram_Call_Result;
 
@@ -64,6 +65,8 @@ use type Ada.Containers.Count_Type;
 --  pragma Elaborate_All (Aida.Generic_Subprogram_Call_Result);
 
 package Aida.UTF8 with SPARK_Mode is
+
+   use all type Aida.Types.Character_T;
 
    --     package Subprogram_Call_Result is new Aida.Generic_Subprogram_Call_Result (1000);
    --
@@ -98,7 +101,7 @@ package Aida.UTF8 with SPARK_Mode is
                   Value       : out Aida.UTF8_Code_Point.T) with
      Global => null,
      Pre    => Is_Valid_UTF8_Code_Point (Source, Pointer),
-     Post   => (if (Character'Pos (Source (Pointer'Old)) in 0..16#7F#) then Character'Pos (Source (Pointer'Old)) = Value and Pointer = Pointer'Old + 1
+     Post   => Pointer <= Pointer'Old + 4 and (if (Character'Pos (Source (Pointer'Old)) in 0..16#7F#) then Character'Pos (Source (Pointer'Old)) = Value and Pointer = Pointer'Old + 1
                     elsif (Pointer'Old < Source'Last and then (Character'Pos (Source (Pointer'Old)) in 16#C2#..16#DF# and Character'Pos (Source (Pointer'Old + 1)) in 16#80#..16#BF#)) then Pointer = Pointer'Old + 2
                   elsif (Pointer'Old < Source'Last - 1 and then ((Character'Pos (Source (Pointer'Old)) = 16#E0# and Character'Pos (Source (Pointer'Old + 1)) in 16#A0#..16#BF# and Character'Pos (Source (Pointer'Old + 2)) in 16#80#..16#BF#) or
                         (Character'Pos (Source (Pointer'Old)) in 16#E1#..16#EF# and Character'Pos (Source (Pointer'Old + 1)) in 16#80#..16#BF# and Character'Pos (Source (Pointer'Old + 2)) in 16#80#..16#BF#))) then Pointer = Pointer'Old + 3
@@ -119,7 +122,8 @@ package Aida.UTF8 with SPARK_Mode is
    --    The number of UTF-8 encoded code points in Source
    --
    function Length (Source : String) return Natural with
-     Global => null;
+     Global => null,
+     Post   => Length'Result <= Source'Length or ((for all I in Source'Range => (Is_One_Byte_UTF8 (Aida.Types.Character_T (Source (I))))) and then (Length'Result = Source'Length));
 
    --
    -- Put -- Put one UTF-8 code point

@@ -3,7 +3,7 @@ package body Aida.Bounded_String is
    use all type Aida.Types.String_T;
 
    procedure Initialize (This : in out T;
-                         Text : Standard.String) is
+                         Text : Aida.Types.String_T) is
    begin
       for I in Integer range 1..Text'Length loop
          This.Text (I) := Text (Text'First - 1 + I);
@@ -15,7 +15,7 @@ package body Aida.Bounded_String is
    end Initialize;
 
    procedure Append (Target : in out T;
-                     Source : Standard.String) is
+                     Source : Aida.Types.String_T) is
    begin
       for I in Integer range Source'First..Source'Last loop
          Target.Text (Target.Text_Length + 1 + (I - Source'First)) := Source (I);
@@ -33,6 +33,12 @@ package body Aida.Bounded_String is
       Do_Something (This.Text (Index_T'First..This.Text_Length));
    end Act_On_Immutable_Text;
 
+   function Check_Something_On_Immutable_Text (This  : T;
+                                               Arg   : Arg_T) return Return_T is
+   begin
+      return Check_Something (This.Text (Index_T'First..This.Text_Length), Arg);
+   end Check_Something_On_Immutable_Text;
+
    function Equals (This   : T;
                     Object : Standard.String) return Boolean
    is
@@ -40,7 +46,7 @@ package body Aida.Bounded_String is
    begin
       if Length (This) = Object'Length then
          if Object'Length > 0 then
-            Result := This.Text (Index_T'First..This.Text_Length) = Object (Object'Range);
+            Result := String (This.Text (Index_T'First..This.Text_Length)) = Object (Object'Range);
          end if;
       end if;
 

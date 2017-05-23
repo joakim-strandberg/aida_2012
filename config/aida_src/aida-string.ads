@@ -555,6 +555,11 @@ package Aida.String with SPARK_Mode is
    function Equivalent (Left : Standard.String; Right : T) return Boolean with
      Global => null;
 
+   function Concat (Left, Right : T) return T with
+     Global => null,
+     Pre    => Left'Length < Positive'Last/2 and Right'Length < Positive'Last/2,
+     Post   => Concat'Result'Length = Left'Length + Right'Length;
+
 private
 
    function Equivalent (Left : T; Right : Standard.String) return Boolean is (Left'Length = Right'Length and then (Right'Length > 0 and then (Standard.String (Left (Left'Range)) = Right (Right'Range))));

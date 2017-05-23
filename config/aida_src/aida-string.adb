@@ -580,4 +580,12 @@ package body Aida.String with SPARK_Mode is
       return H;
    end Hash32;
 
+   function Concat (Left, Right : T) return T is
+      S : T (1..Left'Length + Right'Length) := (others => ' ');
+   begin
+      S (1..Left'Length) := Left (Left'First..Left'Last);
+      S (1 + Left'Length..Left'Length + Right'Length) := Right (Right'First..Right'Last);
+      return S;
+   end Concat;
+
 end Aida.String;

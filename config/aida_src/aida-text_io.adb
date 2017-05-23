@@ -15,45 +15,12 @@ package body Aida.Text_IO with SPARK_Mode => Off is
    end Put_Line;
 
    procedure Put_Line (S1 : String;
-                       S2 : Aida.Types.String_T) is
-   begin
-      Put_Line (S1, String (S2));
-   end Put_Line;
-
-   procedure Put_Line (S1 : Aida.Types.String_T;
-                       S2 : String) is
-   begin
-      Put_Line (String (S1), S2);
-   end Put_Line;
-
-   procedure Put_Line (S1 : String;
                        S2 : String;
                        S3 : String) is
    begin
       Ada.Text_IO.Put (S1);
       Ada.Text_IO.Put (S2);
       Ada.Text_IO.Put_Line (S3);
-   end Put_Line;
-
-   procedure Put_Line (S1 : Aida.Types.String_T;
-                       S2 : String;
-                       S3 : String) is
-   begin
-      Put_Line (String (S1), S2, S3);
-   end Put_Line;
-
-   procedure Put_Line (S1 : String;
-                       S2 : Aida.Types.String_T;
-                       S3 : String) is
-   begin
-      Put_Line (S1, String (S2), S3);
-   end Put_Line;
-
-   procedure Put_Line (S1 : String;
-                       S2 : String;
-                       S3 : Aida.Types.String_T) is
-   begin
-      Put_Line (S1, S2, String (S3));
    end Put_Line;
 
    procedure Put_Line (S1 : String;

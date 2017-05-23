@@ -118,17 +118,6 @@ package body Aida.UTF8 with SPARK_Mode is
          Aida.UTF8.Put (Result, To, Code);
       end loop;
       return Result (1..To - 1);
---     exception
---        when Layout_Error =>
---           if From > Value'Last then
---              return Result (1..To - 1) & Image (Code);
---           else
---              return
---              (  Result (1..To - 1)
---              &  Image (Code)
---              &  To_Lowercase (Value (From..Value'Last))
---              );
---           end if;
    end To_Lowercase;
 
    function To_Uppercase (Value : String) return String is
@@ -143,17 +132,6 @@ package body Aida.UTF8 with SPARK_Mode is
          Aida.UTF8.Put (Result, To, Code);
       end loop;
       return Result (1..To - 1);
---     exception
---        when Layout_Error =>
---           if From > Value'Last then
---              return Result (1..To - 1) & Image (Code);
---           else
---              return
---              (  Result (1..To - 1)
---              &  Image (Code)
---              &  To_Uppercase (Value (From..Value'Last))
---              );
---           end if;
    end To_Uppercase;
 
 end Aida.UTF8;

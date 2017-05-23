@@ -27,7 +27,7 @@ procedure Main with SPARK_Mode is
                            Windows
                            );
 
-   type File_Index_T is range 1..29;
+   type File_Index_T is range 1..34;
 
    package OS_Agnostic_Files_Vector is new Aida.Containers.Integer_To_String_Map (Index_T    => File_Index_T,
                                                                                   Element_T  => Aida.Types.String_T,
@@ -35,7 +35,7 @@ procedure Main with SPARK_Mode is
 
    use type OS_Agnostic_Files_Vector.Length_T;
 
-   OS_AGNOSTIC_MAX : constant := 2_000;
+   OS_AGNOSTIC_MAX : constant := 3_000;
 
    OS_Agnostic_Files : OS_Agnostic_Files_Vector.T (OS_AGNOSTIC_MAX);
 
@@ -112,6 +112,8 @@ procedure Main with SPARK_Mode is
          Append (OS_Agnostic_Files, "aida-sequential_stream_io.adb");
          Append (OS_Agnostic_Files, "aida-string.ads");
          Append (OS_Agnostic_Files, "aida-string.adb");
+         Append (OS_Agnostic_Files, "aida-subprogram_call_result.ads");
+         Append (OS_Agnostic_Files, "aida-subprogram_call_result.adb");
          Append (OS_Agnostic_Files, "aida-text_io.ads");
          Append (OS_Agnostic_Files, "aida-text_io.adb");
          Append (OS_Agnostic_Files, "aida-types.ads");
@@ -120,6 +122,9 @@ procedure Main with SPARK_Mode is
          Append (OS_Agnostic_Files, "aida-utf8.adb");
          Append (OS_Agnostic_Files, "aida-utf8_code_point.ads");
          Append (OS_Agnostic_Files, "aida-utf8_code_point.adb");
+         Append (OS_Agnostic_Files, "aida-xml.ads");
+         Append (OS_Agnostic_Files, "aida-xml-generic_parse_xml_file.ads");
+         Append (OS_Agnostic_Files, "aida-xml-generic_parse_xml_file.adb");
          Append (OS_Agnostic_Files, "aida.ads");
 
          Append (Linux_Files, "aida-os_lib.ads");
@@ -1020,7 +1025,7 @@ procedure Main with SPARK_Mode is
                    Has_failed => Has_Failed);
 
          if Has_Failed then
-            Aida.Text_IO.Put_Line ("Could not interpret user input as an integer: ", User_Input);
+            Aida.Text_IO.Put_Line ("Could not interpret user input as an integer: ", String (User_Input));
          else
             if Target >= 1 and Target <= 4 then
                Alternative := Alternative_T (Target);
@@ -1032,7 +1037,7 @@ procedure Main with SPARK_Mode is
                  when 4 => Aida.Text_IO.Put_Line ("Don't know what to do in this case...");
                end case;
             else
-               Aida.Text_IO.Put_Line ("Please specify an integer from 1 to 4, not: ", User_Input);
+               Aida.Text_IO.Put_Line ("Please specify an integer from 1 to 4, not: ", String (User_Input));
             end if;
          end if;
       end Get_Input_From_User;

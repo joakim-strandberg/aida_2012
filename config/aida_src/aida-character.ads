@@ -50,6 +50,9 @@ package Aida.Character with SPARK_Mode is
                         Source = '8' => Check_Result (Target, 8),
                         Source = '9' => Check_Result (Target, 9));
 
+   function Is_One_Byte_UTF8 (C : T) return Boolean is (Standard.Character'Pos (Standard.Character (C)) <= 127);
+   -- A UTF8 code point can be represented by 1-4 characters. The first 128 characters (US-ASCII) need only one byte.
+
 private
 
    function Check_Result (Result : Zzz_Int32_T; Expected : Integer) return Boolean is (Result = Zzz_Int32_T (Expected));

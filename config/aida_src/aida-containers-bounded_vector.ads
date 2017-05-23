@@ -61,7 +61,8 @@ package Aida.Containers.Bounded_Vector is
 
    procedure Delete_Last (This : in out T) with
      Global => null,
-     Pre    => Length (This) > 0;
+     Pre    => Length (This) > 0,
+     Post   => Length (This) = Length (This)'Old - 1;
 
    procedure Clear (This : in out T) with
      Global => null,
