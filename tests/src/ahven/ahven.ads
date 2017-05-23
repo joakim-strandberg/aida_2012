@@ -29,6 +29,17 @@ package Ahven is
    -- If Condition is false, Assert raises Assertion_Error
    -- with given Message.
 
+   procedure Assert (Condition : Boolean;
+                     M1        : String;
+                     M2        : String) with
+     Global => null;
+
+   procedure Assert (Condition : Boolean;
+                     M1        : String;
+                     M2        : String;
+                     M3        : String) with
+     Global => null;
+
    generic
       type Data_Type is private;
       with function Image (Item : Data_Type) return String is <>;

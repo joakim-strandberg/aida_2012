@@ -27,6 +27,21 @@ package body Ahven is
       end if;
    end Assert;
 
+   procedure Assert (Condition : Boolean;
+                     M1        : String;
+                     M2        : String) is
+   begin
+      Assert (Condition, M1 & M2);
+   end Assert;
+
+   procedure Assert (Condition : Boolean;
+                     M1        : String;
+                     M2        : String;
+                     M3        : String) is
+   begin
+      Assert (Condition, M1 & M2 & M3);
+   end Assert;
+
    procedure Assert_Equal
       (Actual : Data_Type; Expected : Data_Type; Message : String) is
    begin
