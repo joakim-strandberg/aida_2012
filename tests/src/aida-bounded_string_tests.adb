@@ -1,6 +1,5 @@
 with Aida.Bounded_String;
 with Aida.Types;
-with GNAT.Source_Info;
 
 package body Aida.Bounded_String_Tests is
 
@@ -17,26 +16,38 @@ package body Aida.Bounded_String_Tests is
 
    use all type Bounded_String_20.T;
 
-   procedure Test_Initialization (T : in out Ahven.Framework.Test_Case'Class) is
+   procedure Test_Initialization (T : in out Ahven.Framework.Test_Case'Class) with
+     SPARK_Mode => On
+   is
       pragma Unreferenced (T);
 
-      Expected : constant String := "Hej";
+      function Check_Expected (Text     : Aida.Types.String_T;
+                               Expected : Aida.Types.String_T) return Boolean with
+        Global => null;
 
-      Is_Success : Boolean := False;
-
-      procedure Check_Expected (Text : String) is
+      function Check_Expected (Text     : Aida.Types.String_T;
+                               Expected : Aida.Types.String_T) return Boolean is
       begin
-         Is_Success := Equivalent (Expected, Aida.Types.String_T (Text));
+         return Expected = Text;
       end Check_Expected;
 
-      procedure Check_Expected is new Bounded_String_20.Act_On_Immutable_Text (Check_Expected);
+      Expected : constant Aida.Types.String_T := "Hej";
+
+      subtype Expected_T is Aida.Types.String_T (Expected'First..Expected'Last);
+
+      Is_Success : Boolean;
+
+      function Check_Expected is new Bounded_String_20.Check_Something_On_Immutable_Text (Return_T        => Boolean,
+                                                                                          Arg_T           => Expected_T,
+                                                                                          Check_Something => Check_Expected);
 
       S : Bounded_String_20.T;
    begin
       Initialize (This => S,
                   Text => Expected);
-      Check_Expected (S);
-      Ahven.Assert (Is_Success, GNAT.Source_Info.Source_Location & ", was " & Is_Success'Img);
+      Is_Success := Check_Expected (S, Expected);
+      Ahven.Assert (Is_Success, "CODE A, was ", Boolean'Image (Is_Success));
+      Ahven.Assert (Are_Equivalent (S, Expected), "CODE A, was ", Boolean'Image (Is_Success));
    end Test_Initialization;
 
 end Aida.Bounded_String_Tests;
