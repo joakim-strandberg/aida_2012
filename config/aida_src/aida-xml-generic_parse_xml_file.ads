@@ -1,4 +1,7 @@
 with Aida.Types;
+with Ada.Containers;
+
+use all type Ada.Containers.Count_Type;
 
 generic
    type Arg_T is limited private; -- The result should be stored in this datastructure
@@ -38,7 +41,7 @@ generic
 --                             Tag_Value   : String;
 --                             Parent_Tags : Tag_Name_Vector_T;
 --                             Call_Result : in out Subprogram_Call_Result.T);
-procedure Aida.XML.Generic_Parse_XML_File (Arg           : Arg_T;
+procedure Aida.XML.Generic_Parse_XML_File (Arg           : in out Arg_T;
                                            Contents      : Aida.Types.String_T;
                                            Call_Result   : in out Procedure_Call_Result.T) with
   Global => null,

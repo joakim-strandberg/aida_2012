@@ -29,7 +29,7 @@ package body Aida.Subprogram_Call_Result is
    end Initialize;
 
    procedure Act_On_Immutable_Text (This : in T) is
-      procedure Act is new Bounded_String.Act_On_Immutable_Text (Do_Something);
+      procedure Act is new Aida.Bounded_String.Act_On_Immutable_Text (Bounded_String_T => Bounded_String_T, Do_Something => Do_Something);
    begin
       Act (This.My_Message);
    end Act_On_Immutable_Text;

@@ -6,7 +6,7 @@ with Aida.Containers.Bounded_Vector;
 
 pragma Elaborate_All (Aida.Containers.Bounded_Vector);
 
-procedure Aida.XML.Generic_Parse_XML_File (Arg           : Arg_T;
+procedure Aida.XML.Generic_Parse_XML_File (Arg           : in out Arg_T;
                                            Contents      : Aida.Types.String_T;
                                            Call_Result   : in out Procedure_Call_Result.T)
 is

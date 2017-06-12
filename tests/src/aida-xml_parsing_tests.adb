@@ -7,6 +7,7 @@ package body Aida.XML_Parsing_Tests is
 
    use all type Aida.Types.String_T;
    use all type Aida.XML.Procedure_Call_Result.T;
+   use all type Aida.Bounded_String.T;
 
    overriding procedure Initialize (T : in out Test) is
    begin
@@ -28,7 +29,7 @@ package body Aida.XML_Parsing_Tests is
 
             MAX_VALUE_LENGTH : constant := 10;
 
-            package Value is new Aida.Bounded_String (MAX_VALUE_LENGTH);
+            type Value_T is new Aida.Bounded_String.T (MAX_VALUE_LENGTH);
 
          end Z;
 
@@ -52,7 +53,7 @@ package body Aida.XML_Parsing_Tests is
 
       private
 
-         use all type Z.Value.T;
+         use all type Z.Value_T;
 
          type Hidden_A_Id_T is range 1..Z.Max_Number_Of_A;
 
@@ -63,7 +64,7 @@ package body Aida.XML_Parsing_Tests is
 
          type Hidden_A_T is record
             My_Id    : Id_T;
-            My_Value : Z.Value.T;
+            My_Value : Z.Value_T;
          end record;
 
          type A_Array_T is array (Hidden_A_Id_T) of Hidden_A_T;
@@ -79,7 +80,7 @@ package body Aida.XML_Parsing_Tests is
 
          function Value_Equals_String (This : T;
                                        Id   : Id_T;
-                                       S    : Aida.Types.String_T) return Boolean is (Are_Equivalent (This.As (Id.My_Id).My_Value, S));
+                                       S    : Aida.Types.String_T) return Boolean is (Aida.Bounded_String.Are_Equivalent (Aida.Bounded_String.T (This.As (Id.My_Id).My_Value), S));
 
       end A;
 

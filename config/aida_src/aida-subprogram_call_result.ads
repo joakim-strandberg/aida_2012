@@ -4,10 +4,12 @@ with Aida.Bounded_String;
 -- Useful for subprograms that can either succeed or report an error message,
 -- and under the contraint of satisfying the "one exit"-rule in GNATCheck.
 generic
-   Capacity : Positive;
+   Capacity : Aida.Bounded_String.Count_Type;
 package Aida.Subprogram_Call_Result is
 
-   subtype Length_T is Natural range 0 .. Capacity;
+   use type Aida.Bounded_String.Count_Type;
+
+   subtype Length_T is Aida.Bounded_String.Count_Type range 0 .. Capacity;
 
    type T is limited private with Default_Initial_Condition => Length (T) = 0 and Has_Failed (T) = False;
 
@@ -37,21 +39,21 @@ package Aida.Subprogram_Call_Result is
      Global => null;
 
    generic
-      with procedure Do_Something (Text : Aida.Types.String_T);
+      with procedure Do_Something (Text : Aida.Bounded_String.Char_Vectors.Vector);
    procedure Act_On_Immutable_Text (This : in T) with
      Global => null;
 
 private
 
-   package Bounded_String is new Aida.Bounded_String (Capacity);
+   type Bounded_String_T is new Aida.Bounded_String.T (Capacity);
 
    type T is limited
       record
-         My_Message    : Bounded_String.T;
+         My_Message    : Bounded_String_T;
          My_Has_Failed : Boolean := False;
       end record;
 
-   function Length (This : T) return Length_T is (Bounded_String.Length (This.My_Message));
+   function Length (This : T) return Length_T is (Length (This.My_Message));
 
    function Has_Failed (This : T) return Boolean is (This.My_Has_Failed);
 
