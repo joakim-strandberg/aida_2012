@@ -34,7 +34,6 @@ package Aida.Bounded_String with SPARK_Mode is
 
    package Char_Vectors is new Ada.Containers.Formal_Vectors (Index_Type   => Positive,
                                                               Element_Type => Character,
-                                                              "="          => "=",
                                                               Bounded      => True);
 
    type T (Maximum_Length : Ada.Containers.Count_Type) is limited private;
