@@ -1,5 +1,5 @@
 with Aida.Bounded_String;
-with Aida.Text_IO;
+--with Aida.Text_IO;
 with Aida.Types;
 with Aida.XML.Generic_Parse_XML_File;
 
@@ -125,8 +125,9 @@ package body Aida.XML_Parsing_Tests is
          pragma Unreferenced (Tag_Id);
          pragma Unreferenced (Call_Result);
       begin
-         Aida.Text_IO.Put ("start tag: ");
-         Put_Line (Tag_Name);
+  --       Aida.Text_IO.Put ("start tag: ");
+  --           Put_Line (Tag_Name);
+         null;
       end Root_Start_Tag;
 
       procedure Root_End_Tag (Result      : Result_T;
@@ -147,8 +148,9 @@ package body Aida.XML_Parsing_Tests is
          pragma Unreferenced (Tag_Value);
          pragma Unreferenced (Call_Result);
       begin
-         Aida.Text_IO.Put ("end tag: ");
-         Put_Line (Tag_Name);
+--         Aida.Text_IO.Put ("end tag: ");
+--         Put_Line (Tag_Name);
+         null;
       end Root_End_Tag;
 
       procedure Parse_XML is new Aida.XML.Generic_Parse_XML_File (Result_T,

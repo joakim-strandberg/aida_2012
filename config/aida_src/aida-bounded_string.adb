@@ -71,4 +71,14 @@ package body Aida.Bounded_String with SPARK_Mode is
       return Result;
    end Equals;
 
+   function To_String (This : T) return Aida.Types.String_T is
+      S : Aida.Types.String_T (1..Integer (Length (This.Text)));
+   begin
+      for I in Positive range First_Index (This.Text)..Last_Index (This.Text) loop
+         S (I) := Element (This.Text, I);
+      end loop;
+
+      return S;
+   end To_String;
+
 end Aida.Bounded_String;

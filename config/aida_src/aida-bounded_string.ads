@@ -68,6 +68,9 @@ package Aida.Bounded_String with SPARK_Mode is
 
    function Hash32 (This : T) return Aida.Types.Hash32_T;
 
+   function To_String (This : T) return Aida.Types.String_T with
+     Global => null;
+
    generic
       type Bounded_String_T (<>) is new T;
       with procedure Do_Something (Text : Char_Vectors.Vector);

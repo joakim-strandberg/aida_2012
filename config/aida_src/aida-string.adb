@@ -561,6 +561,11 @@ package body Aida.String with SPARK_Mode is
       return Result;
    end Starts_With;
 
+   procedure Put (This : T) is
+   begin
+      Aida.Text_IO.Put (Standard.String (This));
+   end Put;
+
    procedure Put_Line (This : T) is
    begin
       Aida.Text_IO.Put_Line (Standard.String (This));

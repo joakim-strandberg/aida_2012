@@ -543,6 +543,9 @@ package Aida.String with SPARK_Mode is
      Global => null,
      Pre    => Searched_For'Length > 0;
 
+   procedure Put (This : T) with
+     Global => null;
+
    procedure Put_Line (This : T) with
      Global => null;
 

@@ -9,6 +9,7 @@ with Aida.UTF8.Tests;
 with Aida.Bounded_String_Tests;
 with Aida.Bounded_Hash_Map_Tests;
 with Aida.XML_Parsing_Tests;
+with Aida.JSON_Parsing_Tests;
 
 procedure Main is
    use all type Ada.Strings.Unbounded.Unbounded_String;
@@ -23,6 +24,7 @@ procedure Main is
 
    XML_Parsing_Test : Aida.XML_Parsing_Tests.Test;
 
+   JSON_Parsing_Test : Aida.JSON_Parsing_Tests.Test;
 
 --   Std_Integer_Test : Std_Integer.Tests.Test;
 
@@ -48,5 +50,6 @@ begin
    Ahven.Framework.Add_Static_Test (S, Converstion_Test);
    Ahven.Framework.Add_Static_Test (S, UTF8_Test);
    Ahven.Framework.Add_Static_Test (S, XML_Parsing_Test);
+   Ahven.Framework.Add_Static_Test (S, JSON_Parsing_Test);
    Ahven.Text_Runner.Run (S);
 end Main;
