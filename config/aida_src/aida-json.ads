@@ -26,7 +26,7 @@ private
 
    type State_Id_Type is (
                           Expecting_NL_Sign_Or_Space_Or_Left_Curly_Bracket, -- NL = New Line
-                          Found_Left_Curly_Bracket,
+                          Found_Left_Curly_Bracket, -- or will search for key
                           Extracting_Key_Name,
                           Expecting_Colon_Sign_After_Key_Name,
                           Expecting_Value, -- Can be string, number, array, boolean value or null

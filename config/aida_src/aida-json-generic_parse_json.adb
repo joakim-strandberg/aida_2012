@@ -221,6 +221,13 @@ begin
                      State_Id := Found_End_Of_Object;
                   end if;
                end if;
+            elsif CP = Character'Pos (',') then
+               State_Id := Found_Left_Curly_Bracket;
+            elsif CP = Character'Pos (' ') then
+               null;
+            else
+               Initialize (Call_Result, "427b46d0-8f27-475b-8856-9bb345517f55");
+               exit;
             end if;
          when Found_End_Of_The_Very_Last_Object =>
             if CP = Character'Pos (' ') then
