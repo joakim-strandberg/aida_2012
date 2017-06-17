@@ -27,7 +27,7 @@ procedure Main with SPARK_Mode is
                            Windows
                            );
 
-   type File_Index_T is range 1..34;
+   type File_Index_T is range 1..37;
 
    package OS_Agnostic_Files_Vector is new Aida.Containers.Integer_To_String_Map (Index_T    => File_Index_T,
                                                                                   Element_T  => Aida.Types.String_T,
@@ -108,6 +108,9 @@ procedure Main with SPARK_Mode is
          Append (OS_Agnostic_Files, "aida-hash32.ads");
          Append (OS_Agnostic_Files, "aida-int32.ads");
          Append (OS_Agnostic_Files, "aida-int32.adb");
+         Append (OS_Agnostic_Files, "aida-json-generic_parse_json.adb");
+         Append (OS_Agnostic_Files, "aida-json-generic_parse_json.ads");
+         Append (OS_Agnostic_Files, "aida-json.ads");
          Append (OS_Agnostic_Files, "aida-sequential_stream_io.ads");
          Append (OS_Agnostic_Files, "aida-sequential_stream_io.adb");
          Append (OS_Agnostic_Files, "aida-string.ads");
