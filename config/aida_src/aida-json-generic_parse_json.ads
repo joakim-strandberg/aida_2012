@@ -20,6 +20,10 @@ generic
                                 Value       : Aida.Types.String_T;
                                 Tag_Id      : Tag_Id_T;
                                 Call_Result : in out Procedure_Call_Result.T);
+   with procedure Value_Integer (Arg         : Arg_T;
+                                 Value       : Aida.Types.Int32_T;
+                                 Tag_Id      : Tag_Id_T;
+                                 Call_Result : in out Procedure_Call_Result.T);
 procedure Aida.JSON.Generic_Parse_JSON (Arg           : in out Arg_T;
                                         Contents      : Aida.Types.String_T;
                                         Call_Result   : in out Procedure_Call_Result.T) with

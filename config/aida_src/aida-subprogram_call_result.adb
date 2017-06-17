@@ -34,4 +34,10 @@ package body Aida.Subprogram_Call_Result is
       Act (This.My_Message);
    end Act_On_Immutable_Text;
 
+   function Message (This : T) return Aida.Types.String_T is
+   begin
+      return To_String (This.My_Message);
+   end Message;
+
+
 end Aida.Subprogram_Call_Result;

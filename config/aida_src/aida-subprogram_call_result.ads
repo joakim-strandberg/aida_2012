@@ -43,6 +43,9 @@ package Aida.Subprogram_Call_Result is
    procedure Act_On_Immutable_Text (This : in T) with
      Global => null;
 
+   function Message (This : T) return Aida.Types.String_T with
+     Global => null;
+
 private
 
    type Bounded_String_T is new Aida.Bounded_String.T (Capacity);
