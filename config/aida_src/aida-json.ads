@@ -34,7 +34,9 @@ private
                           Expecting_Comma_Sign_Or_Right_Bracket,
                           Found_End_Of_The_Very_Last_Object,
                           Extracting_Value_Integer,
-                          Found_End_Of_Object
+                          Found_End_Of_Object,
+                          Found_Array_Start, -- Extracting elements
+                          Found_End_Of_Element_In_Array
                          );
 
 end Aida.JSON;

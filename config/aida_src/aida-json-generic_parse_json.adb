@@ -15,6 +15,8 @@ is
 
    Tag_Ids : Tag_Id_Vector.T;
 
+   Array_Tag_Ids : Tag_Id_Vector.T;
+
    State_Id : State_Id_Type := Expecting_NL_Sign_Or_Space_Or_Left_Curly_Bracket;
 
    F : Natural := Contents'First;
@@ -88,7 +90,6 @@ begin
                Append (Tag_Ids, Next_Tag_Id);
 
                Next_Tag_Id := Next_Tag_Id + 1;
-
             end if;
          when Found_Left_Curly_Bracket =>
             if CP = Character'Pos ('"') then
@@ -115,7 +116,6 @@ begin
                if Has_Failed (Call_Result) then
                   exit;
                end if;
-
             end if;
          when Expecting_Colon_Sign_After_Key_Name =>
             if CP = Character'Pos (':') then
@@ -151,6 +151,27 @@ begin
                Append (Tag_Ids, Next_Tag_Id);
 
                Next_Tag_Id := Next_Tag_Id + 1;
+            elsif CP = Character'Pos ('[') then
+               State_Id := Found_Array_Start;
+
+               if
+                 Length (Array_Tag_Ids) > 0 and then
+                 Last_Element (Array_Tag_Ids) = Last_Element (Tag_Ids)
+               then
+                  Initialize (Call_Result, "07d6a3ab-179e-482b-b61d-b7915c34bd62");
+                  exit;
+               end if;
+
+               Append (Array_Tag_Ids, Last_Element (Tag_Ids));
+
+               Array_Start (Arg,
+                            Last_Element (Tag_Ids),
+                            Call_Result);
+
+               if Has_Failed (Call_Result) then
+                  exit;
+               end if;
+
             elsif CP = Character'Pos (' ') then
                null;
             else
@@ -186,17 +207,26 @@ begin
 
                if Length (Tag_Ids) = 1 then
                   State_Id := Found_End_Of_The_Very_Last_Object;
-               else
-                  State_Id := Found_End_Of_Object;
-               end if;
 
-               Delete_Last (Tag_Ids);
+                  Delete_Last (Tag_Ids);
+               else
+                  Delete_Last (Tag_Ids);
+
+                  if
+                    Length (Array_Tag_Ids) > 0 and then
+                    Last_Element (Array_Tag_Ids) = Last_Element (Tag_Ids)
+                  then
+                     State_Id := Found_End_Of_Element_In_Array;
+                  else
+                     State_Id := Found_End_Of_Object;
+                  end if;
+               end if;
             end if;
          when Found_End_Of_The_Very_Last_Object =>
             if CP = Character'Pos (' ') then
                null;
             else
-               Initialize (Call_Result, "51007c88-330d-4905-a82d-8fdd8354d5f7, Unexpected UTF8 symbol (code point ), state ");
+               Initialize (Call_Result, "51007c88-330d-4905-a82d-8fdd8354d5f7");
                exit;
             end if;
          when Extracting_Value_Integer =>
@@ -229,19 +259,36 @@ begin
 
                   if Length (Tag_Ids) = 1 then
                      State_Id := Found_End_Of_The_Very_Last_Object;
+
+                     Root_End_Tag (Arg,
+                                   Last_Element (Tag_Ids),
+                                   Call_Result);
+
+                     if Has_Failed (Call_Result) then
+                        exit;
+                     end if;
+
+                     Delete_Last (Tag_Ids);
                   else
-                     State_Id := Found_End_Of_Object;
+                     Root_End_Tag (Arg,
+                                   Last_Element (Tag_Ids),
+                                   Call_Result);
+
+                     if Has_Failed (Call_Result) then
+                        exit;
+                     end if;
+
+                     Delete_Last (Tag_Ids);
+
+                     if
+                       Length (Array_Tag_Ids) > 0 and then
+                       Last_Element (Array_Tag_Ids) = Last_Element (Tag_Ids)
+                     then
+                        State_Id := Found_End_Of_Element_In_Array;
+                     else
+                        State_Id := Found_End_Of_Object;
+                     end if;
                   end if;
-
-                  Root_End_Tag (Arg,
-                                Last_Element (Tag_Ids),
-                                Call_Result);
-
-                  if Has_Failed (Call_Result) then
-                     exit;
-                  end if;
-
-                  Delete_Last (Tag_Ids);
                end;
             elsif CP = Character'Pos (' ') then
                Value_Last_Index := Prev_Prev_P;
@@ -279,23 +326,88 @@ begin
             elsif CP = Character'Pos ('}') then
                if Length (Tag_Ids) = 1 then
                   State_Id := Found_End_Of_The_Very_Last_Object;
-               else
-                  State_Id := Found_End_Of_Object;
-               end if;
 
                Root_End_Tag (Arg,
                              Last_Element (Tag_Ids),
                              Call_Result);
 
+                  if Has_Failed (Call_Result) then
+                     exit;
+                  end if;
+
+                  Delete_Last (Tag_Ids);
+               else
+                  Root_End_Tag (Arg,
+                                Last_Element (Tag_Ids),
+                                Call_Result);
+
+                  if Has_Failed (Call_Result) then
+                     exit;
+                  end if;
+
+                  Delete_Last (Tag_Ids);
+
+                  if
+                    Length (Array_Tag_Ids) > 0 and then
+                    Last_Element (Array_Tag_Ids) = Last_Element (Tag_Ids)
+                  then
+                     State_Id := Found_End_Of_Element_In_Array;
+                  else
+                     State_Id := Found_End_Of_Object;
+                  end if;
+               end if;
+            elsif CP = Character'Pos (' ') then
+               null;
+            else
+               Initialize (Call_Result, "51007c88-330d-4905-a82d-8fdd8354d5f7");
+               exit;
+            end if;
+         when Found_Array_Start =>
+            if CP = Character'Pos ('{') then
+               State_Id := Found_Left_Curly_Bracket;
+
+               Root_Start_Tag (Arg,
+                               Next_Tag_Id,
+                               Call_Result);
+
                if Has_Failed (Call_Result) then
                   exit;
                end if;
 
-               Delete_Last (Tag_Ids);
+               Append (Tag_Ids, Next_Tag_Id);
+
+               Next_Tag_Id := Next_Tag_Id + 1;
             elsif CP = Character'Pos (' ') then
                null;
             else
-               Initialize (Call_Result, "51007c88-330d-4905-a82d-8fdd8354d5f7, Unexpected UTF8 symbol (code point ), state ");
+               Initialize (Call_Result, "924eac23-376d-4648-821b-8f4fb68e2bf0");
+               exit;
+            end if;
+         when Found_End_Of_Element_In_Array =>
+            if CP = Character'Pos (',') then
+               State_Id := Found_Array_Start;
+            elsif CP = Character'Pos (']') then
+               State_Id := Expecting_Comma_Sign_Or_Right_Bracket;
+
+               if Length (Array_Tag_Ids) > 0 then
+                  Array_End (Arg,
+                             Last_Element (Array_Tag_Ids),
+                             Call_Result);
+
+                  if Has_Failed (Call_Result) then
+                     exit;
+                  end if;
+
+                  Delete_Last (Array_Tag_Ids);
+               else
+                  Initialize (Call_Result, "c0c9ce80-36f7-4ad8-81e9-1129db4b3c8b");
+                  exit;
+               end if;
+
+            elsif CP = Character'Pos (' ') then
+               null;
+            else
+               Initialize (Call_Result, "52ae4ef7-d735-4255-b00d-18396d0215ad");
                exit;
             end if;
       end case;
