@@ -25,18 +25,10 @@
 -- Using Ada.Containers.Formal_Vectors will result in more optimized code by avoiding
 -- unnecessary initializations.
 with Aida.Types;
-with Ada.Containers.Formal_Vectors;
+
 package Aida.Bounded_String with SPARK_Mode is
 
-   use type Ada.Containers.Count_Type;
-
-   subtype Count_Type is Ada.Containers.Count_Type;
-
-   package Char_Vectors is new Ada.Containers.Formal_Vectors (Index_Type   => Positive,
-                                                              Element_Type => Character,
-                                                              Bounded      => True);
-
-   type T (Maximum_Length : Ada.Containers.Count_Type) is limited private;
+   type T (Maximum_Length : Positive) is limited private;
 
    procedure Initialize (This : in out T;
                          Text : Aida.Types.String_T) with
@@ -47,58 +39,61 @@ package Aida.Bounded_String with SPARK_Mode is
    procedure Append (Target : in out T;
                      Source : Aida.Types.String_T) with
      Global => null,
-     Pre    => Source'Length <= Target.Maximum_Length - Length (Target);
+     Pre    => Source'Length <= Target.Maximum_Length - Length (Target),
+     Post   => Length (Target) <= Target.Maximum_Length;
 
-   function Length (This : T) return Ada.Containers.Count_Type with
-     Global => null,
-     Post   => Length'Result <= This.Maximum_Length;
+   function Length (This : T) return Natural with
+     Global => null;
 
    function Equals (This   : T;
                     Object : Standard.String) return Boolean with
      Global => null,
-     Pre    => Object'Last < Positive'Last - Object'Length;
+     Pre    => Object'Last < Positive'Last - Object'Length and Length (This) <= This.Maximum_Length;
 
    function "=" (Left, Right : T) return Boolean with
-     Global => null;
+     Global => null,
+     Pre    => Length (Left) <= Left.Maximum_Length and Length (Right) <= Right.Maximum_Length;
 
    function "=" (Left : T; Right : Aida.Types.String_T) return Boolean with
      Global => null,
-     Pre    => Right'Last < Positive'Last - Right'Length;
+     Pre    => Right'Last < Positive'Last - Right'Length and Length (Left) <= Left.Maximum_Length;
    -- Although the arguments are of different types, they may still represent the same String.
 
-   function Hash32 (This : T) return Aida.Types.Hash32_T;
+   function Hash32 (This : T) return Aida.Types.Hash32_T with
+     Global => null,
+     Pre    => Length (This) <= This.Maximum_Length;
 
    function To_String (This : T) return Aida.Types.String_T with
-     Global => null;
+     Global => null,
+     Pre    => Length (This) <= This.Maximum_Length;
 
    generic
-      type Bounded_String_T (<>) is new T;
-      with procedure Do_Something (Text : Char_Vectors.Vector);
-   procedure Act_On_Immutable_Text (This : in Bounded_String_T) with
-     Global => null;
+      with procedure Do_Something (Text : Aida.Types.String_T);
+   procedure Act_On_Immutable_Text (This : in T) with
+     Global => null,
+     Pre    => Length (This) <= This.Maximum_Length;
 
    generic
-      type Bounded_String_T (<>) is new T;
       type Return_T is private;
       type Arg_T is private;
-      with function Check_Something (Text : Char_Vectors.Vector;
+      with function Check_Something (Text : Aida.Types.String_T;
                                      Arg  : Arg_T) return Return_T;
-   function Check_Something_On_Immutable_Text (This  : Bounded_String_T;
+   function Check_Something_On_Immutable_Text (This  : T;
                                                Arg   : Arg_T) return Return_T with
-     Global => null;
+     Global => null,
+     Pre    => Length (This) <= This.Maximum_Length;
 
 private
 
-   use all type Char_Vectors.Vector;
-
-   type T (Maximum_Length : Ada.Containers.Count_Type) is limited
+   type T (Maximum_Length : Positive) is limited
       record
-         Text : Char_Vectors.Vector (Maximum_Length);
+         Text        : Aida.Types.String_T (1..T.Maximum_Length) := (others => ' ');
+         Text_Length : Natural := 0;
       end record;
 
-   function Length (This : T) return Ada.Containers.Count_Type is (Length (This.Text));
+   function Length (This : T) return Natural is (This.Text_Length);
 
-   function "=" (Left, Right : T) return Boolean is (Left.Text = Right.Text);
+   function "=" (Left, Right : T) return Boolean is (Length (Left) = Length (Right) and then (for all I in Positive range 1..Left.Text_Length => Left.Text (I) = Right.Text (I)));
 
    function "=" (Left : T; Right : Aida.Types.String_T) return Boolean is (Equals (Left, String (Right)));
 
