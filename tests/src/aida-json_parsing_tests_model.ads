@@ -51,7 +51,7 @@ package Aida.Json_Parsing_Tests_Model with SPARK_Mode, Initializes => (Max_Indic
         Global => null;
 
       type T is record
-         Age  : Age_T;
+         Age  : Age_T := 0;
          Name : Name_T;
       end record;
 

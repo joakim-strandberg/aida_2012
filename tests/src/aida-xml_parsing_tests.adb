@@ -1,5 +1,5 @@
 with Aida.Bounded_String;
---with Aida.Text_IO;
+with Aida.Text_IO;
 with Aida.Types;
 with Aida.XML.Generic_Parse_XML_File;
 
@@ -33,6 +33,8 @@ package body Aida.XML_Parsing_Tests is
 
          end Z;
 
+         use all type Z.Value_T;
+
          type Id_T (<>) is private;
 
          type T is limited private;
@@ -43,17 +45,20 @@ package body Aida.XML_Parsing_Tests is
            Pre    => Is_Memory_Available (This) and Value'Length <= Z.MAX_VALUE_LENGTH;
          pragma Unreferenced (Allocate_Memory);
 
+         function Name_Length_Valid (This : T;
+                                     Id   : Id_T) return Boolean with
+           Global => null;
+
          function Value_Equals_String (This : T;
                                        Id   : Id_T;
                                        S    : Aida.Types.String_T) return Boolean with
-           Global => null;
+           Global => null,
+           Pre    => Name_Length_Valid (This, Id);
 
          function Is_Memory_Available (This : T) return Boolean with
            Global => null;
 
       private
-
-         use all type Z.Value_T;
 
          type Hidden_A_Id_T is range 1..Z.Max_Number_Of_A;
 
@@ -96,6 +101,14 @@ package body Aida.XML_Parsing_Tests is
             This.Next_Available_A_Id := This.Next_Available_A_Id + 1;
          end Allocate_Memory;
 
+         function Name_Length_Valid (This : T;
+                                     Id   : Id_T) return Boolean with
+           Refined_Post => Name_Length_Valid'Result = (Length (This.As (Id.My_Id).My_Value) <= This.As (Id.My_Id).My_Value.Maximum_Length)
+         is
+         begin
+            return Length (This.As (Id.My_Id).My_Value) <= This.As (Id.My_Id).My_Value.Maximum_Length;
+         end Name_Length_Valid;
+
       end A;
 
       subtype A_T is A.T;
@@ -110,13 +123,13 @@ package body Aida.XML_Parsing_Tests is
 
       subtype Result_T is Result.T;
 
-      procedure Root_Start_Tag (Result      : Result_T;
+      procedure Root_Start_Tag (Result      : in out Result_T;
                                 Tag_Name    : Aida.Types.String_T;
                                 Tag_Id      : Aida.XML.Tag_Id_T;
                                 Call_Result : in out Aida.XML.Procedure_Call_Result.T) with
         Global => null;
 
-      procedure Root_Start_Tag (Result      : Result_T;
+      procedure Root_Start_Tag (Result      : in out Result_T;
                                 Tag_Name    : Aida.Types.String_T;
                                 Tag_Id      : Aida.XML.Tag_Id_T;
                                 Call_Result : in out Aida.XML.Procedure_Call_Result.T)
@@ -125,19 +138,19 @@ package body Aida.XML_Parsing_Tests is
          pragma Unreferenced (Tag_Id);
          pragma Unreferenced (Call_Result);
       begin
-  --       Aida.Text_IO.Put ("start tag: ");
-  --           Put_Line (Tag_Name);
+         Aida.Text_IO.Put ("start tag: ");
+             Put_Line (Tag_Name);
          null;
       end Root_Start_Tag;
 
-      procedure Root_End_Tag (Result      : Result_T;
+      procedure Root_End_Tag (Result      : in out Result_T;
                               Tag_Name    : Aida.Types.String_T;
                               Tag_Value   : Aida.Types.String_T;
                               Tag_Id      : Aida.XML.Tag_Id_T;
                               Call_Result : in out Aida.XML.Procedure_Call_Result.T) with
         Global => null;
 
-      procedure Root_End_Tag (Result      : Result_T;
+      procedure Root_End_Tag (Result      : in out Result_T;
                               Tag_Name    : Aida.Types.String_T;
                               Tag_Value   : Aida.Types.String_T;
                               Tag_Id      : Aida.XML.Tag_Id_T;
@@ -148,8 +161,8 @@ package body Aida.XML_Parsing_Tests is
          pragma Unreferenced (Tag_Value);
          pragma Unreferenced (Call_Result);
       begin
---         Aida.Text_IO.Put ("end tag: ");
---         Put_Line (Tag_Name);
+         Aida.Text_IO.Put ("end tag: ");
+         Put_Line (Tag_Name);
          null;
       end Root_End_Tag;
 

@@ -1,4 +1,5 @@
 with Ahven.Framework;
+with Aida.Json_Parsing_Tests_Model;
 
 package Aida.JSON_Parsing_Tests with SPARK_Mode is
 
@@ -9,8 +10,17 @@ package Aida.JSON_Parsing_Tests with SPARK_Mode is
 
 private
 
+   use all type Aida.Json_Parsing_Tests_Model.Person_Def.Name_T;
+
+   type Storage_T is record
+      Person : Json_Parsing_Tests_Model.People_T := (others => (Age  => 10,
+                                                                Name => Make));
+   end record;
+
+   Storage : Storage_T;
+
    procedure Test_Person_With_Name_Adam_0 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => null;
+     Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
 
    procedure Test_Person_With_Name_Adam_1 (T : in out Ahven.Framework.Test_Case'Class) with
      Global => null;

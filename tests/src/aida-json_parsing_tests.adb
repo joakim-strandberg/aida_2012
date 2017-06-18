@@ -1,7 +1,6 @@
 with Aida.Types;
 with Aida.JSON.Generic_Parse_JSON;
 with Aida.Bounded_String;
-with Aida.Json_Parsing_Tests_Model;
 
 package body Aida.JSON_Parsing_Tests is
 
@@ -9,19 +8,11 @@ package body Aida.JSON_Parsing_Tests is
    use all type Aida.JSON.Procedure_Call_Result.T;
    use all type Aida.Bounded_String.T;
    use all type Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T;
-   use all type Aida.Json_Parsing_Tests_Model.Person_Def.Name_T;
    use all type Aida.JSON.Tag_Id_T;
 
    use type Aida.Types.Int32_T;
    use type Aida.Json_Parsing_Tests_Model.Extended_Person_Array_Index_T;
    use type Aida.Json_Parsing_Tests_Model.Person_Def.Age_T;
-
-   type Storage_T is record
-      Person : Json_Parsing_Tests_Model.People_T := (others => (Age  => 10,
-                                                                Name => Make));
-   end record;
-
-   Storage : Storage_T;
 
    overriding procedure Initialize (T : in out Test) is
    begin
@@ -111,7 +102,8 @@ package body Aida.JSON_Parsing_Tests is
       procedure Root_Start_Tag (Result      : in out Storage_T;
                                 Tag_Id      : Aida.JSON.Tag_Id_T;
                                 Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
-        Global => null;
+        Global => (In_Out => Aida.Json_Parsing_Tests_Model.Max_Indices,
+                   Output => Person_Id);
 
       procedure Root_Start_Tag (Result      : in out Storage_T;
                                 Tag_Id      : Aida.JSON.Tag_Id_T;
@@ -202,7 +194,9 @@ package body Aida.JSON_Parsing_Tests is
 
       Ahven.Assert (not Has_Failed (Call_Result), "5a84dd71-1bee-4e2c-b7f8-13915f953605");
       Ahven.Assert (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) = 1, "87f1346a-607c-4e7a-8a3a-621365c323d9");
-      Ahven.Assert (To_String (Storage.Person (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices)).Name) = "adam", "87f1346a-607c-4e7a-8a3a-621365c323d9");
+      if Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) > 0 then
+         Ahven.Assert (To_String (Storage.Person (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices)).Name) = "adam", "87f1346a-607c-4e7a-8a3a-621365c323d9");
+      end if;
    end Test_Person_With_Name_Adam_0;
 
    procedure Test_Person_With_Name_Adam_1 (T : in out Ahven.Framework.Test_Case'Class) with

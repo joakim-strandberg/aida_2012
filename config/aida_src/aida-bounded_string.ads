@@ -48,7 +48,7 @@ package Aida.Bounded_String with SPARK_Mode is
    function Equals (This   : T;
                     Object : Standard.String) return Boolean with
      Global => null,
-     Pre    => Object'Last < Positive'Last - Object'Length and Length (This) <= This.Maximum_Length;
+     Pre    => Length (This) <= This.Maximum_Length;
 
    function "=" (Left, Right : T) return Boolean with
      Global => null,
@@ -56,7 +56,7 @@ package Aida.Bounded_String with SPARK_Mode is
 
    function "=" (Left : T; Right : Aida.Types.String_T) return Boolean with
      Global => null,
-     Pre    => Right'Last < Positive'Last - Right'Length and Length (Left) <= Left.Maximum_Length;
+     Pre    => Length (Left) <= Left.Maximum_Length;
    -- Although the arguments are of different types, they may still represent the same String.
 
    function Hash32 (This : T) return Aida.Types.Hash32_T with

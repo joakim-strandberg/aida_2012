@@ -5,12 +5,12 @@ use all type Ada.Containers.Count_Type;
 
 generic
    type Arg_T is limited private; -- The result should be stored in this datastructure
-   with procedure Root_Start_Tag (Arg         : Arg_T;
+   with procedure Root_Start_Tag (Arg         : in out Arg_T;
                                   Tag_Name    : Aida.Types.String_T;
                                   Tag_Id      : Tag_Id_T;
                                   Call_Result : in out Procedure_Call_Result.T);
 
-   with procedure Root_End_Tag (Arg         : Arg_T;
+   with procedure Root_End_Tag (Arg         : in out Arg_T;
                                 Tag_Name    : Aida.Types.String_T;
                                 Tag_Value   : Aida.Types.String_T;
                                 Tag_Id      : Tag_Id_T;
