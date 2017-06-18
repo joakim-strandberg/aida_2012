@@ -35,13 +35,13 @@ package body Aida.JSON_Parsing_Tests is
       Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Name_Adam_And_Age_0'Access, "Test_Person_With_Name_Adam_And_Age_0");
    end Initialize;
 
-   procedure Unused_Value_String (Result      : Storage_T;
+   procedure Unused_Value_String (Result      : in out Storage_T;
                                   Value       : Aida.Types.String_T;
                                   Tag_Id      : Aida.JSON.Tag_Id_T;
                                   Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
      Global => null;
 
-   procedure Unused_Value_String (Result      : Storage_T;
+   procedure Unused_Value_String (Result      : in out Storage_T;
                                   Value       : Aida.Types.String_T;
                                   Tag_Id      : Aida.JSON.Tag_Id_T;
                                   Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
@@ -53,13 +53,13 @@ package body Aida.JSON_Parsing_Tests is
       Initialize (Call_Result, "69171640-accb-4b2c-b8d6-07d36b2e33b2");
    end Unused_Value_String;
 
-   procedure Unused_Value_Integer (Result      : Storage_T;
+   procedure Unused_Value_Integer (Result      : in out Storage_T;
                                    Value       : Aida.Types.Int32_T;
                                    Tag_Id      : Aida.JSON.Tag_Id_T;
                                    Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
      Global => null;
 
-   procedure Unused_Value_Integer (Result      : Storage_T;
+   procedure Unused_Value_Integer (Result      : in out Storage_T;
                                    Value       : Aida.Types.Int32_T;
                                    Tag_Id      : Aida.JSON.Tag_Id_T;
                                    Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
@@ -71,12 +71,12 @@ package body Aida.JSON_Parsing_Tests is
       Initialize (Call_Result, "baf7fe57-da60-4245-af9d-2f4a81b007e5");
    end Unused_Value_Integer;
 
-   procedure Unused_Array_Start (Result      : Storage_T;
+   procedure Unused_Array_Start (Result      : in out Storage_T;
                                  Tag_Id      : Aida.JSON.Tag_Id_T;
                                  Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
      Global => null;
 
-   procedure Unused_Array_Start (Result      : Storage_T;
+   procedure Unused_Array_Start (Result      : in out Storage_T;
                                  Tag_Id      : Aida.JSON.Tag_Id_T;
                                  Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
    is
@@ -86,12 +86,12 @@ package body Aida.JSON_Parsing_Tests is
       Initialize (Call_Result, "0a4c81f4-f6e4-477e-a53d-fb1b1b9ed433");
    end Unused_Array_Start;
 
-   procedure Unused_Array_End (Result      : Storage_T;
-                                 Tag_Id      : Aida.JSON.Tag_Id_T;
-                                 Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
+   procedure Unused_Array_End (Result      : in out Storage_T;
+                               Tag_Id      : Aida.JSON.Tag_Id_T;
+                               Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
      Global => null;
 
-   procedure Unused_Array_End (Result      : Storage_T;
+   procedure Unused_Array_End (Result      : in out Storage_T;
                                Tag_Id      : Aida.JSON.Tag_Id_T;
                                Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
    is
@@ -108,12 +108,12 @@ package body Aida.JSON_Parsing_Tests is
 
       Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T;
 
-      procedure Root_Start_Tag (Result      : Storage_T;
+      procedure Root_Start_Tag (Result      : in out Storage_T;
                                 Tag_Id      : Aida.JSON.Tag_Id_T;
                                 Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
         Global => null;
 
-      procedure Root_Start_Tag (Result      : Storage_T;
+      procedure Root_Start_Tag (Result      : in out Storage_T;
                                 Tag_Id      : Aida.JSON.Tag_Id_T;
                                 Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
       is
@@ -125,12 +125,12 @@ package body Aida.JSON_Parsing_Tests is
                              Person_Id => Person_Id);
       end Root_Start_Tag;
 
-      procedure Root_End_Tag (Result      : Storage_T;
+      procedure Root_End_Tag (Result      : in out Storage_T;
                               Tag_Id      : Aida.JSON.Tag_Id_T;
                               Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
         Global => null;
 
-      procedure Root_End_Tag (Result      : Storage_T;
+      procedure Root_End_Tag (Result      : in out Storage_T;
                               Tag_Id      : Aida.JSON.Tag_Id_T;
                               Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
       is
@@ -141,13 +141,13 @@ package body Aida.JSON_Parsing_Tests is
          null;
       end Root_End_Tag;
 
-      procedure Key_Name (Result      : Storage_T;
+      procedure Key_Name (Result      : in out Storage_T;
                           Name        : Aida.Types.String_T;
                           Tag_Id      : Aida.JSON.Tag_Id_T;
                           Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
         Global => null;
 
-      procedure Key_Name (Result      : Storage_T;
+      procedure Key_Name (Result      : in out Storage_T;
                           Name        : Aida.Types.String_T;
                           Tag_Id      : Aida.JSON.Tag_Id_T;
                           Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
@@ -160,14 +160,14 @@ package body Aida.JSON_Parsing_Tests is
          end if;
       end Key_Name;
 
-      procedure Value_String (Result      : Storage_T;
+      procedure Value_String (Result      : in out Storage_T;
                               Value       : Aida.Types.String_T;
                               Tag_Id      : Aida.JSON.Tag_Id_T;
                               Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
         Global => null;
 
-      procedure Value_String (Result      : Storage_T;
-                              Value        : Aida.Types.String_T;
+      procedure Value_String (Result      : in out Storage_T;
+                              Value       : Aida.Types.String_T;
                               Tag_Id      : Aida.JSON.Tag_Id_T;
                               Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
       is
@@ -212,12 +212,12 @@ package body Aida.JSON_Parsing_Tests is
 
       Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T;
 
-      procedure Root_Start_Tag (Result      : Storage_T;
+      procedure Root_Start_Tag (Result      : in out Storage_T;
                                 Tag_Id      : Aida.JSON.Tag_Id_T;
                                 Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
         Global => null;
 
-      procedure Root_Start_Tag (Result      : Storage_T;
+      procedure Root_Start_Tag (Result      : in out Storage_T;
                                 Tag_Id      : Aida.JSON.Tag_Id_T;
                                 Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
       is
@@ -229,12 +229,12 @@ package body Aida.JSON_Parsing_Tests is
                              Person_Id => Person_Id);
       end Root_Start_Tag;
 
-      procedure Root_End_Tag (Result      : Storage_T;
+      procedure Root_End_Tag (Result      : in out Storage_T;
                               Tag_Id      : Aida.JSON.Tag_Id_T;
                               Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
         Global => null;
 
-      procedure Root_End_Tag (Result      : Storage_T;
+      procedure Root_End_Tag (Result      : in out Storage_T;
                               Tag_Id      : Aida.JSON.Tag_Id_T;
                               Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
       is
@@ -245,13 +245,13 @@ package body Aida.JSON_Parsing_Tests is
          null;
       end Root_End_Tag;
 
-      procedure Key_Name (Result      : Storage_T;
+      procedure Key_Name (Result      : in out Storage_T;
                           Name        : Aida.Types.String_T;
                           Tag_Id      : Aida.JSON.Tag_Id_T;
                           Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
         Global => null;
 
-      procedure Key_Name (Result      : Storage_T;
+      procedure Key_Name (Result      : in out Storage_T;
                           Name        : Aida.Types.String_T;
                           Tag_Id      : Aida.JSON.Tag_Id_T;
                           Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
@@ -264,14 +264,14 @@ package body Aida.JSON_Parsing_Tests is
          end if;
       end Key_Name;
 
-      procedure Value_String (Result      : Storage_T;
-                              Value        : Aida.Types.String_T;
+      procedure Value_String (Result      : in out Storage_T;
+                              Value       : Aida.Types.String_T;
                               Tag_Id      : Aida.JSON.Tag_Id_T;
                               Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
         Global => null;
 
-      procedure Value_String (Result      : Storage_T;
-                              Value        : Aida.Types.String_T;
+      procedure Value_String (Result      : in out Storage_T;
+                              Value       : Aida.Types.String_T;
                               Tag_Id      : Aida.JSON.Tag_Id_T;
                               Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
       is
@@ -316,12 +316,12 @@ package body Aida.JSON_Parsing_Tests is
 
       Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T;
 
-      procedure Root_Start_Tag (Result      : Storage_T;
+      procedure Root_Start_Tag (Result      : in out Storage_T;
                                 Tag_Id      : Aida.JSON.Tag_Id_T;
                                 Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
         Global => null;
 
-      procedure Root_Start_Tag (Result      : Storage_T;
+      procedure Root_Start_Tag (Result      : in out Storage_T;
                                 Tag_Id      : Aida.JSON.Tag_Id_T;
                                 Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
       is
@@ -333,12 +333,12 @@ package body Aida.JSON_Parsing_Tests is
                              Person_Id => Person_Id);
       end Root_Start_Tag;
 
-      procedure Root_End_Tag (Result      : Storage_T;
+      procedure Root_End_Tag (Result      : in out Storage_T;
                               Tag_Id      : Aida.JSON.Tag_Id_T;
                               Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
         Global => null;
 
-      procedure Root_End_Tag (Result      : Storage_T;
+      procedure Root_End_Tag (Result      : in out Storage_T;
                               Tag_Id      : Aida.JSON.Tag_Id_T;
                               Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
       is
@@ -349,13 +349,13 @@ package body Aida.JSON_Parsing_Tests is
          null;
       end Root_End_Tag;
 
-      procedure Key_Name (Result      : Storage_T;
+      procedure Key_Name (Result      : in out Storage_T;
                           Name        : Aida.Types.String_T;
                           Tag_Id      : Aida.JSON.Tag_Id_T;
                           Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
         Global => null;
 
-      procedure Key_Name (Result      : Storage_T;
+      procedure Key_Name (Result      : in out Storage_T;
                           Name        : Aida.Types.String_T;
                           Tag_Id      : Aida.JSON.Tag_Id_T;
                           Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
@@ -368,13 +368,13 @@ package body Aida.JSON_Parsing_Tests is
          end if;
       end Key_Name;
 
-      procedure Value_Integer (Result      : Storage_T;
+      procedure Value_Integer (Result      : in out Storage_T;
                                       Value       : Aida.Types.Int32_T;
                                       Tag_Id      : Aida.JSON.Tag_Id_T;
                                       Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
         Global => null;
 
-      procedure Value_Integer (Result      : Storage_T;
+      procedure Value_Integer (Result      : in out Storage_T;
                                Value       : Aida.Types.Int32_T;
                                Tag_Id      : Aida.JSON.Tag_Id_T;
                                Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
@@ -416,12 +416,12 @@ package body Aida.JSON_Parsing_Tests is
 
       Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T;
 
-      procedure Root_Start_Tag (Result      : Storage_T;
+      procedure Root_Start_Tag (Result      : in out Storage_T;
                                 Tag_Id      : Aida.JSON.Tag_Id_T;
                                 Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
         Global => null;
 
-      procedure Root_Start_Tag (Result      : Storage_T;
+      procedure Root_Start_Tag (Result      : in out Storage_T;
                                 Tag_Id      : Aida.JSON.Tag_Id_T;
                                 Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
       is
@@ -433,12 +433,12 @@ package body Aida.JSON_Parsing_Tests is
                              Person_Id => Person_Id);
       end Root_Start_Tag;
 
-      procedure Root_End_Tag (Result      : Storage_T;
+      procedure Root_End_Tag (Result      : in out Storage_T;
                               Tag_Id      : Aida.JSON.Tag_Id_T;
                               Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
         Global => null;
 
-      procedure Root_End_Tag (Result      : Storage_T;
+      procedure Root_End_Tag (Result      : in out Storage_T;
                               Tag_Id      : Aida.JSON.Tag_Id_T;
                               Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
       is
@@ -449,13 +449,13 @@ package body Aida.JSON_Parsing_Tests is
          null;
       end Root_End_Tag;
 
-      procedure Key_Name (Result      : Storage_T;
+      procedure Key_Name (Result      : in out Storage_T;
                           Name        : Aida.Types.String_T;
                           Tag_Id      : Aida.JSON.Tag_Id_T;
                           Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
         Global => null;
 
-      procedure Key_Name (Result      : Storage_T;
+      procedure Key_Name (Result      : in out Storage_T;
                           Name        : Aida.Types.String_T;
                           Tag_Id      : Aida.JSON.Tag_Id_T;
                           Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
@@ -470,13 +470,13 @@ package body Aida.JSON_Parsing_Tests is
          end if;
       end Key_Name;
 
-      procedure Value_String (Result      : Storage_T;
+      procedure Value_String (Result      : in out Storage_T;
                               Value       : Aida.Types.String_T;
                               Tag_Id      : Aida.JSON.Tag_Id_T;
                               Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
         Global => null;
 
-      procedure Value_String (Result      : Storage_T;
+      procedure Value_String (Result      : in out Storage_T;
                               Value        : Aida.Types.String_T;
                               Tag_Id      : Aida.JSON.Tag_Id_T;
                               Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
@@ -492,13 +492,13 @@ package body Aida.JSON_Parsing_Tests is
          end if;
       end Value_String;
 
-      procedure Value_Integer (Result      : Storage_T;
+      procedure Value_Integer (Result      : in out Storage_T;
                                Value       : Aida.Types.Int32_T;
                                Tag_Id      : Aida.JSON.Tag_Id_T;
                                Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
         Global => null;
 
-      procedure Value_Integer (Result      : Storage_T;
+      procedure Value_Integer (Result      : in out Storage_T;
                                Value       : Aida.Types.Int32_T;
                                Tag_Id      : Aida.JSON.Tag_Id_T;
                                Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
@@ -542,12 +542,12 @@ package body Aida.JSON_Parsing_Tests is
 
       Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T;
 
-      procedure Root_Start_Tag (Result      : Storage_T;
+      procedure Root_Start_Tag (Result      : in out Storage_T;
                                 Tag_Id      : Aida.JSON.Tag_Id_T;
                                 Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
         Global => null;
 
-      procedure Root_Start_Tag (Result      : Storage_T;
+      procedure Root_Start_Tag (Result      : in out Storage_T;
                                 Tag_Id      : Aida.JSON.Tag_Id_T;
                                 Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
       is
@@ -559,12 +559,12 @@ package body Aida.JSON_Parsing_Tests is
                              Person_Id => Person_Id);
       end Root_Start_Tag;
 
-      procedure Root_End_Tag (Result      : Storage_T;
+      procedure Root_End_Tag (Result      : in out Storage_T;
                               Tag_Id      : Aida.JSON.Tag_Id_T;
                               Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
         Global => null;
 
-      procedure Root_End_Tag (Result      : Storage_T;
+      procedure Root_End_Tag (Result      : in out Storage_T;
                               Tag_Id      : Aida.JSON.Tag_Id_T;
                               Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
       is
@@ -575,13 +575,13 @@ package body Aida.JSON_Parsing_Tests is
          null;
       end Root_End_Tag;
 
-      procedure Key_Name (Result      : Storage_T;
+      procedure Key_Name (Result      : in out Storage_T;
                           Name        : Aida.Types.String_T;
                           Tag_Id      : Aida.JSON.Tag_Id_T;
                           Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
         Global => null;
 
-      procedure Key_Name (Result      : Storage_T;
+      procedure Key_Name (Result      : in out Storage_T;
                           Name        : Aida.Types.String_T;
                           Tag_Id      : Aida.JSON.Tag_Id_T;
                           Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
@@ -597,13 +597,13 @@ package body Aida.JSON_Parsing_Tests is
          end if;
       end Key_Name;
 
-      procedure Value_Integer (Result      : Storage_T;
+      procedure Value_Integer (Result      : in out Storage_T;
                                       Value       : Aida.Types.Int32_T;
                                       Tag_Id      : Aida.JSON.Tag_Id_T;
                                       Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
         Global => null;
 
-      procedure Value_Integer (Result      : Storage_T;
+      procedure Value_Integer (Result      : in out Storage_T;
                                Value       : Aida.Types.Int32_T;
                                Tag_Id      : Aida.JSON.Tag_Id_T;
                                Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
@@ -645,12 +645,12 @@ package body Aida.JSON_Parsing_Tests is
 
       Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T;
 
-      procedure Root_Start_Tag (Result      : Storage_T;
+      procedure Root_Start_Tag (Result      : in out Storage_T;
                                 Tag_Id      : Aida.JSON.Tag_Id_T;
                                 Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
         Global => null;
 
-      procedure Root_Start_Tag (Result      : Storage_T;
+      procedure Root_Start_Tag (Result      : in out Storage_T;
                                 Tag_Id      : Aida.JSON.Tag_Id_T;
                                 Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
       is
@@ -662,12 +662,12 @@ package body Aida.JSON_Parsing_Tests is
                              Person_Id => Person_Id);
       end Root_Start_Tag;
 
-      procedure Root_End_Tag (Result      : Storage_T;
+      procedure Root_End_Tag (Result      : in out Storage_T;
                               Tag_Id      : Aida.JSON.Tag_Id_T;
                               Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
         Global => null;
 
-      procedure Root_End_Tag (Result      : Storage_T;
+      procedure Root_End_Tag (Result      : in out Storage_T;
                               Tag_Id      : Aida.JSON.Tag_Id_T;
                               Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
       is
@@ -678,13 +678,13 @@ package body Aida.JSON_Parsing_Tests is
          null;
       end Root_End_Tag;
 
-      procedure Key_Name (Result      : Storage_T;
+      procedure Key_Name (Result      : in out Storage_T;
                           Name        : Aida.Types.String_T;
                           Tag_Id      : Aida.JSON.Tag_Id_T;
                           Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
         Global => null;
 
-      procedure Key_Name (Result      : Storage_T;
+      procedure Key_Name (Result      : in out Storage_T;
                           Name        : Aida.Types.String_T;
                           Tag_Id      : Aida.JSON.Tag_Id_T;
                           Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
@@ -702,13 +702,13 @@ package body Aida.JSON_Parsing_Tests is
          end if;
       end Key_Name;
 
-      procedure Value_Integer (Result      : Storage_T;
+      procedure Value_Integer (Result      : in out Storage_T;
                                       Value       : Aida.Types.Int32_T;
                                       Tag_Id      : Aida.JSON.Tag_Id_T;
                                       Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
         Global => null;
 
-      procedure Value_Integer (Result      : Storage_T;
+      procedure Value_Integer (Result      : in out Storage_T;
                                Value       : Aida.Types.Int32_T;
                                Tag_Id      : Aida.JSON.Tag_Id_T;
                                Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
@@ -723,12 +723,12 @@ package body Aida.JSON_Parsing_Tests is
          end if;
       end Value_Integer;
 
-      procedure Array_Start (Result      : Storage_T;
+      procedure Array_Start (Result      : in out Storage_T;
                              Tag_Id      : Aida.JSON.Tag_Id_T;
                              Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
         Global => null;
 
-      procedure Array_Start (Result      : Storage_T;
+      procedure Array_Start (Result      : in out Storage_T;
                              Tag_Id      : Aida.JSON.Tag_Id_T;
                              Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
       is
@@ -739,12 +739,12 @@ package body Aida.JSON_Parsing_Tests is
          null;
       end Array_Start;
 
-      procedure Array_End (Result      : Storage_T;
+      procedure Array_End (Result      : in out Storage_T;
                            Tag_Id      : Aida.JSON.Tag_Id_T;
                            Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
         Global => null;
 
-      procedure Array_End (Result      : Storage_T;
+      procedure Array_End (Result      : in out Storage_T;
                            Tag_Id      : Aida.JSON.Tag_Id_T;
                            Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
       is

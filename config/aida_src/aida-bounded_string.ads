@@ -68,17 +68,19 @@ package Aida.Bounded_String with SPARK_Mode is
      Pre    => Length (This) <= This.Maximum_Length;
 
    generic
+      type Bounded_String_T (<>) is new T;
       with procedure Do_Something (Text : Aida.Types.String_T);
-   procedure Act_On_Immutable_Text (This : in T) with
+   procedure Act_On_Immutable_Text (This : in Bounded_String_T) with
      Global => null,
      Pre    => Length (This) <= This.Maximum_Length;
 
    generic
+      type Bounded_String_T (<>) is new T;
       type Return_T is private;
       type Arg_T is private;
       with function Check_Something (Text : Aida.Types.String_T;
                                      Arg  : Arg_T) return Return_T;
-   function Check_Something_On_Immutable_Text (This  : T;
+   function Check_Something_On_Immutable_Text (This  : Bounded_String_T;
                                                Arg   : Arg_T) return Return_T with
      Global => null,
      Pre    => Length (This) <= This.Maximum_Length;

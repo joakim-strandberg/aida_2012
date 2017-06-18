@@ -80,7 +80,7 @@ package body Aida.XML_Parsing_Tests is
 
          function Value_Equals_String (This : T;
                                        Id   : Id_T;
-                                       S    : Aida.Types.String_T) return Boolean is (Aida.Bounded_String.Are_Equivalent (Aida.Bounded_String.T (This.As (Id.My_Id).My_Value), S));
+                                       S    : Aida.Types.String_T) return Boolean is (This.As (Id.My_Id).My_Value = S);
 
       end A;
 

@@ -28,15 +28,15 @@ package body Aida.Bounded_String with SPARK_Mode is
       return Hash32 (Aida.Types.String_T (This.Text (1..Length (This))));
    end Hash32;
 
-   procedure Act_On_Immutable_Text (This : in T) is
+   procedure Act_On_Immutable_Text (This : in Bounded_String_T) is
    begin
-      Do_Something (This.Text (1..This.Text_Length));
+      Do_Something (T (This).Text (1..T(This).Text_Length));
    end Act_On_Immutable_Text;
 
-   function Check_Something_On_Immutable_Text (This  : T;
+   function Check_Something_On_Immutable_Text (This  : Bounded_String_T;
                                                Arg   : Arg_T) return Return_T is
    begin
-      return Check_Something (This.Text (1..This.Text_Length), Arg);
+      return Check_Something (T (This).Text (1..T (This).Text_Length), Arg);
    end Check_Something_On_Immutable_Text;
 
    function Equals (This   : T;

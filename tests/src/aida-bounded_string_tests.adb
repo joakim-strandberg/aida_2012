@@ -22,19 +22,14 @@ package body Aida.Bounded_String_Tests is
    is
       pragma Unreferenced (T);
 
-      use all type Aida.Bounded_String.Char_Vectors.Vector;
-
-      function Check_Expected (Text     : Aida.Bounded_String.Char_Vectors.Vector;
+      function Check_Expected (Text     : Aida.Types.String_T;
                                Expected : Aida.Types.String_T) return Boolean with
         Global => null;
 
-      function Check_Expected (Text     : Aida.Bounded_String.Char_Vectors.Vector;
-                               Expected : Aida.Types.String_T) return Boolean
-      is
-         pragma Unreferenced (Text, Expected);
+      function Check_Expected (Text     : Aida.Types.String_T;
+                               Expected : Aida.Types.String_T) return Boolean is
       begin
-         --         return (for all I in Positive range First_Index (Text)..Last_Index (Text) => Expected (Expected'First + I - First_Index (Text)) = Element (Text, I));
-         return True;
+         return Expected = Text;
       end Check_Expected;
 
       Expected : constant Aida.Types.String_T := "Hej";
@@ -43,10 +38,10 @@ package body Aida.Bounded_String_Tests is
 
       Is_Success : Boolean;
 
-      function Check_Expected is new Aida.Bounded_String.Check_Something_On_Immutable_Text (Bounded_String_T => Bounded_String_20_T,
-                                                                                            Return_T         => Boolean,
-                                                                                            Arg_T            => Expected_T,
-                                                                                            Check_Something  => Check_Expected);
+      function Check_Expected is new Bounded_String.Check_Something_On_Immutable_Text (Bounded_String_T => Bounded_String_20_T,
+                                                                                       Return_T         => Boolean,
+                                                                                       Arg_T            => Expected_T,
+                                                                                       Check_Something  => Check_Expected);
 
       S : Bounded_String_20_T;
    begin
@@ -54,7 +49,7 @@ package body Aida.Bounded_String_Tests is
                   Text => Expected);
       Is_Success := Check_Expected (S, Expected);
       Ahven.Assert (Is_Success, "CODE A, was ", Boolean'Image (Is_Success));
-      Ahven.Assert (Are_Equivalent (S, Expected), "CODE A, was ", Boolean'Image (Is_Success));
+      Ahven.Assert (S = Expected, "CODE A, was ", Boolean'Image (Is_Success));
    end Test_Initialization;
 
 end Aida.Bounded_String_Tests;
