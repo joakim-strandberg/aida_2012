@@ -297,6 +297,32 @@ begin
                      end if;
                   end if;
                end;
+            elsif CP = Character'Pos (',') then
+               Value_Last_Index := Prev_Prev_P;
+
+               declare
+                  I : Aida.Types.Int32_T;
+                  HF : Boolean;
+               begin
+                  To_Int32 (Contents (Value_First_Index..Value_Last_Index),
+                            I,
+                            HF);
+                  if HF then
+                     Initialize (Call_Result, "b03c7fbd-f8da-4f6d-b8ba-6302f72680eb, failed to convert string to integer");
+                     exit;
+                  end if;
+
+                  Value_Integer (Arg,
+                                 I,
+                                 Last_Element (Tag_Ids),
+                                 Call_Result);
+
+                  if Has_Failed (Call_Result) then
+                     exit;
+                  end if;
+
+                  State_Id := Found_Left_Curly_Bracket;
+               end;
             elsif CP = Character'Pos (' ') then
                Value_Last_Index := Prev_Prev_P;
 

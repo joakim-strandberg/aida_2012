@@ -58,10 +58,10 @@ package Aida.Bounded_String with SPARK_Mode is
      Global => null,
      Pre    => Object'Last < Positive'Last - Object'Length;
 
-   function "="(Left, Right : T) return Boolean with
+   function "=" (Left, Right : T) return Boolean with
      Global => null;
 
-   function Are_Equivalent (Left : T; Right : Aida.Types.String_T) return Boolean with
+   function "=" (Left : T; Right : Aida.Types.String_T) return Boolean with
      Global => null,
      Pre    => Right'Last < Positive'Last - Right'Length;
    -- Although the arguments are of different types, they may still represent the same String.
@@ -100,6 +100,6 @@ private
 
    function "=" (Left, Right : T) return Boolean is (Left.Text = Right.Text);
 
-   function Are_Equivalent (Left : T; Right : Aida.Types.String_T) return Boolean is (Equals (Left, String (Right)));
+   function "=" (Left : T; Right : Aida.Types.String_T) return Boolean is (Equals (Left, String (Right)));
 
 end Aida.Bounded_String;

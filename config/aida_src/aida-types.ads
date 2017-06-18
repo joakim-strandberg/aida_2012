@@ -11,6 +11,8 @@ package Aida.Types with SPARK_Mode is
 
    type Int32_T is new Aida.Int32.T;
 
+   type Int64_T is new Aida.Zzz_Int64_T;
+
    subtype Pos32_T is Int32_T range 1 .. Int32_T'Last;
 
    subtype Nat32_T is Int32_T range 0 .. Int32_T'Last;
