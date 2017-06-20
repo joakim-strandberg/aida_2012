@@ -8,7 +8,7 @@ package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
 
    package Max_Indices_Def is
 
-      type T is private;
+      type T is limited private;
 
       function Person_Id_Max (This : T) return Extended_Person_Array_Index_T;
 
@@ -24,7 +24,7 @@ package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
 
    private
 
-      type T is record
+      type T is limited record
          My_Person_Id_Max : Extended_Person_Array_Index_T := 0;
       end record;
 

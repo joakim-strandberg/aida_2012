@@ -72,8 +72,8 @@ begin
 --      pragma Loop_Invariant (P <= Contents'Last + 4);
 --        pragma Loop_Invariant (Prev_Prev_P < Prev_P and Prev_P < P);
 
-                  Aida.Text_IO.Put_Line ("Extracted:" & Image (CP) & ", state " & State_Id_Type'Image (State_Id));
-                  Aida.Text_IO.Put (Image (CP));
+--                    Aida.Text_IO.Put_Line ("Extracted:" & Image (CP) & ", state " & State_Id_Type'Image (State_Id));
+--                    Aida.Text_IO.Put (Image (CP));
 
       case State_Id is
          when Expecting_NL_Sign_Or_Space_Or_Left_Curly_Bracket=>
