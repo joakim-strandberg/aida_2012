@@ -4,33 +4,42 @@ with Ada.Containers;
 use all type Ada.Containers.Count_Type;
 
 generic
-   type Arg_T is limited private; -- The result should be stored in this datastructure
-   with procedure Root_Start_Tag (Arg         : in out Arg_T;
+   type Arg1_T is limited private; -- The result should be stored in this datastructure
+   type Arg2_T is limited private;
+   with procedure Root_Start_Tag (Arg1        : in out Arg1_T;
+                                  Arg2        : in out Arg2_T;
                                   Tag_Id      : Tag_Id_T;
                                   Call_Result : in out Procedure_Call_Result.T);
 
-   with procedure Root_End_Tag (Arg         : in out Arg_T;
+   with procedure Root_End_Tag (Arg1        : in out Arg1_T;
+                                Arg2        : in out Arg2_T;
                                 Tag_Id      : Tag_Id_T;
                                 Call_Result : in out Procedure_Call_Result.T);
-   with procedure Key_Name (Arg         : in out Arg_T;
+   with procedure Key_Name (Arg1        : in out Arg1_T;
+                            Arg2        : in out Arg2_T;
                             Name        : Aida.Types.String_T;
                             Tag_Id      : Tag_Id_T;
                             Call_Result : in out Procedure_Call_Result.T);
-   with procedure Value_String (Arg         : in out Arg_T;
+   with procedure Value_String (Arg1        : in out Arg1_T;
+                                Arg2        : in out Arg2_T;
                                 Value       : Aida.Types.String_T;
                                 Tag_Id      : Tag_Id_T;
                                 Call_Result : in out Procedure_Call_Result.T);
-   with procedure Value_Integer (Arg         : in out Arg_T;
+   with procedure Value_Integer (Arg1        : in out Arg1_T;
+                                 Arg2        : in out Arg2_T;
                                  Value       : Aida.Types.Int32_T;
                                  Tag_Id      : Tag_Id_T;
                                  Call_Result : in out Procedure_Call_Result.T);
-   with procedure Array_Start (Arg         : in out Arg_T;
+   with procedure Array_Start (Arg1        : in out Arg1_T;
+                               Arg2        : in out Arg2_T;
                                Tag_Id      : Tag_Id_T;
                                Call_Result : in out Procedure_Call_Result.T);
-   with procedure Array_End (Arg         : in out Arg_T;
+   with procedure Array_End (Arg1        : in out Arg1_T;
+                             Arg2        : in out Arg2_T;
                              Tag_Id      : Tag_Id_T;
                              Call_Result : in out Procedure_Call_Result.T);
-procedure Aida.JSON.Generic_Parse_JSON (Arg           : in out Arg_T;
+procedure Aida.JSON.Generic_Parse_JSON (Arg1          : in out Arg1_T;
+                                        Arg2          : in out Arg2_T;
                                         Contents      : Aida.Types.String_T;
                                         Call_Result   : in out Procedure_Call_Result.T) with
   Global => null,

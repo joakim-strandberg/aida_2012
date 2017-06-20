@@ -4,9 +4,10 @@ with Ada.Characters.Latin_1;
 with Aida.Text_IO;
 with Aida.Containers.Bounded_Vector;
 
-procedure Aida.JSON.Generic_Parse_JSON (Arg           : in out Arg_T;
-                                        Contents      : Aida.Types.String_T;
-                                        Call_Result   : in out Procedure_Call_Result.T)
+procedure Aida.JSON.Generic_Parse_JSON (Arg1        : in out Arg1_T;
+                                        Arg2        : in out Arg2_T;
+                                        Contents    : Aida.Types.String_T;
+                                        Call_Result : in out Procedure_Call_Result.T)
 is
    use all type Aida.Types.String_T;
    use all type Aida.Types.Int32_T;
@@ -71,15 +72,16 @@ begin
 --      pragma Loop_Invariant (P <= Contents'Last + 4);
 --        pragma Loop_Invariant (Prev_Prev_P < Prev_P and Prev_P < P);
 
---                    Aida.Text_IO.Put_Line ("Extracted:" & Image (CP) & ", state " & State_Id_Type'Image (State_Id));
---                    Aida.Text_IO.Put (Image (CP));
+                  Aida.Text_IO.Put_Line ("Extracted:" & Image (CP) & ", state " & State_Id_Type'Image (State_Id));
+                  Aida.Text_IO.Put (Image (CP));
 
       case State_Id is
          when Expecting_NL_Sign_Or_Space_Or_Left_Curly_Bracket=>
             if CP = Character'Pos ('{') then
                State_Id := Found_Left_Curly_Bracket;
 
-               Root_Start_Tag (Arg,
+               Root_Start_Tag (Arg1,
+                               Arg2,
                                Next_Tag_Id,
                                Call_Result);
 
@@ -108,7 +110,8 @@ begin
 
                Key_Name_Last_Index := Prev_Prev_P;
 
-               Key_Name (Arg,
+               Key_Name (Arg1,
+                         Arg2,
                          Contents (Key_Name_First_Index..Key_Name_Last_Index),
                          Last_Element (Tag_Ids),
                          Call_Result);
@@ -140,7 +143,8 @@ begin
             elsif CP = Character'Pos ('{') then
                State_Id := Found_Left_Curly_Bracket;
 
-               Root_Start_Tag (Arg,
+               Root_Start_Tag (Arg1,
+                               Arg2,
                                Next_Tag_Id,
                                Call_Result);
 
@@ -164,7 +168,8 @@ begin
 
                Append (Array_Tag_Ids, Last_Element (Tag_Ids));
 
-               Array_Start (Arg,
+               Array_Start (Arg1,
+                            Arg2,
                             Last_Element (Tag_Ids),
                             Call_Result);
 
@@ -184,7 +189,8 @@ begin
 
                Value_Last_Index := Prev_Prev_P;
 
-               Value_String (Arg,
+               Value_String (Arg1,
+                             Arg2,
                              Contents (Value_First_Index..Value_Last_Index),
                              Last_Element (Tag_Ids),
                              Call_Result);
@@ -197,7 +203,8 @@ begin
          when Expecting_Comma_Sign_Or_Right_Bracket =>
             if CP = Character'Pos ('}') then
 
-               Root_End_Tag (Arg,
+               Root_End_Tag (Arg1,
+                             Arg2,
                              Last_Element (Tag_Ids),
                              Call_Result);
 
@@ -255,7 +262,8 @@ begin
                      exit;
                   end if;
 
-                  Value_Integer (Arg,
+                  Value_Integer (Arg1,
+                                 Arg2,
                                  I,
                                  Last_Element (Tag_Ids),
                                  Call_Result);
@@ -267,7 +275,8 @@ begin
                   if Length (Tag_Ids) = 1 then
                      State_Id := Found_End_Of_The_Very_Last_Object;
 
-                     Root_End_Tag (Arg,
+                     Root_End_Tag (Arg1,
+                                   Arg2,
                                    Last_Element (Tag_Ids),
                                    Call_Result);
 
@@ -277,7 +286,8 @@ begin
 
                      Delete_Last (Tag_Ids);
                   else
-                     Root_End_Tag (Arg,
+                     Root_End_Tag (Arg1,
+                                   Arg2,
                                    Last_Element (Tag_Ids),
                                    Call_Result);
 
@@ -312,7 +322,8 @@ begin
                      exit;
                   end if;
 
-                  Value_Integer (Arg,
+                  Value_Integer (Arg1,
+                                 Arg2,
                                  I,
                                  Last_Element (Tag_Ids),
                                  Call_Result);
@@ -338,7 +349,8 @@ begin
                      exit;
                   end if;
 
-                  Value_Integer (Arg,
+                  Value_Integer (Arg1,
+                                 Arg2,
                                  I,
                                  Last_Element (Tag_Ids),
                                  Call_Result);
@@ -360,9 +372,10 @@ begin
                if Length (Tag_Ids) = 1 then
                   State_Id := Found_End_Of_The_Very_Last_Object;
 
-               Root_End_Tag (Arg,
-                             Last_Element (Tag_Ids),
-                             Call_Result);
+                  Root_End_Tag (Arg1,
+                                Arg2,
+                                Last_Element (Tag_Ids),
+                                Call_Result);
 
                   if Has_Failed (Call_Result) then
                      exit;
@@ -370,7 +383,8 @@ begin
 
                   Delete_Last (Tag_Ids);
                else
-                  Root_End_Tag (Arg,
+                  Root_End_Tag (Arg1,
+                                Arg2,
                                 Last_Element (Tag_Ids),
                                 Call_Result);
 
@@ -399,7 +413,8 @@ begin
             if CP = Character'Pos ('{') then
                State_Id := Found_Left_Curly_Bracket;
 
-               Root_Start_Tag (Arg,
+               Root_Start_Tag (Arg1,
+                               Arg2,
                                Next_Tag_Id,
                                Call_Result);
 
@@ -423,7 +438,8 @@ begin
                State_Id := Expecting_Comma_Sign_Or_Right_Bracket;
 
                if Length (Array_Tag_Ids) > 0 then
-                  Array_End (Arg,
+                  Array_End (Arg1,
+                             Arg2,
                              Last_Element (Array_Tag_Ids),
                              Call_Result);
 

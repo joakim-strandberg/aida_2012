@@ -1,6 +1,6 @@
 with Aida.Bounded_String;
 
-package Aida.Json_Parsing_Tests_Model with SPARK_Mode, Initializes => (Max_Indices) is
+package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
 
    type Person_Array_Index_T is new Integer range 1..10;
 
@@ -32,12 +32,10 @@ package Aida.Json_Parsing_Tests_Model with SPARK_Mode, Initializes => (Max_Indic
 
    end Max_Indices_Def;
 
-   use Max_Indices_Def;
-
    Max_Indices : Max_Indices_Def.T;
 
    subtype Person_Id_T is Person_Array_Index_T with
-     Dynamic_Predicate => Person_Id_T <= Person_Id_Max (Max_Indices);
+     Dynamic_Predicate => Person_Id_T <= Aida.Json_Parsing_Tests_Model.Max_Indices_Def.Person_Id_Max (Max_Indices);
 
    package Person_Def is
 
