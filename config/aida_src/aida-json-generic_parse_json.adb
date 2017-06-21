@@ -6,6 +6,8 @@ with Aida.Containers.Bounded_Vector;
 
 procedure Aida.JSON.Generic_Parse_JSON (Arg1        : in out Arg1_T;
                                         Arg2        : in out Arg2_T;
+                                        Arg3        : in out Arg3_T;
+                                        Arg4        : in out Arg4_T;
                                         Contents    : Aida.Types.String_T;
                                         Call_Result : in out Procedure_Call_Result.T)
 is
@@ -82,6 +84,8 @@ begin
 
                Root_Start_Tag (Arg1,
                                Arg2,
+                               Arg3,
+                               Arg4,
                                Next_Tag_Id,
                                Call_Result);
 
@@ -112,6 +116,8 @@ begin
 
                Key_Name (Arg1,
                          Arg2,
+                         Arg3,
+                         Arg4,
                          Contents (Key_Name_First_Index..Key_Name_Last_Index),
                          Last_Element (Tag_Ids),
                          Call_Result);
@@ -145,6 +151,8 @@ begin
 
                Root_Start_Tag (Arg1,
                                Arg2,
+                               Arg3,
+                               Arg4,
                                Next_Tag_Id,
                                Call_Result);
 
@@ -170,6 +178,8 @@ begin
 
                Array_Start (Arg1,
                             Arg2,
+                            Arg3,
+                            Arg4,
                             Last_Element (Tag_Ids),
                             Call_Result);
 
@@ -191,6 +201,8 @@ begin
 
                Value_String (Arg1,
                              Arg2,
+                             Arg3,
+                             Arg4,
                              Contents (Value_First_Index..Value_Last_Index),
                              Last_Element (Tag_Ids),
                              Call_Result);
@@ -205,6 +217,8 @@ begin
 
                Root_End_Tag (Arg1,
                              Arg2,
+                             Arg3,
+                             Arg4,
                              Last_Element (Tag_Ids),
                              Call_Result);
 
@@ -264,6 +278,8 @@ begin
 
                   Value_Integer (Arg1,
                                  Arg2,
+                                 Arg3,
+                                 Arg4,
                                  I,
                                  Last_Element (Tag_Ids),
                                  Call_Result);
@@ -277,6 +293,8 @@ begin
 
                      Root_End_Tag (Arg1,
                                    Arg2,
+                                   Arg3,
+                                   Arg4,
                                    Last_Element (Tag_Ids),
                                    Call_Result);
 
@@ -288,6 +306,8 @@ begin
                   else
                      Root_End_Tag (Arg1,
                                    Arg2,
+                                   Arg3,
+                                   Arg4,
                                    Last_Element (Tag_Ids),
                                    Call_Result);
 
@@ -324,6 +344,8 @@ begin
 
                   Value_Integer (Arg1,
                                  Arg2,
+                                 Arg3,
+                                 Arg4,
                                  I,
                                  Last_Element (Tag_Ids),
                                  Call_Result);
@@ -351,6 +373,8 @@ begin
 
                   Value_Integer (Arg1,
                                  Arg2,
+                                 Arg3,
+                                 Arg4,
                                  I,
                                  Last_Element (Tag_Ids),
                                  Call_Result);
@@ -374,6 +398,8 @@ begin
 
                   Root_End_Tag (Arg1,
                                 Arg2,
+                                Arg3,
+                                Arg4,
                                 Last_Element (Tag_Ids),
                                 Call_Result);
 
@@ -385,6 +411,8 @@ begin
                else
                   Root_End_Tag (Arg1,
                                 Arg2,
+                                Arg3,
+                                Arg4,
                                 Last_Element (Tag_Ids),
                                 Call_Result);
 
@@ -415,6 +443,8 @@ begin
 
                Root_Start_Tag (Arg1,
                                Arg2,
+                               Arg3,
+                               Arg4,
                                Next_Tag_Id,
                                Call_Result);
 
@@ -440,6 +470,8 @@ begin
                if Length (Array_Tag_Ids) > 0 then
                   Array_End (Arg1,
                              Arg2,
+                             Arg3,
+                             Arg4,
                              Last_Element (Array_Tag_Ids),
                              Call_Result);
 
