@@ -106,8 +106,8 @@ begin
                                      (State_Id = Found_End_Of_Element_In_Array and then (Length (Tag_Ids) > 0)));
 
 
-            --                    Aida.Text_IO.Put_Line ("Extracted:" & Image (CP) & ", state " & State_Id_Type'Image (State_Id));
-            --                    Aida.Text_IO.Put (Image (CP));
+--                                Aida.Text_IO.Put_Line ("Extracted:" & Image (CP) & ", state " & State_Id_Type'Image (State_Id));
+--                                Aida.Text_IO.Put (Image (CP));
 
             case State_Id is
                when Expecting_NL_Sign_Or_Space_Or_Left_Curly_Bracket =>

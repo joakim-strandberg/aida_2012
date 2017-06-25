@@ -561,6 +561,11 @@ package Aida.Types with SPARK_Mode is
                                                       elsif (Source(Source'First + 1) < '2') then
                                                     (To_Int32'Result = -1_000_000_000*I (Source, 1) - 100_000_000*I (Source, 2) - 10_000_000*I (Source, 3) - 1_000_000*I (Source, 4) - 100_000*I (Source, 5) - 10_000*I (Source, 6) - 1_000*I (Source, 7) - 100*I (Source, 8) - 10*I (Source, 9) - I (Source, 10)))));
 
+   procedure Put (This : Int32_T) with
+     Global => null;
+
+   procedure Put_Line (This : Int32_T) with
+     Global => null;
 
 private
 

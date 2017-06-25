@@ -1,6 +1,7 @@
 package body Aida.Types is
 
    use all type Aida.String.T;
+   use all type Aida.Int32.T;
 
    procedure To_Int32 (Source     : in  String_T;
                        Target     : out Int32_T;
@@ -13,5 +14,15 @@ package body Aida.Types is
    begin
       return  Int32_T (Zzz_Int32_T'(To_Int32 (Aida.String.T (Source))));
    end To_Int32;
+
+   procedure Put (This : Int32_T) is
+   begin
+      Put (Aida.Int32.T (This));
+   end Put;
+
+   procedure Put_Line (This : Int32_T) is
+   begin
+      Put_Line (Aida.Int32.T (This));
+   end Put_Line;
 
 end Aida.Types;
