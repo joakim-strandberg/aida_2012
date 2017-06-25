@@ -7,7 +7,7 @@ package Aida.Containers.Bounded_Vector is
 
    subtype Extended_Index_T is Index_T'Base range Index_T'First-1..Index_T'Last;
 
-   type Length_T is new Index_T'Base range 0 .. Index_T'Last - Index_T'First + 1;
+   subtype Length_T is Index_T'Base range 0 .. Index_T'Last - Index_T'First + 1;
 
    type Elements_Array_T is array (Index_T range <>) of aliased Element_T;
 

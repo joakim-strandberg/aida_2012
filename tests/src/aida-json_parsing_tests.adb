@@ -42,18 +42,14 @@ package body Aida.JSON_Parsing_Tests is
    end record;
 
    type Unused_State_T is (
-                           Unused_Value
+                           Default_State,
+                           End_Of_Json_Object_Reached
                           );
-
-   State : Unused_State_T := Unused_Value;
-
-   Current_Ids : Current_Ids_T;
 
    procedure Unused_Value_String (Result      : in out Storage_T;
                                   State       : in out Unused_State_T;
                                   Current_Ids : in out Current_Ids_T;
                                   Value       : Aida.Types.String_T;
-                                  Tag_Id      : Aida.JSON.Tag_Id_T;
                                   Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
      Global => null;
 
@@ -61,14 +57,12 @@ package body Aida.JSON_Parsing_Tests is
                                   State       : in out Unused_State_T;
                                   Current_Ids : in out Current_Ids_T;
                                   Value       : Aida.Types.String_T;
-                                  Tag_Id      : Aida.JSON.Tag_Id_T;
                                   Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
    is
       pragma Unreferenced (Result);
       pragma Unreferenced (State);
       pragma Unreferenced (Current_Ids);
       pragma Unreferenced (Value);
-      pragma Unreferenced (Tag_Id);
    begin
       Initialize (Call_Result, "69171640-accb-4b2c-b8d6-07d36b2e33b2");
    end Unused_Value_String;
@@ -78,7 +72,6 @@ package body Aida.JSON_Parsing_Tests is
                                    State       : in out Unused_State_T;
                                    Current_Ids : in out Current_Ids_T;
                                    Value       : Aida.Types.Int32_T;
-                                   Tag_Id      : Aida.JSON.Tag_Id_T;
                                    Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
      Global => null;
 
@@ -87,7 +80,6 @@ package body Aida.JSON_Parsing_Tests is
                                    State       : in out Unused_State_T;
                                    Current_Ids : in out Current_Ids_T;
                                    Value       : Aida.Types.Int32_T;
-                                   Tag_Id      : Aida.JSON.Tag_Id_T;
                                    Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
    is
       pragma Unreferenced (Result);
@@ -95,7 +87,6 @@ package body Aida.JSON_Parsing_Tests is
       pragma Unreferenced (Current_Ids);
       pragma Unreferenced (Max_Indices);
       pragma Unreferenced (Value);
-      pragma Unreferenced (Tag_Id);
    begin
       Initialize (Call_Result, "baf7fe57-da60-4245-af9d-2f4a81b007e5");
    end Unused_Value_Integer;
@@ -104,7 +95,6 @@ package body Aida.JSON_Parsing_Tests is
                                  Max_Indices : in out Max_Indices_T;
                                  State       : in out Unused_State_T;
                                  Current_Ids : in out Current_Ids_T;
-                                 Tag_Id      : Aida.JSON.Tag_Id_T;
                                  Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
      Global => null;
 
@@ -112,14 +102,12 @@ package body Aida.JSON_Parsing_Tests is
                                  Max_Indices : in out Max_Indices_T;
                                  State       : in out Unused_State_T;
                                  Current_Ids : in out Current_Ids_T;
-                                 Tag_Id      : Aida.JSON.Tag_Id_T;
                                  Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
    is
       pragma Unreferenced (Result);
       pragma Unreferenced (State);
       pragma Unreferenced (Current_Ids);
       pragma Unreferenced (Max_Indices);
-      pragma Unreferenced (Tag_Id);
    begin
       Initialize (Call_Result, "0a4c81f4-f6e4-477e-a53d-fb1b1b9ed433");
    end Unused_Array_Start;
@@ -128,7 +116,6 @@ package body Aida.JSON_Parsing_Tests is
                                Max_Indices : in out Max_Indices_T;
                                State       : in out Unused_State_T;
                                Current_Ids : in out Current_Ids_T;
-                               Tag_Id      : Aida.JSON.Tag_Id_T;
                                Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
      Global => null;
 
@@ -136,14 +123,12 @@ package body Aida.JSON_Parsing_Tests is
                                Max_Indices : in out Max_Indices_T;
                                State       : in out Unused_State_T;
                                Current_Ids : in out Current_Ids_T;
-                               Tag_Id      : Aida.JSON.Tag_Id_T;
                                Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
    is
       pragma Unreferenced (Result);
       pragma Unreferenced (State);
       pragma Unreferenced (Current_Ids);
       pragma Unreferenced (Max_Indices);
-      pragma Unreferenced (Tag_Id);
    begin
       Initialize (Call_Result, "149f8a60-f48a-4274-baf6-902c0cc00c89");
    end Unused_Array_End;
@@ -157,50 +142,58 @@ package body Aida.JSON_Parsing_Tests is
                                 Max_Indices : in out Max_Indices_T;
                                 State       : in out Unused_State_T;
                                 Current_Ids : in out Current_Ids_T;
-                                Tag_Id      : Aida.JSON.Tag_Id_T;
                                 Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
         Global => null,
-        Pre    => Person_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Person_Array_Index_T'Last;
+        Pre    => not Has_Failed (Call_Result);
 
       procedure Root_Start_Tag (Result      : in out Storage_T;
                                 Max_Indices : in out Max_Indices_T;
                                 State       : in out Unused_State_T;
                                 Current_Ids : in out Current_Ids_T;
-                                Tag_Id      : Aida.JSON.Tag_Id_T;
                                 Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
       is
          pragma Unreferenced (Result);
          pragma Unreferenced (State);
-         pragma Unreferenced (Tag_Id);
-         pragma Unreferenced (Call_Result);
-
-         Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T;
       begin
-         Allocate_Person_Id (This      => Max_Indices,
-                             Person_Id => Person_Id);
-         Person_Id_Vector.Append (Current_Ids.Person_Ids, Person_Id);
+         if
+           Person_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Person_Array_Index_T'Last and
+           Person_Id_Vector.Length (Current_Ids.Person_Ids) < Person_Id_Vector.Length_T'Last
+         then
+            declare
+               Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T;
+            begin
+               Allocate_Person_Id (This      => Max_Indices,
+                                   Person_Id => Person_Id);
+               Person_Id_Vector.Append (Current_Ids.Person_Ids, Person_Id);
+            end;
+         else
+            Initialize (Call_Result, "160a399d-2a5a-45f5-aa43-1ca45883ad13");
+         end if;
       end Root_Start_Tag;
 
       procedure Root_End_Tag (Result      : in out Storage_T;
                               Max_Indices : in out Max_Indices_T;
                               State       : in out Unused_State_T;
                               Current_Ids : in out Current_Ids_T;
-                              Tag_Id      : Aida.JSON.Tag_Id_T;
                               Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
-        Global => null;
+        Global => null,
+        Pre    => not Has_Failed (Call_Result);
 
       procedure Root_End_Tag (Result      : in out Storage_T;
                               Max_Indices : in out Max_Indices_T;
                               State       : in out Unused_State_T;
                               Current_Ids : in out Current_Ids_T;
-                              Tag_Id      : Aida.JSON.Tag_Id_T;
                               Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
       is
          pragma Unreferenced (Result);
-         pragma Unreferenced (Tag_Id);
-         pragma Unreferenced (Call_Result);
+         pragma Unreferenced (Max_Indices);
+         pragma Unreferenced (Current_Ids);
       begin
-         null;
+         if State = Default_State then
+            State := End_Of_Json_Object_Reached;
+         else
+            Initialize (Call_Result, "1a5f31d4-9be0-44c1-a541-d481c48735a2");
+         end if;
       end Root_End_Tag;
 
       procedure Key_Name (Result      : in out Storage_T;
@@ -208,58 +201,62 @@ package body Aida.JSON_Parsing_Tests is
                           State       : in out Unused_State_T;
                           Current_Ids : in out Current_Ids_T;
                           Name        : Aida.Types.String_T;
-                          Tag_Id      : Aida.JSON.Tag_Id_T;
                           Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
-        Global => null;
+        Global => null,
+        Pre    => not Has_Failed (Call_Result);
 
       procedure Key_Name (Result      : in out Storage_T;
                           Max_Indices : in out Max_Indices_T;
                           State       : in out Unused_State_T;
                           Current_Ids : in out Current_Ids_T;
                           Name        : Aida.Types.String_T;
-                          Tag_Id      : Aida.JSON.Tag_Id_T;
                           Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
       is
          pragma Unreferenced (Result);
          pragma Unreferenced (Max_Indices);
          pragma Unreferenced (State);
          pragma Unreferenced (Current_Ids);
-         pragma Unreferenced (Tag_Id);
       begin
          if Name /= "name" then
             Initialize (Call_Result, "6f878261-0825-45af-bab1-caf33d6885b6");
          end if;
       end Key_Name;
 
+      pragma Warnings (Off, """Current_Ids"" is not modified, could be IN");
       procedure Value_String (Result      : in out Storage_T;
                               Max_Indices : in out Max_Indices_T;
                               State       : in out Unused_State_T;
                               Current_Ids : in out Current_Ids_T;
                               Value       : Aida.Types.String_T;
-                              Tag_Id      : Aida.JSON.Tag_Id_T;
                               Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
-        Global => null;
+        Global => null,
+        Pre    => not Has_Failed (Call_Result);
+      pragma Warnings (On, """Current_Ids"" is not modified, could be IN");
 
       procedure Value_String (Result      : in out Storage_T;
                               Max_Indices : in out Max_Indices_T;
                               State       : in out Unused_State_T;
                               Current_Ids : in out Current_Ids_T;
                               Value       : Aida.Types.String_T;
-                              Tag_Id      : Aida.JSON.Tag_Id_T;
                               Call_Result : in out Aida.JSON.Procedure_Call_Result.T)
       is
-         pragma Unreferenced (Tag_Id);
          pragma Unreferenced (Max_Indices);
          pragma Unreferenced (State);
-
-         Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T renames
-           Person_Id_Vector.Last_Element (Current_Ids.Person_Ids);
       begin
-         if Value'Length > Json_Parsing_Tests_Model.Person_Def.NAME_MAX then
-            Initialize (Call_Result, "6b7c4309-53c8-4dfd-b2d6-23ff6ad0e185");
+         if Person_Id_Vector.Is_Empty (Current_Ids.Person_Ids) then
+            Initialize (Call_Result, "add1239e-de10-4258-9bff-5cddf3bbc72f");
          else
-            Initialize (Result.Person (Person_Id).Name,
-                        Value);
+            declare
+               Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T renames
+                 Person_Id_Vector.Last_Element (Current_Ids.Person_Ids);
+            begin
+               if Value'Length > Json_Parsing_Tests_Model.Person_Def.NAME_MAX then
+                  Initialize (Call_Result, "6b7c4309-53c8-4dfd-b2d6-23ff6ad0e185");
+               else
+                  Initialize (Result.Person (Person_Id).Name,
+                              Value);
+               end if;
+            end;
          end if;
       end Value_String;
 
@@ -279,6 +276,10 @@ package body Aida.JSON_Parsing_Tests is
 
       XML : constant Aida.Types.String_T := "{""name"" : ""adam""}";
 
+      State : Unused_State_T := Default_State;
+
+      Current_Ids : Current_Ids_T;
+
    begin
       Clear (Aida.Json_Parsing_Tests_Model.Max_Indices);
 
@@ -289,11 +290,17 @@ package body Aida.JSON_Parsing_Tests is
                  XML,
                  Call_Result);
 
---        Ahven.Assert (not Has_Failed (Call_Result), "5a84dd71-1bee-4e2c-b7f8-13915f953605");
---        Ahven.Assert (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) = 1, "87f1346a-607c-4e7a-8a3a-621365c323d9");
---        if Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) > 0 then
---           Ahven.Assert (To_String (Storage.Person (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices)).Name) = "adam", "11bdb82b-275f-4432-87f0-33d27925d7b6");
---        end if;
+      Ahven.Assert (State = End_Of_Json_Object_Reached, "dd1327b2-c0d2-4414-87f5-8a35d0a94d6f");
+      Ahven.Assert (Person_Id_Vector.Length (Current_Ids.Person_Ids) > 0, "150be077-0e4c-43b2-901e-1ffc9f57bb76");
+      Ahven.Assert (not Has_Failed (Call_Result), "5a84dd71-1bee-4e2c-b7f8-13915f953605");
+      Ahven.Assert (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) = 1, "87f1346a-607c-4e7a-8a3a-621365c323d9");
+      Ahven.Assert (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) > 0, "87f1346a-607c-4e7a-8a3a-621365c323d9");
+      if
+        Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) > 0 and then
+        Length (Storage.Person (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices)).Name) <= Storage.Person (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices)).Name.Maximum_Length
+      then
+         Ahven.Assert (To_String (Storage.Person (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices)).Name) = "adam", "11bdb82b-275f-4432-87f0-33d27925d7b6");
+      end if;
    end Test_Person_With_Name_Adam_0;
 
 --     procedure Test_Person_With_Name_Adam_1 (T : in out Ahven.Framework.Test_Case'Class) with

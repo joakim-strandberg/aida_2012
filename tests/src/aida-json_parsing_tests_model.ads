@@ -12,6 +12,11 @@ package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
 
       function Person_Id_Max (This : T) return Extended_Person_Array_Index_T;
 
+--        function Allocate_Person_Id (This : in out T) return Person_Array_Index_T with
+--          Global => null,
+--          Pre    => Person_Id_Max (This) < Extended_Person_Array_Index_T'Last,
+--          Post   => Person_Id_Max (This) = Person_Id_Max (This)'Old + 1;
+
       procedure Allocate_Person_Id (This      : in out T;
                                     Person_Id : out Person_Array_Index_T) with
         Global => null,
@@ -34,8 +39,11 @@ package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
 
    Max_Indices : Max_Indices_Def.T;
 
-   subtype Person_Id_T is Person_Array_Index_T with
-     Dynamic_Predicate => Person_Id_T <= Aida.Json_Parsing_Tests_Model.Max_Indices_Def.Person_Id_Max (Max_Indices);
+   subtype Person_Id_T is Person_Array_Index_T;
+
+-- This is what we would wish to express:
+--     subtype Person_Id_T is Person_Array_Index_T with
+--       Dynamic_Predicate => Person_Id_T <= Aida.Json_Parsing_Tests_Model.Max_Indices_Def.Person_Id_Max (Max_Indices);
 
    package Person_Def is
 
