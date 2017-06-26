@@ -15,6 +15,9 @@ package Aida.Containers.Bounded_Vector is
    -- The vector type is limited because making copies would mean
    -- introducing reference counting to know when to deallocate the vector.
 
+   function Default_Vector return T with
+     Global => null;
+
    function "=" (L, R : T) return Boolean;
 
    function Length (This : T) return Length_T with
@@ -30,11 +33,8 @@ package Aida.Containers.Bounded_Vector is
                       Element : Element_T) return Boolean with
      Global => null;
 
-   pragma Warnings (Off, "unused variable",
-                    Reason => "pragma Unreferenced(..) is uneffective");
    function First_Index (This : T) return Index_T with
      Global => null;
-   pragma Warnings (On, "unused variable");
 
    function Last_Index (This : T) return Extended_Index_T with
      Global => null;

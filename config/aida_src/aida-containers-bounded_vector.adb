@@ -2,6 +2,14 @@ with Ada.Exceptions;
 
 package body Aida.Containers.Bounded_Vector is
 
+   function Default_Vector return T is
+   begin
+      return This : T do
+         This.Items := (others => Default_Element);
+         This.Last_Index := Extended_Index_T'First;
+      end return;
+   end Default_Vector;
+
    procedure Append (This     : in out T;
                      New_Item : Element_T) is
    begin
