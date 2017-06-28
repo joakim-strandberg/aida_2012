@@ -1,5 +1,6 @@
 with Ahven.Framework;
 with Aida.Json_Parsing_Tests_Model;
+with Aida.Containers.Bounded_Vector;
 
 package Aida.JSON_Parsing_Tests with SPARK_Mode is
 
@@ -12,17 +13,37 @@ private
 
    use all type Aida.Json_Parsing_Tests_Model.Person_Def.Name_T;
    use all type Aida.Json_Parsing_Tests_Model.Person_Def.Hand_Vector.T;
+   use all type Aida.Json_Parsing_Tests_Model.Person_Def.Vehicle_Vector.T;
 
    subtype Max_Indices_T is Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T;
 
    type Storage_T is record
-      Person : Json_Parsing_Tests_Model.People_T := (others => (Age   => 10,
-                                                                Name  => Make,
-                                                                Hands => Default_Vector));
-      Hand   : Json_Parsing_Tests_Model.Hands_T;
+      Person : Json_Parsing_Tests_Model.People_T := (others => (Age      => 10,
+                                                                Name     => Make,
+                                                                Hands    => Default_Vector,
+                                                                Vehicles => Default_Vector));
+      Hand    : Json_Parsing_Tests_Model.Hands_T;
+      Vehicle : Json_Parsing_Tests_Model.Vehicles_T;
    end record;
 
    Storage : Storage_T;
+
+   function Default_Person_Id return Json_Parsing_Tests_Model.Person_Array_Index_T is (1);
+
+   package Person_Id_Vector is new Aida.Containers.Bounded_Vector (Index_T         => Json_Parsing_Tests_Model.Person_Array_Index_T,
+                                                                   Element_T       => Json_Parsing_Tests_Model.Person_Array_Index_T,
+                                                                   "="             => Json_Parsing_Tests_Model."=",
+                                                                   Default_Element => Default_Person_Id);
+
+   package Hand_Id_Vector is new Aida.Containers.Bounded_Vector (Index_T         => Json_Parsing_Tests_Model.Hand_Array_Index_T,
+                                                                 Element_T       => Json_Parsing_Tests_Model.Hand_Array_Index_T,
+                                                                 "="             => Json_Parsing_Tests_Model."=",
+                                                                 Default_Element => Json_Parsing_Tests_Model.Person_Def.Default_Hand_Id);
+
+   package Vehicle_Id_Vector is new Aida.Containers.Bounded_Vector (Index_T         => Json_Parsing_Tests_Model.Vehicle_Array_Index_T,
+                                                                    Element_T       => Json_Parsing_Tests_Model.Vehicle_Array_Index_T,
+                                                                    "="             => Json_Parsing_Tests_Model."=",
+                                                                    Default_Element => Json_Parsing_Tests_Model.Person_Def.Default_Vehicle_Id);
 
    procedure Test_Person_With_Name_Adam_0 (T : in out Ahven.Framework.Test_Case'Class) with
      Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
@@ -36,9 +57,9 @@ private
    procedure Test_Person_With_Hand_0 (T : in out Ahven.Framework.Test_Case'Class) with
      Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
 
---     procedure Test_Person_With_Vehicles_0 (T : in out Ahven.Framework.Test_Case'Class) with
---       Global => null;
---
+   procedure Test_Person_With_Vehicles_0 (T : in out Ahven.Framework.Test_Case'Class) with
+     Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
+
    procedure Test_Person_With_Name_And_Age_0 (T : in out Ahven.Framework.Test_Case'Class) with
      Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
 

@@ -16,11 +16,19 @@ package body Aida.Json_Parsing_Tests_Model with SPARK_Mode is
          Hand_Id := This.My_Hand_Id_Max;
       end Allocate_Hand_Id;
 
+      procedure Allocate_Vehicle_Id (This : in out T;
+                                     Id   : out Vehicle_Array_Index_T) is
+      begin
+         This.My_Vehicle_Id_Max := This.My_Vehicle_Id_Max + 1;
+         Id := This.My_Vehicle_Id_Max;
+      end Allocate_Vehicle_Id;
+
       procedure Clear (This : in out T) is
          pragma Unreferenced (This);
       begin
-         This.My_Person_Id_Max := 0;
-         This.My_Hand_Id_Max   := 0;
+         This.My_Person_Id_Max  := 0;
+         This.My_Hand_Id_Max    := 0;
+         This.My_Vehicle_Id_Max := 0;
       end Clear;
 
    end Max_Indices_Def;

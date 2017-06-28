@@ -49,10 +49,6 @@ begin
          Value_First_Index : P_T := Contents'First;
          Value_Last_Index  : Contents_Index_T;-- := Contents'First;
 
-         --         End_Tag_Name_First_Index : Contents_Index_T := Contents'First;
-         --   End_Tag_Name_Last_Index  : Contents_Index_T;
-
-         --         Shall_Ignore_Tag_Value : Boolean := False;
       begin
          while P <= Contents'Last loop
             Prev_Prev_P := Prev_P;
