@@ -11,7 +11,7 @@ with Aida.Bounded_Hash_Map_Tests;
 with Aida.XML_Parsing_Tests;
 with Aida.JSON_Parsing_Tests;
 
-procedure Main is
+procedure Run_Aida_Tests is
    use all type Ada.Strings.Unbounded.Unbounded_String;
 
    S : aliased Ahven.Framework.Test_Suite := Ahven.Framework.Create_Suite ("All");
@@ -52,4 +52,4 @@ begin
    Ahven.Framework.Add_Static_Test (S, XML_Parsing_Test);
    Ahven.Framework.Add_Static_Test (S, JSON_Parsing_Test);
    Ahven.Text_Runner.Run (S);
-end Main;
+end Run_Aida_Tests;

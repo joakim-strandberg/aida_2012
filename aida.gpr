@@ -1,0 +1,64 @@
+project Aida is
+
+   type OS_T is ("Windows", "Linux", "Mac");
+
+   OS : OS_T := external ("OS", "Linux");
+
+   case OS is
+      when "Windows" =>
+         for Source_Dirs use ("src", "src/windows");
+      when "Linux"   =>
+         for Source_Dirs use ("src", "src/linux");
+      when "Mac"     =>
+         for Source_Dirs use ("src", "src/mac");
+   end case;
+
+   for Source_Files use ("aida-bounded_string.ads",
+                         "aida-bounded_string.adb",
+                         "aida-character.ads",
+                         "aida-character.adb",
+                         "aida-containers-bounded_hash_map.ads",
+                         "aida-containers-bounded_hash_map.adb",
+                         "aida-containers-bounded_vector.ads",
+                         "aida-containers-bounded_vector.adb",
+                         "aida-containers-integer_to_string_map.ads",
+                         "aida-containers-integer_to_string_map.adb",
+                         "aida-containers.ads",
+                         "aida-directories.ads",
+                         "aida-directories.adb",
+                         "aida-hash32.ads",
+                         "aida-int32.ads",
+                         "aida-int32.adb",
+                         "aida-json-generic_parse_json.adb",
+                         "aida-json-generic_parse_json.ads",
+                         "aida-json.ads",
+                         "aida-sequential_stream_io.ads",
+                         "aida-sequential_stream_io.adb",
+                         "aida-string.ads",
+                         "aida-string.adb",
+                         "aida-subprogram_call_result.ads",
+                         "aida-subprogram_call_result.adb",
+                         "aida-text_io.ads",
+                         "aida-text_io.adb",
+                         "aida-types.ads",
+                         "aida-types.adb",
+                         "aida-utf8.ads",
+                         "aida-utf8.adb",
+                         "aida-utf8_code_point.ads",
+                         "aida-utf8_code_point.adb",
+                         "aida-xml.ads",
+                         "aida-xml-generic_parse_xml_file.ads",
+                         "aida-xml-generic_parse_xml_file.adb",
+                         "aida.ads");
+
+   for Object_Dir use "obj";
+
+   package Compiler is
+--      for Local_Configuration_Pragmas use "aida.adc";
+      for Default_Switches ("ada") use (
+                                        "-gnat2012"
+                                        --"-gnata"
+                                       );
+   end Compiler;
+
+end Aida;

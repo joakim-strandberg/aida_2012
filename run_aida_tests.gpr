@@ -1,0 +1,79 @@
+with "aida";
+
+project Run_Aida_Tests is
+
+   for Source_Dirs use ("src/");
+   for Object_Dir use "obj";
+   for Exec_Dir use "bin";
+   for Main use ("run_aida_tests.adb");
+
+   for Source_Files use ("aida-bounded_hash_map_tests.ads",
+                         "aida-bounded_hash_map_tests.adb",
+                         "aida-bounded_string_tests.ads",
+                         "aida-bounded_string_tests.adb",
+                         "aida-json_parsing_tests.ads",
+                         "aida-json_parsing_tests.adb",
+                         "aida-json_parsing_tests_model.ads",
+                         "aida-json_parsing_tests_model.adb",
+                         "aida-types-tests.ads",
+                         "aida-types-tests.adb",
+                         "aida-utf8-tests.ads",
+                         "aida-utf8-tests.adb",
+                         "aida-xml_parsing_tests.ads",
+                         "aida-xml_parsing_tests.adb",
+                         "application_locator.ads",
+                         "application_locator.adb",
+                         "run_aida_tests.adb",
+                         "ahven.ads",
+                         "ahven.adb",
+                         "ahven-astrings.ads",
+                         "ahven-framework.adb",
+                         "ahven-framework.ads",
+                         "ahven-listeners.adb",
+                         "ahven-listeners.ads",
+                         "ahven-listeners-basic.adb",
+                         "ahven-listeners-basic.ads",
+                         "ahven-long_astrings.ads",
+                         "ahven-parameters.adb",
+                         "ahven-parameters.ads",
+                         "ahven-results.adb",
+                         "ahven-results.ads",
+                         "ahven-runner.adb",
+                         "ahven-runner.ads",
+                         "ahven-slist.adb",
+                         "ahven-slist.ads",
+                         "ahven-tap_runner.adb",
+                         "ahven-tap_runner.ads",
+                         "ahven-temporary_output.adb",
+                         "ahven-temporary_output.ads",
+                         "ahven-text_runner.adb",
+                         "ahven-text_runner.ads",
+                         "ahven-xml_runner.adb",
+                         "ahven-xml_runner.ads"
+                        );
+
+   package Builder is
+      for Default_Switches ("ada") use ("-j4");
+   end Builder;
+
+   package Compiler is
+      for Default_Switches ("ada") use ("-gnat12",
+                                        "-g",
+                                        "-gnatf",                      --  Full, verbose error messages
+                                        "-gnatwa",                     --  All optional warnings
+                                        "-gnatVa",                     --  All validity checks
+                                        "-gnatwe",                     --  Treat warnings as errors
+                                        "-gnata",                     --  Enable assertions
+                                        "-Wall"                       --  All GCC warnings
+                                       );
+   end Compiler;
+
+   package Linker is
+      for Default_Switches ("ada") use ("-g");
+   end Linker;
+
+   package Binder is
+      for Default_Switches ("ada") use ("-E");
+   end Binder;
+
+end Run_Aida_Tests;
