@@ -1,6 +1,6 @@
 with Ahven.Framework;
 
-package Aida.Types.Tests is
+package Aida.Tests is
 
    type Test is new Ahven.Framework.Test_Case with null record;
 
@@ -25,4 +25,4 @@ private
 
    procedure SHOULD_Fail_To_Convert_String_Minus_2147483649_To_Integer (T : in out Ahven.Framework.Test_Case'Class);
 
-end Aida.Types.Tests;
+end Aida.Tests;

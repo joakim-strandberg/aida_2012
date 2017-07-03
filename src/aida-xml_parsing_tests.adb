@@ -1,11 +1,10 @@
 with Aida.Bounded_String;
 with Aida.Text_IO;
-with Aida.Types;
 with Aida.XML.Generic_Parse_XML_File;
 
 package body Aida.XML_Parsing_Tests is
 
-   use all type Aida.Types.String_T;
+   use all type Aida.String_T;
    use all type Aida.XML.Procedure_Call_Result.T;
    use all type Aida.Bounded_String.T;
 
@@ -40,7 +39,7 @@ package body Aida.XML_Parsing_Tests is
          type T is limited private;
 
          procedure Allocate_Memory (This  : in out T;
-                                    Value : Aida.Types.String_T) with
+                                    Value : Aida.String_T) with
            Global => null,
            Pre    => Is_Memory_Available (This) and Value'Length <= Z.MAX_VALUE_LENGTH;
          pragma Unreferenced (Allocate_Memory);
@@ -51,7 +50,7 @@ package body Aida.XML_Parsing_Tests is
 
          function Value_Equals_String (This : T;
                                        Id   : Id_T;
-                                       S    : Aida.Types.String_T) return Boolean with
+                                       S    : Aida.String_T) return Boolean with
            Global => null,
            Pre    => Name_Length_Valid (This, Id);
 
@@ -85,14 +84,14 @@ package body Aida.XML_Parsing_Tests is
 
          function Value_Equals_String (This : T;
                                        Id   : Id_T;
-                                       S    : Aida.Types.String_T) return Boolean is (This.As (Id.My_Id).My_Value = S);
+                                       S    : Aida.String_T) return Boolean is (This.As (Id.My_Id).My_Value = S);
 
       end A;
 
       package body A is
 
          procedure Allocate_Memory (This  : in out T;
-                                    Value : Aida.Types.String_T)
+                                    Value : Aida.String_T)
          is
             Id : constant Hidden_A_Id_T := Hidden_A_Id_T (This.Next_Available_A_Id);
          begin
@@ -124,13 +123,13 @@ package body Aida.XML_Parsing_Tests is
       subtype Result_T is Result.T;
 
       procedure Root_Start_Tag (Result      : in out Result_T;
-                                Tag_Name    : Aida.Types.String_T;
+                                Tag_Name    : Aida.String_T;
                                 Tag_Id      : Aida.XML.Tag_Id_T;
                                 Call_Result : in out Aida.XML.Procedure_Call_Result.T) with
         Global => null;
 
       procedure Root_Start_Tag (Result      : in out Result_T;
-                                Tag_Name    : Aida.Types.String_T;
+                                Tag_Name    : Aida.String_T;
                                 Tag_Id      : Aida.XML.Tag_Id_T;
                                 Call_Result : in out Aida.XML.Procedure_Call_Result.T)
       is
@@ -139,20 +138,20 @@ package body Aida.XML_Parsing_Tests is
          pragma Unreferenced (Call_Result);
       begin
          Aida.Text_IO.Put ("start tag: ");
-             Put_Line (Tag_Name);
+         Aida.Text_IO.Put_Line (Tag_Name);
          null;
       end Root_Start_Tag;
 
       procedure Root_End_Tag (Result      : in out Result_T;
-                              Tag_Name    : Aida.Types.String_T;
-                              Tag_Value   : Aida.Types.String_T;
+                              Tag_Name    : Aida.String_T;
+                              Tag_Value   : Aida.String_T;
                               Tag_Id      : Aida.XML.Tag_Id_T;
                               Call_Result : in out Aida.XML.Procedure_Call_Result.T) with
         Global => null;
 
       procedure Root_End_Tag (Result      : in out Result_T;
-                              Tag_Name    : Aida.Types.String_T;
-                              Tag_Value   : Aida.Types.String_T;
+                              Tag_Name    : Aida.String_T;
+                              Tag_Value   : Aida.String_T;
                               Tag_Id      : Aida.XML.Tag_Id_T;
                               Call_Result : in out Aida.XML.Procedure_Call_Result.T)
       is
@@ -162,7 +161,7 @@ package body Aida.XML_Parsing_Tests is
          pragma Unreferenced (Call_Result);
       begin
          Aida.Text_IO.Put ("end tag: ");
-         Put_Line (Tag_Name);
+         Aida.Text_IO.Put_Line (Tag_Name);
          null;
       end Root_End_Tag;
 
@@ -172,7 +171,7 @@ package body Aida.XML_Parsing_Tests is
 
       Call_Result : Aida.XML.Procedure_Call_Result.T;
 
-      XML : constant Aida.Types.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><a>b</a>";
+      XML : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><a>b</a>";
 
       R : Result_T;
    begin

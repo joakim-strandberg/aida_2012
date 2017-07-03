@@ -7,11 +7,11 @@ with Aida.Containers.Bounded_Vector;
 pragma Elaborate_All (Aida.Containers.Bounded_Vector);
 
 procedure Aida.XML.Generic_Parse_XML_File (Arg           : in out Arg_T;
-                                           Contents      : Aida.Types.String_T;
+                                           Contents      : Aida.String_T;
                                            Call_Result   : in out Procedure_Call_Result.T)
 is
-   use all type Aida.Types.String_T;
-   use all type Aida.Types.Int32_T;
+   use all type Aida.String_T;
+   use all type Aida.Int32_T;
    use all type Aida.UTF8_Code_Point.T;
    use all type Procedure_Call_Result.T;
 
@@ -19,8 +19,8 @@ is
 
    State_Id : State_Id_Type;
 
-   XML_File_Start_String  : Aida.Types.String_T := "<?xml version=""1.0"" encoding=""utf-8""?>";
-   XML_File_Start_String2 : Aida.Types.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?>";
+   XML_File_Start_String  : Aida.String_T := "<?xml version=""1.0"" encoding=""utf-8""?>";
+   XML_File_Start_String2 : Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?>";
 
    F : Natural := Contents'First;
 --   L : Natural;-- := Contents'Last;
@@ -110,7 +110,7 @@ begin
             pragma Loop_Invariant (not Has_Failed (Call_Result));
             pragma Loop_Invariant (P <= Contents'Last + 4);
             pragma Loop_Invariant (Prev_Prev_P < Prev_P and Prev_P < P);
-            pragma Loop_Invariant (Aida.Types.Nat32_T (Length (Tag_Ids)) = Aida.Types.Nat32_T(Length (Shall_Ignore_Tag_Value_List)));
+            pragma Loop_Invariant (Aida.Nat32_T (Length (Tag_Ids)) = Aida.Nat32_T(Length (Shall_Ignore_Tag_Value_List)));
             pragma Loop_Invariant (State_Id /= Expecting_NL_Sign_Or_Space_Or_Less_Sign or
                                      (State_Id = Expecting_NL_Sign_Or_Space_Or_Less_Sign and then (Length (Tag_Ids) = 0 and Length (Shall_Ignore_Tag_Value_List) = 0)));
             pragma Loop_Invariant (State_Id /= Found_Less_Sign or
@@ -618,8 +618,8 @@ begin
                         pragma Assume (Tag.Name_First_Index in Contents_Index_T);
                         pragma Assume (Tag.Name_Last_Index in Contents_Index_T);
 
-                        Tag_Name : Aida.Types.String_T := Contents (Tag.Name_First_Index..Tag.Name_Last_Index);
-                        Value : Aida.Types.String_T := (if Tag_Value_First_Index <= Tag_Value_Last_Index then
+                        Tag_Name : Aida.String_T := Contents (Tag.Name_First_Index..Tag.Name_Last_Index);
+                        Value : Aida.String_T := (if Tag_Value_First_Index <= Tag_Value_Last_Index then
                                                           Contents (Tag_Value_First_Index..Tag_Value_Last_Index)
                                                         else
                                                            "");
@@ -699,8 +699,8 @@ begin
                         pragma Assume (Tag.Name_First_Index in Contents_Index_T);
                         pragma Assume (Tag.Name_Last_Index in Contents_Index_T);
 
-                        Tag_Name : Aida.Types.String_T := Contents (Tag.Name_First_Index..Tag.Name_Last_Index);
-                        Value : Aida.Types.String_T := (if Tag_Value_First_Index <= Tag_Value_Last_Index then
+                        Tag_Name : Aida.String_T := Contents (Tag.Name_First_Index..Tag.Name_Last_Index);
+                        Value : Aida.String_T := (if Tag_Value_First_Index <= Tag_Value_Last_Index then
                                                           Contents (Tag_Value_First_Index..Tag_Value_Last_Index)
                                                         else
                                                            "");

@@ -1,10 +1,10 @@
 package body Aida.Subprogram_Call_Result is
 
    use all type Bounded_String.T;
-   use all type Aida.Types.String_T;
+   use all type Aida.String_T;
 
    procedure Initialize (This    : in out T;
-                         Message : Aida.Types.String_T) is
+                         Message : Aida.String_T) is
    begin
       Initialize (This => This.My_Message,
                   Text => Message);
@@ -15,7 +15,7 @@ package body Aida.Subprogram_Call_Result is
 --                           Message : String) is
 --     begin
 --        Initialize (This => This.My_Message,
---                    Text => Aida.Types.String_T (Message));
+--                    Text => Aida.String_T (Message));
 --        This.My_Has_Failed := True;
 --     end Initialize;
 
@@ -24,7 +24,7 @@ package body Aida.Subprogram_Call_Result is
                          M2   : String) is
    begin
       Initialize (This => This.My_Message,
-                  Text => Concat (Aida.Types.String_T (M1), Aida.Types.String_T (M2)));
+                  Text => Concat (Aida.String_T (M1), Aida.String_T (M2)));
       This.My_Has_Failed := True;
    end Initialize;
 
@@ -34,7 +34,7 @@ package body Aida.Subprogram_Call_Result is
       Act (This.My_Message);
    end Act_On_Immutable_Text;
 
-   function Message (This : T) return Aida.Types.String_T is
+   function Message (This : T) return Aida.String_T is
    begin
       return To_String (This.My_Message);
    end Message;

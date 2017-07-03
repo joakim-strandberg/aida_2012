@@ -1,11 +1,10 @@
 with Ada.Sequential_IO;
 with Ada.Streams;
 with Aida.Directories;
-with Aida.Types;
 
 package Aida.Sequential_Stream_IO with SPARK_Mode is
 
-   function Calculate_Hash32 (Filename : String) return Aida.Types.Hash32_T with
+   function Calculate_Hash32 (Filename : String) return Aida.Hash32_T with
      Global => null,
      Pre    => Aida.Directories.Exists (Filename);
 

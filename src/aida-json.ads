@@ -1,10 +1,9 @@
-with Aida.Types;
 with Aida.Subprogram_Call_Result;
 with Aida.Containers.Bounded_Vector;
 
 package Aida.JSON with SPARK_Mode is
 
-   type Tag_Id_T is new Aida.Types.Int32_T;
+   type Tag_Id_T is new Aida.Int32_T;
 
    package Procedure_Call_Result is new Aida.Subprogram_Call_Result (1_000);
 
@@ -17,7 +16,7 @@ private
 
    function Default_Tag_Id return Tag_Id_T is (0);
 
-   type Tag_Id_Index_T is new Aida.Types.Pos32_T range 1..MAX_DEPTH;
+   type Tag_Id_Index_T is new Aida.Pos32_T range 1..MAX_DEPTH;
 
    package Tag_Id_Vector is new Aida.Containers.Bounded_Vector (Index_T         => Tag_Id_Index_T,
                                                                 Element_T       => Tag_Id_T,

@@ -1,4 +1,4 @@
-package body Aida.Character with SPARK_Mode is
+package body Aida_Z.Character with SPARK_Mode is
    pragma Suppress (Discriminant_Check);
    pragma Suppress (Division_Check);
    pragma Suppress (Index_Check);
@@ -26,4 +26,4 @@ package body Aida.Character with SPARK_Mode is
       Target := Standard.Character'Pos (Standard.Character (Source)) - Standard.Character'Pos ('0');
    end To_Int32;
 
-end Aida.Character;
+end Aida_Z.Character;

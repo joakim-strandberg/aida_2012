@@ -1,5 +1,4 @@
 with Aida.Containers.Bounded_Vector;
-with Aida.Types;
 
 generic
    type Index_T is range <>;

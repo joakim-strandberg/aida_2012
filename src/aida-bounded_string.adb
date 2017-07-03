@@ -1,9 +1,9 @@
 package body Aida.Bounded_String with SPARK_Mode is
 
-   use all type Aida.Types.String_T;
+   use all type Aida.String_T;
 
    procedure Initialize (This : in out T;
-                         Text : Aida.Types.String_T) is
+                         Text : Aida.String_T) is
    begin
       for I in Integer range 1..Text'Length loop
          This.Text (I) := Text (Text'First - 1 + I);
@@ -15,7 +15,7 @@ package body Aida.Bounded_String with SPARK_Mode is
    end Initialize;
 
    procedure Append (Target : in out T;
-                     Source : Aida.Types.String_T) is
+                     Source : Aida.String_T) is
    begin
       for I in Integer range Source'First..Source'Last loop
          Target.Text (Target.Text_Length + 1 + (I - Source'First)) := Source (I);
@@ -23,9 +23,9 @@ package body Aida.Bounded_String with SPARK_Mode is
       Target.Text_Length := Target.Text_Length + Source'Length;
    end Append;
 
-   function Hash32 (This : T) return Aida.Types.Hash32_T is
+   function Hash32 (This : T) return Aida.Hash32_T is
    begin
-      return Hash32 (Aida.Types.String_T (This.Text (1..Length (This))));
+      return Hash32 (Aida.String_T (This.Text (1..Length (This))));
    end Hash32;
 
    procedure Act_On_Immutable_Text (This : in Bounded_String_T) is
@@ -53,7 +53,7 @@ package body Aida.Bounded_String with SPARK_Mode is
       return Result;
    end Equals;
 
-   function To_String (This : T) return Aida.Types.String_T is
+   function To_String (This : T) return Aida.String_T is
    begin
       return This.Text (1..This.Text_Length);
    end To_String;

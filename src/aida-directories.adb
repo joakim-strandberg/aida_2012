@@ -1,7 +1,7 @@
 package body Aida.Directories is
 
-   use all type Aida.Types.String_T;
-   use all type Aida.Types.Int32_T;
+   use all type Aida.String_T;
+   use all type Aida.Int32_T;
 
    function Exists (Name : String) return Boolean renames Ada.Directories.Exists;
 
@@ -81,7 +81,7 @@ package body Aida.Directories is
    function Modification_Time
      (Directory_Entry : Directory_Entry_Type) return Ada.Calendar.Time renames Ada.Directories.Modification_Time;
 
-   function Exists (Simple_Filename     : Aida.Types.String_T;
+   function Exists (Simple_Filename     : Aida.String_T;
                     Directory_To_Search : String) return Boolean with
      SPARK_Mode => On
    is

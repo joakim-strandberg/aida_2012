@@ -1,45 +1,43 @@
-with Aida.Types;
-
 package Aida.Text_IO with SPARK_Mode is
 
-   procedure Put_Line (Item : String) with
+   procedure Put_Line (Item : String_T) with
      Global => null;
 
-   procedure Put_Line (S1 : String;
-                       S2 : String) with
+   procedure Put_Line (S1 : String_T;
+                       S2 : String_T) with
      Global => null;
 
-   procedure Put_Line (S1 : String;
-                       S2 : String;
-                       S3 : String) with
+   procedure Put_Line (S1 : String_T;
+                       S2 : String_T;
+                       S3 : String_T) with
      Global => null;
 
-   procedure Put_Line (S1 : String;
-                       S2 : String;
-                       S3 : String;
-                       S4 : String) with
+   procedure Put_Line (S1 : String_T;
+                       S2 : String_T;
+                       S3 : String_T;
+                       S4 : String_T) with
      Global => null;
 
-   procedure Put_Line (S1 : String;
-                       S2 : String;
-                       S3 : String;
-                       S4 : String;
-                       S5 : String) with
+   procedure Put_Line (S1 : String_T;
+                       S2 : String_T;
+                       S3 : String_T;
+                       S4 : String_T;
+                       S5 : String_T) with
      Global => null;
 
-   procedure Put (Item : String) with
+   procedure Put (Item : String_T) with
      Global => null;
 
-   procedure Put (S1 : String;
-                  S2 : String) with
+   procedure Put (S1 : String_T;
+                  S2 : String_T) with
      Global => null;
 
-   procedure Put (S1 : String;
-                  S2 : String;
-                  S3 : String) with
+   procedure Put (S1 : String_T;
+                  S2 : String_T;
+                  S3 : String_T) with
      Global => null;
 
-   function Get_Line return String with
+   function Get_Line return String_T with
      Global => null;
 
 end Aida.Text_IO;

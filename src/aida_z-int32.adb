@@ -1,8 +1,7 @@
 with Ada.Strings.Fixed;
 with Interfaces;
-with Aida.Text_IO;
 
-package body Aida.Int32 is
+package body Aida_Z.Int32 is
 
    use type Interfaces.Unsigned_32;
 
@@ -28,14 +27,4 @@ package body Aida.Int32 is
       return Zzz_Hash32_T (X);
    end Hash32;
 
-   procedure Put (This : T) is
-   begin
-      Aida.Text_IO.Put (String (To_String (This)));
-   end Put;
-
-   procedure Put_Line (This : T) is
-   begin
-      Aida.Text_IO.Put_Line (String (To_String (This)));
-   end Put_Line;
-
-end Aida.Int32;
+end Aida_Z.Int32;

@@ -1,9 +1,8 @@
 with Aida.Bounded_String;
-with Aida.Types;
 
 package body Aida.Bounded_String_Tests is
 
-   use all type Aida.Types.String_T;
+   use all type Aida.String_T;
 
    type Bounded_String_20_T is new Aida.Bounded_String.T (20);
 
@@ -22,19 +21,19 @@ package body Aida.Bounded_String_Tests is
    is
       pragma Unreferenced (T);
 
-      function Check_Expected (Text     : Aida.Types.String_T;
-                               Expected : Aida.Types.String_T) return Boolean with
+      function Check_Expected (Text     : Aida.String_T;
+                               Expected : Aida.String_T) return Boolean with
         Global => null;
 
-      function Check_Expected (Text     : Aida.Types.String_T;
-                               Expected : Aida.Types.String_T) return Boolean is
+      function Check_Expected (Text     : Aida.String_T;
+                               Expected : Aida.String_T) return Boolean is
       begin
          return Expected = Text;
       end Check_Expected;
 
-      Expected : constant Aida.Types.String_T := "Hej";
+      Expected : constant Aida.String_T := "Hej";
 
-      subtype Expected_T is Aida.Types.String_T (Expected'First..Expected'Last);
+      subtype Expected_T is Aida.String_T (Expected'First..Expected'Last);
 
       Is_Success : Boolean;
 

@@ -1,4 +1,4 @@
-with Aida.Types;
+with Aida;
 with Ada.Containers;
 
 use all type Ada.Containers.Count_Type;
@@ -23,19 +23,19 @@ generic
                             Arg2        : in out Arg2_T;
                             Arg3        : in out Arg3_T;
                             Arg4        : in out Arg4_T;
-                            Name        : Aida.Types.String_T;
+                            Name        : Aida.String_T;
                             Call_Result : in out Procedure_Call_Result.T);
    with procedure Value_String (Arg1        : in out Arg1_T;
                                 Arg2        : in out Arg2_T;
                                 Arg3        : in out Arg3_T;
                                 Arg4        : in out Arg4_T;
-                                Value       : Aida.Types.String_T;
+                                Value       : Aida.String_T;
                                 Call_Result : in out Procedure_Call_Result.T);
    with procedure Value_Integer (Arg1        : in out Arg1_T;
                                  Arg2        : in out Arg2_T;
                                  Arg3        : in out Arg3_T;
                                  Arg4        : in out Arg4_T;
-                                 Value       : Aida.Types.Int32_T;
+                                 Value       : Aida.Int32_T;
                                  Call_Result : in out Procedure_Call_Result.T);
    with procedure Array_Start (Arg1        : in out Arg1_T;
                                Arg2        : in out Arg2_T;
@@ -51,7 +51,7 @@ procedure Aida.JSON.Generic_Parse_JSON (Arg1        : in out Arg1_T;
                                         Arg2        : in out Arg2_T;
                                         Arg3        : in out Arg3_T;
                                         Arg4        : in out Arg4_T;
-                                        Contents    : Aida.Types.String_T;
+                                        Contents    : Aida.String_T;
                                         Call_Result : in out Procedure_Call_Result.T) with
   Global => null,
   Pre    => not Procedure_Call_Result.Has_Failed (Call_Result) and Contents'Last < Integer'Last - 4;

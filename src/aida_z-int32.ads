@@ -1,4 +1,4 @@
-package Aida.Int32 with SPARK_Mode is
+package Aida_Z.Int32 with SPARK_Mode is
 
    type T is new Zzz_Int32_T;
 
@@ -33,10 +33,4 @@ package Aida.Int32 with SPARK_Mode is
    function Hash32 (This : T) return Zzz_Hash32_T with
      Global => null;
 
-   procedure Put (This : T) with
-     Global => null;
-
-   procedure Put_Line (This : T) with
-     Global => null;
-
-end Aida.Int32;
+end Aida_Z.Int32;

@@ -22,22 +22,23 @@
 -- When SPARK analyzes code, each instantiation of a generic is analyzed independently.
 -- Thus, avoiding generics results in shorter analysis-times.
 --
--- Using Ada.Containers.Formal_Vectors will result in more optimized code by avoiding
--- unnecessary initializations.
-with Aida.Types;
+-- Usage of Ada.Containers.Formal_Vectors will result in optimized but compiler specific code.
+-- For example, the changes made between GNAT GPL 2016 and 2017 were incompatible.
+-- The formal containers packages are therefore avoided in the Aida library (for now).
+with Aida;
 
 package Aida.Bounded_String with SPARK_Mode is
 
    type T (Maximum_Length : Positive) is limited private;
 
    procedure Initialize (This : in out T;
-                         Text : Aida.Types.String_T) with
+                         Text : Aida.String_T) with
      Global => null,
      Pre    => Text'Length <= This.Maximum_Length,
      Post   => Length (This) = Text'Length;
 
    procedure Append (Target : in out T;
-                     Source : Aida.Types.String_T) with
+                     Source : Aida.String_T) with
      Global => null,
      Pre    => Source'Length <= Target.Maximum_Length - Length (Target),
      Post   => Length (Target) <= Target.Maximum_Length;
@@ -54,22 +55,22 @@ package Aida.Bounded_String with SPARK_Mode is
      Global => null,
      Pre    => Length (Left) <= Left.Maximum_Length and Length (Right) <= Right.Maximum_Length;
 
-   function "=" (Left : T; Right : Aida.Types.String_T) return Boolean with
+   function "=" (Left : T; Right : Aida.String_T) return Boolean with
      Global => null,
      Pre    => Length (Left) <= Left.Maximum_Length;
    -- Although the arguments are of different types, they may still represent the same String.
 
-   function Hash32 (This : T) return Aida.Types.Hash32_T with
+   function Hash32 (This : T) return Aida.Hash32_T with
      Global => null,
      Pre    => Length (This) <= This.Maximum_Length;
 
-   function To_String (This : T) return Aida.Types.String_T with
+   function To_String (This : T) return Aida.String_T with
      Global => null,
      Pre    => Length (This) <= This.Maximum_Length;
 
    generic
       type Bounded_String_T (<>) is new T;
-      with procedure Do_Something (Text : Aida.Types.String_T);
+      with procedure Do_Something (Text : Aida.String_T);
    procedure Act_On_Immutable_Text (This : in Bounded_String_T) with
      Global => null,
      Pre    => Length (This) <= This.Maximum_Length;
@@ -78,7 +79,7 @@ package Aida.Bounded_String with SPARK_Mode is
       type Bounded_String_T (<>) is new T;
       type Return_T is private;
       type Arg_T is private;
-      with function Check_Something (Text : Aida.Types.String_T;
+      with function Check_Something (Text : Aida.String_T;
                                      Arg  : Arg_T) return Return_T;
    function Check_Something_On_Immutable_Text (This  : Bounded_String_T;
                                                Arg   : Arg_T) return Return_T with
@@ -89,7 +90,7 @@ private
 
    type T (Maximum_Length : Positive) is limited
       record
-         Text        : Aida.Types.String_T (1..T.Maximum_Length) := (others => ' ');
+         Text        : Aida.String_T (1..T.Maximum_Length) := (others => ' ');
          Text_Length : Natural := 0;
       end record;
 
@@ -97,6 +98,6 @@ private
 
    function "=" (Left, Right : T) return Boolean is (Length (Left) = Length (Right) and then (for all I in Positive range 1..Left.Text_Length => Left.Text (I) = Right.Text (I)));
 
-   function "=" (Left : T; Right : Aida.Types.String_T) return Boolean is (Equals (Left, String (Right)));
+   function "=" (Left : T; Right : Aida.String_T) return Boolean is (Equals (Left, String (Right)));
 
 end Aida.Bounded_String;

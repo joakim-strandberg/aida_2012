@@ -1,5 +1,4 @@
 with Aida.UTF8_Code_Point;
-with Aida.Types;
 with Aida.Subprogram_Call_Result;
 with Aida.Containers.Bounded_Vector;
 
@@ -10,7 +9,7 @@ package Aida.XML with SPARK_Mode is
 
    use all type Aida.UTF8_Code_Point.T;
 
-   type Tag_Id_T is new Aida.Types.Int32_T;
+   type Tag_Id_T is new Aida.Int32_T;
 
    package Procedure_Call_Result is new Aida.Subprogram_Call_Result (1_000);
 
@@ -23,7 +22,7 @@ private
 
    function Default_Boolean return Boolean is (False);
 
-   type Boolean_Index_T is new Aida.Types.Pos32_T range 1..MAX_DEPTH;
+   type Boolean_Index_T is new Aida.Pos32_T range 1..MAX_DEPTH;
 
    package Boolean_Vector is new Aida.Containers.Bounded_Vector (Index_T         => Boolean_Index_T,
                                                                  Element_T       => Boolean,
@@ -43,7 +42,7 @@ private
                                             Name_First_Index => 1,
                                             Name_Last_Index  => 1);
 
-   type Tag_Id_Index_T is new Aida.Types.Pos32_T range 1..MAX_DEPTH;
+   type Tag_Id_Index_T is new Aida.Pos32_T range 1..MAX_DEPTH;
 
    package Tag_Id_Vector is new Aida.Containers.Bounded_Vector (Index_T         => Tag_Id_Index_T,
                                                                 Element_T       => Tag_T,

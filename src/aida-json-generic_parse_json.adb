@@ -8,11 +8,11 @@ procedure Aida.JSON.Generic_Parse_JSON (Arg1        : in out Arg1_T;
                                         Arg2        : in out Arg2_T;
                                         Arg3        : in out Arg3_T;
                                         Arg4        : in out Arg4_T;
-                                        Contents    : Aida.Types.String_T;
+                                        Contents    : Aida.String_T;
                                         Call_Result : in out Procedure_Call_Result.T)
 is
-   use all type Aida.Types.String_T;
-   use all type Aida.Types.Int32_T;
+   use all type Aida.String_T;
+   use all type Aida.Int32_T;
    use all type Aida.UTF8_Code_Point.T;
    use all type Procedure_Call_Result.T;
 
@@ -302,7 +302,7 @@ begin
                      Value_Last_Index := Prev_Prev_P;
 
                      declare
-                        I : Aida.Types.Int32_T;
+                        I : Aida.Int32_T;
                         HF : Boolean;
                      begin
                         To_Int32 (Contents (Value_First_Index..Value_Last_Index),
@@ -365,7 +365,7 @@ begin
                      Value_Last_Index := Prev_Prev_P;
 
                      declare
-                        I : Aida.Types.Int32_T;
+                        I : Aida.Int32_T;
                         HF : Boolean;
                      begin
                         To_Int32 (Contents (Value_First_Index..Value_Last_Index),
@@ -393,7 +393,7 @@ begin
                      Value_Last_Index := Prev_Prev_P;
 
                      declare
-                        I : Aida.Types.Int32_T;
+                        I : Aida.Int32_T;
                         HF : Boolean;
                      begin
                         To_Int32 (Contents (Value_First_Index..Value_Last_Index),

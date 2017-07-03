@@ -3,7 +3,7 @@ with Ada.Strings.Unbounded;
 with Ahven.Framework;
 with Ahven.Text_Runner;
 --with Application_Locator;
-with Aida.Types.Tests;
+with Aida.Tests;
 --with Std_Integer.Tests;
 with Aida.UTF8.Tests;
 with Aida.Bounded_String_Tests;
@@ -16,7 +16,7 @@ procedure Run_Aida_Tests is
 
    S : aliased Ahven.Framework.Test_Suite := Ahven.Framework.Create_Suite ("All");
 
-   Converstion_Test : Aida.Types.Tests.Test;
+   Converstion_Test : Aida.Tests.Test;
 
    Bounded_String_Test : Aida.Bounded_String_Tests.Test;
 

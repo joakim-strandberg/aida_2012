@@ -1,6 +1,6 @@
 with Ada.Directories;
 with Ada.Calendar;
-with Aida.Types;
+with Aida;
 
 package Aida.Directories with SPARK_Mode is
 
@@ -260,7 +260,7 @@ package Aida.Directories with SPARK_Mode is
    --  Name does not allow the identification of an external file (including
    --  directories and special files).
 
-   function Exists (Simple_Filename     : Aida.Types.String_T;
+   function Exists (Simple_Filename     : Aida.String_T;
                     Directory_To_Search : String) return Boolean with
      Global => null,
      Pre    => Exists (Directory_To_Search);

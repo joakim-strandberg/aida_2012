@@ -1,4 +1,3 @@
-with Aida.Types;
 with Aida.Bounded_String;
 
 -- Useful for subprograms that can either succeed or report an error message,
@@ -12,7 +11,7 @@ package Aida.Subprogram_Call_Result is
    type T is limited private with Default_Initial_Condition => Length (T) = 0 and Has_Failed (T) = False;
 
    procedure Initialize (This    : in out T;
-                         Message : Aida.Types.String_T) with
+                         Message : Aida.String_T) with
      Global => null,
      Pre    => not Has_Failed (This) and Message'Length < Capacity,
      Post   => Has_Failed (This) = True and Length (This) = Message'Length;
@@ -37,11 +36,11 @@ package Aida.Subprogram_Call_Result is
      Global => null;
 
    generic
-      with procedure Do_Something (Text : Aida.Types.String_T);
+      with procedure Do_Something (Text : Aida.String_T);
    procedure Act_On_Immutable_Text (This : in T) with
      Global => null;
 
-   function Message (This : T) return Aida.Types.String_T with
+   function Message (This : T) return Aida.String_T with
      Global => null;
 
 private

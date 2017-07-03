@@ -1,7 +1,6 @@
 with Ada.Characters.Handling;
-with Aida.Text_IO;
 
-package body Aida.String with SPARK_Mode is
+package body Aida_Z.String with SPARK_Mode is
    pragma Suppress (Discriminant_Check);
    pragma Suppress (Division_Check);
    pragma Suppress (Index_Check);
@@ -27,7 +26,7 @@ package body Aida.String with SPARK_Mode is
          else
             Target := 0;
 
-            if (for all J in (Source'First + 1)..Source'Last => Is_Digit (Aida.Character.T (Source(J)))) then
+            if (for all J in (Source'First + 1)..Source'Last => Is_Digit (Aida_Z.Character.T (Source(J)))) then
                if Source'Length = 11 then
                   if Source (Source'First + 1) > '2' then
                      Has_Failed := True;
@@ -189,7 +188,7 @@ package body Aida.String with SPARK_Mode is
          if Source'Length > 10 then
             Target := 0;
             Has_Failed := True;
-         elsif (for all I in Source'Range => Is_Digit (Aida.Character.T (Source(I)))) then
+         elsif (for all I in Source'Range => Is_Digit (Aida_Z.Character.T (Source(I)))) then
             Target := 0;
 
             if Source'Length = 10 then
@@ -561,16 +560,6 @@ package body Aida.String with SPARK_Mode is
       return Result;
    end Starts_With;
 
-   procedure Put (This : T) is
-   begin
-      Aida.Text_IO.Put (Standard.String (This));
-   end Put;
-
-   procedure Put_Line (This : T) is
-   begin
-      Aida.Text_IO.Put_Line (Standard.String (This));
-   end Put_Line;
-
    function Hash32 (This : T) return Zzz_Hash32_T is
       H : Zzz_Hash32_T := 0;
       A : Zzz_Hash32_T := 31_415;
@@ -593,4 +582,4 @@ package body Aida.String with SPARK_Mode is
       return S;
    end Concat;
 
-end Aida.String;
+end Aida_Z.String;

@@ -1,20 +1,19 @@
 with Aida.Containers.Bounded_Hash_Map;
-with Aida.Types;
 with GNAT.Source_Info;
 
 package body Aida.Bounded_Hash_Map_Tests is
 
-   use all type Aida.Types.Int32_T;
+   use all type Aida.Int32_T;
 
-   function Default_Key     return Aida.Types.Int32_T is (0);
-   function Default_Element return Aida.Types.Int32_T is (0);
+   function Default_Key     return Aida.Int32_T is (0);
+   function Default_Element return Aida.Int32_T is (0);
 
-   package Int_To_Int_Hash_Map is new Aida.Containers.Bounded_Hash_Map (Key_T                   => Aida.Types.Int32_T,
-                                                                        Element_T               => Aida.Types.Int32_T,
+   package Int_To_Int_Hash_Map is new Aida.Containers.Bounded_Hash_Map (Key_T                   => Aida.Int32_T,
+                                                                        Element_T               => Aida.Int32_T,
                                                                         Default_Key             => Default_Key,
                                                                         Default_Element         => Default_Element,
-                                                                        Hash                    => Aida.Types.Hash32,
-                                                                        Equivalent_Keys         => Aida.Types."=",
+                                                                        Hash                    => Aida.Hash32,
+                                                                        Equivalent_Keys         => Aida."=",
                                                                         Max_Hash_Map_Size       => 10,
                                                                         Max_Collision_List_Size => 10);
 

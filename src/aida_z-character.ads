@@ -1,5 +1,5 @@
 -- Gnatprove can successfully formally verify the code in this package at Level=0.
-package Aida.Character with SPARK_Mode is
+package Aida_Z.Character with SPARK_Mode is
 
    type T is new Standard.Character;
 
@@ -57,4 +57,4 @@ private
 
    function Check_Result (Result : Zzz_Int32_T; Expected : Integer) return Boolean is (Result = Zzz_Int32_T (Expected));
 
-end Aida.Character;
+end Aida_Z.Character;

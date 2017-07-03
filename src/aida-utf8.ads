@@ -56,7 +56,6 @@
 --
 
 with Ada.Containers;
-with Aida.Types;
 with Aida.UTF8_Code_Point;
 --  with Aida.Generic_Subprogram_Call_Result;
 
@@ -66,7 +65,7 @@ use type Ada.Containers.Count_Type;
 
 package Aida.UTF8 with SPARK_Mode is
 
-   use all type Aida.Types.Character_T;
+   use all type Aida.Character_T;
 
    --     package Subprogram_Call_Result is new Aida.Generic_Subprogram_Call_Result (1000);
    --
@@ -123,7 +122,7 @@ package Aida.UTF8 with SPARK_Mode is
    --
    function Length (Source : String) return Natural with
      Global => null,
-     Post   => Length'Result <= Source'Length or ((for all I in Source'Range => (Is_One_Byte_UTF8 (Aida.Types.Character_T (Source (I))))) and then (Length'Result = Source'Length));
+     Post   => Length'Result <= Source'Length or ((for all I in Source'Range => (Is_One_Byte_UTF8 (Aida.Character_T (Source (I))))) and then (Length'Result = Source'Length));
 
    --
    -- Put -- Put one UTF-8 code point
