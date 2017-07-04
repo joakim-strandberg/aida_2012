@@ -25,4 +25,16 @@ private
 
    procedure SHOULD_Fail_To_Convert_String_Minus_2147483649_To_Integer (T : in out Ahven.Framework.Test_Case'Class);
 
+   procedure SHOULD_Successfully_Convert_Int32_0_To_String (T : in out Ahven.Framework.Test_Case'Class);
+
+   procedure SHOULD_Successfully_Convert_Int32_7_To_String (T : in out Ahven.Framework.Test_Case'Class);
+
+   procedure SHOULD_Successfully_Convert_Int32_100_To_String (T : in out Ahven.Framework.Test_Case'Class);
+
+   procedure SHOULD_Successfully_Convert_Int32_2147483647_To_String (T : in out Ahven.Framework.Test_Case'Class);
+
+   procedure SHOULD_Successfully_Convert_Int32_Minus_1_To_String (T : in out Ahven.Framework.Test_Case'Class);
+
+   procedure SHOULD_Successfully_Convert_Int32_Minus_100_To_String (T : in out Ahven.Framework.Test_Case'Class);
+
 end Aida.Tests;

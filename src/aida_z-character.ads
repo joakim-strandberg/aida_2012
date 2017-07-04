@@ -1,7 +1,7 @@
 -- Gnatprove can successfully formally verify the code in this package at Level=0.
-package Aida_Z.Character with SPARK_Mode is
+package Aida_Z.Character with SPARK_Mode, Pure is
 
-   type T is new Standard.Character;
+   type T is new Zzz_Char_T;
 
    function Is_Digit (C : T) return Boolean with
      Contract_Cases => (C = '0' => Is_Digit'Result,

@@ -1,6 +1,6 @@
 with Aida_Z.Character;
 
-package Aida_Z.String with SPARK_Mode is
+package Aida_Z.String with SPARK_Mode, Pure is
 
    use all type Aida_Z.Character.T;
 

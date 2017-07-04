@@ -3,7 +3,7 @@ with Aida_Z.Int32;
 with Aida_Z.String;
 with Aida_Z.Hash32;
 
-package Aida with SPARK_Mode is
+package Aida with SPARK_Mode, Pure is
 
    use all type Aida_Z.Character.T;
 
