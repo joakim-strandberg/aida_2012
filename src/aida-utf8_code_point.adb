@@ -1109,8 +1109,8 @@ package body Aida.UTF8_Code_Point with SPARK_Mode is
       (16#1D7CB#,16#1D7CB#,16#1D7CB#)
    );
 
-   function Image (Value : T) return String is
-      Result  : String (1..4) := (others => ' ');
+   function Image (Value : T) return String_T is
+      Result  : String_T (1..4) := (others => ' ');
       Pointer : Integer := Result'First;
    begin
       Aida.UTF8.Put (Result, Pointer, Value);

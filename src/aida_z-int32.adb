@@ -1,5 +1,5 @@
 with Interfaces;
-package body Aida_Z.Int32 with SPARK_Mode is
+package body Aida_Z.Int32 with SPARK_Mode, Pure is
 
    use type Interfaces.Unsigned_32;
 
@@ -8,6 +8,92 @@ package body Aida_Z.Int32 with SPARK_Mode is
       subtype Index_T is Integer range 1..16;
 
       subtype Result_T is Zzz_String_T (Index_T);
+
+      procedure Make_Result (Temp   : in out T;
+                             Result : in out Result_T;
+                             P      : in out Index_T) with
+        Pre  => Temp >= 0 and 300_000_000 > Temp and P = 15,
+        Post => P >= 6,
+        Inline_Always => True;
+
+      procedure Make_Result (Temp   : in out T;
+                             Result : in out Result_T;
+                             P      : in out Index_T)
+      is
+         Digit : T;
+      begin
+         -- 1
+         if Temp /= 0 then
+            Digit := Temp mod 10;
+            Result (P) := Character (To_Char (Digit));
+            Temp := Temp / 10;
+            P := P - 1;
+
+            -- 2
+            if Temp /= 0 then
+               Digit := Temp mod 10;
+               Result (P) := Character (To_Char (Digit));
+               Temp := Temp / 10;
+               P := P - 1;
+
+               -- 3
+               if Temp /= 0 then
+                  Digit := Temp mod 10;
+                  Result (P) := Character (To_Char (Digit));
+                  Temp := Temp / 10;
+                  P := P - 1;
+
+                  -- 4
+                  if Temp /= 0 then
+                     Digit := Temp mod 10;
+                     Result (P) := Character (To_Char (Digit));
+                     Temp := Temp / 10;
+                     P := P - 1;
+
+                     -- 5
+                     if Temp /= 0 then
+                        Digit := Temp mod 10;
+                        Result (P) := Character (To_Char (Digit));
+                        Temp := Temp / 10;
+                        P := P - 1;
+
+                        -- 6
+                        if Temp /= 0 then
+                           Digit := Temp mod 10;
+                           Result (P) := Character (To_Char (Digit));
+                           Temp := Temp / 10;
+                           P := P - 1;
+
+                           -- 7
+                           if Temp /= 0 then
+                              Digit := Temp mod 10;
+                              Result (P) := Character (To_Char (Digit));
+                              Temp := Temp / 10;
+                              P := P - 1;
+
+                              -- 8
+                              if Temp /= 0 then
+                                 Digit := Temp mod 10;
+                                 Result (P) := Character (To_Char (Digit));
+                                 Temp := Temp / 10;
+                                 P := P - 1;
+
+                                 -- 9
+                                 if Temp /= 0 then
+                                    Digit := Temp mod 10;
+                                    Result (P) := Character (To_Char (Digit));
+                                    Temp := Temp / 10;
+                                    P := P - 1;
+                                 end if;
+                              end if;
+                           end if;
+                        end if;
+                     end if;
+                  end if;
+               end if;
+            end if;
+         end if;
+      end Make_Result;
 
       Result : Result_T := (others => ' ');
 
@@ -33,32 +119,12 @@ package body Aida_Z.Int32 with SPARK_Mode is
 
             P := P - 1;
 
-            pragma Assert (Temp >= 0 and 300_000_000 > Temp);
-
-            declare
-               I : Natural := 8;
-               Digit : T;
-            begin
-               while Temp /= 0 loop
-                  exit when I = 0;
-
-                  Digit := Temp mod 10;
-                  Result (P) := Character (To_Char (Digit));
-
-                  pragma Loop_Invariant (3*(10**I) > Temp);
-                  pragma Loop_Invariant (P = I + 7);
-
-                  I := (if I > 0 then I - 1 else 0);
-
-                  Temp := Temp / 10;
-
-                  P := P - 1;
-               end loop;
-            end;
+            pragma Warnings (Off, "unused assignment to ""Temp""");
+            Make_Result (Temp, Result, P);
+            pragma Warnings (On, "unused assignment to ""Temp""");
          end if;
       else
          declare
-            I : Natural := 9;
             Digit : T;
          begin
             Digit := Temp mod 10;
@@ -68,25 +134,9 @@ package body Aida_Z.Int32 with SPARK_Mode is
 
             P := P - 1;
 
-            pragma Assert (Temp >= 0 and 300_000_000 > Temp);
-
-            while Temp /= 0 loop
-               exit when I = 0;
-
-               Digit := Temp mod 10;
-               Result (P) := Character (To_Char (Digit));
-
-               pragma Loop_Invariant (3*(10**I) > Temp);
-               pragma Loop_Invariant (P = I + 6);
-
-               I := (if I > 0 then I - 1 else 0);
-
---               I := I - 1;
-
-               Temp := Temp / 10;
-
-               P := P - 1;
-            end loop;
+            pragma Warnings (Off, "unused assignment to ""Temp""");
+            Make_Result (Temp, Result, P);
+            pragma Warnings (On, "unused assignment to ""Temp""");
          end;
       end if;
 

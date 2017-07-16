@@ -533,6 +533,18 @@ package body Aida_Z.String with SPARK_Mode is
       return Target;
    end To_Int32;
 
+   procedure To_Float (Source     : in  T;
+                       Target     : out Zzz_Float_T;
+                       Has_Failed : out Boolean) with
+     SPARK_Mode => Off is
+   begin
+      Target := Zzz_Float_T'Value (Standard.String (Source));
+      Has_Failed := False;
+   exception
+      when Constraint_Error =>
+         Has_Failed := True;
+   end To_Float;
+
    function Is_Latin1_Graphic_Characters (Text : T) return Boolean is
       Result : Boolean := True;
    begin

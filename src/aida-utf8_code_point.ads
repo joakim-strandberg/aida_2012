@@ -158,7 +158,7 @@ package Aida.UTF8_Code_Point with SPARK_Mode is
    --
    --    UTF-8 encoded equivalent
    --
-   function Image (Value : T) return String with
+   function Image (Value : T) return String_T with
      Global => null;
 
    --

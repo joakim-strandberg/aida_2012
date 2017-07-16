@@ -81,7 +81,7 @@ package body Aida.UTF8 with SPARK_Mode is
       return Count;
    end Length;
 
-   procedure Put (Destination : in out String;
+   procedure Put (Destination : in out String_T;
                   Pointer     : in out Integer;
                   Value       : Aida.UTF8_Code_Point.T)  is
    begin
@@ -106,8 +106,8 @@ package body Aida.UTF8 with SPARK_Mode is
       end if;
    end Put;
 
-   function To_Lowercase (Value : String) return String is
-      Result : String (1..Value'Length);
+   function To_Lowercase (Value : String) return String_T is
+      Result : String_T (1..Value'Length);
       From   : Integer := Value'First;
       To     : Integer := 1;
       Code   : Aida.UTF8_Code_Point.T;
@@ -120,8 +120,8 @@ package body Aida.UTF8 with SPARK_Mode is
       return Result (1..To - 1);
    end To_Lowercase;
 
-   function To_Uppercase (Value : String) return String is
-      Result : String (1..Value'Length);
+   function To_Uppercase (Value : String) return String_T is
+      Result : String_T (1..Value'Length);
       From   : Integer := Value'First;
       To     : Integer := 1;
       Code   : Aida.UTF8_Code_Point.T;

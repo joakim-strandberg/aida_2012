@@ -135,7 +135,7 @@ package Aida.UTF8 with SPARK_Mode is
    -- starting from the position Source (Pointer). Pointer is then advanced
    -- to the first character following the output.
    --
-   procedure Put (Destination : in out String;
+   procedure Put (Destination : in out String_T;
                   Pointer     : in out Integer;
                   Value       : Aida.UTF8_Code_Point.T) with
      Global => null,
@@ -145,10 +145,10 @@ package Aida.UTF8 with SPARK_Mode is
                                                                                               else Pointer < Integer'Last - 3 and then (Pointer + 1 in Destination'Range and Pointer + 2 in Destination'Range and Pointer + 3 in Destination'Range)),
      Post   => Pointer /= Pointer'Old and (Pointer in Destination'Range or Pointer = Destination'Last + 1);
 
-   function To_Lowercase (Value : String) return String with
+   function To_Lowercase (Value : String) return String_T with
      Global => null;
 
-   function To_Uppercase (Value : String) return String with
+   function To_Uppercase (Value : String) return String_T with
      Global => null;
 
 end Aida.UTF8;

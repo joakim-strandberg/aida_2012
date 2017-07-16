@@ -20,6 +20,7 @@ private
    type Storage_T is record
       Person : Json_Parsing_Tests_Model.People_T := (others => (Age      => 10,
                                                                 Name     => Make,
+                                                                Length   => 0.0,
                                                                 Hands    => Default_Vector,
                                                                 Vehicles => Default_Vector));
       Hand    : Json_Parsing_Tests_Model.Hands_T;
@@ -28,10 +29,10 @@ private
 
    Storage : Storage_T;
 
-   function Default_Person_Id return Json_Parsing_Tests_Model.Person_Array_Index_T is (1);
+   function Default_Person_Id return Json_Parsing_Tests_Model.Person_Id_T is (1);
 
-   package Person_Id_Vector is new Aida.Containers.Bounded_Vector (Index_T         => Json_Parsing_Tests_Model.Person_Array_Index_T,
-                                                                   Element_T       => Json_Parsing_Tests_Model.Person_Array_Index_T,
+   package Person_Id_Vector is new Aida.Containers.Bounded_Vector (Index_T         => Json_Parsing_Tests_Model.Person_Id_T,
+                                                                   Element_T       => Json_Parsing_Tests_Model.Person_Id_T,
                                                                    "="             => Json_Parsing_Tests_Model."=",
                                                                    Default_Element => Default_Person_Id);
 
@@ -52,6 +53,9 @@ private
      Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
 
    procedure Test_Person_With_Age_0 (T : in out Ahven.Framework.Test_Case'Class) with
+     Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
+
+   procedure Test_Person_With_Length_0 (T : in out Ahven.Framework.Test_Case'Class) with
      Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
 
    procedure Test_Person_With_Hand_0 (T : in out Ahven.Framework.Test_Case'Class) with

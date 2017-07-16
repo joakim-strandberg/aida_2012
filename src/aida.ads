@@ -1,5 +1,6 @@
 with Aida_Z.Character;
 with Aida_Z.Int32;
+with Aida_Z.Float;
 with Aida_Z.String;
 with Aida_Z.Hash32;
 
@@ -17,6 +18,8 @@ package Aida with SPARK_Mode, Pure is
 
    subtype Nat32_T is Int32_T range 0 .. Int32_T'Last;
 
+   type Float_T is new Aida_Z.Zzz_Float_T;
+
    type String_T is new Aida_Z.String.T;
 
    type Hash32_T is new Aida_Z.Hash32.T;
@@ -28,6 +31,10 @@ package Aida with SPARK_Mode, Pure is
      Global => null;
 
    function To_String (This : Int32_T) return String_T with
+     Global => null,
+     Post   => To_String'Result'Length <= 11;
+
+   function To_String (This : Float_T) return String_T with
      Global => null,
      Post   => To_String'Result'Length <= 11;
 
@@ -561,9 +568,16 @@ package Aida with SPARK_Mode, Pure is
                                                       elsif (Source(Source'First + 1) < '2') then
                                                     (To_Int32'Result = -1_000_000_000*I (Source, 1) - 100_000_000*I (Source, 2) - 10_000_000*I (Source, 3) - 1_000_000*I (Source, 4) - 100_000*I (Source, 5) - 10_000*I (Source, 6) - 1_000*I (Source, 7) - 100*I (Source, 8) - 10*I (Source, 9) - I (Source, 10)))));
 
+   procedure To_Float (Source     : in  String_T;
+                       Target     : out Float_T;
+                       Has_Failed : out Boolean) with
+     Global         => null;
+
 private
 
    function To_String (This : Int32_T) return String_T is (String_T (Aida_Z.Int32.To_String (Aida_Z.Int32.T (This))));
+
+   function To_String (This : Float_T) return String_T is (String_T (Aida_Z.Float.To_String (Aida_Z.Float.T (This))));
 
    function Hash32 (This : Int32_T) return Hash32_T is (Hash32_T (Aida_Z.Int32.Hash32 (Aida_Z.Int32.T (This))));
 

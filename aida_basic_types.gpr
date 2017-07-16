@@ -7,6 +7,8 @@ project Aida_Basic_Types is
                          "aida_z-hash32.ads",
                          "aida_z-int32.ads",
                          "aida_z-int32.adb",
+                         "aida_z-float.ads",
+                         "aida_z-float.adb",
                          "aida_z-string.ads",
                          "aida_z-string.adb",
                          "aida_z.ads",
@@ -18,8 +20,8 @@ project Aida_Basic_Types is
    package Compiler is
 --      for Local_Configuration_Pragmas use "aida.adc";
       for Default_Switches ("ada") use (
-                                        "-gnat2012"--,
-                                        --"-gnata"
+                                        "-gnat2012",
+                                        "-gnata"
                                        );
    end Compiler;
 

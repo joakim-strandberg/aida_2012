@@ -535,6 +535,11 @@ package Aida_Z.String with SPARK_Mode, Pure is
                                                       elsif (Source(Source'First + 1) < '2') then
                                                     (To_Int32'Result = -1_000_000_000*I (Source, 1) - 100_000_000*I (Source, 2) - 10_000_000*I (Source, 3) - 1_000_000*I (Source, 4) - 100_000*I (Source, 5) - 10_000*I (Source, 6) - 1_000*I (Source, 7) - 100*I (Source, 8) - 10*I (Source, 9) - I (Source, 10)))));
 
+   procedure To_Float (Source     : in  T;
+                       Target     : out Zzz_Float_T;
+                       Has_Failed : out Boolean) with
+     Global         => null;
+
    function Is_Latin1_Graphic_Characters (Text : T) return Boolean with
      Global => null;
 

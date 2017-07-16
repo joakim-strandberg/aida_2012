@@ -3,9 +3,9 @@ with Aida.Containers.Bounded_Vector;
 
 package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
 
-   type Person_Array_Index_T is new Integer range 1..10;
+   type Person_Id_T is new Integer range 1..10;
 
-   subtype Extended_Person_Array_Index_T is Person_Array_Index_T'Base range 0..Person_Array_Index_T'Last;
+   subtype Extended_Person_Array_Index_T is Person_Id_T'Base range 0..Person_Id_T'Last;
 
    type Hand_Array_Index_T is new Integer range 1..10;
 
@@ -26,7 +26,7 @@ package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
       function Vehicle_Id_Max (This : T) return Extended_Vehicle_Array_Index_T;
 
       procedure Allocate_Person_Id (This      : in out T;
-                                    Person_Id : out Person_Array_Index_T) with
+                                    Person_Id : out Person_Id_T) with
         Global => null,
         Pre    => Person_Id_Max (This) < Extended_Person_Array_Index_T'Last,
         Post   => Person_Id_Max (This) = Person_Id_Max (This)'Old + 1;
@@ -64,8 +64,6 @@ package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
    end Max_Indices_Def;
 
    Max_Indices : Max_Indices_Def.T;
-
-   subtype Person_Id_T is Person_Array_Index_T;
 
 -- This is what we would wish to express:
 --     subtype Person_Id_T is Person_Array_Index_T with
@@ -124,9 +122,12 @@ package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
                                                                     "="             => "=",
                                                                     Default_Element => Default_Vehicle_Id);
 
+      type Length_T is new Aida.Float_T;
+
       type T is record
          Age      : Age_T := 0;
          Name     : Name_T;
+         Length   : Length_T;
          Hands    : Hand_Vector.T;
          Vehicles : Vehicle_Vector.T;
       end record;
@@ -141,7 +142,7 @@ package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
 
    subtype Person_T is Person_Def.T;
 
-   type People_T is array (Person_Array_Index_T) of Person_T;
+   type People_T is array (Person_Id_T) of Person_T;
 
    type Hands_T is array (Hand_Array_Index_T) of Hand_T;
 

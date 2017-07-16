@@ -37,4 +37,6 @@ private
 
    procedure SHOULD_Successfully_Convert_Int32_Minus_100_To_String (T : in out Ahven.Framework.Test_Case'Class);
 
+   procedure SHOULD_Successfully_Convert_Int32_Minus_2147483647_To_String (T : in out Ahven.Framework.Test_Case'Class);
+
 end Aida.Tests;

@@ -3,7 +3,7 @@ package body Aida.Json_Parsing_Tests_Model with SPARK_Mode is
    package body Max_Indices_Def is
 
       procedure Allocate_Person_Id (This      : in out T;
-                                    Person_Id : out Person_Array_Index_T) is
+                                    Person_Id : out Person_Id_T) is
       begin
          This.My_Person_Id_Max := This.My_Person_Id_Max + 1;
          Person_Id := This.My_Person_Id_Max;

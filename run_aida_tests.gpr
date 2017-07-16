@@ -1,4 +1,4 @@
-with "aida";
+with "ahven";
 
 project Run_Aida_Tests is
 
@@ -23,33 +23,7 @@ project Run_Aida_Tests is
                          "aida-xml_parsing_tests.adb",
                          "application_locator.ads",
                          "application_locator.adb",
-                         "run_aida_tests.adb",
-                         "ahven.ads",
-                         "ahven.adb",
-                         "ahven-astrings.ads",
-                         "ahven-framework.adb",
-                         "ahven-framework.ads",
-                         "ahven-listeners.adb",
-                         "ahven-listeners.ads",
-                         "ahven-listeners-basic.adb",
-                         "ahven-listeners-basic.ads",
-                         "ahven-long_astrings.ads",
-                         "ahven-parameters.adb",
-                         "ahven-parameters.ads",
-                         "ahven-results.adb",
-                         "ahven-results.ads",
-                         "ahven-runner.adb",
-                         "ahven-runner.ads",
-                         "ahven-slist.adb",
-                         "ahven-slist.ads",
-                         "ahven-tap_runner.adb",
-                         "ahven-tap_runner.ads",
-                         "ahven-temporary_output.adb",
-                         "ahven-temporary_output.ads",
-                         "ahven-text_runner.adb",
-                         "ahven-text_runner.ads",
-                         "ahven-xml_runner.adb",
-                         "ahven-xml_runner.ads"
+                         "run_aida_tests.adb"
                         );
 
    package Builder is

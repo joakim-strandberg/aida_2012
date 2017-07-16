@@ -3,7 +3,7 @@ with Aida.UTF8_Code_Point;
 with Ada.Characters.Latin_1;
 with Aida.Text_IO;
 with Aida.Containers.Bounded_Vector;
-
+with Aida.Text_IO;
 procedure Aida.JSON.Generic_Parse_JSON (Arg1        : in out Arg1_T;
                                         Arg2        : in out Arg2_T;
                                         Arg3        : in out Arg3_T;
@@ -101,8 +101,10 @@ begin
             pragma Loop_Invariant (State_Id /= Found_End_Of_Element_In_Array or
                                      (State_Id = Found_End_Of_Element_In_Array and then (Length (Tag_Ids) > 0)));
 
-
---                                Aida.Text_IO.Put_Line ("Extracted:" & Image (CP) & ", state " & State_Id_Type'Image (State_Id));
+--                                Aida.Text_IO.Put ("Extracted:");
+--                                Aida.Text_IO.Put (Image (CP));
+--                                Aida.Text_IO.Put (", state ");
+--                                Aida.Text_IO.Put_Line (String_T (State_Id_Type'Image (State_Id)));
 --                                Aida.Text_IO.Put (Image (CP));
 
             case State_Id is
@@ -110,11 +112,11 @@ begin
                   if CP = Character'Pos ('{') then
                      State_Id := Found_Left_Curly_Bracket;
 
-                     Root_Start_Tag (Arg1,
-                                     Arg2,
-                                     Arg3,
-                                     Arg4,
-                                     Call_Result);
+                     Start_Object (Arg1,
+                                   Arg2,
+                                   Arg3,
+                                   Arg4,
+                                   Call_Result);
 
                      if Has_Failed (Call_Result) then
                         exit;
@@ -146,7 +148,7 @@ begin
 
                      Key_Name_Last_Index := Prev_Prev_P;
 
-                     Key_Name (Arg1,
+                     Key (Arg1,
                                Arg2,
                                Arg3,
                                Arg4,
@@ -180,7 +182,7 @@ begin
                   elsif CP = Character'Pos ('{') then
                      State_Id := Found_Left_Curly_Bracket;
 
-                     Root_Start_Tag (Arg1,
+                     Start_Object (Arg1,
                                      Arg2,
                                      Arg3,
                                      Arg4,
@@ -238,7 +240,7 @@ begin
 
                      Value_Last_Index := Prev_Prev_P;
 
-                     Value_String (Arg1,
+                     String_Value (Arg1,
                                    Arg2,
                                    Arg3,
                                    Arg4,
@@ -253,7 +255,7 @@ begin
                when Expecting_Comma_Sign_Or_Right_Bracket =>
                   if CP = Character'Pos ('}') then
 
-                     Root_End_Tag (Arg1,
+                     End_Object (Arg1,
                                    Arg2,
                                    Arg3,
                                    Arg4,
@@ -301,124 +303,175 @@ begin
 
                      Value_Last_Index := Prev_Prev_P;
 
-                     declare
-                        I : Aida.Int32_T;
-                        HF : Boolean;
-                     begin
-                        To_Int32 (Contents (Value_First_Index..Value_Last_Index),
-                                  I,
-                                  HF);
-                        if HF then
-                           Initialize (Call_Result, "e1d58647-b39e-402b-9ae8-de22d6fbf5be, failed to convert string to integer");
-                           exit;
-                        end if;
+                     Integer_Value (Arg1,
+                                    Arg2,
+                                    Arg3,
+                                    Arg4,
+                                    Contents (Value_First_Index..Value_Last_Index),
+                                    Call_Result);
 
-                        Value_Integer (Arg1,
-                                       Arg2,
-                                       Arg3,
-                                       Arg4,
-                                       I,
-                                       Call_Result);
+                     if Has_Failed (Call_Result) then
+                        exit;
+                     end if;
+
+                     if Length (Tag_Ids) = 1 then
+                        State_Id := Found_End_Of_The_Very_Last_Object;
+
+                        End_Object (Arg1,
+                                    Arg2,
+                                    Arg3,
+                                    Arg4,
+                                    Call_Result);
 
                         if Has_Failed (Call_Result) then
                            exit;
                         end if;
 
-                        if Length (Tag_Ids) = 1 then
-                           State_Id := Found_End_Of_The_Very_Last_Object;
+                        Delete_Last (Tag_Ids);
+                     else
+                        End_Object (Arg1,
+                                    Arg2,
+                                    Arg3,
+                                    Arg4,
+                                    Call_Result);
 
-                           Root_End_Tag (Arg1,
-                                         Arg2,
-                                         Arg3,
-                                         Arg4,
-                                         Call_Result);
-
-                           if Has_Failed (Call_Result) then
-                              exit;
-                           end if;
-
-                           Delete_Last (Tag_Ids);
-                        else
-                           Root_End_Tag (Arg1,
-                                         Arg2,
-                                         Arg3,
-                                         Arg4,
-                                         Call_Result);
-
-                           if Has_Failed (Call_Result) then
-                              exit;
-                           end if;
-
-                           Delete_Last (Tag_Ids);
-
-                           if
-                             Length (Array_Tag_Ids) > 0 and then
-                             Last_Element (Array_Tag_Ids) = Last_Element (Tag_Ids)
-                           then
-                              State_Id := Found_End_Of_Element_In_Array;
-                           else
-                              State_Id := Found_End_Of_Object;
-                           end if;
+                        if Has_Failed (Call_Result) then
+                           exit;
                         end if;
-                     end;
+
+                        Delete_Last (Tag_Ids);
+
+                        if
+                          Length (Array_Tag_Ids) > 0 and then
+                          Last_Element (Array_Tag_Ids) = Last_Element (Tag_Ids)
+                        then
+                           State_Id := Found_End_Of_Element_In_Array;
+                        else
+                           State_Id := Found_End_Of_Object;
+                        end if;
+                     end if;
                   elsif CP = Character'Pos (',') then
                      Value_Last_Index := Prev_Prev_P;
 
-                     declare
-                        I : Aida.Int32_T;
-                        HF : Boolean;
-                     begin
-                        To_Int32 (Contents (Value_First_Index..Value_Last_Index),
-                                  I,
-                                  HF);
-                        if HF then
-                           Initialize (Call_Result, "b03c7fbd-f8da-4f6d-b8ba-6302f72680eb, failed to convert string to integer");
-                           exit;
-                        end if;
+                     Integer_Value (Arg1,
+                                    Arg2,
+                                    Arg3,
+                                    Arg4,
+                                    Contents (Value_First_Index..Value_Last_Index),
+                                    Call_Result);
 
-                        Value_Integer (Arg1,
-                                       Arg2,
-                                       Arg3,
-                                       Arg4,
-                                       I,
-                                       Call_Result);
+                     if Has_Failed (Call_Result) then
+                        exit;
+                     end if;
 
-                        if Has_Failed (Call_Result) then
-                           exit;
-                        end if;
-
-                        State_Id := Found_Left_Curly_Bracket;
-                     end;
+                     State_Id := Found_Left_Curly_Bracket;
+                  elsif CP = Character'Pos ('.') then
+                     State_Id := Extracting_Value_Integer_And_Found_Digit;
                   elsif CP = Character'Pos (' ') then
                      Value_Last_Index := Prev_Prev_P;
 
-                     declare
-                        I : Aida.Int32_T;
-                        HF : Boolean;
-                     begin
-                        To_Int32 (Contents (Value_First_Index..Value_Last_Index),
-                                  I,
-                                  HF);
-                        if HF then
-                           Initialize (Call_Result, "e1d58647-b39e-402b-9ae8-de22d6fbf5be, failed to convert string to integer");
-                           exit;
-                        end if;
+                     Integer_Value (Arg1,
+                                    Arg2,
+                                    Arg3,
+                                    Arg4,
+                                    Contents (Value_First_Index..Value_Last_Index),
+                                    Call_Result);
 
-                        Value_Integer (Arg1,
-                                       Arg2,
-                                       Arg3,
-                                       Arg4,
-                                       I,
-                                       Call_Result);
+                     if Has_Failed (Call_Result) then
+                        exit;
+                     end if;
+
+                     State_Id := Found_End_Of_Object;
+                  else
+                     Initialize (Call_Result, "db92b536-4543-4fe5-9254-e477d0cdc01b");
+                     exit;
+                  end if;
+               when Extracting_Value_Integer_And_Found_Digit =>
+                  if Is_Digit (CP) then
+                     null;
+                  elsif CP = Character'Pos ('}') then
+
+                     Value_Last_Index := Prev_Prev_P;
+
+                     Real_Value (Arg1,
+                                 Arg2,
+                                 Arg3,
+                                 Arg4,
+                                 Contents (Value_First_Index..Value_Last_Index),
+                                 Call_Result);
+
+                     if Has_Failed (Call_Result) then
+                        exit;
+                     end if;
+
+                     if Length (Tag_Ids) = 1 then
+                        State_Id := Found_End_Of_The_Very_Last_Object;
+
+                        End_Object (Arg1,
+                                    Arg2,
+                                    Arg3,
+                                    Arg4,
+                                    Call_Result);
 
                         if Has_Failed (Call_Result) then
                            exit;
                         end if;
 
-                        State_Id := Found_End_Of_Object;
-                     end;
+                        Delete_Last (Tag_Ids);
+                     else
+                        End_Object (Arg1,
+                                    Arg2,
+                                    Arg3,
+                                    Arg4,
+                                    Call_Result);
+
+                        if Has_Failed (Call_Result) then
+                           exit;
+                        end if;
+
+                        Delete_Last (Tag_Ids);
+
+                        if
+                          Length (Array_Tag_Ids) > 0 and then
+                          Last_Element (Array_Tag_Ids) = Last_Element (Tag_Ids)
+                        then
+                           State_Id := Found_End_Of_Element_In_Array;
+                        else
+                           State_Id := Found_End_Of_Object;
+                        end if;
+                     end if;
+                  elsif CP = Character'Pos (',') then
+                     Value_Last_Index := Prev_Prev_P;
+
+                     Real_Value (Arg1,
+                                 Arg2,
+                                 Arg3,
+                                 Arg4,
+                                 Contents (Value_First_Index..Value_Last_Index),
+                                 Call_Result);
+
+                     if Has_Failed (Call_Result) then
+                        exit;
+                     end if;
+
+                     State_Id := Found_Left_Curly_Bracket;
+                  elsif CP = Character'Pos (' ') then
+                     Value_Last_Index := Prev_Prev_P;
+
+                     Real_Value (Arg1,
+                                 Arg2,
+                                 Arg3,
+                                 Arg4,
+                                 Contents (Value_First_Index..Value_Last_Index),
+                                 Call_Result);
+
+                     if Has_Failed (Call_Result) then
+                        exit;
+                     end if;
+
+                     State_Id := Found_End_Of_Object;
                   else
-                     Initialize (Call_Result, "db92b536-4543-4fe5-9254-e477d0cdc01b");
+                     Initialize (Call_Result, "7a8a9fb2-81d4-4703-acbb-18a1864c1eff");
                      exit;
                   end if;
                when Found_End_Of_Object =>
@@ -428,7 +481,7 @@ begin
                      if Length (Tag_Ids) = 1 then
                         State_Id := Found_End_Of_The_Very_Last_Object;
 
-                        Root_End_Tag (Arg1,
+                        End_Object (Arg1,
                                       Arg2,
                                       Arg3,
                                       Arg4,
@@ -440,7 +493,7 @@ begin
 
                         Delete_Last (Tag_Ids);
                      else
-                        Root_End_Tag (Arg1,
+                        End_Object (Arg1,
                                       Arg2,
                                       Arg3,
                                       Arg4,
@@ -471,7 +524,7 @@ begin
                   if CP = Character'Pos ('{') then
                      State_Id := Found_Left_Curly_Bracket;
 
-                     Root_Start_Tag (Arg1,
+                     Start_Object (Arg1,
                                      Arg2,
                                      Arg3,
                                      Arg4,
