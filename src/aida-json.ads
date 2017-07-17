@@ -36,7 +36,17 @@ private
                           Extracting_Value_Integer_And_Found_Digit,
                           Found_End_Of_Object,
                           Found_Array_Start, -- Extracting elements
-                          Found_End_Of_Element_In_Array
+                          Found_End_Of_Element_In_Array,
+                          Found_T,
+                          Found_Tr,
+                          Found_Tru,
+                          Found_F,
+                          Found_Fa,
+                          Found_Fal,
+                          Found_Fals,
+                          Found_N,
+                          Found_Nu,
+                          Found_Nul
                          );
 
 end Aida.JSON;

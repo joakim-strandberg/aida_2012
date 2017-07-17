@@ -230,6 +230,12 @@ begin
 
                   elsif CP = Character'Pos (' ') then
                      null;
+                  elsif CP = Character'Pos ('t') then
+                     State_Id := Found_T;
+                  elsif CP = Character'Pos ('f') then
+                     State_Id := Found_F;
+                  elsif CP = Character'Pos ('n') then
+                     State_Id := Found_N;
                   else
                      Initialize (Call_Result, "e23b3bfb-6e24-47e7-a461-a6412cadb395");
                      exit;
@@ -577,10 +583,111 @@ begin
                      Initialize (Call_Result, "52ae4ef7-d735-4255-b00d-18396d0215ad");
                      exit;
                   end if;
+               when Found_T =>
+                  if CP = Character'Pos ('r') then
+                     State_Id := Found_Tr;
+                  else
+                     Initialize (Call_Result, "f7b459e1-4c6e-4e68-bb47-d9971df79e17");
+                     exit;
+                  end if;
+               when Found_Tr =>
+                  if CP = Character'Pos ('u') then
+                     State_Id := Found_Tru;
+                  else
+                     Initialize (Call_Result, "5eee9da0-dd19-4ae6-9de0-0930575674d4");
+                     exit;
+                  end if;
+               when Found_Tru =>
+                  if CP = Character'Pos ('e') then
+                     Boolean_Value (Arg1,
+                                    Arg2,
+                                    Arg3,
+                                    Arg4,
+                                    True,
+                                    Call_Result);
+
+                     if Has_Failed (Call_Result) then
+                        exit;
+                     end if;
+
+                     State_Id := Expecting_Comma_Sign_Or_Right_Bracket;
+                  else
+                     Initialize (Call_Result, "5eee9da0-dd19-4ae6-9de0-0930575674d4");
+                     exit;
+                  end if;
+               when Found_F =>
+                  if CP = Character'Pos ('a') then
+                     State_Id := Found_Fa;
+                  else
+                     Initialize (Call_Result, "0ffe1a41-97fa-4c62-9668-a48429ed389f");
+                     exit;
+                  end if;
+               when Found_Fa =>
+                  if CP = Character'Pos ('l') then
+                     State_Id := Found_Fal;
+                  else
+                     Initialize (Call_Result, "1b7d7f3b-209d-4c0d-942d-e50048641fbb");
+                     exit;
+                  end if;
+               when Found_Fal =>
+                  if CP = Character'Pos ('s') then
+                     State_Id := Found_Fals;
+                  else
+                     Initialize (Call_Result, "7b6b70a1-610c-4e00-aa56-75aee5e2d038");
+                     exit;
+                  end if;
+               when Found_Fals =>
+                  if CP = Character'Pos ('e') then
+                     Boolean_Value (Arg1,
+                                    Arg2,
+                                    Arg3,
+                                    Arg4,
+                                    False,
+                                    Call_Result);
+
+                     if Has_Failed (Call_Result) then
+                        exit;
+                     end if;
+
+                     State_Id := Expecting_Comma_Sign_Or_Right_Bracket;
+                  else
+                     Initialize (Call_Result, "f048b7f7-dc6e-4aa9-885f-18990f546d47");
+                     exit;
+                  end if;
+               when Found_N =>
+                  if CP = Character'Pos ('u') then
+                     State_Id := Found_Nu;
+                  else
+                     Initialize (Call_Result, "f36c41ee-5a95-4616-8ed9-0c2a9019ae2f");
+                     exit;
+                  end if;
+               when Found_Nu =>
+                  if CP = Character'Pos ('l') then
+                     State_Id := Found_Nul;
+                  else
+                     Initialize (Call_Result, "a42ec593-4b26-41f9-9a9f-7b199902da01");
+                     exit;
+                  end if;
+               when Found_Nul =>
+                  if CP = Character'Pos ('l') then
+                     Null_Value (Arg1,
+                                 Arg2,
+                                 Arg3,
+                                 Arg4,
+                                 Call_Result);
+
+                     if Has_Failed (Call_Result) then
+                        exit;
+                     end if;
+
+                     State_Id := Expecting_Comma_Sign_Or_Right_Bracket;
+                  else
+                     Initialize (Call_Result, "b71e1295-2685-48ad-a726-62f8edaac3d7");
+                     exit;
+                  end if;
             end case;
          end loop;
       end;
    end if;
 
 end Aida.JSON.Generic_Parse_JSON;
-

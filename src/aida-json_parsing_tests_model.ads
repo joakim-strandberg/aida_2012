@@ -124,12 +124,20 @@ package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
 
       type Length_T is new Aida.Float_T;
 
+      type Is_Happy_T (Exists : Boolean := False) is record
+         case Exists is
+            when True  => Value : Boolean;
+            when False => null;
+         end case;
+      end record;
+
       type T is record
          Age      : Age_T := 0;
          Name     : Name_T;
-         Length   : Length_T;
+         Length   : Length_T := 0.0;
          Hands    : Hand_Vector.T;
          Vehicles : Vehicle_Vector.T;
+         Is_Happy : Is_Happy_T := (Exists => False);
       end record;
 
    end Person_Def;
