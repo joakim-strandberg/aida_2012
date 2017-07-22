@@ -74,32 +74,17 @@ begin
                                        (Prev_Prev_P > Contents'First and then (Prev_Prev_P < Prev_P and Prev_P < P))
                                   );
             pragma Loop_Invariant (not Has_Failed (Call_Result));
+
             pragma Loop_Invariant (State_Id /= Expecting_NL_Sign_Or_Space_Or_Left_Curly_Bracket or
                                      (State_Id = Expecting_NL_Sign_Or_Space_Or_Left_Curly_Bracket and then (Length (Tag_Ids) = 0)));
-            pragma Loop_Invariant (State_Id /= Found_Left_Curly_Bracket or
-                                     (State_Id = Found_Left_Curly_Bracket and then (Length (Tag_Ids) > 0)));
             pragma Loop_Invariant (State_Id /= Extracting_Key_Name or
                                      (State_Id = Extracting_Key_Name and then (Key_Name_First_Index <= Contents'Last and Length (Tag_Ids) > 0)));
-            pragma Loop_Invariant (State_Id /= Expecting_Colon_Sign_After_Key_Name or
-                                     (State_Id = Expecting_Colon_Sign_After_Key_Name and then (Length (Tag_Ids) > 0)));
-            pragma Loop_Invariant (State_Id /= Expecting_Value or
-                                     (State_Id = Expecting_Value and then (Length (Tag_Ids) > 0)));
-            pragma Loop_Invariant (State_Id /= Extracting_Value_String or
-                                     (State_Id = Extracting_Value_String and then (Length (Tag_Ids) > 0)));
-            pragma Loop_Invariant (State_Id /= Extracting_Value_String or
-                                     (State_Id = Extracting_Value_String and then (Length (Tag_Ids) > 0)));
-            pragma Loop_Invariant (State_Id /= Expecting_Comma_Sign_Or_Right_Bracket or
-                                     (State_Id = Expecting_Comma_Sign_Or_Right_Bracket and then (Length (Tag_Ids) > 0)));
             pragma Loop_Invariant (State_Id /= Found_End_Of_The_Very_Last_Object or
                                      (State_Id = Found_End_Of_The_Very_Last_Object and then (Length (Tag_Ids) = 0)));
-            pragma Loop_Invariant (State_Id /= Extracting_Value_Integer or
-                                     (State_Id = Extracting_Value_Integer and then (Length (Tag_Ids) > 0)));
-            pragma Loop_Invariant (State_Id /= Found_End_Of_Object or
-                                     (State_Id = Found_End_Of_Object and then (Length (Tag_Ids) > 0)));
-            pragma Loop_Invariant (State_Id /= Found_Array_Start or
-                                     (State_Id = Found_Array_Start and then (Length (Tag_Ids) > 0)));
-            pragma Loop_Invariant (State_Id /= Found_End_Of_Element_In_Array or
-                                     (State_Id = Found_End_Of_Element_In_Array and then (Length (Tag_Ids) > 0)));
+            pragma Loop_Invariant ((State_Id = Extracting_Key_Name or State_Id = Found_End_Of_The_Very_Last_Object
+                                  or State_Id = Expecting_NL_Sign_Or_Space_Or_Left_Curly_Bracket) or
+                                   ((State_Id /= Extracting_Key_Name and State_Id /= Found_End_Of_The_Very_Last_Object
+                                  and State_Id /= Expecting_NL_Sign_Or_Space_Or_Left_Curly_Bracket) and then (Length (Tag_Ids) > 0)));
 
 --                                Aida.Text_IO.Put ("Extracted:");
 --                                Aida.Text_IO.Put (Image (CP));

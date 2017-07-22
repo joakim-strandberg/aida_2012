@@ -913,6 +913,15 @@ package body Aida.JSON_Parsing_Tests is
         Global => null,
         Pre    => not Has_Failed (Call_Result);
 
+      procedure Real_Value (Result      : in out Storage_T;
+                            Max_Indices : in out Max_Indices_T;
+                            State       : in out State_T;
+                            Current_Ids : in out Current_Ids_T;
+                            Value       : Aida.String_T;
+                            Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
+        Global => null,
+        Pre    => not Has_Failed (Call_Result);
+
       procedure Boolean_Value (Storage     : in out Storage_T;
                                Max_Indices : in out Max_Indices_T;
                                State       : in out State_T;
@@ -1302,6 +1311,15 @@ package body Aida.JSON_Parsing_Tests is
                                Current_Ids : in out Current_Ids_T;
                                Value       : in     Aida.String_T;
                                Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
+        Global => null,
+        Pre    => not Has_Failed (Call_Result);
+
+      procedure Real_Value (Result      : in out Storage_T;
+                            Max_Indices : in out Max_Indices_T;
+                            State       : in out State_T;
+                            Current_Ids : in out Current_Ids_T;
+                            Value       : Aida.String_T;
+                            Call_Result : in out Aida.JSON.Procedure_Call_Result.T) with
         Global => null,
         Pre    => not Has_Failed (Call_Result);
 
@@ -2387,7 +2405,7 @@ package body Aida.JSON_Parsing_Tests is
          if
            Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) > 0
          then
-            Ahven.Assert (Storage.Person (1).Is_Happy.Value = Expected_Result, "86a232a3-7e4e-46d4-a8ef-a106f6b313a1");
+            Ahven.Assert (Storage.Person (1).Is_Happy.Exists and then Storage.Person (1).Is_Happy.Value = Expected_Result, "86a232a3-7e4e-46d4-a8ef-a106f6b313a1");
          end if;
       end Run_Test;
 
