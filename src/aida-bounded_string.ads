@@ -88,11 +88,11 @@ package Aida.Bounded_String with SPARK_Mode is
 
 private
 
-   type T (Maximum_Length : Positive) is limited
-      record
-         Text        : Aida.String_T (1..T.Maximum_Length) := (others => ' ');
-         Text_Length : Natural := 0;
-      end record;
+   type T (Maximum_Length : Positive) is limited record
+      Text        : Aida.String_T (1..T.Maximum_Length) := (others => ' ');
+      Text_Length : Natural := 0;
+   end record with
+     Type_Invariant => T.Text_Length <= T.Maximum_Length;
 
    function Length (This : T) return Natural is (This.Text_Length);
 
