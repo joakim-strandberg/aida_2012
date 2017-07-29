@@ -1,6 +1,6 @@
 with Ahven.Framework;
 with Aida.Json_Parsing_Tests_Model;
-with Aida.Containers.Bounded_Vector;
+with Aida.Bounded_Vector;
 
 package Aida.JSON_Parsing_Tests with SPARK_Mode is
 
@@ -33,17 +33,17 @@ private
 
    function Default_Person_Id return Json_Parsing_Tests_Model.Person_Id_T is (1);
 
-   package Person_Id_Vector is new Aida.Containers.Bounded_Vector (Index_T         => Json_Parsing_Tests_Model.Person_Id_T,
+   package Person_Id_Vector is new Aida.Bounded_Vector (Index_T         => Json_Parsing_Tests_Model.Person_Id_T,
                                                                    Element_T       => Json_Parsing_Tests_Model.Person_Id_T,
                                                                    "="             => Json_Parsing_Tests_Model."=",
                                                                    Default_Element => Default_Person_Id);
 
-   package Hand_Id_Vector is new Aida.Containers.Bounded_Vector (Index_T         => Json_Parsing_Tests_Model.Hand_Array_Index_T,
+   package Hand_Id_Vector is new Aida.Bounded_Vector (Index_T         => Json_Parsing_Tests_Model.Hand_Array_Index_T,
                                                                  Element_T       => Json_Parsing_Tests_Model.Hand_Array_Index_T,
                                                                  "="             => Json_Parsing_Tests_Model."=",
                                                                  Default_Element => Json_Parsing_Tests_Model.Person_Def.Default_Hand_Id);
 
-   package Vehicle_Id_Vector is new Aida.Containers.Bounded_Vector (Index_T         => Json_Parsing_Tests_Model.Vehicle_Array_Index_T,
+   package Vehicle_Id_Vector is new Aida.Bounded_Vector (Index_T         => Json_Parsing_Tests_Model.Vehicle_Array_Index_T,
                                                                     Element_T       => Json_Parsing_Tests_Model.Vehicle_Array_Index_T,
                                                                     "="             => Json_Parsing_Tests_Model."=",
                                                                     Default_Element => Json_Parsing_Tests_Model.Person_Def.Default_Vehicle_Id);

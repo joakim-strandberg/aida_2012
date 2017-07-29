@@ -2,9 +2,9 @@ with Aida.UTF8;
 with Aida.UTF8_Code_Point;
 with Ada.Characters.Latin_1;
 with Aida.Text_IO;
-with Aida.Containers.Bounded_Vector;
+with Aida.Bounded_Vector;
 
-pragma Elaborate_All (Aida.Containers.Bounded_Vector);
+pragma Elaborate_All (Aida.Bounded_Vector);
 
 procedure Aida.XML.Generic_Parse_XML_File (Arg           : in out Arg_T;
                                            Contents      : Aida.String_T;

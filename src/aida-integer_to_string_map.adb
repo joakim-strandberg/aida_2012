@@ -1,4 +1,4 @@
-package body Aida.Containers.Integer_To_String_Map is
+package body Aida.Integer_To_String_Map is
 
    procedure Append (This     : in out T;
                      New_Item : Element_T) is
@@ -31,4 +31,4 @@ package body Aida.Containers.Integer_To_String_Map is
       return Check_Something (This.My_Huge_Text (S.From..S.To), Arg);
    end Check_Something_On_Immutable_Text;
 
-end Aida.Containers.Integer_To_String_Map;
+end Aida.Integer_To_String_Map;

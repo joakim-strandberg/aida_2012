@@ -2,7 +2,7 @@ with Aida.UTF8;
 with Aida.UTF8_Code_Point;
 with Ada.Characters.Latin_1;
 with Aida.Text_IO;
-with Aida.Containers.Bounded_Vector;
+with Aida.Bounded_Vector;
 with Aida.Text_IO;
 procedure Aida.JSON.Generic_Parse_JSON (Arg1        : in out Arg1_T;
                                         Arg2        : in out Arg2_T;

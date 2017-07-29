@@ -1,4 +1,4 @@
-with Aida.Containers.Bounded_Vector;
+with Aida.Bounded_Vector;
 
 -- DO NOT USE. Uncommenting the Exists function below triggers a GNAT compiler bug.
 -- Will continue developing this package sometime in the future... during 2017 or later???
@@ -15,7 +15,7 @@ generic
    Max_Hash_Map_Size : Max_Hash_Map_Size_T;
 
    Max_Collision_List_Size : Aida.Int32_T := 0;
-package Aida.Containers.Bounded_Hash_Map is
+package Aida.Bounded_Hash_Map is
 
    use all type Aida.Int32_T;
    use all type Aida.Hash32_T;
@@ -82,7 +82,7 @@ private
 
    function Default_Node return Node_T is (Key => Default_Key, Element => Default_Element);
 
-   package Collision_Vector is new Aida.Containers.Bounded_Vector (Index_T         => Collision_Index_T,
+   package Collision_Vector is new Aida.Bounded_Vector (Index_T         => Collision_Index_T,
                                                                    Element_T       => Node_T,
                                                                    "="             => "=",
                                                                    Default_Element => Default_Node);
@@ -108,4 +108,4 @@ private
 --                                                         (for some I in Collision_Index_T range Collision_Vector.First_Index (This.Collision_List)..Collision_Vector.Last_Index (This.Collision_List) =>
 --                                                               Collision_Vector.Element (This.Collision_List, I).Key = Key));
 
-end Aida.Containers.Bounded_Hash_Map;
+end Aida.Bounded_Hash_Map;

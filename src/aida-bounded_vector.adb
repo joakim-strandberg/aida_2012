@@ -1,6 +1,6 @@
 with Ada.Exceptions;
 
-package body Aida.Containers.Bounded_Vector is
+package body Aida.Bounded_Vector is
 
    function Default_Vector return T is
    begin
@@ -17,9 +17,6 @@ package body Aida.Containers.Bounded_Vector is
          This.Last_Index := Index_T'First;
          This.Items (Index_T'First) := New_Item;
       else
-         if This.Last_Index = Extended_Index_T'Last then
-            raise End_Of_Container_Exception with "Append";
-         end if;
          This.Last_Index := This.Last_Index + 1;
          This.Items (Index_T (This.Last_Index)) := New_Item;
       end if;
@@ -43,11 +40,7 @@ package body Aida.Containers.Bounded_Vector is
    function Element (This  : T;
                      Index : Index_T) return Element_T is
    begin
-      if Index > This.Last_Index then
-         raise Out_Of_Bounds_Exception with "Element";
-      else
-         return This.Items (Index);
-      end if;
+      return This.Items (Index);
    end Element;
 
    function First_Index (This : T) return Index_T is
@@ -58,20 +51,12 @@ package body Aida.Containers.Bounded_Vector is
 
    function Last_Element (This : T) return Element_T is
    begin
-      if This.Last_Index = Extended_Index_T'First then
-         raise Container_Is_Empty_Exception with "Last_Element";
-      else
-         return This.Items (Index_T (This.Last_Index));
-      end if;
+      return This.Items (Index_T (This.Last_Index));
    end Last_Element;
 
    procedure Delete_Last (This : in out T) is
    begin
-      if This.Last_Index = Extended_Index_T'First then
-         raise Container_Is_Empty_Exception with "Delete_Last";
-      else
-         This.Last_Index := This.Last_Index - 1;
-      end if;
+      This.Last_Index := This.Last_Index - 1;
    end Delete_Last;
 
    procedure Act_On_Immutable_Elements (This : T) is
@@ -107,4 +92,4 @@ package body Aida.Containers.Bounded_Vector is
       This.Items (Index) := New_Element;
    end Replace_Element;
 
-end Aida.Containers.Bounded_Vector;
+end Aida.Bounded_Vector;

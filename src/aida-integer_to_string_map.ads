@@ -1,10 +1,10 @@
-with Aida.Containers.Bounded_Vector;
+with Aida.Bounded_Vector;
 
 generic
    type Index_T is range <>;
    type Element_T is new String;
    with function "=" (L, R : Element_T) return Boolean is <>;
-package Aida.Containers.Integer_To_String_Map is
+package Aida.Integer_To_String_Map is
 
    subtype Extended_Index_T is Index_T'Base range Index_T'First-1..Index_T'Last;
 
@@ -61,10 +61,10 @@ private
 
    function Default_Substring return Substring_T is (From => 1, To => 1);
 
-   package Item_Vector is new Aida.Containers.Bounded_Vector (Index_T,
-                                                              Substring_T,
-                                                              "=",
-                                                              Default_Substring);
+   package Item_Vector is new Aida.Bounded_Vector (Index_T,
+                                                   Substring_T,
+                                                   "=",
+                                                   Default_Substring);
 
    use all type Item_Vector.T;
 
@@ -85,4 +85,4 @@ private
 
    function Last_Index (This : T) return Extended_Index_T is (Last_Index (This.My_Substrings));
 
-end Aida.Containers.Integer_To_String_Map;
+end Aida.Integer_To_String_Map;

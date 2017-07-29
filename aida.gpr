@@ -1,4 +1,5 @@
 with "aida_basic_types";
+with "aida_containers";
 
 project Aida is
 
@@ -17,13 +18,6 @@ project Aida is
 
    for Source_Files use ("aida-bounded_string.ads",
                          "aida-bounded_string.adb",
-                         "aida-containers-bounded_hash_map.ads",
-                         "aida-containers-bounded_hash_map.adb",
-                         "aida-containers-bounded_vector.ads",
-                         "aida-containers-bounded_vector.adb",
-                         "aida-containers-integer_to_string_map.ads",
-                         "aida-containers-integer_to_string_map.adb",
-                         "aida-containers.ads",
                          "aida-directories.ads",
                          "aida-directories.adb",
                          "aida-json-generic_parse_json.adb",

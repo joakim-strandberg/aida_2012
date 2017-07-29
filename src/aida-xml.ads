@@ -1,8 +1,8 @@
 with Aida.UTF8_Code_Point;
 with Aida.Subprogram_Call_Result;
-with Aida.Containers.Bounded_Vector;
+with Aida.Bounded_Vector;
 
-pragma Elaborate_All (Aida.Containers.Bounded_Vector);
+pragma Elaborate_All (Aida.Bounded_Vector);
 pragma Elaborate_All (Aida.Subprogram_Call_Result);
 
 package Aida.XML with SPARK_Mode is
@@ -24,7 +24,7 @@ private
 
    type Boolean_Index_T is new Aida.Pos32_T range 1..MAX_DEPTH;
 
-   package Boolean_Vector is new Aida.Containers.Bounded_Vector (Index_T         => Boolean_Index_T,
+   package Boolean_Vector is new Aida.Bounded_Vector (Index_T         => Boolean_Index_T,
                                                                  Element_T       => Boolean,
                                                                  "="             => "=",
                                                                  Default_Element => Default_Boolean);
@@ -44,7 +44,7 @@ private
 
    type Tag_Id_Index_T is new Aida.Pos32_T range 1..MAX_DEPTH;
 
-   package Tag_Id_Vector is new Aida.Containers.Bounded_Vector (Index_T         => Tag_Id_Index_T,
+   package Tag_Id_Vector is new Aida.Bounded_Vector (Index_T         => Tag_Id_Index_T,
                                                                 Element_T       => Tag_T,
                                                                 "="             => "=",
                                                                 Default_Element => Default_Tag_Id);

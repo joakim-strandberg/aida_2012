@@ -1,5 +1,5 @@
 with Aida.Bounded_String;
-with Aida.Containers.Bounded_Vector;
+with Aida.Bounded_Vector;
 
 package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
 
@@ -108,7 +108,7 @@ package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
 
       type Hand_Vector_Index_T is new Positive range 1..2;
 
-      package Hand_Vector is new Aida.Containers.Bounded_Vector (Index_T         => Hand_Vector_Index_T,
+      package Hand_Vector is new Aida.Bounded_Vector (Index_T         => Hand_Vector_Index_T,
                                                                  Element_T       => Hand_Id_T,
                                                                  "="             => "=",
                                                                  Default_Element => Default_Hand_Id);
@@ -117,7 +117,7 @@ package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
 
       function Default_Vehicle_Id return Vehicle_Id_T is (1);
 
-      package Vehicle_Vector is new Aida.Containers.Bounded_Vector (Index_T         => Vehicle_Vector_Index_T,
+      package Vehicle_Vector is new Aida.Bounded_Vector (Index_T         => Vehicle_Vector_Index_T,
                                                                     Element_T       => Vehicle_Id_T,
                                                                     "="             => "=",
                                                                     Default_Element => Default_Vehicle_Id);

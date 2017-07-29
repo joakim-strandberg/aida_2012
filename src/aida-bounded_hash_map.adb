@@ -1,12 +1,12 @@
 with Ada.Exceptions;
 
-package body Aida.Containers.Bounded_Hash_Map is
+package body Aida.Bounded_Hash_Map is
 
    use all type Collision_Vector.T;
    use all type Collision_Vector.Length_T;
 
    -- It is possible for a more detailed analysis by the SPARK tools
-   -- if the usage of Aida.Containers.Bounded_Vector was dropped and
+   -- if the usage of Aida.Bounded_Vector was dropped and
    -- a custom implementation would be used. It would then be possible
    -- to express that the length of the collision list would increase if
    -- the key would not already be present in the hash map. This is on the TODO list.
@@ -161,4 +161,4 @@ package body Aida.Containers.Bounded_Hash_Map is
       end;
    end Find_Element;
 
-end Aida.Containers.Bounded_Hash_Map;
+end Aida.Bounded_Hash_Map;

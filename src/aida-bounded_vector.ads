@@ -3,7 +3,7 @@ generic
    type Element_T is private;
    with function "=" (L, R : Element_T) return Boolean is <>;
    with function Default_Element return Element_T;
-package Aida.Containers.Bounded_Vector is
+package Aida.Bounded_Vector is
 
    subtype Extended_Index_T is Index_T'Base range Index_T'First-1..Index_T'Last;
 
@@ -102,4 +102,4 @@ private
    function "=" (L, R : T) return Boolean is (Last_Index (L) = Last_Index (R) and then
                                                 (for all I in Index_T range Index_T'First..Last_Index (L) => L.Items (I) = R.Items (I)));
 
-end Aida.Containers.Bounded_Vector;
+end Aida.Bounded_Vector;

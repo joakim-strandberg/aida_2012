@@ -573,6 +573,8 @@ package Aida with SPARK_Mode, Pure is
                        Has_Failed : out Boolean) with
      Global         => null;
 
+   type Max_Hash_Map_Size_T is range 3..(2**31);
+
 private
 
    function To_String (This : Int32_T) return String_T is (String_T (Aida_Z.Int32.To_String (Aida_Z.Int32.T (This))));
