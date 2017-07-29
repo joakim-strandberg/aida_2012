@@ -10,14 +10,14 @@ package body Aida.Json_Parsing_Tests_Model with SPARK_Mode is
       end Allocate_Person_Id;
 
       procedure Allocate_Hand_Id (This    : in out T;
-                                  Hand_Id : out Hand_Array_Index_T) is
+                                  Hand_Id : out Hand_Id_T) is
       begin
          This.My_Hand_Id_Max := This.My_Hand_Id_Max + 1;
          Hand_Id := This.My_Hand_Id_Max;
       end Allocate_Hand_Id;
 
       procedure Allocate_Vehicle_Id (This : in out T;
-                                     Id   : out Vehicle_Array_Index_T) is
+                                     Id   : out Vehicle_Id_T) is
       begin
          This.My_Vehicle_Id_Max := This.My_Vehicle_Id_Max + 1;
          Id := This.My_Vehicle_Id_Max;

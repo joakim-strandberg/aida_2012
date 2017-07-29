@@ -14,9 +14,9 @@ package body Aida.JSON_Parsing_Tests is
    use all type Aida.JSON.Tag_Id_T;
 
    use type Aida.Int32_T;
-   use type Json_Parsing_Tests_Model.Extended_Person_Array_Index_T;
-   use type Json_Parsing_Tests_Model.Extended_Hand_Array_Index_T;
-   use type Json_Parsing_Tests_Model.Extended_Vehicle_Array_Index_T;
+   use type Json_Parsing_Tests_Model.Extended_Person_Id_T;
+   use type Json_Parsing_Tests_Model.Extended_Hand_Id_T;
+   use type Json_Parsing_Tests_Model.Extended_Vehicle_Id_T;
    use type Json_Parsing_Tests_Model.Person_Def.Age_T;
    use type Json_Parsing_Tests_Model.Hand_Def.Number_Of_Fingers_T;
    use type Json_Parsing_Tests_Model.Vehicle_Def.Wheels_T;
@@ -283,7 +283,7 @@ package body Aida.JSON_Parsing_Tests is
          pragma Unreferenced (State);
       begin
          if
-           Person_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Person_Array_Index_T'Last and
+           Person_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Person_Id_T'Last and
            Person_Id_Vector.Length (Current_Ids.Person_Ids) < Person_Id_Vector.Length_T'Last
          then
             declare
@@ -478,7 +478,7 @@ package body Aida.JSON_Parsing_Tests is
          pragma Unreferenced (State);
       begin
          if
-           Person_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Person_Array_Index_T'Last and
+           Person_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Person_Id_T'Last and
            Person_Id_Vector.Length (Current_Ids.Person_Ids) < Person_Id_Vector.Length_T'Last
          then
             declare
@@ -689,7 +689,7 @@ package body Aida.JSON_Parsing_Tests is
          pragma Unreferenced (State);
       begin
          if
-           Person_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Person_Array_Index_T'Last and
+           Person_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Person_Id_T'Last and
            Person_Id_Vector.Length (Current_Ids.Person_Ids) < Person_Id_Vector.Length_T'Last
          then
             declare
@@ -974,7 +974,7 @@ package body Aida.JSON_Parsing_Tests is
          case State is
             when Expecting_Object_Start      =>
                if
-                 Person_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Person_Array_Index_T'Last and
+                 Person_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Person_Id_T'Last and
                  Person_Id_Vector.Length (Current_Ids.Person_Ids) < Person_Id_Vector.Length_T'Last
                then
                   declare
@@ -995,7 +995,7 @@ package body Aida.JSON_Parsing_Tests is
                  (
                   Json_Parsing_Tests_Model.Person_Def.Hand_Vector.Length (Storage.Person (Person_Id_Vector.Last_Element (Current_Ids.Person_Ids)).Hands) <
                   Json_Parsing_Tests_Model.Person_Def.Hand_Vector_Index_T'Last and
-                  Hand_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Hand_Array_Index_T'Last and
+                  Hand_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Hand_Id_T'Last and
                   Hand_Id_Vector.Length (Current_Ids.Hand_Ids) < Hand_Id_Vector.Length_T'Last)
                then
                   declare
@@ -1375,7 +1375,7 @@ package body Aida.JSON_Parsing_Tests is
          case State is
             when Expecting_Object_Start                    =>
                if
-                 Person_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Person_Array_Index_T'Last and
+                 Person_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Person_Id_T'Last and
                  Length (Current_Ids.Person_Ids) < Person_Id_Vector.Length_T'Last
                then
                   declare
@@ -1396,7 +1396,7 @@ package body Aida.JSON_Parsing_Tests is
                  (
                   Length (Storage.Person (Last_Element (Current_Ids.Person_Ids)).Vehicles) <
                   Json_Parsing_Tests_Model.Person_Def.Vehicle_Vector_Index_T'Last and
-                  Vehicle_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Vehicle_Array_Index_T'Last and
+                  Vehicle_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Vehicle_Id_T'Last and
                   Length (Current_Ids.Vehicle_Ids) < Vehicle_Id_Vector.Length_T'Last)
                then
                   declare
@@ -1792,7 +1792,7 @@ package body Aida.JSON_Parsing_Tests is
          case State is
             when Expecting_Object_Start                    =>
                if
-                 Person_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Person_Array_Index_T'Last and
+                 Person_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Person_Id_T'Last and
                  Length (Current_Ids.Person_Ids) < Person_Id_Vector.Length_T'Last
                then
                   declare
@@ -2159,7 +2159,7 @@ package body Aida.JSON_Parsing_Tests is
          case State is
             when Expecting_Object_Start                    =>
                if
-                 Person_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Person_Array_Index_T'Last and
+                 Person_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Person_Id_T'Last and
                  Length (Current_Ids.Person_Ids) < Person_Id_Vector.Length_T'Last
                then
                   declare

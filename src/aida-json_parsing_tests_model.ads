@@ -5,42 +5,42 @@ package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
 
    type Person_Id_T is new Integer range 1..10;
 
-   subtype Extended_Person_Array_Index_T is Person_Id_T'Base range 0..Person_Id_T'Last;
+   subtype Extended_Person_Id_T is Person_Id_T'Base range 0..Person_Id_T'Last;
 
-   type Hand_Array_Index_T is new Integer range 1..10;
+   type Hand_Id_T is new Integer range 1..10;
 
-   subtype Extended_Hand_Array_Index_T is Hand_Array_Index_T'Base range 0..Hand_Array_Index_T'Last;
+   subtype Extended_Hand_Id_T is Hand_Id_T'Base range 0..Hand_Id_T'Last;
 
-   type Vehicle_Array_Index_T is new Integer range 1..10;
+   type Vehicle_Id_T is new Integer range 1..10;
 
-   subtype Extended_Vehicle_Array_Index_T is Vehicle_Array_Index_T'Base range 0..Vehicle_Array_Index_T'Last;
+   subtype Extended_Vehicle_Id_T is Vehicle_Id_T'Base range 0..Vehicle_Id_T'Last;
 
    package Max_Indices_Def is
 
       type T is limited private;
 
-      function Person_Id_Max (This : T) return Extended_Person_Array_Index_T;
+      function Person_Id_Max (This : T) return Extended_Person_Id_T;
 
-      function Hand_Id_Max (This : T) return Extended_Hand_Array_Index_T;
+      function Hand_Id_Max (This : T) return Extended_Hand_Id_T;
 
-      function Vehicle_Id_Max (This : T) return Extended_Vehicle_Array_Index_T;
+      function Vehicle_Id_Max (This : T) return Extended_Vehicle_Id_T;
 
       procedure Allocate_Person_Id (This      : in out T;
                                     Person_Id : out Person_Id_T) with
         Global => null,
-        Pre    => Person_Id_Max (This) < Extended_Person_Array_Index_T'Last,
+        Pre    => Person_Id_Max (This) < Extended_Person_Id_T'Last,
         Post   => Person_Id_Max (This) = Person_Id_Max (This)'Old + 1;
 
       procedure Allocate_Hand_Id (This    : in out T;
-                                  Hand_Id : out Hand_Array_Index_T) with
+                                  Hand_Id : out Hand_Id_T) with
         Global => null,
-        Pre    => Hand_Id_Max (This) < Extended_Hand_Array_Index_T'Last,
+        Pre    => Hand_Id_Max (This) < Extended_Hand_Id_T'Last,
         Post   => Hand_Id_Max (This) = Hand_Id_Max (This)'Old + 1;
 
       procedure Allocate_Vehicle_Id (This : in out T;
-                                     Id   : out Vehicle_Array_Index_T) with
+                                     Id   : out Vehicle_Id_T) with
         Global => null,
-        Pre    => Vehicle_Id_Max (This) < Extended_Vehicle_Array_Index_T'Last,
+        Pre    => Vehicle_Id_Max (This) < Extended_Vehicle_Id_T'Last,
         Post   => Vehicle_Id_Max (This) = Vehicle_Id_Max (This)'Old + 1;
 
       procedure Clear (This : in out T) with
@@ -50,16 +50,16 @@ package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
    private
 
       type T is limited record
-         My_Person_Id_Max  : Extended_Person_Array_Index_T  := 0;
-         My_Hand_Id_Max    : Extended_Hand_Array_Index_T    := 0;
-         My_Vehicle_Id_Max : Extended_Vehicle_Array_Index_T := 0;
+         My_Person_Id_Max  : Extended_Person_Id_T  := 0;
+         My_Hand_Id_Max    : Extended_Hand_Id_T    := 0;
+         My_Vehicle_Id_Max : Extended_Vehicle_Id_T := 0;
       end record;
 
-      function Person_Id_Max (This : T) return Extended_Person_Array_Index_T is (This.My_Person_Id_Max);
+      function Person_Id_Max (This : T) return Extended_Person_Id_T is (This.My_Person_Id_Max);
 
-      function Hand_Id_Max (This : T) return Extended_Hand_Array_Index_T is (This.My_Hand_Id_Max);
+      function Hand_Id_Max (This : T) return Extended_Hand_Id_T is (This.My_Hand_Id_Max);
 
-      function Vehicle_Id_Max (This : T) return Extended_Vehicle_Array_Index_T is (This.My_Vehicle_Id_Max);
+      function Vehicle_Id_Max (This : T) return Extended_Vehicle_Id_T is (This.My_Vehicle_Id_Max);
 
    end Max_Indices_Def;
 
@@ -69,9 +69,9 @@ package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
 --     subtype Person_Id_T is Person_Array_Index_T with
 --       Dynamic_Predicate => Person_Id_T <= Aida.Json_Parsing_Tests_Model.Max_Indices_Def.Person_Id_Max (Max_Indices);
 
-   subtype Hand_Id_T is Hand_Array_Index_T;
+--     subtype Hand_Id_T is Hand_Id_T;
 
-   subtype Vehicle_Id_T is Vehicle_Array_Index_T;
+--     subtype Vehicle_Id_T is Vehicle_Id_T;
 
    package Hand_Def is
 
@@ -152,8 +152,8 @@ package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
 
    type People_T is array (Person_Id_T) of Person_T;
 
-   type Hands_T is array (Hand_Array_Index_T) of Hand_T;
+   type Hands_T is array (Hand_Id_T) of Hand_T;
 
-   type Vehicles_T is array (Vehicle_Array_Index_T) of Vehicle_T;
+   type Vehicles_T is array (Vehicle_Id_T) of Vehicle_T;
 
 end Aida.Json_Parsing_Tests_Model;

@@ -38,13 +38,13 @@ private
                                                                    "="             => Json_Parsing_Tests_Model."=",
                                                                    Default_Element => Default_Person_Id);
 
-   package Hand_Id_Vector is new Aida.Bounded_Vector (Index_T         => Json_Parsing_Tests_Model.Hand_Array_Index_T,
-                                                                 Element_T       => Json_Parsing_Tests_Model.Hand_Array_Index_T,
+   package Hand_Id_Vector is new Aida.Bounded_Vector (Index_T         => Json_Parsing_Tests_Model.Hand_Id_T,
+                                                                 Element_T       => Json_Parsing_Tests_Model.Hand_Id_T,
                                                                  "="             => Json_Parsing_Tests_Model."=",
                                                                  Default_Element => Json_Parsing_Tests_Model.Person_Def.Default_Hand_Id);
 
-   package Vehicle_Id_Vector is new Aida.Bounded_Vector (Index_T         => Json_Parsing_Tests_Model.Vehicle_Array_Index_T,
-                                                                    Element_T       => Json_Parsing_Tests_Model.Vehicle_Array_Index_T,
+   package Vehicle_Id_Vector is new Aida.Bounded_Vector (Index_T         => Json_Parsing_Tests_Model.Vehicle_Id_T,
+                                                                    Element_T       => Json_Parsing_Tests_Model.Vehicle_Id_T,
                                                                     "="             => Json_Parsing_Tests_Model."=",
                                                                     Default_Element => Json_Parsing_Tests_Model.Person_Def.Default_Vehicle_Id);
 
