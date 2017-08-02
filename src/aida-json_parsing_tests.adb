@@ -380,12 +380,14 @@ package body Aida.JSON_Parsing_Tests is
 
          State : Unused_State_T := Default_State;
 
+         Max_Indices : Json_Parsing_Tests_Model.Max_Indices_Def.T;
+
          Current_Ids : Current_Ids_T;
       begin
-         Clear (Aida.Json_Parsing_Tests_Model.Max_Indices);
+         Clear (Max_Indices);
 
          Parse_XML (Storage,
-                    Aida.Json_Parsing_Tests_Model.Max_Indices,
+                    Max_Indices,
                     State,
                     Current_Ids,
                     JSON,
@@ -394,13 +396,13 @@ package body Aida.JSON_Parsing_Tests is
          Ahven.Assert (State = End_Of_Json_Object_Reached, "dd1327b2-c0d2-4414-87f5-8a35d0a94d6f");
          Ahven.Assert (Person_Id_Vector.Length (Current_Ids.Person_Ids) > 0, "150be077-0e4c-43b2-901e-1ffc9f57bb76");
          Ahven.Assert (not Has_Failed (Call_Result), "5a84dd71-1bee-4e2c-b7f8-13915f953605");
-         Ahven.Assert (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) = 1, "87f1346a-607c-4e7a-8a3a-621365c323d9");
-         Ahven.Assert (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) > 0, "87f1346a-607c-4e7a-8a3a-621365c323d9");
+         Ahven.Assert (Person_Id_Max (Max_Indices) = 1, "87f1346a-607c-4e7a-8a3a-621365c323d9");
+         Ahven.Assert (Person_Id_Max (Max_Indices) > 0, "87f1346a-607c-4e7a-8a3a-621365c323d9");
          if
-           Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) > 0 and then
-           Length (Storage.Person (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices)).Name) <= Storage.Person (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices)).Name.Maximum_Length
+           Person_Id_Max (Max_Indices) > 0 and then
+           Length (Storage.Person (Person_Id_Max (Max_Indices)).Name) <= Storage.Person (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices)).Name.Maximum_Length
          then
-            Ahven.Assert (To_String (Storage.Person (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices)).Name) = "adam", "11bdb82b-275f-4432-87f0-33d27925d7b6");
+            Ahven.Assert (To_String (Storage.Person (Person_Id_Max (Max_Indices)).Name) = "adam", "11bdb82b-275f-4432-87f0-33d27925d7b6");
          end if;
       end Run_Test;
 

@@ -579,8 +579,6 @@ private
 
    function To_String (This : Int32_T) return String_T is (String_T (Aida_Z.Int32.To_String (Aida_Z.Int32.T (This))));
 
-   function To_String (This : Float_T) return String_T is (String_T (Aida_Z.Float.To_String (Aida_Z.Float.T (This))));
-
    function Hash32 (This : Int32_T) return Hash32_T is (Hash32_T (Aida_Z.Int32.Hash32 (Aida_Z.Int32.T (This))));
 
    function Hash32 (This : String_T) return Hash32_T is (Hash32_T (Aida_Z.String.Hash32 (Aida_Z.String.T (This))));

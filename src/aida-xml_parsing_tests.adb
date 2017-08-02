@@ -25,12 +25,15 @@ package body Aida.XML_Parsing_Tests is
 
    XML_Test_Person_With_Age_0            : constant Aida.String_T :=
      "<?xml version=""1.0"" encoding=""UTF-8""?><person>10</person>";
+   XML_Test_Person_With_Age_1            : constant Aida.String_T :=
+     "   <?xml version=""1.0"" encoding=""UTF-8""?><person>10</person>";
 
    overriding procedure Initialize (T : in out Test) is
    begin
       Set_Name (T, "Aida.XML.Generic_Parse_XML_File package tests");
 
       Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Age_0'Access, "Test_Person_With_Age_0");
+      Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Age_1'Access, "Test_Person_With_Age_1");
    end Initialize;
 
    use all type Person_Id_Vector.T;
@@ -224,5 +227,13 @@ package body Aida.XML_Parsing_Tests is
    begin
       Test_Person_With_Age_Utils.Run_Test (XML_Test_Person_With_Age_0);
    end Test_Person_With_Age_0;
+
+   procedure Test_Person_With_Age_1 (T : in out Ahven.Framework.Test_Case'Class) with
+     SPARK_Mode => On
+   is
+      pragma Unreferenced (T);
+   begin
+      Test_Person_With_Age_Utils.Run_Test (XML_Test_Person_With_Age_1);
+   end Test_Person_With_Age_1;
 
 end Aida.XML_Parsing_Tests;

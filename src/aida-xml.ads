@@ -9,45 +9,50 @@ package Aida.XML with SPARK_Mode is
 
    use all type Aida.UTF8_Code_Point.T;
 
-   type Tag_Id_T is new Aida.Int32_T;
-
    package Procedure_Call_Result is new Aida.Subprogram_Call_Result (1_000);
 
 private
 
-   MAX_DEPTH : constant := 50;
-
-   function Default_Boolean return Boolean with
-     Global => null;
-
-   function Default_Boolean return Boolean is (False);
-
-   type Boolean_Index_T is new Aida.Pos32_T range 1..MAX_DEPTH;
-
-   package Boolean_Vector is new Aida.Bounded_Vector (Index_T         => Boolean_Index_T,
-                                                                 Element_T       => Boolean,
-                                                                 "="             => "=",
-                                                                 Default_Element => Default_Boolean);
-
-   type Tag_T is record
-      Id : Tag_Id_T;
-      Name_First_Index : Positive;
-      Name_Last_Index  : Positive;
-   end record;
-
-   function Default_Tag_Id return Tag_T with
-     Global => null;
-
-   function Default_Tag_Id return Tag_T is (Id               => 0,
-                                            Name_First_Index => 1,
-                                            Name_Last_Index  => 1);
-
-   type Tag_Id_Index_T is new Aida.Pos32_T range 1..MAX_DEPTH;
-
-   package Tag_Id_Vector is new Aida.Bounded_Vector (Index_T         => Tag_Id_Index_T,
-                                                                Element_T       => Tag_T,
-                                                                "="             => "=",
-                                                                Default_Element => Default_Tag_Id);
+   type Initial_State_Id_T is (Initial_State_Expecting_Less_Sign,
+                               Initial_State_Expecting_Question_Mark,
+                               Initial_State_Expecting_X,
+                               Initial_State_Expecting_XM,
+                               Initial_State_Expecting_XML,
+                               Initial_State_Expecting_XML_S,
+                               Initial_State_Expecting_XML_S_V,
+                               Initial_State_Expecting_XML_S_VE,
+                               Initial_State_Expecting_XML_S_VER,
+                               Initial_State_Expecting_XML_S_VERS,
+                               Initial_State_Expecting_XML_S_VERSI,
+                               Initial_State_Expecting_XML_S_VERSIO,
+                               Initial_State_Expecting_XML_S_VERSION,
+                               Initial_State_Expecting_XML_S_VERSION_E,
+                               Initial_State_Expecting_XML_S_VERSION_E_Q,
+                               Initial_State_Expecting_XML_S_VERSION_E_Q_1,
+                               Initial_State_Expecting_XML_S_VERSION_E_Q_1_P,
+                               Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0,
+                               Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q,
+                               Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S,
+                               Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_E,
+                               Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_EN,
+                               Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENC,
+                               Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCO,
+                               Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCOD,
+                               Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODI,
+                               Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODIN,
+                               Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING,
+                               Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E,
+                               Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q,
+                               Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_U,
+                               Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UT,
+                               Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF,
+                               Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D,
+                               Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D_8,
+                               Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D_8_Q,
+                               Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D_8_Q_Question_Mark,
+                               Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D_8_Q_Question_Mark_Greater_Sign,
+                               End_State
+                              );
 
    type State_Id_Type is (
                           Expecting_NL_Sign_Or_Space_Or_Less_Sign, -- NL = New Line

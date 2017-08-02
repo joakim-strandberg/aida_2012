@@ -23,4 +23,9 @@ package body Aida with SPARK_Mode is
       To_Float (Aida_Z.String.T (Source), Aida_Z.Zzz_Float_T (Target), Has_Failed);
    end To_Float;
 
+   function To_String (This : Float_T) return String_T is
+   begin
+      return String_T (Aida_Z.Float.To_String (Aida_Z.Float.T (This)));
+   end To_String;
+
 end Aida;

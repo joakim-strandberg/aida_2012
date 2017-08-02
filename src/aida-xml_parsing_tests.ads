@@ -51,4 +51,7 @@ private
    procedure Test_Person_With_Age_0 (T : in out Ahven.Framework.Test_Case'Class) with
      Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
 
+   procedure Test_Person_With_Age_1 (T : in out Ahven.Framework.Test_Case'Class) with
+     Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
+
 end Aida.XML_Parsing_Tests;
