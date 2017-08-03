@@ -65,13 +65,13 @@ package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
 
    Max_Indices : Max_Indices_Def.T;
 
--- This is what we would wish to express:
---     subtype Person_Id_T is Person_Array_Index_T with
---       Dynamic_Predicate => Person_Id_T <= Aida.Json_Parsing_Tests_Model.Max_Indices_Def.Person_Id_Max (Max_Indices);
+   -- This is what we would wish to express:
+   --     subtype Person_Id_T is Person_Array_Index_T with
+   --       Dynamic_Predicate => Person_Id_T <= Aida.Json_Parsing_Tests_Model.Max_Indices_Def.Person_Id_Max (Max_Indices);
 
---     subtype Hand_Id_T is Hand_Id_T;
+   --     subtype Hand_Id_T is Hand_Id_T;
 
---     subtype Vehicle_Id_T is Vehicle_Id_T;
+   --     subtype Vehicle_Id_T is Vehicle_Id_T;
 
    package Hand_Def is
 
@@ -109,18 +109,18 @@ package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
       type Hand_Vector_Index_T is new Positive range 1..2;
 
       package Hand_Vector is new Aida.Bounded_Vector (Index_T         => Hand_Vector_Index_T,
-                                                                 Element_T       => Hand_Id_T,
-                                                                 "="             => "=",
-                                                                 Default_Element => Default_Hand_Id);
+                                                      Element_T       => Hand_Id_T,
+                                                      "="             => "=",
+                                                      Default_Element => Default_Hand_Id);
 
       type Vehicle_Vector_Index_T is new Positive range 1..5;
 
       function Default_Vehicle_Id return Vehicle_Id_T is (1);
 
       package Vehicle_Vector is new Aida.Bounded_Vector (Index_T         => Vehicle_Vector_Index_T,
-                                                                    Element_T       => Vehicle_Id_T,
-                                                                    "="             => "=",
-                                                                    Default_Element => Default_Vehicle_Id);
+                                                         Element_T       => Vehicle_Id_T,
+                                                         "="             => "=",
+                                                         Default_Element => Default_Vehicle_Id);
 
       type Length_T is new Aida.Float_T;
 

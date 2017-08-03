@@ -23,13 +23,17 @@ package body Aida.XML_Parsing_Tests is
    use type Json_Parsing_Tests_Model.Person_Def.Hand_Vector_Index_T;
    use type Json_Parsing_Tests_Model.Person_Def.Vehicle_Vector_Index_T;
 
-   XML_Test_Person_With_Age_0            : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person>10</person>";
-   XML_Test_Person_With_Age_1            : constant Aida.String_T := "   <?xml version=""1.0"" encoding=""UTF-8""?><person>10</person>";
-   XML_Test_Person_With_Age_2            : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?>   <person>10</person>";
-   XML_Test_Person_With_Age_3            : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person>10</person>   ";
-   XML_Test_Person_With_Age_4            : constant Aida.String_T := "<?xml version=""1.0"" encoding=""utf-8""?><person>10</person>";
+   XML_Test_Person_With_Age_0 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person>10</person>";
+   XML_Test_Person_With_Age_1 : constant Aida.String_T := "   <?xml version=""1.0"" encoding=""UTF-8""?><person>10</person>";
+   XML_Test_Person_With_Age_2 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?>   <person>10</person>";
+   XML_Test_Person_With_Age_3 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person>10</person>   ";
+   XML_Test_Person_With_Age_4 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""utf-8""?><person>10</person>";
 
-   XML_Test_Person_With_Hand_0           : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person><hand fingers=""4""></hand></person>";
+   XML_Test_Person_With_Hand_0 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person><hand fingers=""4""></hand></person>";
+   XML_Test_Person_With_Hand_1 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person><hand fingers=""4""   ></hand></person>";
+   XML_Test_Person_With_Hand_2 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person><hand   fingers=""4""></hand></person>";
+   XML_Test_Person_With_Hand_3 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person><hand fingers='4'></hand></person>";
+   XML_Test_Person_With_Hand_4 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person><hand fingers='4'   ></hand></person>";
 
    overriding procedure Initialize (T : in out Test) is
    begin
@@ -41,6 +45,10 @@ package body Aida.XML_Parsing_Tests is
       Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Age_3'Access, "Test_Person_With_Age_3");
       Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Age_4'Access, "Test_Person_With_Age_4");
       Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Hand_0'Access, "Test_Person_With_Hand_0");
+      Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Hand_1'Access, "Test_Person_With_Hand_1");
+      Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Hand_2'Access, "Test_Person_With_Hand_2");
+      Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Hand_3'Access, "Test_Person_With_Hand_3");
+      Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Hand_4'Access, "Test_Person_With_Hand_4");
    end Initialize;
 
    use all type Person_Id_Vector.T;
@@ -52,6 +60,14 @@ package body Aida.XML_Parsing_Tests is
       Hand_Ids    : Hand_Id_Vector.T;
       Vehicle_Ids : Vehicle_Id_Vector.T;
    end record;
+
+   procedure Clear (S : in out Storage_T) is
+   begin
+      for I in Json_Parsing_Tests_Model.Person_Id_T'Range loop
+         Clear (S.Person (I).Hands);
+         Clear (S.Person (I).Vehicles);
+      end loop;
+   end Clear;
 
    package Test_Person_With_Age_Utils with SPARK_Mode is
 
@@ -237,6 +253,7 @@ package body Aida.XML_Parsing_Tests is
          Current_Ids : Current_Ids_T;
       begin
          Clear (Aida.Json_Parsing_Tests_Model.Max_Indices);
+         Clear (Storage);
 
          Parse_XML (Storage,
                     Aida.Json_Parsing_Tests_Model.Max_Indices,
@@ -536,6 +553,7 @@ package body Aida.XML_Parsing_Tests is
          Current_Ids : Current_Ids_T;
       begin
          Clear (Aida.Json_Parsing_Tests_Model.Max_Indices);
+         Clear (Storage);
 
          Parse_XML (Storage,
                     Aida.Json_Parsing_Tests_Model.Max_Indices,
@@ -572,5 +590,37 @@ package body Aida.XML_Parsing_Tests is
    begin
       Test_Person_With_Hand_Utils.Run_Test (XML_Test_Person_With_Hand_0);
    end Test_Person_With_Hand_0;
+
+   procedure Test_Person_With_Hand_1 (T : in out Ahven.Framework.Test_Case'Class) with
+     SPARK_Mode => On
+   is
+      pragma Unreferenced (T);
+   begin
+      Test_Person_With_Hand_Utils.Run_Test (XML_Test_Person_With_Hand_1);
+   end Test_Person_With_Hand_1;
+
+   procedure Test_Person_With_Hand_2 (T : in out Ahven.Framework.Test_Case'Class) with
+     SPARK_Mode => On
+   is
+      pragma Unreferenced (T);
+   begin
+      Test_Person_With_Hand_Utils.Run_Test (XML_Test_Person_With_Hand_2);
+   end Test_Person_With_Hand_2;
+
+   procedure Test_Person_With_Hand_3 (T : in out Ahven.Framework.Test_Case'Class) with
+     SPARK_Mode => On
+   is
+      pragma Unreferenced (T);
+   begin
+      Test_Person_With_Hand_Utils.Run_Test (XML_Test_Person_With_Hand_3);
+   end Test_Person_With_Hand_3;
+
+   procedure Test_Person_With_Hand_4 (T : in out Ahven.Framework.Test_Case'Class) with
+     SPARK_Mode => On
+   is
+      pragma Unreferenced (T);
+   begin
+      Test_Person_With_Hand_Utils.Run_Test (XML_Test_Person_With_Hand_4);
+   end Test_Person_With_Hand_4;
 
 end Aida.XML_Parsing_Tests;

@@ -31,6 +31,8 @@ private
 
    Storage : Storage_T;
 
+   procedure Clear (S : in out Storage_T);
+
    function Default_Person_Id return Json_Parsing_Tests_Model.Person_Id_T is (1);
 
    package Person_Id_Vector is new Aida.Bounded_Vector (Index_T         => Json_Parsing_Tests_Model.Person_Id_T,
@@ -64,6 +66,18 @@ private
      Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
 
    procedure Test_Person_With_Hand_0 (T : in out Ahven.Framework.Test_Case'Class) with
+     Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
+
+   procedure Test_Person_With_Hand_1 (T : in out Ahven.Framework.Test_Case'Class) with
+     Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
+
+   procedure Test_Person_With_Hand_2 (T : in out Ahven.Framework.Test_Case'Class) with
+     Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
+
+   procedure Test_Person_With_Hand_3 (T : in out Ahven.Framework.Test_Case'Class) with
+     Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
+
+   procedure Test_Person_With_Hand_4 (T : in out Ahven.Framework.Test_Case'Class) with
      Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
 
 end Aida.XML_Parsing_Tests;
