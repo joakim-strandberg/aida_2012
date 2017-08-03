@@ -34,6 +34,8 @@ package body Aida.XML_Parsing_Tests is
    XML_Test_Person_With_Hand_2 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person><hand   fingers=""4""></hand></person>";
    XML_Test_Person_With_Hand_3 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person><hand fingers='4'></hand></person>";
    XML_Test_Person_With_Hand_4 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person><hand fingers='4'   ></hand></person>";
+   XML_Test_Person_With_Hand_5 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person><hand   fingers='4'></hand></person>";
+   XML_Test_Person_With_Hand_6 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person><hand fingers='4'/></person>";
 
    overriding procedure Initialize (T : in out Test) is
    begin
@@ -49,6 +51,8 @@ package body Aida.XML_Parsing_Tests is
       Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Hand_2'Access, "Test_Person_With_Hand_2");
       Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Hand_3'Access, "Test_Person_With_Hand_3");
       Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Hand_4'Access, "Test_Person_With_Hand_4");
+      Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Hand_5'Access, "Test_Person_With_Hand_5");
+      Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Hand_6'Access, "Test_Person_With_Hand_6");
    end Initialize;
 
    use all type Person_Id_Vector.T;
@@ -622,5 +626,21 @@ package body Aida.XML_Parsing_Tests is
    begin
       Test_Person_With_Hand_Utils.Run_Test (XML_Test_Person_With_Hand_4);
    end Test_Person_With_Hand_4;
+
+   procedure Test_Person_With_Hand_5 (T : in out Ahven.Framework.Test_Case'Class) with
+     SPARK_Mode => On
+   is
+      pragma Unreferenced (T);
+   begin
+      Test_Person_With_Hand_Utils.Run_Test (XML_Test_Person_With_Hand_5);
+   end Test_Person_With_Hand_5;
+
+   procedure Test_Person_With_Hand_6 (T : in out Ahven.Framework.Test_Case'Class) with
+     SPARK_Mode => On
+   is
+      pragma Unreferenced (T);
+   begin
+      Test_Person_With_Hand_Utils.Run_Test (XML_Test_Person_With_Hand_6);
+   end Test_Person_With_Hand_6;
 
 end Aida.XML_Parsing_Tests;

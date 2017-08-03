@@ -420,14 +420,29 @@ begin
                         --                 if CP = Character'Pos ('!') then
                         --                    State_Id := Found_Less_Followed_By_Exclamation_Sign;
                         if CP = Character'Pos ('/') then
-                           --                       if Length (Tag_Ids) = 0 or Length (Shall_Ignore_Tag_Value_List) = 0 then
-                           Initialize (Call_Result, "Found unexpected symbol '/'! Cannot continue parsing XML.");
-                           exit;
-                           --                       end if;
+                           if Depth = 0 then
+                              Initialize (Call_Result, "5D33399A-94A5-4352-83A4-873C8303AECB");
+                              exit;
+                           end if;
 
-                           --                       State_Id := Extracting_End_Tag_Name;
-                           --                       End_Tag_Name_First_Index := P;
-                           --                       Tag_Value_Last_Index := Prev_Prev_P - 1;
+                           if P > Contents'Last then
+                              Initialize (Call_Result, "7FB4B266-4657-4185-8928-2DBBE3E5D16F");
+                              exit;
+                           end if;
+
+                           Text (Arg1,
+                                 Arg2,
+                                 Arg3,
+                                 Arg4,
+                                 "",
+                                 Call_Result);
+
+                           if Has_Failed (Call_Result) then
+                              return;
+                           end if;
+
+                           State_Id := Extracting_End_Tag_Name;
+                           End_Tag_Name_First_Index := P;
                         elsif not Is_Special_Symbol (CP) then
                            State_Id := Extracting_Start_Tag_Name;
                            Start_Tag_Name_First_Index := Prev_P;
@@ -597,7 +612,9 @@ begin
                         elsif not Is_Special_Symbol (CP) then
                            Attribute_First_Index := Prev_P;
                            State_Id := Extracting_Attribute_Name;
-                           -- TODO: missing else??
+                        else
+                           Initialize (Call_Result, "05E6E7A0-4ADC-48AE-9230-8A69F003521D");
+                           exit;
                         end if;
                         when Expecting_G_Sign_Or_Extracting_Attributes_And_Found_Slash =>
                            if CP = Character'Pos ('>') then
