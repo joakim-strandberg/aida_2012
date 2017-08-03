@@ -61,10 +61,10 @@ private
 --                            Found_Less_Followed_By_Exclamation_And_Dash_Sign,
                           Extracting_Start_Tag_Name,
                           Expecting_G_Sign_Or_Extracting_Attributes,
---                          Expecting_G_Sign_Or_Extracting_Attributes_And_Found_Slash,
---                            Extracting_Attribute_Name,
---                            Expecting_Attribute_Value_Quotation_Mark,
---                            Extracting_Attribute_Value,
+                          Expecting_G_Sign_Or_Extracting_Attributes_And_Found_Slash,
+                          Extracting_Attribute_Name,
+                          Expecting_Attribute_Value_Quotation_Mark,
+                          Extracting_Attribute_Value,
                           Expecting_New_Tag_Or_Extracting_Tag_Value, -- Or start of comment or start- tag or end-tag
                           Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L,
                           Expecting_Only_Trailing_Spaces,
@@ -103,5 +103,7 @@ private
                                                                                   True
                                                                                else
                                                                                   False);
+
+   XML_IDENTIFIER_ERROR : constant Aida.String_T := "985A6A56-5C6F-408B-AAF7-7D18FA8E4882";
 
 end Aida.XML;

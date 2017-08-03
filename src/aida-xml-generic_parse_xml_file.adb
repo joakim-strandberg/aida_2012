@@ -18,8 +18,6 @@ is
    use all type Aida.UTF8_Code_Point.T;
    use all type Procedure_Call_Result.T;
 
-   Depth : Aida.Nat32_T := 0;
-
    subtype P_T is Integer range Contents'First..Contents'Last + 4;
 
    Initial_State_Id : Initial_State_Id_T := Initial_State_Expecting_Less_Sign;
@@ -58,259 +56,259 @@ begin
             elsif CP = Character'Pos ('<') then
                Initial_State_Id := Initial_State_Expecting_Question_Mark;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
          when Initial_State_Expecting_Question_Mark =>
             if CP = Character'Pos ('?') then
                Initial_State_Id := Initial_State_Expecting_X;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
          when Initial_State_Expecting_X =>
             if CP = Character'Pos ('x') then
                Initial_State_Id := Initial_State_Expecting_XM;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
          when Initial_State_Expecting_XM =>
             if CP = Character'Pos ('m') then
                Initial_State_Id := Initial_State_Expecting_XML;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
          when Initial_State_Expecting_XML =>
             if CP = Character'Pos ('l') then
                Initial_State_Id := Initial_State_Expecting_XML_S;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
          when Initial_State_Expecting_XML_S =>
             if CP = Character'Pos (' ') then
                Initial_State_Id := Initial_State_Expecting_XML_S_V;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_V =>
             if CP = Character'Pos ('v') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VE;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VE =>
             if CP = Character'Pos ('e') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VER;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VER =>
             if CP = Character'Pos ('r') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERS;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERS =>
             if CP = Character'Pos ('s') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSI;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSI =>
             if CP = Character'Pos ('i') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSIO;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSIO =>
             if CP = Character'Pos ('o') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION =>
             if CP = Character'Pos ('n') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E =>
             if CP = Character'Pos ('=') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q =>
             if CP = Character'Pos ('"') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1 =>
             if CP = Character'Pos ('1') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P =>
             if CP = Character'Pos ('.') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0 =>
             if CP = Character'Pos ('0') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q =>
             if CP = Character'Pos ('"') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S =>
             if CP = Character'Pos (' ') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_E;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_E =>
             if CP = Character'Pos ('e') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_EN;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_EN =>
             if CP = Character'Pos ('n') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENC;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENC =>
             if CP = Character'Pos ('c') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCO;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCO =>
             if CP = Character'Pos ('o') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCOD;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCOD =>
             if CP = Character'Pos ('d') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODI;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODI =>
             if CP = Character'Pos ('i') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODIN;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODIN =>
             if CP = Character'Pos ('n') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING =>
             if CP = Character'Pos ('g') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E =>
             if CP = Character'Pos ('=') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q =>
             if CP = Character'Pos ('"') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_U;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_U =>
             if CP = Character'Pos ('u') or CP = Character'Pos ('U') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UT;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UT =>
             if CP = Character'Pos ('t') or CP = Character'Pos ('T') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF =>
             if CP = Character'Pos ('f') or CP = Character'Pos ('F') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D =>
             if CP = Character'Pos ('-') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D_8;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D_8 =>
             if CP = Character'Pos ('8') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D_8_Q;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D_8_Q =>
             if CP = Character'Pos ('"') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D_8_Q_Question_Mark;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D_8_Q_Question_Mark =>
             if CP = Character'Pos ('?') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D_8_Q_Question_Mark_Greater_Sign;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D_8_Q_Question_Mark_Greater_Sign =>
@@ -318,6 +316,8 @@ begin
                Initial_State_Id := End_State;
 
                declare
+                  Depth : Aida.Nat32_T := 0;
+
                   State_Id : State_Id_Type := Expecting_NL_Sign_Or_Space_Or_Less_Sign;
 
                   subtype Prev_P_T      is Integer range Contents'First + 1..Contents'Last;
@@ -337,11 +337,11 @@ begin
                   End_Tag_Name_First_Index : Contents_Index_T := Contents'First;
                   End_Tag_Name_Last_Index  : Contents_Index_T;
 
-                  --           Attribute_First_Index : Integer;
-                  --           Attribute_Last_Index  : Integer;
-                  --
-                  --           Attribute_Value_First_Index : Integer;
-                  --           Attribute_Value_Last_Index  : Integer;
+                  Attribute_First_Index : Integer;
+                  Attribute_Last_Index  : Integer;
+
+                  Attribute_Value_First_Index : Integer;
+                  Attribute_Value_Last_Index  : Integer;
                   --
                   --           Comment_First_Index : Integer;
 
@@ -349,7 +349,7 @@ begin
 
                   --         Shall_Ignore_Until_Next_Quotation_Mark : Boolean := False;
 
-                  --         Expected_Quotation_Symbol : Expected_Quotation_Symbol_T := Double_Quotes;
+                  Expected_Quotation_Symbol : Expected_Quotation_Symbol_T := Double_Quotes;
                begin
                   while P <= Contents'Last loop
                      Prev_Prev_P := Prev_P;
@@ -397,11 +397,11 @@ begin
 
 
 
-                     --                                Aida.Text_IO.Put ("Extracted:");
-                     --                                Aida.Text_IO.Put (Image (CP));
-                     --                                Aida.Text_IO.Put (", state ");
-                     --                                Aida.Text_IO.Put_Line (String_T (State_Id_Type'Image (State_Id)));
-                     --                                Aida.Text_IO.Put (Image (CP));
+--                       Aida.Text_IO.Put ("Extracted:");
+--                       Aida.Text_IO.Put (Image (CP));
+--                       Aida.Text_IO.Put (", state ");
+--                       Aida.Text_IO.Put_Line (String_T (State_Id_Type'Image (State_Id)));
+--                       Aida.Text_IO.Put (Image (CP));
 
                      case State_Id is
                      when Expecting_NL_Sign_Or_Space_Or_Less_Sign =>
@@ -592,83 +592,96 @@ begin
                            end if;
 
                            Tag_Value_First_Index := P;
-                           --                    elsif CP = Character'Pos ('/') then
-                           --                       State_Id := Expecting_G_Sign_Or_Extracting_Attributes_And_Found_Slash;
-                           --                    elsif not Is_Special_Symbol (CP) then
-                           --                       Attribute_First_Index := Prev_P;
-                           --                       State_Id := Extracting_Attribute_Name;
+                        elsif CP = Character'Pos ('/') then
+                           State_Id := Expecting_G_Sign_Or_Extracting_Attributes_And_Found_Slash;
+                        elsif not Is_Special_Symbol (CP) then
+                           Attribute_First_Index := Prev_P;
+                           State_Id := Extracting_Attribute_Name;
+                           -- TODO: missing else??
                         end if;
-                        --              when Expecting_G_Sign_Or_Extracting_Attributes_And_Found_Slash =>
-                        --                 if CP = Character'Pos ('>') then
-                        --                    State_Id := Expecting_NL_Sign_Or_Space_Or_Less_Sign;
-                        --
-                        --                    declare
-                        --                       Name : String := Tag_Name.To_String (Tag_Name_Vectors.Last_Element (Tag_Names));
-                        --                    begin
-                        --                       Tag_Name_Vectors.Delete_Last (Tag_Names);
-                        --
-                        --                       End_Tag (Name,
-                        --                                Tag_Names,
-                        --                                Call_Result);
-                        --                       if Has_Failed (Call_Result) then
-                        --                          return;
-                        --                       end if;
-                        --                    end;
-                        --                    Tag_Value_First_Index := P;
-                        --                    Shall_Ignore_Tag_Value := True;
-                        --                 else
-                        --                    Initialize (Call_Result, "Expected '>', state " & State_Id_Type'Image (State_Id) & " " & Contents (F..P));
-                        --                    return;
-                        --                 end if;
-                        --                 when Extracting_Attribute_Name =>
-                        --                    if CP = Character'Pos ('=') then
-                        --                       Attribute_Last_Index := Prev_Prev_P;
-                        --                       State_Id := Expecting_Attribute_Value_Quotation_Mark;
-                        --                       --                  Ada.Text_IO.Put_Line ("Extracted attribute name: '" & Contents (Attribute_First_Index..Attribute_Last_Index) & "'");
-                        --                    elsif CP = Character'Pos (Ada.Characters.Latin_1.LF) then
-                        --                       Initialize (Call_Result, "New line is forbidden inside attribute name, state " & State_Id_Type'Image (State_Id) & " " & Contents (F..P));
-                        --                       return;
-                        --                    elsif not Is_Special_Symbol (CP) then
-                        --                       null; -- Normal
-                        --                    end if;
-                        --              when Expecting_Attribute_Value_Quotation_Mark =>
-                        --                 if CP = Character'Pos ('"') then
-                        --                    Expected_Quotation_Symbol := Double_Quotes;
-                        --                    Attribute_Value_First_Index := P;
-                        --                    State_Id := Extracting_Attribute_Value;
-                        --                 elsif CP = Character'Pos (''') then
-                        --                    Expected_Quotation_Symbol := Single_Quotes;
-                        --                    Attribute_Value_First_Index := P;
-                        --                    State_Id := Extracting_Attribute_Value;
-                        --                 else
-                        --                    Initialize (Call_Result, "Unexpected UTF8 symbol (code point" & Image (CP) & "), state " & State_Id_Type'Image (State_Id) & " " & Contents (F..P));
-                        --                    return;
-                        --                 end if;
-                        --              when Extracting_Attribute_Value =>
-                        --                 if
-                        --                   (CP = Character'Pos ('"') and Expected_Quotation_Symbol = Double_Quotes) or
-                        --                   (CP = Character'Pos (''') and Expected_Quotation_Symbol = Single_Quotes)
-                        --                 then
-                        --                    Attribute_Value_Last_Index := Prev_Prev_P;
-                        --                    State_Id := Expecting_G_Sign_Or_Extracting_Attributes;
-                        --                    --                  Ada.Text_IO.Put_Line ("Extracted attribute value: '" & Contents (Attribute_Value_First_Index..Attribute_Value_Last_Index) & "'");
-                        --                    declare
-                        --                       Name : String := Contents (Attribute_First_Index..Attribute_Last_Index);
-                        --                       Value : String := Contents (Attribute_Value_First_Index..Attribute_Value_Last_Index);
-                        --                    begin
-                        --                       Attribute (Name,
-                        --                                  Value,
-                        --                                  Tag_Names,
-                        --                                  Call_Result);
-                        --                    end;
-                        --
-                        --                    if Has_Failed (Call_Result) then
-                        --                       return;
-                        --                    end if;
-                        --                 elsif CP = Character'Pos (Ada.Characters.Latin_1.LF) then
-                        --                    Initialize (Call_Result, "New line is forbidden inside attribute value, state " & State_Id_Type'Image (State_Id) & " " & Contents (F..P));
-                        --                    return;
-                        --                 end if;
+                        when Expecting_G_Sign_Or_Extracting_Attributes_And_Found_Slash =>
+                           if CP = Character'Pos ('>') then
+                              State_Id := Expecting_NL_Sign_Or_Space_Or_Less_Sign;
+
+                              Text (Arg1,
+                                    Arg2,
+                                    Arg3,
+                                    Arg4,
+                                    "",
+                                    Call_Result);
+
+                              if Has_Failed (Call_Result) then
+                                 return;
+                              end if;
+
+                              End_Tag (Arg1,
+                                       Arg2,
+                                       Arg3,
+                                       Arg4,
+                                       Contents (Start_Tag_Name_First_Index..Start_Tag_Name_Last_Index),
+                                       Call_Result);
+
+                              if Has_Failed (Call_Result) then
+                                 return;
+                              end if;
+
+                              Tag_Value_First_Index := P;
+                           else
+                              Initialize (Call_Result, "Expected '>', state ");
+                              return;
+                           end if;
+                        when Extracting_Attribute_Name =>
+                           if CP = Character'Pos ('=') then
+                              Attribute_Last_Index := Prev_Prev_P;
+                              State_Id := Expecting_Attribute_Value_Quotation_Mark;
+                              --                  Ada.Text_IO.Put_Line ("Extracted attribute name: '" & Contents (Attribute_First_Index..Attribute_Last_Index) & "'");
+                           elsif CP = Character'Pos (Ada.Characters.Latin_1.LF) then
+                              Initialize (Call_Result, "New line is forbidden inside attribute name, state ");
+                              return;
+                           elsif not Is_Special_Symbol (CP) then
+                              null; -- Normal
+                           end if;
+                        when Expecting_Attribute_Value_Quotation_Mark =>
+                           if CP = Character'Pos ('"') then
+                              Expected_Quotation_Symbol := Double_Quotes;
+                              Attribute_Value_First_Index := P;
+                              State_Id := Extracting_Attribute_Value;
+                           elsif CP = Character'Pos (''') then
+                              Expected_Quotation_Symbol := Single_Quotes;
+                              Attribute_Value_First_Index := P;
+                              State_Id := Extracting_Attribute_Value;
+                           else
+                              Initialize (Call_Result, "Unexpected UTF8 symbol");
+                              return;
+                           end if;
+                        when Extracting_Attribute_Value =>
+                           if
+                             (CP = Character'Pos ('"') and Expected_Quotation_Symbol = Double_Quotes) or
+                             (CP = Character'Pos (''') and Expected_Quotation_Symbol = Single_Quotes)
+                           then
+                              Attribute_Value_Last_Index := Prev_Prev_P;
+                              State_Id := Expecting_G_Sign_Or_Extracting_Attributes;
+                              --                  Ada.Text_IO.Put_Line ("Extracted attribute value: '" & Contents (Attribute_Value_First_Index..Attribute_Value_Last_Index) & "'");
+                              declare
+                                 Name : Aida.String_T := Contents (Attribute_First_Index..Attribute_Last_Index);
+                                 Value : Aida.String_T := Contents (Attribute_Value_First_Index..Attribute_Value_Last_Index);
+                              begin
+                                 Attribute (Arg1,
+                                            Arg2,
+                                            Arg3,
+                                            Arg4,
+                                            Name,
+                                            Value,
+                                            Call_Result);
+                              end;
+
+                              if Has_Failed (Call_Result) then
+                                 return;
+                              end if;
+                           elsif CP = Character'Pos (Ada.Characters.Latin_1.LF) then
+                              Initialize (Call_Result, "New line is forbidden inside attribute value, state ");
+                              return;
+                           end if;
                      when Expecting_New_Tag_Or_Extracting_Tag_Value =>
                         --                    if CP = Character'Pos ('"') then
                         --                       Shall_Ignore_Until_Next_Quotation_Mark := not Shall_Ignore_Until_Next_Quotation_Mark;
@@ -683,6 +696,11 @@ begin
                                  Arg4,
                                  Contents (Tag_Value_First_Index..Tag_Value_Last_Index),
                                  Call_Result);
+
+                           if Has_Failed (Call_Result) then
+                              exit;
+                           end if;
+
                            --                     end if;
                         end if;
                      when Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L =>
@@ -701,18 +719,10 @@ begin
                            --                     Initialize (Call_Result, "Unexpected UTF8 symbol (code point" & Image (CP) & "), state " & State_Id_Type'Image (State_Id) & " " & Contents (F..P));
                            Initialize (Call_Result, "Unexpected UTF8 symbol ");
                            exit;
-                           --                    else
-                           --                       -- Will ignore tag value, and start parsing child tag!
-                           --                       declare
-                           --                          Value : String := Contents (Tag_Value_First_Index..(P - 3));
-                           --                       begin
-                           --                          Text (Value       => Value,
-                           --                                Parent_Tags => Tag_Names,
-                           --                                Call_Result => Call_Result);
-                           --                       end;
-                           --                       Shall_Ignore_Tag_Value := True;
-                           --                       State_Id := Extracting_Start_Tag_Name;
-                           --                       Start_Tag_Name_First_Index := Prev_P;
+                        else
+                           -- Will start parsing child tag!
+                           State_Id := Extracting_Start_Tag_Name;
+                           Start_Tag_Name_First_Index := Prev_P;
                         end if;
                         --              when Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L_And_Exclamation =>
                         --                 if CP = Character'Pos ('[') then
@@ -872,25 +882,30 @@ begin
                         --                       Initialize (Call_Result, "Unexpected UTF8 symbol (code point");
                         --                       exit;
                         --                    end if;
-                     when Extracting_End_Tag_Name =>
-                        if CP = Character'Pos ('>') then
+                        when Extracting_End_Tag_Name =>
+                           if CP = Character'Pos ('>') then
 
-                           End_Tag_Name_Last_Index := Prev_Prev_P;
+                              End_Tag_Name_Last_Index := Prev_Prev_P;
 
-                           End_Tag (Arg1,
-                                    Arg2,
-                                    Arg3,
-                                    Arg4,
-                                    Contents (End_Tag_Name_First_Index..End_Tag_Name_Last_Index),
-                                    Call_Result);
+                              End_Tag (Arg1,
+                                       Arg2,
+                                       Arg3,
+                                       Arg4,
+                                       Contents (End_Tag_Name_First_Index..End_Tag_Name_Last_Index),
+                                       Call_Result);
 
-                           Depth := Depth - 1;
+                              Depth := Depth - 1;
 
-                           if P > Contents'Last then
-                              State_Id := Expecting_Only_Trailing_Spaces;
-                           else
-                              State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
-                           end if;
+                              if Depth = 0 then
+                                 State_Id := Expecting_Only_Trailing_Spaces;
+                              else
+                                 State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
+                              end if;
+
+                              Tag_Value_First_Index := (if P <= Contents'Last then
+                                                           P
+                                                        else
+                                                           Contents'Last);
 
                         elsif CP = Character'Pos (Ada.Characters.Latin_1.LF) then
                            --                     Initialize (Call_Result, "New line is forbidden inside attribute value, state " & State_Id_Type'Image (State_Id) & " " & Contents (F..P));
@@ -948,7 +963,7 @@ begin
                   end loop;
                end;
             else
-               Initialize (Call_Result, "985A6A56-5C6F-408B-AAF7-7D18FA8E4882");
+               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
                exit;
             end if;
       end case;

@@ -31,31 +31,18 @@ generic
                         Value       : Aida.String_T;
                         Call_Result : in out Procedure_Call_Result.T);
 
---     with procedure Start_Tag (Tag_Name    : String;
---                               Parent_Tags : Tag_Name_Vector_T;
---                               Call_Result : in out Subprogram_Call_Result.T);
-
---     with procedure Attribute (Attribute_Name              : String;
---                               Attribute_Value             : String;
---                               Parent_Tags_And_Current_Tag : Tag_Name_Vector_T;
---                               Call_Result                 : in out Subprogram_Call_Result.T);
---
---     with procedure Text (Value       : String;
---                          Parent_Tags : Tag_Name_Vector_T;
---                          Call_Result : in out Subprogram_Call_Result.T);
---
+   with procedure Attribute (Arg1            : in out Arg1_T;
+                             Arg2            : in out Arg2_T;
+                             Arg3            : in out Arg3_T;
+                             Arg4            : in out Arg4_T;
+                             Attribute_Name  : Aida.String_T;
+                             Attribute_Value : Aida.String_T;
+                             Call_Result     : in out Procedure_Call_Result.T);
+   --
 --     with procedure Comment (Value       : String;
 --                             Parent_Tags : Tag_Name_Vector_T;
 --                             Call_Result : in out Subprogram_Call_Result.T);
 --
---     with procedure End_Tag (Tag_Name    : String;
---                             Parent_Tags : Tag_Name_Vector_T;
---                             Call_Result : in out Subprogram_Call_Result.T);
-
---     with procedure End_Tag (Tag_Name    : String;
---                             Tag_Value   : String;
---                             Parent_Tags : Tag_Name_Vector_T;
---                             Call_Result : in out Subprogram_Call_Result.T);
 procedure Aida.XML.Generic_Parse_XML_File (Arg1        : in out Arg1_T;
                                            Arg2        : in out Arg2_T;
                                            Arg3        : in out Arg3_T;
