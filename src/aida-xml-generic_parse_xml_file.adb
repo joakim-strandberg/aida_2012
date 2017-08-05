@@ -397,11 +397,11 @@ begin
 
 
 
-                     --                       Aida.Text_IO.Put ("Extracted:");
-                     --                       Aida.Text_IO.Put (Image (CP));
-                     --                       Aida.Text_IO.Put (", state ");
-                     --                       Aida.Text_IO.Put_Line (String_T (State_Id_Type'Image (State_Id)));
-                     --                       Aida.Text_IO.Put (Image (CP));
+--                       Aida.Text_IO.Put ("Extracted:");
+--                       Aida.Text_IO.Put (Image (CP));
+--                       Aida.Text_IO.Put (", state ");
+--                       Aida.Text_IO.Put_Line (String_T (State_Id_Type'Image (State_Id)));
+--                       Aida.Text_IO.Put (Image (CP));
 
                      case State_Id is
                         when Expecting_NL_Sign_Or_Space_Or_Less_Sign =>
@@ -551,6 +551,8 @@ begin
                               if Has_Failed (Call_Result) then
                                  return;
                               end if;
+
+                              Depth := Depth - 1;
 
                               Tag_Value_First_Index := P;
                            else
@@ -846,6 +848,13 @@ begin
                            end if;
                      end case;
                   end loop;
+
+                  if
+                    not Has_Failed (Call_Result) and then
+                    State_Id /= Expecting_Only_Trailing_Spaces
+                  then
+                     Initialize (Call_Result, "FABD4E1E-BD2B-42F5-BA61-2C8581EA38F9");
+                  end if;
                end;
             else
                Initialize (Call_Result, XML_IDENTIFIER_ERROR);
