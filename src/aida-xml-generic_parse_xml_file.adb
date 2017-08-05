@@ -42,11 +42,11 @@ begin
                      Pointer => P,
                      Value   => CP);
 
---        Aida.Text_IO.Put ("Extracted:");
---        Aida.Text_IO.Put (Image (CP));
---        Aida.Text_IO.Put (", state ");
---        Aida.Text_IO.Put_Line (String_T (Initial_State_Id_T'Image (Initial_State_Id)));
---        Aida.Text_IO.Put (Image (CP));
+      --        Aida.Text_IO.Put ("Extracted:");
+      --        Aida.Text_IO.Put (Image (CP));
+      --        Aida.Text_IO.Put (", state ");
+      --        Aida.Text_IO.Put_Line (String_T (Initial_State_Id_T'Image (Initial_State_Id)));
+      --        Aida.Text_IO.Put (Image (CP));
 
       case Initial_State_Id is
          when End_State => null;
@@ -347,7 +347,7 @@ begin
 
                   Shall_Ignore_Tag_Value : Boolean := False;
 
---                    Shall_Ignore_Until_Next_Quotation_Mark : Boolean := False;
+                  --                    Shall_Ignore_Until_Next_Quotation_Mark : Boolean := False;
 
                   Expected_Quotation_Symbol : Expected_Quotation_Symbol_T := Double_Quotes;
                begin
@@ -397,135 +397,135 @@ begin
 
 
 
---                       Aida.Text_IO.Put ("Extracted:");
---                       Aida.Text_IO.Put (Image (CP));
---                       Aida.Text_IO.Put (", state ");
---                       Aida.Text_IO.Put_Line (String_T (State_Id_Type'Image (State_Id)));
---                       Aida.Text_IO.Put (Image (CP));
+                     --                       Aida.Text_IO.Put ("Extracted:");
+                     --                       Aida.Text_IO.Put (Image (CP));
+                     --                       Aida.Text_IO.Put (", state ");
+                     --                       Aida.Text_IO.Put_Line (String_T (State_Id_Type'Image (State_Id)));
+                     --                       Aida.Text_IO.Put (Image (CP));
 
                      case State_Id is
-                     when Expecting_NL_Sign_Or_Space_Or_Less_Sign =>
-                        if CP = Character'Pos (Ada.Characters.Latin_1.LF) or CP = Character'Pos (' ') then
-                           null; -- Normal
-                        elsif CP = Character'Pos ('<') then
-                           State_Id := Found_Less_Sign;
-                        else
-                           Initialize (Call_Result, "Unexpected UTF8 symbol");
-                           return;
-                        end if;
-                     when Found_Less_Sign =>
-                        if CP = Character'Pos ('!') then
-                           State_Id := Found_Less_Followed_By_Exclamation_Sign;
-                        elsif CP = Character'Pos ('/') then
-                           if Depth = 0 then
-                              Initialize (Call_Result, "5D33399A-94A5-4352-83A4-873C8303AECB");
-                              exit;
-                           end if;
-
-                           if P > Contents'Last then
-                              Initialize (Call_Result, "7FB4B266-4657-4185-8928-2DBBE3E5D16F");
-                              exit;
-                           end if;
-
-                           Text (Arg1,
-                                 Arg2,
-                                 Arg3,
-                                 Arg4,
-                                 "",
-                                 Call_Result);
-
-                           if Has_Failed (Call_Result) then
-                              return;
-                           end if;
-
-                           State_Id := Extracting_End_Tag_Name;
-                           End_Tag_Name_First_Index := P;
-                        elsif not Is_Special_Symbol (CP) then
-                           State_Id := Extracting_Start_Tag_Name;
-                           Start_Tag_Name_First_Index := Prev_P;
-
-                           pragma Assert (Start_Tag_Name_First_Index < P);
-                        else
-                           Initialize (Call_Result, "Unexpected UTF8 symbol (code point ), state ");
-                           exit;
-                        end if;
-                        when Found_Less_Followed_By_Exclamation_Sign =>
-                           if CP = Character'Pos ('-') then
-                              State_Id := Found_Less_Followed_By_Exclamation_And_Dash_Sign;
+                        when Expecting_NL_Sign_Or_Space_Or_Less_Sign =>
+                           if CP = Character'Pos (Ada.Characters.Latin_1.LF) or CP = Character'Pos (' ') then
+                              null; -- Normal
+                           elsif CP = Character'Pos ('<') then
+                              State_Id := Init_Found_Less_Sign;
                            else
                               Initialize (Call_Result, "Unexpected UTF8 symbol");
                               return;
                            end if;
-                        when Found_Less_Followed_By_Exclamation_And_Dash_Sign =>
+                        when Init_Found_Less_Sign =>
+                           if CP = Character'Pos ('!') then
+                              State_Id := Init_Found_Less_Followed_By_Exclamation_Sign;
+                           elsif CP = Character'Pos ('/') then
+                              if Depth = 0 then
+                                 Initialize (Call_Result, "5D33399A-94A5-4352-83A4-873C8303AECB");
+                                 exit;
+                              end if;
+
+                              if P > Contents'Last then
+                                 Initialize (Call_Result, "7FB4B266-4657-4185-8928-2DBBE3E5D16F");
+                                 exit;
+                              end if;
+
+                              Text (Arg1,
+                                    Arg2,
+                                    Arg3,
+                                    Arg4,
+                                    "",
+                                    Call_Result);
+
+                              if Has_Failed (Call_Result) then
+                                 return;
+                              end if;
+
+                              State_Id := Extracting_End_Tag_Name;
+                              End_Tag_Name_First_Index := P;
+                           elsif not Is_Special_Symbol (CP) then
+                              State_Id := Extracting_Start_Tag_Name;
+                              Start_Tag_Name_First_Index := Prev_P;
+
+                              pragma Assert (Start_Tag_Name_First_Index < P);
+                           else
+                              Initialize (Call_Result, "Unexpected UTF8 symbol (code point ), state ");
+                              exit;
+                           end if;
+                        when Init_Found_Less_Followed_By_Exclamation_Sign =>
                            if CP = Character'Pos ('-') then
-                              State_Id := Extracting_Comment;
+                              State_Id := Init_Found_Less_Followed_By_Exclamation_And_Dash_Sign;
+                           else
+                              Initialize (Call_Result, "Unexpected UTF8 symbol");
+                              return;
+                           end if;
+                        when Init_Found_Less_Followed_By_Exclamation_And_Dash_Sign =>
+                           if CP = Character'Pos ('-') then
+                              State_Id := Init_Extracting_Comment;
                               Comment_First_Index := P;
                            else
                               Initialize (Call_Result, "Unexpected UTF8 symbol");
                               return;
                            end if;
-                     when Extracting_Start_Tag_Name =>
-                        if CP = Character'Pos (' ') then
-                           Start_Tag_Name_Last_Index := Prev_Prev_P;
+                        when Extracting_Start_Tag_Name =>
+                           if CP = Character'Pos (' ') then
+                              Start_Tag_Name_Last_Index := Prev_Prev_P;
 
-                           Start_Tag (Arg1,
-                                      Arg2,
-                                      Arg3,
-                                      Arg4,
-                                      Contents (Start_Tag_Name_First_Index..Start_Tag_Name_Last_Index),
-                                      Call_Result);
+                              Start_Tag (Arg1,
+                                         Arg2,
+                                         Arg3,
+                                         Arg4,
+                                         Contents (Start_Tag_Name_First_Index..Start_Tag_Name_Last_Index),
+                                         Call_Result);
 
-                           if Has_Failed (Call_Result) then
+                              if Has_Failed (Call_Result) then
+                                 exit;
+                              end if;
+
+                              Depth := Depth + 1;
+
+                              State_Id := Expecting_G_Sign_Or_Extracting_Attributes;
+                           elsif CP = Character'Pos ('>') then
+                              Start_Tag_Name_Last_Index := Prev_Prev_P;
+
+                              Start_Tag (Arg1,
+                                         Arg2,
+                                         Arg3,
+                                         Arg4,
+                                         Contents (Start_Tag_Name_First_Index..Start_Tag_Name_Last_Index),
+                                         Call_Result);
+
+                              if Has_Failed (Call_Result) then
+                                 exit;
+                              end if;
+
+                              Depth := Depth + 1;
+
+                              Tag_Value_First_Index := P;
+
+                              State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
+                           elsif Is_Special_Symbol (CP) then
+                              Initialize (Call_Result, "Unexpected UTF8 symbol (code point");
                               exit;
                            end if;
+                        when Expecting_G_Sign_Or_Extracting_Attributes =>
+                           if CP = Character'Pos (' ') or CP = Character'Pos (Ada.Characters.Latin_1.LF) then
+                              null; -- Normal
+                           elsif CP = Character'Pos ('>') then
+                              State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
 
-                           Depth := Depth + 1;
+                              if P > Contents'Last then
+                                 Initialize (Call_Result, "Unexpected end of XML.");
+                                 exit;
+                              end if;
 
-                           State_Id := Expecting_G_Sign_Or_Extracting_Attributes;
-                        elsif CP = Character'Pos ('>') then
-                           Start_Tag_Name_Last_Index := Prev_Prev_P;
-
-                           Start_Tag (Arg1,
-                                      Arg2,
-                                      Arg3,
-                                      Arg4,
-                                      Contents (Start_Tag_Name_First_Index..Start_Tag_Name_Last_Index),
-                                      Call_Result);
-
-                           if Has_Failed (Call_Result) then
+                              Tag_Value_First_Index := P;
+                           elsif CP = Character'Pos ('/') then
+                              State_Id := Expecting_G_Sign_Or_Extracting_Attributes_And_Found_Slash;
+                           elsif not Is_Special_Symbol (CP) then
+                              Attribute_First_Index := Prev_P;
+                              State_Id := Extracting_Attribute_Name;
+                           else
+                              Initialize (Call_Result, "05E6E7A0-4ADC-48AE-9230-8A69F003521D");
                               exit;
                            end if;
-
-                           Depth := Depth + 1;
-
-                           Tag_Value_First_Index := P;
-
-                           State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
-                        elsif Is_Special_Symbol (CP) then
-                           --                     Initialize (Call_Result, "Unexpected UTF8 symbol (code point" & Image (CP) & "), state " & State_Id_Type'Image (State_Id) & " " & Contents (F..P));
-                           exit;
-                        end if;
-                     when Expecting_G_Sign_Or_Extracting_Attributes =>
-                        if CP = Character'Pos (' ') or CP = Character'Pos (Ada.Characters.Latin_1.LF) then
-                           null; -- Normal
-                        elsif CP = Character'Pos ('>') then
-                           State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
-
-                           if P > Contents'Last then
-                              Initialize (Call_Result, "Unexpected end of XML.");
-                              exit;
-                           end if;
-
-                           Tag_Value_First_Index := P;
-                        elsif CP = Character'Pos ('/') then
-                           State_Id := Expecting_G_Sign_Or_Extracting_Attributes_And_Found_Slash;
-                        elsif not Is_Special_Symbol (CP) then
-                           Attribute_First_Index := Prev_P;
-                           State_Id := Extracting_Attribute_Name;
-                        else
-                           Initialize (Call_Result, "05E6E7A0-4ADC-48AE-9230-8A69F003521D");
-                           exit;
-                        end if;
                         when Expecting_G_Sign_Or_Extracting_Attributes_And_Found_Slash =>
                            if CP = Character'Pos ('>') then
                               State_Id := Expecting_NL_Sign_Or_Space_Or_Less_Sign;
@@ -609,206 +609,125 @@ begin
                               Initialize (Call_Result, "New line is forbidden inside attribute value, state ");
                               return;
                            end if;
-                     when Expecting_New_Tag_Or_Extracting_Tag_Value =>
-                        --                    if CP = Character'Pos ('"') then
-                        --                       Shall_Ignore_Until_Next_Quotation_Mark := not Shall_Ignore_Until_Next_Quotation_Mark;
-                        if CP = Character'Pos ('<') then
-                           --                     if not Shall_Ignore_Until_Next_Quotation_Mark then
-                           State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L;
-                           Tag_Value_Last_Index := Prev_Prev_P;
+                        when Expecting_New_Tag_Or_Extracting_Tag_Value =>
+                           --                    if CP = Character'Pos ('"') then
+                           --                       Shall_Ignore_Until_Next_Quotation_Mark := not Shall_Ignore_Until_Next_Quotation_Mark;
+                           if CP = Character'Pos ('<') then
+                              --                     if not Shall_Ignore_Until_Next_Quotation_Mark then
+                              State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L;
+                              Tag_Value_Last_Index := Prev_Prev_P;
 
-                           Text (Arg1,
-                                 Arg2,
-                                 Arg3,
-                                 Arg4,
-                                 Contents (Tag_Value_First_Index..Tag_Value_Last_Index),
-                                 Call_Result);
+                              Text (Arg1,
+                                    Arg2,
+                                    Arg3,
+                                    Arg4,
+                                    Contents (Tag_Value_First_Index..Tag_Value_Last_Index),
+                                    Call_Result);
 
-                           if Has_Failed (Call_Result) then
-                              exit;
+                              if Has_Failed (Call_Result) then
+                                 exit;
+                              end if;
+
+                              --                     end if;
                            end if;
+                        when Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L =>
+                           if CP = Character'Pos ('/') then
+                              if P > Contents'Last then
+                                 Initialize (Call_Result, "Unexpected end of XML.");
+                                 exit;
+                              end if;
 
-                           --                     end if;
-                        end if;
-                     when Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L =>
-                        --                    if CP = Character'Pos ('!') then
-                        --                       State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L_And_Exclamation;
-                        if CP = Character'Pos ('/') then
-                           if P > Contents'Last then
-                              Initialize (Call_Result, "Unexpected end of XML.");
+                              State_Id := Extracting_End_Tag_Name;
+
+                              End_Tag_Name_First_Index := P;
+                           elsif CP = Character'Pos ('!') then
+                              State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L_And_Exclamation;
+                           elsif Is_Special_Symbol (CP) then
+                              --                     Initialize (Call_Result, "Unexpected UTF8 symbol (code point" & Image (CP) & "), state " & State_Id_Type'Image (State_Id) & " " & Contents (F..P));
+                              Initialize (Call_Result, "Unexpected UTF8 symbol ");
                               exit;
+                           else
+                              -- Will start parsing child tag!
+                              State_Id := Extracting_Start_Tag_Name;
+                              Start_Tag_Name_First_Index := Prev_P;
                            end if;
-
-                           State_Id := Extracting_End_Tag_Name;
-
-                           End_Tag_Name_First_Index := P;
-                        elsif Is_Special_Symbol (CP) then
-                           --                     Initialize (Call_Result, "Unexpected UTF8 symbol (code point" & Image (CP) & "), state " & State_Id_Type'Image (State_Id) & " " & Contents (F..P));
-                           Initialize (Call_Result, "Unexpected UTF8 symbol ");
-                           exit;
-                        else
-                           -- Will start parsing child tag!
-                           State_Id := Extracting_Start_Tag_Name;
-                           Start_Tag_Name_First_Index := Prev_P;
-                        end if;
-                        --              when Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L_And_Exclamation =>
-                        --                 if CP = Character'Pos ('[') then
-                        --                    State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_C;
-                        --                 elsif CP = Character'Pos ('-') then
-                        --                    State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L_And_Exclamation_And_Dash;
-                        --                 else
-                        --                    State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
-                        --                 end if;
-                        --              when Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_C =>
-                        --                 if CP = Character'Pos ('C') then
-                        --                    State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CD;
-                        --                 else
-                        --                    State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
-                        --                 end if;
-                        --              when Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CD =>
-                        --                 if CP = Character'Pos ('D') then
-                        --                    State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CDA;
-                        --                 else
-                        --                    State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
-                        --                 end if;
-                        --              when Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CDA =>
-                        --                 if CP = Character'Pos ('A') then
-                        --                    State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CDAT;
-                        --                 else
-                        --                    State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
-                        --                 end if;
-                        --              when Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CDAT =>
-                        --                 if CP = Character'Pos ('T') then
-                        --                    State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CDATA;
-                        --                 else
-                        --                    State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
-                        --                 end if;
-                        --              when Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CDATA =>
-                        --                 if CP = Character'Pos ('A') then
-                        --                    State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CDATA_And_Square_Bracket;
-                        --                 else
-                        --                    State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
-                        --                 end if;
-                        --              when Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CDATA_And_Square_Bracket =>
-                        --                 if CP = Character'Pos ('[') then
-                        --                    State_Id := Extracting_CDATA;
-                        --                    Tag_Value_First_Index := P;
-                        --                 else
-                        --                    State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
-                        --                 end if;
-                        --              when Extracting_CDATA =>
-                        --                 if CP = Character'Pos (']') then
-                        --                    Tag_Value_Last_Index := Prev_Prev_P;
-                        --                    State_Id := Extracting_CDATA_Found_Square_Bracket;
-                        --                 end if;
-                        --              when Extracting_CDATA_Found_Square_Bracket =>
-                        --                 if CP = Character'Pos (']') then
-                        --                    State_Id := Extracting_CDATA_Found_Two_Square_Brackets;
-                        --                 else
-                        --                    State_Id := Extracting_CDATA;
-                        --                 end if;
-                        --              when Extracting_CDATA_Found_Two_Square_Brackets =>
-                        --                 if CP = Character'Pos ('>') then
-                        --                    State_Id := Extracting_CDATA_Found_Two_Square_Brackets_And_G_Sign;
-                        --                 else
-                        --                    State_Id := Extracting_CDATA;
-                        --                 end if;
-                        --              when Extracting_CDATA_Found_Two_Square_Brackets_And_G_Sign =>
-                        --                 if CP = Character'Pos ('<') then
-                        --                    State_Id := Extracting_CDATA_Found_Two_Square_Brackets_And_G_Sign_And_L_Sign;
-                        --                 else
-                        --                    Initialize (Call_Result, "Expecting '<' followed by end tag but was something else, state " & State_Id_Type'Image (State_Id) & " " & Contents (F..P));
-                        --                    return;
-                        --                 end if;
-                        --              when Extracting_CDATA_Found_Two_Square_Brackets_And_G_Sign_And_L_Sign =>
-                        --                 if CP = Character'Pos ('/') then
-                        --                    State_Id := Extracting_End_Tag_Name;
-                        --                    End_Tag_Name_First_Index := P;
-                        --                 else
-                        --                    Initialize (Call_Result, "Expecting '/' followed by end tag but was something else, state " & State_Id_Type'Image (State_Id) & " " & Contents (F..P));
-                        --                    return;
-                        --                 end if;
-                        --                 when Extracting_Root_End_Tag_Name =>
-                        --                    pragma Assert (Length (Tag_Ids) = 1 and Length (Shall_Ignore_Tag_Value_List) = 1);
-                        --                    if CP = Character'Pos ('>') then
-                        --  --                       if P > Contents'Last then
-                        --  --                          Initialize (Call_Result, "Unexpected end of XML.");
-                        --  --                          exit;
-                        --  --                       end if;
-                        --
-                        --                       End_Tag_Name_Last_Index := Prev_Prev_P;
-                        --
-                        --                       declare
-                        --                          Tag : constant Tag_T := Last_Element (Tag_Ids);
-                        --
-                        --                          pragma Assume (Tag.Name_First_Index in Contents_Index_T);
-                        --                          pragma Assume (Tag.Name_Last_Index in Contents_Index_T);
-                        --
-                        --                          Tag_Name : Aida.String_T := Contents (Tag.Name_First_Index..Tag.Name_Last_Index);
-                        --                          Value : Aida.String_T := (if Tag_Value_First_Index <= Tag_Value_Last_Index then
-                        --                                                            Contents (Tag_Value_First_Index..Tag_Value_Last_Index)
-                        --                                                          else
-                        --                                                             "");
-                        --                       begin
-                        --                          if Tag_Name /= Contents (End_Tag_Name_First_Index..End_Tag_Name_Last_Index) then
-                        --  --                             Initialize (Call_Result, "Tag names does not match! Start tag is '" & Tag_Name &
-                        --  --                                           "', and end tag is '" & Contents (End_Tag_Name_First_Index..End_Tag_Name_Last_Index) & "' state " & State_Id_Type'Image (State_Id) & " " & Contents (F..P));
-                        --                             Initialize (Call_Result, "Tag names does not match! Start tag is ");
-                        --                             exit;
-                        --                          end if;
-                        --
-                        --                          if not Shall_Ignore_Tag_Value then
-                        --                             Delete_Last (Tag_Ids);
-                        --
-                        --                             Root_End_Tag (Arg,
-                        --                                           Tag_Name,
-                        --                                           Value,
-                        --                                           Tag_Id_T'First,
-                        --                                           Call_Result);
-                        --
-                        --                             if Has_Failed (Call_Result) then
-                        --                                exit;
-                        --                             end if;
-                        --                          else
-                        --  --                             declare
-                        --  --                                Text_Value : String := Contents (Tag_Value_First_Index..Tag_Value_Last_Index);
-                        --  --                             begin
-                        --  --                                Text (Value       => Text_Value,
-                        --  --                                      Parent_Tags => Tag_Names,
-                        --  --                                      Call_Result => Call_Result);
-                        --  --
-                        --  --                                if Has_Failed (Call_Result) then
-                        --  --                                   return;
-                        --  --                                end if;
-                        --  --                             end;
-                        --
-                        --                             Delete_Last (Tag_Ids);
-                        --  --                             End_Tag (Tag_Name,
-                        --  --                                      Tag_Names,
-                        --  --                                      Call_Result);
-                        --
-                        --                             if Has_Failed (Call_Result) then
-                        --                                exit;
-                        --                             end if;
-                        --                          end if;
-                        --
-                        --  --                        Tag_Value_First_Index := P; -- should not be set because end of XML
-                        --                          Shall_Ignore_Tag_Value := Last_Element (Shall_Ignore_Tag_Value_List);
-                        --                          Delete_Last (Shall_Ignore_Tag_Value_List);
-                        --                       end;
-                        --
-                        --                       pragma Assert (Length (Tag_Ids) = 0 and Length (Shall_Ignore_Tag_Value_List) = 0);
-                        --
-                        --                       State_Id := Expecting_Only_Trailing_Spaces;
-                        --                    elsif CP = Character'Pos (Ada.Characters.Latin_1.LF) then
-                        --  --                     Initialize (Call_Result, "New line is forbidden inside attribute value, state " & State_Id_Type'Image (State_Id) & " " & Contents (F..P));
-                        --                       Initialize (Call_Result, "New line is forbidden inside attribute value, state ");
-                        --                       exit;
-                        --                    elsif Is_Special_Symbol (CP) then
-                        --  --                     Initialize (Call_Result, "Unexpected UTF8 symbol (code point" & Image (CP) & "), state " & State_Id_Type'Image (State_Id) & " " & Contents (F..P));
-                        --                       Initialize (Call_Result, "Unexpected UTF8 symbol (code point");
-                        --                       exit;
-                        --                    end if;
+                        when Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L_And_Exclamation =>
+                           if CP = Character'Pos ('[') then
+                              State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_C;
+                           elsif CP = Character'Pos ('-') then
+                              State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L_And_Exclamation_And_Dash;
+                           else
+                              State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
+                           end if;
+                        when Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_C =>
+                           if CP = Character'Pos ('C') then
+                              State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CD;
+                           else
+                              State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
+                           end if;
+                        when Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CD =>
+                           if CP = Character'Pos ('D') then
+                              State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CDA;
+                           else
+                              State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
+                           end if;
+                        when Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CDA =>
+                           if CP = Character'Pos ('A') then
+                              State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CDAT;
+                           else
+                              State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
+                           end if;
+                        when Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CDAT =>
+                           if CP = Character'Pos ('T') then
+                              State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CDATA;
+                           else
+                              State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
+                           end if;
+                        when Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CDATA =>
+                           if CP = Character'Pos ('A') then
+                              State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CDATA_And_Square_Bracket;
+                           else
+                              State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
+                           end if;
+                        when Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CDATA_And_Square_Bracket =>
+                           if CP = Character'Pos ('[') then
+                              State_Id := Extracting_CDATA;
+                              Tag_Value_First_Index := P;
+                           else
+                              State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
+                           end if;
+                        when Extracting_CDATA =>
+                           if CP = Character'Pos (']') then
+                              Tag_Value_Last_Index := Prev_Prev_P;
+                              State_Id := Extracting_CDATA_Found_Square_Bracket;
+                           end if;
+                        when Extracting_CDATA_Found_Square_Bracket =>
+                           if CP = Character'Pos (']') then
+                              State_Id := Extracting_CDATA_Found_Two_Square_Brackets;
+                           else
+                              State_Id := Extracting_CDATA;
+                           end if;
+                        when Extracting_CDATA_Found_Two_Square_Brackets =>
+                           if CP = Character'Pos ('>') then
+                              State_Id := Extracting_CDATA_Found_Two_Square_Brackets_And_G_Sign;
+                           else
+                              State_Id := Extracting_CDATA;
+                           end if;
+                        when Extracting_CDATA_Found_Two_Square_Brackets_And_G_Sign =>
+                           if CP = Character'Pos ('<') then
+                              State_Id := Extracting_CDATA_Found_Two_Square_Brackets_And_G_Sign_And_L_Sign;
+                           else
+                              Initialize (Call_Result, "Expecting '<' followed by end tag but was something else, state ");
+                              return;
+                           end if;
+                        when Extracting_CDATA_Found_Two_Square_Brackets_And_G_Sign_And_L_Sign =>
+                           if CP = Character'Pos ('/') then
+                              State_Id := Extracting_End_Tag_Name;
+                              End_Tag_Name_First_Index := P;
+                           else
+                              Initialize (Call_Result, "Expecting '/' followed by end tag but was something else, state ");
+                              return;
+                           end if;
                         when Extracting_End_Tag_Name =>
                            if CP = Character'Pos ('>') then
 
@@ -838,29 +757,58 @@ begin
                                                         else
                                                            Contents'Last);
 
-                        elsif CP = Character'Pos (Ada.Characters.Latin_1.LF) then
-                           --                     Initialize (Call_Result, "New line is forbidden inside attribute value, state " & State_Id_Type'Image (State_Id) & " " & Contents (F..P));
-                           Initialize (Call_Result, "New line is forbidden inside attribute value, state ");
-                           exit;
-                        elsif Is_Special_Symbol (CP) then
-                           --                     Initialize (Call_Result, "Unexpected UTF8 symbol (code point" & Image (CP) & "), state " & State_Id_Type'Image (State_Id) & " " & Contents (F..P));
-                           Initialize (Call_Result, "Unexpected UTF8 symbol (code point");
-                           exit;
-                        end if;
-                        --                 when Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L_And_Exclamation_And_Dash =>
-                        --                    if CP = Character'Pos ('-') then
-                        --                       declare
-                        --                          Value : String := Contents (Tag_Value_First_Index..(P - 5));
-                        --                       begin
-                        --                          Text (Value       => Value,
-                        --                                Parent_Tags => Tag_Names,
-                        --                                Call_Result => Call_Result);
-                        --                       end;
-                        --                       Comment_First_Index := P;
-                        --                       State_Id := Extracting_Comment;
-                        --                    else
-                        --                       State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
-                        --                    end if;
+                           elsif CP = Character'Pos (Ada.Characters.Latin_1.LF) then
+                              --                     Initialize (Call_Result, "New line is forbidden inside attribute value, state " & State_Id_Type'Image (State_Id) & " " & Contents (F..P));
+                              Initialize (Call_Result, "New line is forbidden inside attribute value, state ");
+                              exit;
+                           elsif Is_Special_Symbol (CP) then
+                              --                     Initialize (Call_Result, "Unexpected UTF8 symbol (code point" & Image (CP) & "), state " & State_Id_Type'Image (State_Id) & " " & Contents (F..P));
+                              Initialize (Call_Result, "Unexpected UTF8 symbol (code point");
+                              exit;
+                           end if;
+                        when Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L_And_Exclamation_And_Dash =>
+                           if CP = Character'Pos ('-') then
+                              --                                declare
+                              --                                   Value : String := Contents (Tag_Value_First_Index..(P - 5));
+                              --                                begin
+                              --                                   Text (Value       => Value,
+                              --                                         Parent_Tags => Tag_Names,
+                              --                                         Call_Result => Call_Result);
+                              --                                end;
+                              Comment_First_Index := P;
+                              State_Id := Extracting_Comment;
+                           else
+                              State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
+                           end if;
+                        when Init_Extracting_Comment =>
+                           if CP = Character'Pos ('-') then
+                              State_Id := Init_Extracting_Comment_And_Found_Dash;
+                           end if;
+                        when Init_Extracting_Comment_And_Found_Dash =>
+                           if CP = Character'Pos ('-') then
+                              State_Id := Init_Extracting_Comment_And_Found_Dash_Dash;
+                           else
+                              State_Id := Init_Extracting_Comment;
+                           end if;
+                        when Init_Extracting_Comment_And_Found_Dash_Dash =>
+                           if CP = Character'Pos ('>') then
+                              Comment (Arg1,
+                                       Arg2,
+                                       Arg3,
+                                       Arg4,
+                                       Value       => Contents (Comment_First_Index..(P - 4)),
+                                       Call_Result => Call_Result);
+
+                              if Has_Failed (Call_Result) then
+                                 exit;
+                              end if;
+
+                              Tag_Value_First_Index := P;
+                              --                              State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
+                              State_Id := Expecting_NL_Sign_Or_Space_Or_Less_Sign;
+                           else
+                              State_Id := Init_Extracting_Comment;
+                           end if;
                         when Extracting_Comment =>
                            if CP = Character'Pos ('-') then
                               State_Id := Extracting_Comment_And_Found_Dash;
@@ -887,15 +835,15 @@ begin
                               Tag_Value_First_Index := P;
                               State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
                            else
-                              State_Id := Extracting_Comment;
+                              State_Id := Init_Extracting_Comment;
                            end if;
-                     when Expecting_Only_Trailing_Spaces =>
-                        if CP = Character'Pos (' ') then
-                           null; -- Trailing spaces are OK
-                        else
-                           Initialize (Call_Result, "Unexpected symbol!");
-                           exit;
-                        end if;
+                        when Expecting_Only_Trailing_Spaces =>
+                           if CP = Character'Pos (' ') then
+                              null; -- Trailing spaces are OK
+                           else
+                              Initialize (Call_Result, "Unexpected symbol!");
+                              exit;
+                           end if;
                      end case;
                   end loop;
                end;

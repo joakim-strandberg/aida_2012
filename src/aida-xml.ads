@@ -56,9 +56,9 @@ private
 
    type State_Id_Type is (
                           Expecting_NL_Sign_Or_Space_Or_Less_Sign, -- NL = New Line
-                          Found_Less_Sign,
-                          Found_Less_Followed_By_Exclamation_Sign,
-                          Found_Less_Followed_By_Exclamation_And_Dash_Sign,
+                          Init_Found_Less_Sign,                                  -- First start tag has not yet been found
+                          Init_Found_Less_Followed_By_Exclamation_Sign,          -- First start tag has not yet been found
+                          Init_Found_Less_Followed_By_Exclamation_And_Dash_Sign, -- First start tag has not yet been found
                           Extracting_Start_Tag_Name,
                           Expecting_G_Sign_Or_Extracting_Attributes,
                           Expecting_G_Sign_Or_Extracting_Attributes_And_Found_Slash,
@@ -69,20 +69,23 @@ private
                           Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L,
                           Expecting_Only_Trailing_Spaces,
                           Extracting_End_Tag_Name,
---                          Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L_And_Exclamation_And_Dash,
+                          Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L_And_Exclamation_And_Dash,
                           -- Enumeration values introduced to handle <!CDATA[--]]>
---                            Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L_And_Exclamation,
---                            Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_C,
---                            Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CD,
---                            Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CDA,
---                            Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CDAT,
---                            Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CDATA,
---                            Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CDATA_And_Square_Bracket,
---                            Extracting_CDATA,
---                            Extracting_CDATA_Found_Square_Bracket,
---                            Extracting_CDATA_Found_Two_Square_Brackets,
---                            Extracting_CDATA_Found_Two_Square_Brackets_And_G_Sign,
---                            Extracting_CDATA_Found_Two_Square_Brackets_And_G_Sign_And_L_Sign,
+                          Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L_And_Exclamation,
+                          Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_C,
+                          Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CD,
+                          Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CDA,
+                          Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CDAT,
+                          Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CDATA,
+                          Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CDATA_And_Square_Bracket,
+                          Extracting_CDATA,
+                          Extracting_CDATA_Found_Square_Bracket,
+                          Extracting_CDATA_Found_Two_Square_Brackets,
+                          Extracting_CDATA_Found_Two_Square_Brackets_And_G_Sign,
+                          Extracting_CDATA_Found_Two_Square_Brackets_And_G_Sign_And_L_Sign,
+                          Init_Extracting_Comment,                     -- First start tag has not yet been found
+                          Init_Extracting_Comment_And_Found_Dash,      -- First start tag has not yet been found
+                          Init_Extracting_Comment_And_Found_Dash_Dash, -- First start tag has not yet been found
                           Extracting_Comment,
                           Extracting_Comment_And_Found_Dash,
                           Extracting_Comment_And_Found_Dash_Dash
