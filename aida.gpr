@@ -36,7 +36,10 @@ project Aida is
                          "aida-xml.ads",
                          "aida-xml-generic_parse_xml_file.ads",
                          "aida-xml-generic_parse_xml_file.adb",
-                         "aida-os_lib.ads");
+                         "aida-os_lib.ads",
+                         "aida-application_locator.ads",
+                         "aida-application_locator.adb"
+                        );
 
    for Object_Dir use "obj";
 

@@ -1,7 +1,7 @@
 with Aida.Directories;
 with Aida.OS_Lib;
 
-package body Application_Locator is
+package body Aida.Application_Locator is
 
    use type Aida.Directories.File_Kind;
 
@@ -28,4 +28,4 @@ package body Application_Locator is
       end;
    end Get_Executable_Directory;
 
-end Application_Locator;
+end Aida.Application_Locator;

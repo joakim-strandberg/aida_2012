@@ -21,8 +21,6 @@ project Run_Aida_Tests is
                          "aida-utf8-tests.adb",
                          "aida-xml_parsing_tests.ads",
                          "aida-xml_parsing_tests.adb",
-                         "application_locator.ads",
-                         "application_locator.adb",
                          "run_aida_tests.adb"
                         );
 

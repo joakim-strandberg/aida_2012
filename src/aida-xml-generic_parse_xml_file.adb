@@ -6,6 +6,9 @@ with Aida.Bounded_Vector;
 
 pragma Elaborate_All (Aida.Bounded_Vector);
 
+-- Known unsupported issues: Escaping of text (for example %amp;)
+-- The stack roof may be hit if the comments and texts in the XML are HUGE.
+-- It should not be an issue in general.
 procedure Aida.XML.Generic_Parse_XML_File (Arg1        : in out Arg1_T;
                                            Arg2        : in out Arg2_T;
                                            Arg3        : in out Arg3_T;
