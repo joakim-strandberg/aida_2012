@@ -41,6 +41,8 @@ package body Aida.XML_Parsing_Tests is
 
    XML_Test_Person_With_Age_Pre_Comment_0 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person><!-- Comment -->10</person>";
 
+   XML_Test_Person_With_Age_Post_Comment_0 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person>10<!-- Comment --></person>";
+
    overriding procedure Initialize (T : in out Test) is
    begin
       Set_Name (T, "Aida.XML.Generic_Parse_XML_File package tests");
@@ -59,6 +61,7 @@ package body Aida.XML_Parsing_Tests is
       Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Hand_6'Access, "Test_Person_With_Hand_6");
       Ahven.Framework.Add_Test_Routine (T, Test_Comment_0'Access, "Test_Comment_0");
       Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Age_Pre_Comment_0'Access, "Test_Person_With_Age_Pre_Comment_0");
+      Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Age_Post_Comment_0'Access, "Test_Person_With_Age_Post_Comment_0");
    end Initialize;
 
    use all type Person_Id_Vector.T;
@@ -1222,5 +1225,266 @@ package body Aida.XML_Parsing_Tests is
    begin
       Test_Person_With_Age_Pre_Comment_Utils.Run_Test (XML_Test_Person_With_Age_Pre_Comment_0);
    end Test_Person_With_Age_Pre_Comment_0;
+
+   package Test_Person_With_Age_Post_Comment_Utils with SPARK_Mode is
+
+      type State_T is (
+                       Expecting_Person_Start_Tag,
+                       Expecting_Age_Value,
+                       Expecting_Post_Age_Comment,
+                       Expecting_Post_Age_Text,
+                       Expecting_Person_End_Tag,
+                       Final_State
+                       );
+
+      procedure Start_Tag (Result      : in out Storage_T;
+                           Max_Indices : in out Max_Indices_T;
+                           State       : in out State_T;
+                           Current_Ids : in out Current_Ids_T;
+                           Tag_Name    : Aida.String_T;
+                           Call_Result : in out Aida.XML.Procedure_Call_Result.T) with
+        Global => null;
+
+      procedure End_Tag (Result      : in out Storage_T;
+                         Max_Indices : in out Max_Indices_T;
+                         State       : in out State_T;
+                         Current_Ids : in out Current_Ids_T;
+                         Tag_Name    : Aida.String_T;
+                         Call_Result : in out Aida.XML.Procedure_Call_Result.T) with
+        Global => null;
+
+      procedure Text (Result      : in out Storage_T;
+                      Max_Indices : in out Max_Indices_T;
+                      State       : in out State_T;
+                      Current_Ids : in out Current_Ids_T;
+                      Value       : Aida.String_T;
+                      Call_Result : in out Aida.XML.Procedure_Call_Result.T) with
+        Global => null;
+
+      procedure Attribute (Result          : in out Storage_T;
+                           Max_Indices     : in out Max_Indices_T;
+                           State           : in out State_T;
+                           Current_Ids     : in out Current_Ids_T;
+                           Attribute_Name  : Aida.String_T;
+                           Attribute_Value : Aida.String_T;
+                           Call_Result     : in out Aida.XML.Procedure_Call_Result.T) with
+        Global => null;
+
+      procedure Run_Test (XML : Aida.String_T) with
+        Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices)),
+        Pre    => XML'Last < Integer'Last - 4;
+
+   end Test_Person_With_Age_Post_Comment_Utils;
+
+   package body Test_Person_With_Age_Post_Comment_Utils with SPARK_Mode is
+
+      procedure Start_Tag (Result      : in out Storage_T;
+                           Max_Indices : in out Max_Indices_T;
+                           State       : in out State_T;
+                           Current_Ids : in out Current_Ids_T;
+                           Tag_Name    : Aida.String_T;
+                           Call_Result : in out Aida.XML.Procedure_Call_Result.T)
+      is
+         pragma Unreferenced (Result);
+      begin
+         case State is
+            when Expecting_Person_Start_Tag =>
+               if
+                 Tag_Name = "person" and
+                 Person_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Person_Id_T'Last and
+                 Length (Current_Ids.Person_Ids) < Person_Id_Vector.Length_T'Last
+               then
+                  declare
+                     Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T;
+                  begin
+                     Allocate_Person_Id (This      => Max_Indices,
+                                         Person_Id => Person_Id);
+                     Append (Current_Ids.Person_Ids, Person_Id);
+                  end;
+                  State := Expecting_Age_Value;
+               else
+                  Initialize (Call_Result, "95BA939B-D685-484D-BBC3-E25A1494925D");
+               end if;
+            when Expecting_Post_Age_Text |
+                 Expecting_Post_Age_Comment |
+                 Expecting_Age_Value |
+                 Expecting_Person_End_Tag |
+                 Final_State =>
+               Initialize (Call_Result, "38A215E2-5587-4FDC-B8A2-69A9546718C5");
+         end case;
+      end Start_Tag;
+
+      procedure End_Tag (Result      : in out Storage_T;
+                         Max_Indices : in out Max_Indices_T;
+                         State       : in out State_T;
+                         Current_Ids : in out Current_Ids_T;
+                         Tag_Name    : Aida.String_T;
+                         Call_Result : in out Aida.XML.Procedure_Call_Result.T)
+      is
+         pragma Unreferenced (Result);
+         pragma Unreferenced (Max_Indices);
+         pragma Unreferenced (Current_Ids);
+      begin
+         case State is
+            when Expecting_Person_End_Tag =>
+               if Tag_Name = "person" then
+                  State := Final_State;
+               else
+                  Initialize (Call_Result, "733D4C3B-5724-4A5C-9836-77B86BA348CC");
+               end if;
+            when Expecting_Post_Age_Text |
+                 Expecting_Post_Age_Comment |
+                 Expecting_Age_Value |
+                 Expecting_Person_Start_Tag |
+                 Final_State =>
+               Initialize (Call_Result, "E8859A95-D6F9-4923-80BC-0D3F139BBD79");
+         end case;
+      end End_Tag;
+
+      procedure Text (Result      : in out Storage_T;
+                      Max_Indices : in out Max_Indices_T;
+                      State       : in out State_T;
+                      Current_Ids : in out Current_Ids_T;
+                      Value       : Aida.String_T;
+                      Call_Result : in out Aida.XML.Procedure_Call_Result.T)
+      is
+         pragma Unreferenced (Max_Indices);
+      begin
+         case State is
+            when Expecting_Age_Value  =>
+               if Person_Id_Vector.Is_Empty (Current_Ids.Person_Ids) then
+                  Initialize (Call_Result, "F434F73C-825A-4B4E-A2EF-DC2A52DCA28D");
+               else
+                  declare
+                     Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T renames
+                       Person_Id_Vector.Last_Element (Current_Ids.Person_Ids);
+                  begin
+                     if Value'Length > Json_Parsing_Tests_Model.Person_Def.NAME_MAX then
+                        Initialize (Call_Result, "A8DFF685-A883-4149-819D-9C0E039D38C3");
+                     else
+                        Initialize (Result.Person (Person_Id).Name,
+                                    Value);
+                     end if;
+                  end;
+                  State := Expecting_Post_Age_Comment;
+               end if;
+            when Expecting_Post_Age_Text =>
+               if Value = "" then
+                  State := Expecting_Person_End_Tag;
+               else
+                  Initialize (Call_Result, "F98DD5FC-6225-4435-A285-850754C909DC");
+               end if;
+            when Expecting_Post_Age_Comment |
+                 Expecting_Person_Start_Tag |
+                 Expecting_Person_End_Tag |
+                 Final_State =>
+               Initialize (Call_Result, "AF37FE00-80CF-4A62-BF4A-E467E2145739");
+         end case;
+      end Text;
+
+      procedure Attribute (Result          : in out Storage_T;
+                           Max_Indices     : in out Max_Indices_T;
+                           State           : in out State_T;
+                           Current_Ids     : in out Current_Ids_T;
+                           Attribute_Name  : Aida.String_T;
+                           Attribute_Value : Aida.String_T;
+                           Call_Result     : in out Aida.XML.Procedure_Call_Result.T)
+      is
+         pragma Unreferenced (Result);
+         pragma Unreferenced (Max_Indices);
+         pragma Unreferenced (Current_Ids);
+         pragma Unreferenced (Attribute_Name);
+         pragma Unreferenced (Attribute_Value);
+      begin
+         case State is
+            when Expecting_Post_Age_Text |
+                 Expecting_Post_Age_Comment |
+                 Expecting_Age_Value |
+                 Expecting_Person_End_Tag |
+                 Expecting_Person_Start_Tag |
+                 Final_State =>
+               Initialize (Call_Result, "46059C70-1275-4D1E-BB61-EC6B8B87CEC5");
+         end case;
+      end Attribute;
+
+      procedure Comment (Result      : in out Storage_T;
+                         Max_Indices : in out Max_Indices_T;
+                         State       : in out State_T;
+                         Current_Ids : in out Current_Ids_T;
+                         Value       : Aida.String_T;
+                         Call_Result : in out Aida.XML.Procedure_Call_Result.T)
+      is
+         pragma Unreferenced (Max_Indices);
+         pragma Unreferenced (Current_Ids);
+      begin
+         case State is
+            when Expecting_Post_Age_Comment =>
+               if Result.Header_Comment'Length > Value'Length then
+                  Result.Header_Comment (1..Value'Length) := Value (Value'Range);
+                  State := Expecting_Post_Age_Text;
+               else
+                  Initialize (Call_Result, "F4DF3CE3-6BB8-4466-BB3F-EB6C2A299A5C");
+               end if;
+            when Expecting_Post_Age_Text |
+                 Expecting_Age_Value |
+                 Expecting_Person_End_Tag |
+                 Expecting_Person_Start_Tag |
+                 Final_State =>
+               Initialize (Call_Result, "DA8DFC69-0308-47D8-BC48-9757FAB1AB5B");
+         end case;
+      end Comment;
+
+      procedure Run_Test (XML : Aida.String_T) is
+
+         procedure Parse_XML is new Aida.XML.Generic_Parse_XML_File (Storage_T,
+                                                                     Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
+                                                                     State_T,
+                                                                     Current_Ids_T,
+                                                                     Start_Tag,
+                                                                     End_Tag,
+                                                                     Text,
+                                                                     Attribute,
+                                                                     Comment);
+
+         Call_Result : Aida.XML.Procedure_Call_Result.T;
+
+         State : State_T := Expecting_Person_Start_Tag;
+
+         Current_Ids : Current_Ids_T;
+      begin
+         Clear (Aida.Json_Parsing_Tests_Model.Max_Indices);
+         Clear (Storage);
+
+         Parse_XML (Storage,
+                    Aida.Json_Parsing_Tests_Model.Max_Indices,
+                    State,
+                    Current_Ids,
+                    XML,
+                    Call_Result);
+
+         Ahven.Assert (not Has_Failed (Call_Result), String (Message (Call_Result)));
+         Ahven.Assert (State = Final_State, "592cbd68-ef97-4fc1-934b-80111d24fd32");
+         Ahven.Assert (Person_Id_Vector.Length (Current_Ids.Person_Ids) > 0, "1f861507-695e-458b-836e-aa9fe7f131e2");
+         Ahven.Assert (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) = 1, "949ca5e3-1353-47e6-90fc-b0aa21d398a6");
+         Ahven.Assert (not Has_Failed (Call_Result), "4ed49d34-b03a-4251-ab05-dc9cb794bd91");
+         if
+           Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) > 0 and then
+           Length (Storage.Person (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices)).Name) <= Storage.Person (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices)).Name.Maximum_Length
+         then
+            Ahven.Assert (Storage.Person (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices)).Age = 10, "1d10d12b-c726-40aa-881b-8374801f539e");
+         end if;
+
+         Ahven.Assert (Storage.Header_Comment (1..9) = " Comment ", "1DC369DF-0657-46DE-8E45-711F49789555");
+      end Run_Test;
+
+   end Test_Person_With_Age_Post_Comment_Utils;
+
+   procedure Test_Person_With_Age_Post_Comment_0 (T : in out Ahven.Framework.Test_Case'Class) with
+     SPARK_Mode => On
+   is
+      pragma Unreferenced (T);
+   begin
+      Test_Person_With_Age_Post_Comment_Utils.Run_Test (XML_Test_Person_With_Age_Post_Comment_0);
+   end Test_Person_With_Age_Post_Comment_0;
 
 end Aida.XML_Parsing_Tests;
