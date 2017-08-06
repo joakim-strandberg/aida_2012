@@ -36,6 +36,7 @@ package body Aida.XML_Parsing_Tests is
    XML_Test_Person_With_Hand_4 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person><hand fingers='4'   ></hand></person>";
    XML_Test_Person_With_Hand_5 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person><hand   fingers='4'></hand></person>";
    XML_Test_Person_With_Hand_6 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person><hand fingers='4'/></person>";
+   XML_Test_Person_With_Hand_7 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person><hand fingers='4' /></person>";
 
    XML_Test_Comment_0 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><!-- Some comment --><person>10</person>";
 
@@ -61,6 +62,7 @@ package body Aida.XML_Parsing_Tests is
       Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Hand_4'Access, "Test_Person_With_Hand_4");
       Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Hand_5'Access, "Test_Person_With_Hand_5");
       Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Hand_6'Access, "Test_Person_With_Hand_6");
+      Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Hand_7'Access, "Test_Person_With_Hand_7");
       Ahven.Framework.Add_Test_Routine (T, Test_Comment_0'Access, "Test_Comment_0");
       Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Age_Pre_Comment_0'Access, "Test_Person_With_Age_Pre_Comment_0");
       Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Age_Post_Comment_0'Access, "Test_Person_With_Age_Post_Comment_0");
@@ -765,6 +767,14 @@ package body Aida.XML_Parsing_Tests is
    begin
       Test_Person_With_Hand_Utils.Run_Test (XML_Test_Person_With_Hand_6);
    end Test_Person_With_Hand_6;
+
+   procedure Test_Person_With_Hand_7 (T : in out Ahven.Framework.Test_Case'Class) with
+     SPARK_Mode => On
+   is
+      pragma Unreferenced (T);
+   begin
+      Test_Person_With_Hand_Utils.Run_Test (XML_Test_Person_With_Hand_7);
+   end Test_Person_With_Hand_7;
 
    package Test_Comment_Utils with SPARK_Mode is
 
