@@ -46,6 +46,13 @@ generic
                            Value       : in     Aida.String_T;
                            Call_Result : in out Procedure_Call_Result.T);
 
+   with procedure CDATA (Arg1        : in out Arg1_T;
+                         Arg2        : in out Arg2_T;
+                         Arg3        : in out Arg3_T;
+                         Arg4        : in out Arg4_T;
+                         Value       : in     Aida.String_T;
+                         Call_Result : in out Procedure_Call_Result.T);
+
 procedure Aida.XML.Generic_Parse_XML_File (Arg1        : in out Arg1_T;
                                            Arg2        : in out Arg2_T;
                                            Arg3        : in out Arg3_T;

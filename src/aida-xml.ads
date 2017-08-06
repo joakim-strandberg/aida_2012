@@ -81,8 +81,6 @@ private
                           Extracting_CDATA,
                           Extracting_CDATA_Found_Square_Bracket,
                           Extracting_CDATA_Found_Two_Square_Brackets,
-                          Extracting_CDATA_Found_Two_Square_Brackets_And_G_Sign,
-                          Extracting_CDATA_Found_Two_Square_Brackets_And_G_Sign_And_L_Sign,
                           Init_Extracting_Comment,                     -- First start tag has not yet been found
                           Init_Extracting_Comment_And_Found_Dash,      -- First start tag has not yet been found
                           Init_Extracting_Comment_And_Found_Dash_Dash, -- First start tag has not yet been found

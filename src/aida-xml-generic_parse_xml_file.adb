@@ -711,24 +711,21 @@ begin
                            end if;
                         when Extracting_CDATA_Found_Two_Square_Brackets =>
                            if CP = Character'Pos ('>') then
-                              State_Id := Extracting_CDATA_Found_Two_Square_Brackets_And_G_Sign;
+                              CDATA (Arg1,
+                                     Arg2,
+                                     Arg3,
+                                     Arg4,
+                                     Contents (Tag_Value_First_Index..Tag_Value_Last_Index),
+                                     Call_Result);
+
+                              if Has_Failed (Call_Result) then
+                                 exit;
+                              end if;
+
+                              Tag_Value_First_Index := P;
+                              State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
                            else
                               State_Id := Extracting_CDATA;
-                           end if;
-                        when Extracting_CDATA_Found_Two_Square_Brackets_And_G_Sign =>
-                           if CP = Character'Pos ('<') then
-                              State_Id := Extracting_CDATA_Found_Two_Square_Brackets_And_G_Sign_And_L_Sign;
-                           else
-                              Initialize (Call_Result, "Expecting '<' followed by end tag but was something else, state ");
-                              return;
-                           end if;
-                        when Extracting_CDATA_Found_Two_Square_Brackets_And_G_Sign_And_L_Sign =>
-                           if CP = Character'Pos ('/') then
-                              State_Id := Extracting_End_Tag_Name;
-                              End_Tag_Name_First_Index := P;
-                           else
-                              Initialize (Call_Result, "Expecting '/' followed by end tag but was something else, state ");
-                              return;
                            end if;
                         when Extracting_End_Tag_Name =>
                            if CP = Character'Pos ('>') then
