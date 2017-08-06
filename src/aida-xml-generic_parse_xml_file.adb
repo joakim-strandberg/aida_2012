@@ -34,7 +34,7 @@ begin
       if not Aida.UTF8.Is_Valid_UTF8_Code_Point (Source  => String (Contents),
                                                  Pointer => P)
       then
-         Initialize (Call_Result, "Found invalid UTF-8 character.");
+         Initialize (Call_Result, "5ADF2014-09F9-4AD0-BFA8-DC0FCE162CAA");
          exit;
       end if;
 
@@ -359,7 +359,7 @@ begin
                      if not Aida.UTF8.Is_Valid_UTF8_Code_Point (Source  => String (Contents),
                                                                 Pointer => P)
                      then
-                        Initialize (Call_Result, "Found invalid UTF-8 character.");
+                        Initialize (Call_Result, "ECA440AC-A332-48A6-92D2-43E3AA805C54");
                         exit;
                      end if;
 
@@ -410,7 +410,7 @@ begin
                            elsif CP = Character'Pos ('<') then
                               State_Id := Init_Found_Less_Sign;
                            else
-                              Initialize (Call_Result, "Unexpected UTF8 symbol");
+                              Initialize (Call_Result, "F393A197-9FE3-4DA7-94E7-F20293B90DC4");
                               return;
                            end if;
                         when Init_Found_Less_Sign =>
@@ -446,14 +446,14 @@ begin
 
                               pragma Assert (Start_Tag_Name_First_Index < P);
                            else
-                              Initialize (Call_Result, "Unexpected UTF8 symbol (code point ), state ");
+                              Initialize (Call_Result, "C0A824E6-C5A1-4772-B5AF-AD5A5A92E0F1");
                               exit;
                            end if;
                         when Init_Found_Less_Followed_By_Exclamation_Sign =>
                            if CP = Character'Pos ('-') then
                               State_Id := Init_Found_Less_Followed_By_Exclamation_And_Dash_Sign;
                            else
-                              Initialize (Call_Result, "Unexpected UTF8 symbol");
+                              Initialize (Call_Result, "31C379A3-C48E-4C99-B4B6-EA9D455AE938");
                               return;
                            end if;
                         when Init_Found_Less_Followed_By_Exclamation_And_Dash_Sign =>
@@ -461,7 +461,7 @@ begin
                               State_Id := Init_Extracting_Comment;
                               Comment_First_Index := P;
                            else
-                              Initialize (Call_Result, "Unexpected UTF8 symbol");
+                              Initialize (Call_Result, "3854EE8E-F8BA-4E43-AE22-9B89409E53BF");
                               return;
                            end if;
                         when Extracting_Start_Tag_Name =>
@@ -502,7 +502,7 @@ begin
 
                               State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
                            elsif Is_Special_Symbol (CP) then
-                              Initialize (Call_Result, "Unexpected UTF8 symbol (code point");
+                              Initialize (Call_Result, "C75A8959-63EE-4563-8851-0DE63A1811F4");
                               exit;
                            end if;
                         when Expecting_G_Sign_Or_Extracting_Attributes =>
@@ -512,7 +512,7 @@ begin
                               State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
 
                               if P > Contents'Last then
-                                 Initialize (Call_Result, "Unexpected end of XML.");
+                                 Initialize (Call_Result, "21A4D41D-158A-4EF8-966B-6BD1284323AE");
                                  exit;
                               end if;
 
@@ -556,16 +556,15 @@ begin
 
                               Tag_Value_First_Index := P;
                            else
-                              Initialize (Call_Result, "Expected '>', state ");
+                              Initialize (Call_Result, "2729276A-4777-4BD3-89A2-F2703EB58338");
                               return;
                            end if;
                         when Extracting_Attribute_Name =>
                            if CP = Character'Pos ('=') then
                               Attribute_Last_Index := Prev_Prev_P;
                               State_Id := Expecting_Attribute_Value_Quotation_Mark;
-                              --                  Ada.Text_IO.Put_Line ("Extracted attribute name: '" & Contents (Attribute_First_Index..Attribute_Last_Index) & "'");
                            elsif CP = Character'Pos (Ada.Characters.Latin_1.LF) then
-                              Initialize (Call_Result, "New line is forbidden inside attribute name, state ");
+                              Initialize (Call_Result, "FC0897BB-A677-4520-81CD-2A042D0BA50E");
                               return;
                            elsif not Is_Special_Symbol (CP) then
                               null; -- Normal
@@ -580,7 +579,7 @@ begin
                               Attribute_Value_First_Index := P;
                               State_Id := Extracting_Attribute_Value;
                            else
-                              Initialize (Call_Result, "Unexpected UTF8 symbol");
+                              Initialize (Call_Result, "82449A50-4F42-4474-9FFF-8AE4F43EADB0");
                               return;
                            end if;
                         when Extracting_Attribute_Value =>
@@ -590,7 +589,6 @@ begin
                            then
                               Attribute_Value_Last_Index := Prev_Prev_P;
                               State_Id := Expecting_G_Sign_Or_Extracting_Attributes;
-                              --                  Ada.Text_IO.Put_Line ("Extracted attribute value: '" & Contents (Attribute_Value_First_Index..Attribute_Value_Last_Index) & "'");
                               declare
                                  Name : Aida.String_T := Contents (Attribute_First_Index..Attribute_Last_Index);
                                  Value : Aida.String_T := Contents (Attribute_Value_First_Index..Attribute_Value_Last_Index);
@@ -608,7 +606,7 @@ begin
                                  return;
                               end if;
                            elsif CP = Character'Pos (Ada.Characters.Latin_1.LF) then
-                              Initialize (Call_Result, "New line is forbidden inside attribute value, state ");
+                              Initialize (Call_Result, "F5C73899-191A-4FF2-A68A-5D0FF593D075");
                               return;
                            end if;
                         when Expecting_New_Tag_Or_Extracting_Tag_Value =>
@@ -635,7 +633,7 @@ begin
                         when Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L =>
                            if CP = Character'Pos ('/') then
                               if P > Contents'Last then
-                                 Initialize (Call_Result, "Unexpected end of XML.");
+                                 Initialize (Call_Result, "827762F3-2C3A-4FDC-B3BA-8C2014E05489");
                                  exit;
                               end if;
 
@@ -645,8 +643,7 @@ begin
                            elsif CP = Character'Pos ('!') then
                               State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L_And_Exclamation;
                            elsif Is_Special_Symbol (CP) then
-                              --                     Initialize (Call_Result, "Unexpected UTF8 symbol (code point" & Image (CP) & "), state " & State_Id_Type'Image (State_Id) & " " & Contents (F..P));
-                              Initialize (Call_Result, "Unexpected UTF8 symbol ");
+                              Initialize (Call_Result, "09CAF006-C519-4352-893C-E925F0132DCF");
                               exit;
                            else
                               -- Will start parsing child tag!
@@ -757,23 +754,14 @@ begin
                                                            Contents'Last);
 
                            elsif CP = Character'Pos (Ada.Characters.Latin_1.LF) then
-                              --                     Initialize (Call_Result, "New line is forbidden inside attribute value, state " & State_Id_Type'Image (State_Id) & " " & Contents (F..P));
-                              Initialize (Call_Result, "New line is forbidden inside attribute value, state ");
+                              Initialize (Call_Result, "3B4C9CE5-B370-44A4-97EA-8A0DE764BB12");
                               exit;
                            elsif Is_Special_Symbol (CP) then
-                              --                     Initialize (Call_Result, "Unexpected UTF8 symbol (code point" & Image (CP) & "), state " & State_Id_Type'Image (State_Id) & " " & Contents (F..P));
-                              Initialize (Call_Result, "Unexpected UTF8 symbol (code point");
+                              Initialize (Call_Result, "EF972DFF-625E-4189-9E9E-ED6F194DA206");
                               exit;
                            end if;
                         when Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L_And_Exclamation_And_Dash =>
                            if CP = Character'Pos ('-') then
-                              --                                declare
-                              --                                   Value : String := Contents (Tag_Value_First_Index..(P - 5));
-                              --                                begin
-                              --                                   Text (Value       => Value,
-                              --                                         Parent_Tags => Tag_Names,
-                              --                                         Call_Result => Call_Result);
-                              --                                end;
                               Comment_First_Index := P;
                               State_Id := Extracting_Comment;
                            else
@@ -803,7 +791,6 @@ begin
                               end if;
 
                               Tag_Value_First_Index := P;
-                              --                              State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
                               State_Id := Expecting_NL_Sign_Or_Space_Or_Less_Sign;
                            else
                               State_Id := Init_Extracting_Comment;
@@ -840,7 +827,7 @@ begin
                            if CP = Character'Pos (' ') then
                               null; -- Trailing spaces are OK
                            else
-                              Initialize (Call_Result, "Unexpected symbol!");
+                              Initialize (Call_Result, "2A0B3561-E2F4-448B-88FE-6A0190525B86");
                               exit;
                            end if;
                      end case;
