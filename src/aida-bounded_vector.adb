@@ -1,10 +1,8 @@
-with Ada.Exceptions;
-
 package body Aida.Bounded_Vector is
 
-   function Default_Vector return T is
+   function Default_Vector (C : Capacity_T) return T is
    begin
-      return This : T do
+      return This : T (C) do
          This.Items := (others => Default_Element);
          This.Last_Index := Extended_Index_T'First;
       end return;
@@ -15,7 +13,7 @@ package body Aida.Bounded_Vector is
    begin
       if This.Last_Index = Extended_Index_T'First then
          This.Last_Index := Index_T'First;
-         This.Items (Index_T'First) := New_Item;
+         This.Items (1) := New_Item;
       else
          This.Last_Index := This.Last_Index + 1;
          This.Items (Index_T (This.Last_Index)) := New_Item;
@@ -27,7 +25,7 @@ package body Aida.Bounded_Vector is
    is
       Result : Boolean := False;
    begin
-      for I in Extended_Index_T range Index_T'First..This.Last_Index loop
+      for I in Extended_Index_T range 1..This.Last_Index loop
          if This.Items (I) = Element then
             Result := True;
             exit;
@@ -68,17 +66,6 @@ package body Aida.Bounded_Vector is
    begin
       Do_Something (This.Items (Index_T'First..Index_T(This.Last_Index)));
    end Act_On_Mutable_Elements;
-
---     function Const_Ref (This  : T;
---                         Index : Index_T) return Element_Const_Ptr is
---     begin
---        if Index > This.Last_Index then
---           Ada.Exceptions.Raise_Exception (E       => Out_Of_Bounds_Exception'Identity,
---                                           Message => "Const_Ref");
---        else
---           return This.Items (Index)'Unchecked_Access;
---        end if;
---     end Const_Ref;
 
    procedure Clear (This : in out T) is
    begin

@@ -16,9 +16,9 @@ is
    use all type Aida.UTF8_Code_Point.T;
    use all type Procedure_Call_Result.T;
 
-   Tag_Ids : Tag_Id_Vector.T;
+   Tag_Ids : Tag_Id_Vector.T (MAX_DEPTH);
 
-   Array_Tag_Ids : Tag_Id_Vector.T;
+   Array_Tag_Ids : Tag_Id_Vector.T (MAX_DEPTH);
 
    State_Id : State_Id_Type := Expecting_NL_Sign_Or_Space_Or_Left_Curly_Bracket;
 

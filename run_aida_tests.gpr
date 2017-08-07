@@ -11,6 +11,8 @@ project Run_Aida_Tests is
                          "aida-bounded_hash_map_tests.adb",
                          "aida-bounded_string_tests.ads",
                          "aida-bounded_string_tests.adb",
+                         "aida-bounded_vector_tests.ads",
+                         "aida-bounded_vector_tests.adb",
                          "aida-json_parsing_tests.ads",
                          "aida-json_parsing_tests.adb",
                          "aida-json_parsing_tests_model.ads",

@@ -29,7 +29,8 @@ with Aida;
 
 package Aida.Bounded_String with SPARK_Mode is
 
-   type T (Maximum_Length : Positive) is limited private;
+   type T (Maximum_Length : Positive) is limited private with
+     Default_Initial_Condition => Length (T) = 0;
 
    procedure Initialize (This : in out T;
                          Text : Aida.String_T) with
@@ -45,6 +46,8 @@ package Aida.Bounded_String with SPARK_Mode is
 
    function Length (This : T) return Natural with
      Global => null;
+   -- Compare the Length function with the Length function
+   -- in Ada.Containers.Formal_Vectors. Notice the post-condition!
 
    function Equals (This   : T;
                     Object : Standard.String) return Boolean with
@@ -91,8 +94,7 @@ private
    type T (Maximum_Length : Positive) is limited record
       Text        : Aida.String_T (1..T.Maximum_Length) := (others => ' ');
       Text_Length : Natural := 0;
-   end record with
-     Dynamic_Predicate => T.Text_Length <= T.Maximum_Length;
+   end record;
 
    function Length (This : T) return Natural is (This.Text_Length);
 

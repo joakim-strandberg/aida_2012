@@ -99,6 +99,10 @@ package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
 
       NAME_MAX : constant := 30;
 
+      HANDS_MAX : constant := 2;
+
+      VEHICLES_MAX : constant := 5;
+
       type Name_T is new Aida.Bounded_String.T (NAME_MAX);
 
       function Make return Name_T with
@@ -106,20 +110,14 @@ package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
 
       function Default_Hand_Id return Hand_Id_T is (5);
 
-      type Hand_Vector_Index_T is new Positive range 1..2;
-
-      package Hand_Vector is new Aida.Bounded_Vector (Index_T         => Hand_Vector_Index_T,
+      package Hand_Vector is new Aida.Bounded_Vector (Index_T         => Aida.Pos32_T,
                                                       Element_T       => Hand_Id_T,
-                                                      "="             => "=",
                                                       Default_Element => Default_Hand_Id);
-
-      type Vehicle_Vector_Index_T is new Positive range 1..5;
 
       function Default_Vehicle_Id return Vehicle_Id_T is (1);
 
-      package Vehicle_Vector is new Aida.Bounded_Vector (Index_T         => Vehicle_Vector_Index_T,
+      package Vehicle_Vector is new Aida.Bounded_Vector (Index_T         => Aida.Pos32_T,
                                                          Element_T       => Vehicle_Id_T,
-                                                         "="             => "=",
                                                          Default_Element => Default_Vehicle_Id);
 
       type Length_T is new Aida.Float_T;
@@ -135,8 +133,8 @@ package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
          Age      : Age_T := 0;
          Name     : Name_T;
          Length   : Length_T := 0.0;
-         Hands    : Hand_Vector.T;
-         Vehicles : Vehicle_Vector.T;
+         Hands    : Hand_Vector.T (HANDS_MAX);
+         Vehicles : Vehicle_Vector.T (VEHICLES_MAX);
          Is_Happy : Is_Happy_T := (Exists => False);
       end record;
 

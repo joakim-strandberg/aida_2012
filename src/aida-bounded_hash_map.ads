@@ -83,14 +83,13 @@ private
    function Default_Node return Node_T is (Key => Default_Key, Element => Default_Element);
 
    package Collision_Vector is new Aida.Bounded_Vector (Index_T         => Collision_Index_T,
-                                                                   Element_T       => Node_T,
-                                                                   "="             => "=",
-                                                                   Default_Element => Default_Node);
+                                                        Element_T       => Node_T,
+                                                        Default_Element => Default_Node);
 
    type T is
       record
          Buckets        : Bucket_Array_T := (others => (Exists => False));
-         Collision_List : Collision_Vector.T;
+         Collision_List : Collision_Vector.T (Collision_Index_T (Max_Collision_List_Size));
       end record;
 
    function Used_Capacity (This : T) return Aida.Nat32_T is (Aida.Nat32_T (Collision_Vector.Length (This.Collision_List)));

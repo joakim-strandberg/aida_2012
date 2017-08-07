@@ -20,8 +20,6 @@ package body Aida.JSON_Parsing_Tests is
    use type Json_Parsing_Tests_Model.Person_Def.Age_T;
    use type Json_Parsing_Tests_Model.Hand_Def.Number_Of_Fingers_T;
    use type Json_Parsing_Tests_Model.Vehicle_Def.Wheels_T;
-   use type Json_Parsing_Tests_Model.Person_Def.Hand_Vector_Index_T;
-   use type Json_Parsing_Tests_Model.Person_Def.Vehicle_Vector_Index_T;
 
    -- The trailing numbers are to differentiate between the same json except different number of spaces
    JSON_Test_Person_With_Age_0            : constant Aida.String_T := "{""age"" : 10}";
@@ -58,9 +56,9 @@ package body Aida.JSON_Parsing_Tests is
    use all type Vehicle_Id_Vector.T;
 
    type Current_Ids_T is limited record
-      Person_Ids  : Person_Id_Vector.T;
-      Hand_Ids    : Hand_Id_Vector.T;
-      Vehicle_Ids : Vehicle_Id_Vector.T;
+      Person_Ids  : Person_Id_Vector.T (10);
+      Hand_Ids    : Hand_Id_Vector.T (10);
+      Vehicle_Ids : Vehicle_Id_Vector.T (10);
    end record;
 
    type Unused_State_T is (
@@ -284,14 +282,14 @@ package body Aida.JSON_Parsing_Tests is
       begin
          if
            Person_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Person_Id_T'Last and
-           Person_Id_Vector.Length (Current_Ids.Person_Ids) < Person_Id_Vector.Length_T'Last
+           Length (Current_Ids.Person_Ids) < Person_Id_Vector.Length_T'Last
          then
             declare
                Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T;
             begin
                Allocate_Person_Id (This      => Max_Indices,
                                    Person_Id => Person_Id);
-               Person_Id_Vector.Append (Current_Ids.Person_Ids, Person_Id);
+               Append (Current_Ids.Person_Ids, Person_Id);
             end;
          else
             Initialize (Call_Result, "160a399d-2a5a-45f5-aa43-1ca45883ad13");
@@ -993,10 +991,10 @@ package body Aida.JSON_Parsing_Tests is
                end if;
             when Expecting_Hand_Object_Start =>
                if
-                 Person_Id_Vector.Length (Current_Ids.Person_Ids) > 0 and then
+                 Length (Current_Ids.Person_Ids) > 0 and then
                  (
                   Json_Parsing_Tests_Model.Person_Def.Hand_Vector.Length (Storage.Person (Person_Id_Vector.Last_Element (Current_Ids.Person_Ids)).Hands) <
-                  Json_Parsing_Tests_Model.Person_Def.Hand_Vector_Index_T'Last and
+                  Json_Parsing_Tests_Model.Person_Def.HANDS_MAX and
                   Hand_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Hand_Id_T'Last and
                   Hand_Id_Vector.Length (Current_Ids.Hand_Ids) < Hand_Id_Vector.Length_T'Last)
                then
@@ -1397,7 +1395,7 @@ package body Aida.JSON_Parsing_Tests is
                  Length (Current_Ids.Person_Ids) > 0 and then
                  (
                   Length (Storage.Person (Last_Element (Current_Ids.Person_Ids)).Vehicles) <
-                  Json_Parsing_Tests_Model.Person_Def.Vehicle_Vector_Index_T'Last and
+                  Json_Parsing_Tests_Model.Person_Def.VEHICLES_MAX and
                   Vehicle_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Vehicle_Id_T'Last and
                   Length (Current_Ids.Vehicle_Ids) < Vehicle_Id_Vector.Length_T'Last)
                then
