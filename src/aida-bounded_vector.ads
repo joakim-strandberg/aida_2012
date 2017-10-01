@@ -65,6 +65,9 @@ package Aida.Bounded_Vector is
    function Is_Empty (This : T) return Boolean with
      Global => null;
 
+   function Is_Full (This : T) return Boolean with
+     Global => null;
+
    function Last_Element (This : T) return Element_T with
      Global => null,
      Pre    => Length (This) > 0 and Length (This) <= This.Capacity;
@@ -99,6 +102,8 @@ private
    function Length (This : T) return Length_T is (Length_T (This.Last_Index - Index_T'First + 1));
 
    function Is_Empty (This : T) return Boolean is (This.Last_Index = Extended_Index_T'First);
+
+   function Is_Full (This : T) return Boolean is (This.Last_Index = Extended_Index_T'Last);
 
    function "=" (L, R : T) return Boolean is (Last_Index (L) = Last_Index (R) and then
                                                 (for all I in Index_T range Index_T'First..Last_Index (L) => L.Items (I) = R.Items (I)));
