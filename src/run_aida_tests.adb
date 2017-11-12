@@ -1,5 +1,5 @@
 --with Ada.Text_IO;
-with Ada.Strings.Unbounded;
+--with Ada.Strings.Unbounded;
 with Ahven.Framework;
 with Ahven.Text_Runner;
 --with Application_Locator;
@@ -12,7 +12,7 @@ with Aida.XML_Parsing_Tests;
 with Aida.JSON_Parsing_Tests;
 
 procedure Run_Aida_Tests is
-   use all type Ada.Strings.Unbounded.Unbounded_String;
+--   use all type Ada.Strings.Unbounded.Unbounded_String;
 
    S : aliased Ahven.Framework.Test_Suite := Ahven.Framework.Create_Suite ("All");
 

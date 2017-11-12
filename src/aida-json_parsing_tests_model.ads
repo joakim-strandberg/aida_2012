@@ -1,6 +1,9 @@
 with Aida.Bounded_String;
 with Aida.Bounded_Vector;
 
+pragma Elaborate_All (Aida.Bounded_String);
+pragma Elaborate_All (Aida.Bounded_Vector);
+
 package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
 
    type Person_Id_T is new Integer range 1..10;

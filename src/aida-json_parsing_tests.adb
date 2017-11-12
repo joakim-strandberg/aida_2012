@@ -1,19 +1,19 @@
 with Aida.JSON.Generic_Parse_JSON;
 with Aida.JSON;
-with Aida.Bounded_String;
+--with Aida.Bounded_String;
 
 package body Aida.JSON_Parsing_Tests is
 
-   use all type Aida.String_T;
+--     use all type Aida.String_T;
    use all type Aida.JSON.Procedure_Call_Result.T;
-   use all type Aida.Bounded_String.T;
+--     use all type Aida.Bounded_String.T;
    use all type Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T;
-   use all type Aida.Json_Parsing_Tests_Model.Person_T;
-   use all type Aida.Json_Parsing_Tests_Model.Hand_T;
-   use all type Aida.Json_Parsing_Tests_Model.Vehicle_T;
-   use all type Aida.JSON.Tag_Id_T;
+--     use all type Aida.Json_Parsing_Tests_Model.Person_T;
+--     use all type Aida.Json_Parsing_Tests_Model.Hand_T;
+--     use all type Aida.Json_Parsing_Tests_Model.Vehicle_T;
+--     use all type Aida.JSON.Tag_Id_T;
 
-   use type Aida.Int32_T;
+--     use type Aida.Int32_T;
    use type Json_Parsing_Tests_Model.Extended_Person_Id_T;
    use type Json_Parsing_Tests_Model.Extended_Hand_Id_T;
    use type Json_Parsing_Tests_Model.Extended_Vehicle_Id_T;
@@ -52,7 +52,7 @@ package body Aida.JSON_Parsing_Tests is
    end Initialize;
 
    use all type Person_Id_Vector.T;
-   use all type Hand_Id_Vector.T;
+--     use all type Hand_Id_Vector.T;
    use all type Vehicle_Id_Vector.T;
 
    type Current_Ids_T is limited record
@@ -264,7 +264,7 @@ package body Aida.JSON_Parsing_Tests is
       pragma Warnings (On, """Current_Ids"" is not modified, could be IN");
 
       procedure Run_Test (JSON : Aida.String_T) with
-        Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices)),
+        Global => (In_Out => (Storage)),
         Pre    => JSON'Last < Integer'Last - 4;
 
    end Test_Person_With_Name_Adam_Utils;
@@ -282,7 +282,7 @@ package body Aida.JSON_Parsing_Tests is
       begin
          if
            Person_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Person_Id_T'Last and
-           Length (Current_Ids.Person_Ids) < Person_Id_Vector.Length_T'Last
+           Length (Current_Ids.Person_Ids) < Current_Ids.Person_Ids.Capacity
          then
             declare
                Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T;

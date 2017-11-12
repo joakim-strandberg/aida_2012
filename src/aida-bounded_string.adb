@@ -14,6 +14,20 @@ package body Aida.Bounded_String with SPARK_Mode is
       This.Text_Length := Text'Length;
    end Initialize;
 
+   procedure Initialize2 (This : out T;
+                          Text : Aida.String_T)
+   is
+   begin
+      This.Text := (others => ' ');
+      for I in Integer range 1..Text'Length loop
+         This.Text (I) := Text (Text'First - 1 + I);
+         pragma Loop_Invariant (for all J in Integer range 1..I => This.Text (J) = Text (Text'First - 1 + J));
+         pragma Loop_Variant (Increases => I);
+      end loop;
+
+      This.Text_Length := Text'Length;
+   end Initialize2;
+
    procedure Append (Target : in out T;
                      Source : Aida.String_T) is
    begin

@@ -29,11 +29,18 @@ with Aida;
 
 package Aida.Bounded_String with SPARK_Mode is
 
-   type T (Maximum_Length : Positive) is limited private with
-     Default_Initial_Condition => Length (T) = 0;
+--     type T (Maximum_Length : Positive) is limited private with
+--       Default_Initial_Condition => Length (T) = 0;
+   type T (Maximum_Length : Positive) is limited private;
 
    procedure Initialize (This : in out T;
                          Text : Aida.String_T) with
+     Global => null,
+     Pre    => Text'Length <= This.Maximum_Length,
+     Post   => Length (This) = Text'Length;
+
+   procedure Initialize2 (This : out T;
+                          Text : Aida.String_T) with
      Global => null,
      Pre    => Text'Length <= This.Maximum_Length,
      Post   => Length (This) = Text'Length;

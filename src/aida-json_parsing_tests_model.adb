@@ -38,7 +38,7 @@ package body Aida.Json_Parsing_Tests_Model with SPARK_Mode is
       function Make return Name_T is
       begin
          return This : Name_T do
-            Initialize (This, "");
+            Initialize2 (This, "");
          end return;
       end Make;
 

@@ -2,8 +2,6 @@ with Aida.Bounded_String;
 
 package body Aida.Bounded_String_Tests is
 
-   use all type Aida.String_T;
-
    type Bounded_String_20_T is new Aida.Bounded_String.T (20);
 
    --   use all type Bounded_String_20_T;

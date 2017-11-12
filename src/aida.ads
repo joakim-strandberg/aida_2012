@@ -6,13 +6,9 @@ with Aida_Z.Hash32;
 
 package Aida with SPARK_Mode, Pure is
 
---   use all type Aida_Z.Character.T;
-
    type Character_T is new Aida_Z.Character.T;
 
    type Int32_T is new Aida_Z.Int32.T;
-
-   type Int64_T is new Aida_Z.Zzz_Int64_T;
 
    subtype Pos32_T is Int32_T range 1 .. Int32_T'Last;
 

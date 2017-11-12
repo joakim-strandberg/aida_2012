@@ -527,8 +527,6 @@ package body Ahven.Framework is
    function Test_Count (T : Test_Case; Test_Name : String)
      return Test_Count_Type
    is
-      use Test_Command_List;
-
       Counter  : Test_Count_Type := 0;
 
       procedure Increase (Cmd : in out Test_Command) is

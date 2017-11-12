@@ -1,25 +1,25 @@
-with Aida.Bounded_String;
+--with Aida.Bounded_String;
 --with Aida.Text_IO;
 with Aida.XML.Generic_Parse_XML_File;
 
 package body Aida.XML_Parsing_Tests is
 
-   use all type Aida.String_T;
+--     use all type Aida.String_T;
    use all type Aida.XML.Procedure_Call_Result.T;
-   use all type Aida.Bounded_String.T;
-   use all type Aida.String_T;
+--     use all type Aida.Bounded_String.T;
+--     use all type Aida.String_T;
    use all type Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T;
-   use all type Aida.Json_Parsing_Tests_Model.Person_T;
-   use all type Aida.Json_Parsing_Tests_Model.Hand_T;
-   use all type Aida.Json_Parsing_Tests_Model.Vehicle_T;
+--     use all type Aida.Json_Parsing_Tests_Model.Person_T;
+--     use all type Aida.Json_Parsing_Tests_Model.Hand_T;
+--     use all type Aida.Json_Parsing_Tests_Model.Vehicle_T;
 
-   use type Aida.Int32_T;
+--     use type Aida.Int32_T;
    use type Json_Parsing_Tests_Model.Extended_Person_Id_T;
-   use type Json_Parsing_Tests_Model.Extended_Hand_Id_T;
-   use type Json_Parsing_Tests_Model.Extended_Vehicle_Id_T;
+--     use type Json_Parsing_Tests_Model.Extended_Hand_Id_T;
+--     use type Json_Parsing_Tests_Model.Extended_Vehicle_Id_T;
    use type Json_Parsing_Tests_Model.Person_Def.Age_T;
-   use type Json_Parsing_Tests_Model.Hand_Def.Number_Of_Fingers_T;
-   use type Json_Parsing_Tests_Model.Vehicle_Def.Wheels_T;
+--     use type Json_Parsing_Tests_Model.Hand_Def.Number_Of_Fingers_T;
+--     use type Json_Parsing_Tests_Model.Vehicle_Def.Wheels_T;
 
    XML_Test_Person_With_Age_0 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person>10</person>";
 --     XML_Test_Person_With_Age_1 : constant Aida.String_T := "   <?xml version=""1.0"" encoding=""UTF-8""?><person>10</person>";
@@ -68,8 +68,8 @@ package body Aida.XML_Parsing_Tests is
    end Initialize;
 
    use all type Person_Id_Vector.T;
-   use all type Hand_Id_Vector.T;
-   use all type Vehicle_Id_Vector.T;
+--     use all type Hand_Id_Vector.T;
+--     use all type Vehicle_Id_Vector.T;
 
    type Current_Ids_T is limited record
       Person_Ids  : Person_Id_Vector.T (10);
@@ -99,7 +99,8 @@ package body Aida.XML_Parsing_Tests is
                                    Current_Ids : in out Specific_Current_Ids_T;
                                    Value       : Aida.String_T;
                                    Call_Result : in out Aida.XML.Procedure_Call_Result.T) with
-     Global => null;
+     Global => null,
+     Pre    => not Has_Failed (Call_Result);
 --   pragma Warnings (On, """State"" is not modified");
 
    procedure Generic_Unused_CDATA (Result      : in out Specific_Storage_T;
@@ -133,7 +134,8 @@ package body Aida.XML_Parsing_Tests is
                            Current_Ids : in out Current_Ids_T;
                            Tag_Name    : Aida.String_T;
                            Call_Result : in out Aida.XML.Procedure_Call_Result.T) with
-        Global => null;
+        Global => null,
+        Pre    => not Has_Failed (Call_Result);
 
       procedure End_Tag (Result      : in out Storage_T;
                          Max_Indices : in out Max_Indices_T;
@@ -141,7 +143,8 @@ package body Aida.XML_Parsing_Tests is
                          Current_Ids : in out Current_Ids_T;
                          Tag_Name    : Aida.String_T;
                          Call_Result : in out Aida.XML.Procedure_Call_Result.T) with
-        Global => null;
+        Global => null,
+        Pre    => not Has_Failed (Call_Result);
 
       pragma Warnings (Off, """Current_Ids"" is not modified");
       procedure Text (Result      : in out Storage_T;
@@ -150,7 +153,8 @@ package body Aida.XML_Parsing_Tests is
                       Current_Ids : in out Current_Ids_T;
                       Value       : Aida.String_T;
                       Call_Result : in out Aida.XML.Procedure_Call_Result.T) with
-        Global => null;
+        Global => null,
+        Pre    => not Has_Failed (Call_Result);
       pragma Warnings (On, """Current_Ids"" is not modified");
 
       procedure Attribute (Result          : in out Storage_T;
@@ -160,7 +164,8 @@ package body Aida.XML_Parsing_Tests is
                            Attribute_Name  : Aida.String_T;
                            Attribute_Value : Aida.String_T;
                            Call_Result     : in out Aida.XML.Procedure_Call_Result.T) with
-        Global => null;
+        Global => null,
+        Pre    => not Has_Failed (Call_Result);
 
       procedure Comment (Result      : in out Storage_T;
                          Max_Indices : in out Max_Indices_T;
@@ -168,7 +173,8 @@ package body Aida.XML_Parsing_Tests is
                          Current_Ids : in out Current_Ids_T;
                          Value       : Aida.String_T;
                          Call_Result : in out Aida.XML.Procedure_Call_Result.T) with
-        Global => null;
+        Global => null,
+        Pre    => not Has_Failed (Call_Result);
 
       procedure Run_Test (XML : Aida.String_T) with
         Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices)),

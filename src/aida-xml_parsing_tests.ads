@@ -2,19 +2,22 @@ with Ahven.Framework;
 with Aida.Json_Parsing_Tests_Model;
 with Aida.Bounded_Vector;
 
+pragma Elaborate_All (Aida.Json_Parsing_Tests_Model);
+
 package Aida.XML_Parsing_Tests with SPARK_Mode is
 
    type Test is new Ahven.Framework.Test_Case with null record;
 
    overriding
-   procedure Initialize (T : in out Test);
+   procedure Initialize (T : in out Test) with
+     SPARK_Mode => Off;
 
 private
 
    use all type Aida.Json_Parsing_Tests_Model.Person_Def.Name_T;
    use all type Aida.Json_Parsing_Tests_Model.Person_Def.Hand_Vector.T;
    use all type Aida.Json_Parsing_Tests_Model.Person_Def.Vehicle_Vector.T;
-   use all type Aida.Json_Parsing_Tests_Model.Person_Def.Is_Happy_T;
+--   use all type Aida.Json_Parsing_Tests_Model.Person_Def.Is_Happy_T;
 
    subtype Max_Indices_T is Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T;
 

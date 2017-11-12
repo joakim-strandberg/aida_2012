@@ -2,9 +2,6 @@ with GNAT.Source_Info;
 with Aida.Text_IO;
 package body Aida.Tests is
 
-   use all type Aida.String_T;
-   use all type Aida.Int32_T;
-
    overriding procedure Initialize (T : in out Test) is
    begin
       Set_Name (T, "Aida.Conversion package tests");

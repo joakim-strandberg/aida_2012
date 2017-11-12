@@ -3,8 +3,6 @@ with GNAT.Source_Info;
 
 package body Aida.Bounded_Hash_Map_Tests is
 
-   use all type Aida.Int32_T;
-
    function Default_Key     return Aida.Int32_T is (0);
    function Default_Element return Aida.Int32_T is (0);
 
