@@ -3,7 +3,6 @@ with Ada.Exceptions;
 package body Aida.Bounded_Hash_Map is
 
    use all type Collision_Vector.T;
-   use all type Collision_Vector.Length_T;
 
    -- It is possible for a more detailed analysis by the SPARK tools
    -- if the usage of Aida.Bounded_Vector was dropped and
@@ -26,7 +25,7 @@ package body Aida.Bounded_Hash_Map is
          else
             declare
                Is_Found : Boolean := False;
-               I : Collision_Index_T := First_Index (This.Collision_List);
+               I : Collision_Vector.Index_T := First_Index (This.Collision_List);
             begin
                while not Is_Found and I <= Last_Index (This.Collision_List) loop
                   pragma Loop_Variant (Increases => I);
@@ -57,7 +56,7 @@ package body Aida.Bounded_Hash_Map is
       BI : constant Bucket_Index_T := Normalize_Index (Hash (Key));
    begin
       if This.Buckets (BI).Value.Key = Key then
-         if Length (This.Collision_List) = 0 then
+         if Is_Empty (This.Collision_List) then
             This.Buckets (BI) := (Exists => False);
          else
             This.Buckets (BI) := (Exists => True,
@@ -79,7 +78,7 @@ package body Aida.Bounded_Hash_Map is
 
                pragma Loop_Variant (Increases => I);
                pragma Loop_Invariant (I <= Last_Index (This.Collision_List));
-               pragma Loop_Invariant (for all J in Collision_Index_T range Collision_Index_T'First..I => Element (This.Collision_List, J).Key /= Key);
+               pragma Loop_Invariant (for all J in Collision_Vector.Index_T range Collision_Vector.Index_T'First..I => Element (This.Collision_List, J).Key /= Key);
             end loop;
 
             Collision_Vector.Replace_Element (This.Collision_List, I, Last_Element (This.Collision_List));
@@ -112,7 +111,7 @@ package body Aida.Bounded_Hash_Map is
 
                pragma Loop_Variant (Increases => I);
                pragma Loop_Invariant (I <= Last_Index (This.Collision_List));
-               pragma Loop_Invariant (for all J in Collision_Index_T range Collision_Index_T'First..I => Element (This.Collision_List, J).Key /= Key);
+               pragma Loop_Invariant (for all J in Collision_Vector.Index_T range Collision_Vector.Index_T'First..I => Element (This.Collision_List, J).Key /= Key);
             end loop;
 
             Result := Collision_Vector.Element (This.Collision_List, I).Element;
@@ -145,7 +144,7 @@ package body Aida.Bounded_Hash_Map is
 
                pragma Loop_Variant (Increases => I);
                pragma Loop_Invariant (I <= Last_Index (This.Collision_List));
-               pragma Loop_Invariant (for all J in Collision_Index_T range Collision_Index_T'First..I => Element (This.Collision_List, J).Key /= Key);
+               pragma Loop_Invariant (for all J in Collision_Vector.Index_T range Collision_Vector.Index_T'First..I => Element (This.Collision_List, J).Key /= Key);
             end loop;
          end if;
       end if;

@@ -20,7 +20,7 @@ package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
 
    package Max_Indices_Def is
 
-      type T is limited private;
+      type T is tagged limited private;
 
       function Person_Id_Max (This : T) return Extended_Person_Id_T;
 
@@ -31,28 +31,28 @@ package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
       procedure Allocate_Person_Id (This      : in out T;
                                     Person_Id : out Person_Id_T) with
         Global => null,
-        Pre    => Person_Id_Max (This) < Extended_Person_Id_T'Last,
-        Post   => Person_Id_Max (This) = Person_Id_Max (This)'Old + 1;
+        Pre'Class    => Person_Id_Max (This) < Extended_Person_Id_T'Last,
+        Post'Class   => Person_Id_Max (This) = Person_Id_Max (This)'Old + 1;
 
       procedure Allocate_Hand_Id (This    : in out T;
                                   Hand_Id : out Hand_Id_T) with
         Global => null,
-        Pre    => Hand_Id_Max (This) < Extended_Hand_Id_T'Last,
-        Post   => Hand_Id_Max (This) = Hand_Id_Max (This)'Old + 1;
+        Pre'Class    => Hand_Id_Max (This) < Extended_Hand_Id_T'Last,
+        Post'Class   => Hand_Id_Max (This) = Hand_Id_Max (This)'Old + 1;
 
       procedure Allocate_Vehicle_Id (This : in out T;
                                      Id   : out Vehicle_Id_T) with
         Global => null,
-        Pre    => Vehicle_Id_Max (This) < Extended_Vehicle_Id_T'Last,
-        Post   => Vehicle_Id_Max (This) = Vehicle_Id_Max (This)'Old + 1;
+        Pre'Class    => Vehicle_Id_Max (This) < Extended_Vehicle_Id_T'Last,
+        Post'Class   => Vehicle_Id_Max (This) = Vehicle_Id_Max (This)'Old + 1;
 
       procedure Clear (This : in out T) with
-        Global => null,
-        Post   => Person_Id_Max (This) = 0 and Hand_Id_Max (This) = 0 and Vehicle_Id_Max (This) = 0;
+        Global       => null,
+          Post'Class => Person_Id_Max (This) = 0 and Hand_Id_Max (This) = 0 and Vehicle_Id_Max (This) = 0;
 
    private
 
-      type T is limited record
+      type T is tagged limited record
          My_Person_Id_Max  : Extended_Person_Id_T  := 0;
          My_Hand_Id_Max    : Extended_Hand_Id_T    := 0;
          My_Vehicle_Id_Max : Extended_Vehicle_Id_T := 0;
@@ -113,13 +113,13 @@ package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
 
       function Default_Hand_Id return Hand_Id_T is (5);
 
-      package Hand_Vector is new Aida.Bounded_Vector (Index_T         => Aida.Pos32_T,
+      package Hand_Vector is new Aida.Bounded_Vector (Max_Last_Index  => Aida.Int32_T'First + HANDS_MAX,
                                                       Element_T       => Hand_Id_T,
                                                       Default_Element => Default_Hand_Id);
 
       function Default_Vehicle_Id return Vehicle_Id_T is (1);
 
-      package Vehicle_Vector is new Aida.Bounded_Vector (Index_T         => Aida.Pos32_T,
+      package Vehicle_Vector is new Aida.Bounded_Vector (Max_Last_Index  => Aida.Int32_T'First + VEHICLES_MAX,
                                                          Element_T       => Vehicle_Id_T,
                                                          Default_Element => Default_Vehicle_Id);
 
@@ -136,8 +136,8 @@ package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
          Age      : Age_T := 0;
          Name     : Name_T;
          Length   : Length_T := 0.0;
-         Hands    : Hand_Vector.T (HANDS_MAX);
-         Vehicles : Vehicle_Vector.T (VEHICLES_MAX);
+         Hands    : Hand_Vector.T;
+         Vehicles : Vehicle_Vector.T;
          Is_Happy : Is_Happy_T := (Exists => False);
       end record;
 

@@ -52,13 +52,13 @@ package body Aida.JSON_Parsing_Tests is
    end Initialize;
 
    use all type Person_Id_Vector.T;
---     use all type Hand_Id_Vector.T;
+   use all type Hand_Id_Vector.T;
    use all type Vehicle_Id_Vector.T;
 
    type Current_Ids_T is limited record
-      Person_Ids  : Person_Id_Vector.T (10);
-      Hand_Ids    : Hand_Id_Vector.T (10);
-      Vehicle_Ids : Vehicle_Id_Vector.T (10);
+      Person_Ids  : Person_Id_Vector.T;
+      Hand_Ids    : Hand_Id_Vector.T;
+      Vehicle_Ids : Vehicle_Id_Vector.T;
    end record;
 
    type Unused_State_T is (
@@ -281,8 +281,8 @@ package body Aida.JSON_Parsing_Tests is
          pragma Unreferenced (State);
       begin
          if
-           Person_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Person_Id_T'Last and
-           Length (Current_Ids.Person_Ids) < Current_Ids.Person_Ids.Capacity
+           Max_Indices.Person_Id_Max < Json_Parsing_Tests_Model.Extended_Person_Id_T'Last and
+           Last_Index (Current_Ids.Person_Ids) < Max_Index (Current_Ids.Person_Ids)
          then
             declare
                Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T;
@@ -392,15 +392,15 @@ package body Aida.JSON_Parsing_Tests is
                     Call_Result);
 
          Ahven.Assert (State = End_Of_Json_Object_Reached, "dd1327b2-c0d2-4414-87f5-8a35d0a94d6f");
-         Ahven.Assert (Person_Id_Vector.Length (Current_Ids.Person_Ids) > 0, "150be077-0e4c-43b2-901e-1ffc9f57bb76");
+         Ahven.Assert (Last_Index (Current_Ids.Person_Ids) >= First_Index (Current_Ids.Person_Ids), "150be077-0e4c-43b2-901e-1ffc9f57bb76");
          Ahven.Assert (not Has_Failed (Call_Result), "5a84dd71-1bee-4e2c-b7f8-13915f953605");
-         Ahven.Assert (Person_Id_Max (Max_Indices) = 1, "87f1346a-607c-4e7a-8a3a-621365c323d9");
-         Ahven.Assert (Person_Id_Max (Max_Indices) > 0, "87f1346a-607c-4e7a-8a3a-621365c323d9");
+         Ahven.Assert (Max_Indices.Person_Id_Max = 1, "87f1346a-607c-4e7a-8a3a-621365c323d9");
+         Ahven.Assert (Max_Indices.Person_Id_Max > 0, "87f1346a-607c-4e7a-8a3a-621365c323d9");
          if
            Person_Id_Max (Max_Indices) > 0 and then
-           Length (Storage.Person (Person_Id_Max (Max_Indices)).Name) <= Storage.Person (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices)).Name.Maximum_Length
+           Length (Storage.Person (Person_Id_Max (Max_Indices)).Name) <= Storage.Person (Max_Indices.Person_Id_Max).Name.Maximum_Length
          then
-            Ahven.Assert (To_String (Storage.Person (Person_Id_Max (Max_Indices)).Name) = "adam", "11bdb82b-275f-4432-87f0-33d27925d7b6");
+            Ahven.Assert (To_String (Storage.Person (Max_Indices.Person_Id_Max).Name) = "adam", "11bdb82b-275f-4432-87f0-33d27925d7b6");
          end if;
       end Run_Test;
 
@@ -479,7 +479,7 @@ package body Aida.JSON_Parsing_Tests is
       begin
          if
            Person_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Person_Id_T'Last and
-           Person_Id_Vector.Length (Current_Ids.Person_Ids) < Person_Id_Vector.Length_T'Last
+           Last_Index (Current_Ids.Person_Ids) < Max_Index (Current_Ids.Person_Ids)
          then
             declare
                Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T;
@@ -595,7 +595,7 @@ package body Aida.JSON_Parsing_Tests is
 
          Ahven.Assert (not Has_Failed (Call_Result), String (Message (Call_Result)));
          Ahven.Assert (State = End_Of_Json_Object_Reached, "592cbd68-ef97-4fc1-934b-80111d24fd32");
-         Ahven.Assert (Person_Id_Vector.Length (Current_Ids.Person_Ids) > 0, "1f861507-695e-458b-836e-aa9fe7f131e2");
+         Ahven.Assert (Last_Index (Current_Ids.Person_Ids) >= First_Index (Current_Ids.Person_Ids), "1f861507-695e-458b-836e-aa9fe7f131e2");
          Ahven.Assert (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) = 1, "949ca5e3-1353-47e6-90fc-b0aa21d398a6");
          Ahven.Assert (not Has_Failed (Call_Result), "4ed49d34-b03a-4251-ab05-dc9cb794bd91");
          if
@@ -690,7 +690,7 @@ package body Aida.JSON_Parsing_Tests is
       begin
          if
            Person_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Person_Id_T'Last and
-           Person_Id_Vector.Length (Current_Ids.Person_Ids) < Person_Id_Vector.Length_T'Last
+           Last_Index (Current_Ids.Person_Ids) < Max_Index (Current_Ids.Person_Ids)
          then
             declare
                Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T;
@@ -834,7 +834,7 @@ package body Aida.JSON_Parsing_Tests is
 
          Ahven.Assert (not Has_Failed (Call_Result), String (Message (Call_Result)));
          Ahven.Assert (State = End_Of_Json_Object_Reached, "4b9650d2-c30f-401a-a060-a0e039fe413c");
-         Ahven.Assert (Person_Id_Vector.Length (Current_Ids.Person_Ids) > 0, "bb095008-4756-4392-ac77-03799c82a947");
+         Ahven.Assert (Last_Index (Current_Ids.Person_Ids) >= First_Index (Current_Ids.Person_Ids), "bb095008-4756-4392-ac77-03799c82a947");
          Ahven.Assert (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) = 1, "e095f887-42d1-4fbf-846c-75e32af16af6");
          Ahven.Assert (not Has_Failed (Call_Result), "decc36b9-2538-4cfb-8fa2-4fd7b240abd8");
          if
@@ -975,7 +975,7 @@ package body Aida.JSON_Parsing_Tests is
             when Expecting_Object_Start      =>
                if
                  Person_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Person_Id_T'Last and
-                 Person_Id_Vector.Length (Current_Ids.Person_Ids) < Person_Id_Vector.Length_T'Last
+                 Last_Index (Current_Ids.Person_Ids) < Max_Index (Current_Ids.Person_Ids)
                then
                   declare
                      Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T;
@@ -991,12 +991,10 @@ package body Aida.JSON_Parsing_Tests is
                end if;
             when Expecting_Hand_Object_Start =>
                if
-                 Length (Current_Ids.Person_Ids) > 0 and then
-                 (
-                  Json_Parsing_Tests_Model.Person_Def.Hand_Vector.Length (Storage.Person (Person_Id_Vector.Last_Element (Current_Ids.Person_Ids)).Hands) <
-                  Json_Parsing_Tests_Model.Person_Def.HANDS_MAX and
-                  Hand_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Hand_Id_T'Last and
-                  Hand_Id_Vector.Length (Current_Ids.Hand_Ids) < Hand_Id_Vector.Length_T'Last)
+                 not Is_Empty (Current_Ids.Person_Ids) and then
+                 (Hand_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Hand_Id_T'Last and
+                      Last_Index (Current_Ids.Hand_Ids) < Max_Index (Current_Ids.Hand_Ids) and
+                      Last_Index (Storage.Person (Person_Id_Vector.Last_Element (Current_Ids.Person_Ids)).Hands) < Max_Index (Storage.Person (Person_Id_Vector.Last_Element (Current_Ids.Person_Ids)).Hands))
                then
                   declare
                      Hand_Id : Aida.Json_Parsing_Tests_Model.Hand_Id_T;
@@ -1229,12 +1227,12 @@ package body Aida.JSON_Parsing_Tests is
 
          Ahven.Assert (not Has_Failed (Call_Result), String (Message (Call_Result)));
          Ahven.Assert (State = End_State, "397d359d-2d92-462b-8b32-2a4bbdc6ce25");
-         Ahven.Assert (Person_Id_Vector.Length (Current_Ids.Person_Ids) > 0, "810561fa-2c9f-4582-a5cf-10e5abd85113");
+         Ahven.Assert (Last_Index (Current_Ids.Person_Ids) >= First_Index (Current_Ids.Person_Ids), "810561fa-2c9f-4582-a5cf-10e5abd85113");
          Ahven.Assert (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) = 1, "ae7399ea-3d2a-4400-a10f-34104d439978");
          Ahven.Assert (Hand_Id_Max (Json_Parsing_Tests_Model.Max_Indices) = 1, "0b77dd49-3cbd-44cd-ab53-9b65d0d75c05");
          if
            (Hand_Id_Max (Json_Parsing_Tests_Model.Max_Indices) > 0 and
-                Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) > 0) and then (Length (Storage.Person (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices)).Hands) > 0)
+                Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) > 0) and then (not Is_Empty (Storage.Person (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices)).Hands))
          then
             declare
                Hand_Id : constant Json_Parsing_Tests_Model.Hand_Id_T :=
@@ -1376,7 +1374,7 @@ package body Aida.JSON_Parsing_Tests is
             when Expecting_Object_Start                    =>
                if
                  Person_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Person_Id_T'Last and
-                 Length (Current_Ids.Person_Ids) < Person_Id_Vector.Length_T'Last
+                 Last_Index (Current_Ids.Person_Ids) < Max_Index (Current_Ids.Person_Ids)
                then
                   declare
                      Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T;
@@ -1392,12 +1390,12 @@ package body Aida.JSON_Parsing_Tests is
                end if;
             when Expecting_Array_Object_Start_Or_Array_End =>
                if
-                 Length (Current_Ids.Person_Ids) > 0 and then
+                 not Is_Empty (Current_Ids.Person_Ids) and then
                  (
-                  Length (Storage.Person (Last_Element (Current_Ids.Person_Ids)).Vehicles) <
-                  Json_Parsing_Tests_Model.Person_Def.VEHICLES_MAX and
+                  Last_Index (Storage.Person (Last_Element (Current_Ids.Person_Ids)).Vehicles) <
+                  Max_Index (Storage.Person (Last_Element (Current_Ids.Person_Ids)).Vehicles) and
                   Vehicle_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Vehicle_Id_T'Last and
-                  Length (Current_Ids.Vehicle_Ids) < Vehicle_Id_Vector.Length_T'Last)
+                  Last_Index (Current_Ids.Vehicle_Ids) < Max_Index (Current_Ids.Vehicle_Ids))
                then
                   declare
                      Id : Aida.Json_Parsing_Tests_Model.Vehicle_Id_T;
@@ -1654,12 +1652,12 @@ package body Aida.JSON_Parsing_Tests is
 
          Ahven.Assert (not Has_Failed (Call_Result), String (Message (Call_Result)));
          Ahven.Assert (State = End_State, "18f1a2a4-741c-4a0c-90d3-8854e8a70a6d");
-         Ahven.Assert (Length (Current_Ids.Person_Ids) > 0, "07c6cd3a-40ce-4b81-9681-9954e56c9670");
+         Ahven.Assert (Last_Index (Current_Ids.Person_Ids) >= First_Index (Current_Ids.Person_Ids), "07c6cd3a-40ce-4b81-9681-9954e56c9670");
          Ahven.Assert (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) = 1, "4bc9f5b1-5451-49cd-b7aa-3ebd79f0abd3");
          Ahven.Assert (Vehicle_Id_Max (Json_Parsing_Tests_Model.Max_Indices) = 2, "d1c1c8fb-539c-456e-8c41-8c2254079abe");
          if
            (Vehicle_Id_Max (Json_Parsing_Tests_Model.Max_Indices) > 0 and
-                Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) > 0) and then (Length (Storage.Person (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices)).Vehicles) > 0)
+                Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) > 0) and then (not Is_Empty (Storage.Person (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices)).Vehicles))
          then
             Ahven.Assert (Storage.Vehicle (1).Wheels = 4, "84d4a3a0-bc8a-4918-8ff7-5fa9a2fc1e9f");
             Ahven.Assert (Storage.Vehicle (2).Wheels = 2, "984aa38f-7efa-46db-a93e-768c4e36ebe6");
@@ -1793,7 +1791,7 @@ package body Aida.JSON_Parsing_Tests is
             when Expecting_Object_Start                    =>
                if
                  Person_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Person_Id_T'Last and
-                 Length (Current_Ids.Person_Ids) < Person_Id_Vector.Length_T'Last
+                 Last_Index (Current_Ids.Person_Ids) < Max_Index (Current_Ids.Person_Ids)
                then
                   declare
                      Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T;
@@ -2020,12 +2018,12 @@ package body Aida.JSON_Parsing_Tests is
 
          Ahven.Assert (not Has_Failed (Call_Result), String (Message (Call_Result)));
          Ahven.Assert (State = End_State, "192a5b94-e6da-4302-81fc-f98211cd92d7");
-         Ahven.Assert (Length (Current_Ids.Person_Ids) > 0, "72ac1a27-0a07-4e71-ae7f-a49252f51989");
+         Ahven.Assert (Last_Index (Current_Ids.Person_Ids) >= First_Index (Current_Ids.Person_Ids), "72ac1a27-0a07-4e71-ae7f-a49252f51989");
          Ahven.Assert (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) = 1, "bd1380ff-2a9e-486e-810b-5896bea26d07");
          if
-           Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) > 0
+           Json_Parsing_Tests_Model.Max_Indices.Person_Id_Max > 0
          then
-            Ahven.Assert (Float (Storage.Person (1).Length) = Float'Value ("1.98"), "e7f16b3a-d3f1-4b6b-b258-20fc95ce5bf4");
+            Ahven.Assert (Float (Storage.Person (Aida.Json_Parsing_Tests_Model.Person_Id_T'First).Length) = Float'Value ("1.98"), "e7f16b3a-d3f1-4b6b-b258-20fc95ce5bf4");
          end if;
       end Run_Test;
    end Test_Person_With_Length_Utils;
@@ -2160,7 +2158,7 @@ package body Aida.JSON_Parsing_Tests is
             when Expecting_Object_Start                    =>
                if
                  Person_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Person_Id_T'Last and
-                 Length (Current_Ids.Person_Ids) < Person_Id_Vector.Length_T'Last
+                 Last_Index (Current_Ids.Person_Ids) < Max_Index (Current_Ids.Person_Ids)
                then
                   declare
                      Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T;
@@ -2400,7 +2398,7 @@ package body Aida.JSON_Parsing_Tests is
 
          Ahven.Assert (not Has_Failed (Call_Result), String (Message (Call_Result)));
          Ahven.Assert (State = End_State, "3204a87f-ba9d-4564-8f7b-c94397343761");
-         Ahven.Assert (Length (Current_Ids.Person_Ids) > 0, "6b7aebdd-cab8-49aa-b524-cfb906e3c596");
+         Ahven.Assert (Last_Index (Current_Ids.Person_Ids) >= First_Index (Current_Ids.Person_Ids), "6b7aebdd-cab8-49aa-b524-cfb906e3c596");
          Ahven.Assert (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) = 1, "07df518d-3a9e-4225-8795-27443231c29c");
          if
            Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) > 0
@@ -2446,7 +2444,7 @@ package body Aida.JSON_Parsing_Tests is
 
          Ahven.Assert (not Has_Failed (Call_Result), String (Message (Call_Result)));
          Ahven.Assert (State = End_State, "b8146e47-6f99-4567-90ef-e2297131f667");
-         Ahven.Assert (Length (Current_Ids.Person_Ids) > 0, "7072eb74-b0e2-47bc-9122-cdf748fb6dd8");
+         Ahven.Assert (Last_Index (Current_Ids.Person_Ids) >= First_Index (Current_Ids.Person_Ids), "7072eb74-b0e2-47bc-9122-cdf748fb6dd8");
          Ahven.Assert (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) = 1, "54753e3d-5985-4c67-8473-763e538e99a4");
          if
            Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) > 0

@@ -78,21 +78,21 @@ private
 
    type Bucket_Array_T is array (Bucket_Index_T) of Nullable_Node_T;
 
-   type Collision_Index_T is new Aida.Int32_T range 1..Max_Collision_List_Size;
+--   type Collision_Index_T is new Aida.Int32_T range 1..Max_Collision_List_Size;
 
    function Default_Node return Node_T is (Key => Default_Key, Element => Default_Element);
 
-   package Collision_Vector is new Aida.Bounded_Vector (Index_T         => Collision_Index_T,
+   package Collision_Vector is new Aida.Bounded_Vector (Max_Last_Index  => Int32_T'First + Max_Collision_List_Size,
                                                         Element_T       => Node_T,
                                                         Default_Element => Default_Node);
 
    type T is
       record
          Buckets        : Bucket_Array_T := (others => (Exists => False));
-         Collision_List : Collision_Vector.T (Collision_Index_T (Max_Collision_List_Size));
+         Collision_List : Collision_Vector.T;
       end record;
 
-   function Used_Capacity (This : T) return Aida.Nat32_T is (Aida.Nat32_T (Collision_Vector.Length (This.Collision_List)));
+   function Used_Capacity (This : T) return Aida.Nat32_T is (Aida.Nat32_T ((Collision_Vector.Last_Index (This.Collision_List) + 1) - Collision_Vector.First_Index (This.Collision_List)));
 
    function Normalize_Index (H : Aida.Hash32_T) return Bucket_Index_T is (if H < Aida.Hash32_T (Max_Hash_Map_Size) then
                                                                   Bucket_Index_T (H)

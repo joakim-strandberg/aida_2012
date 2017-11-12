@@ -27,8 +27,8 @@ private
         (others => (Age      => 10,
                     Name     => Make,
                     Length   => 0.0,
-                    Hands    => Default_Vector (Json_Parsing_Tests_Model.Person_Def.HANDS_MAX),
-                    Vehicles => Default_Vector (Json_Parsing_Tests_Model.Person_Def.VEHICLES_MAX),
+                    Hands    => Default_Vector,
+                    Vehicles => Default_Vector,
                     Is_Happy => (Exists => False)));
       Hand    : Json_Parsing_Tests_Model.Hands_T;
       Vehicle : Json_Parsing_Tests_Model.Vehicles_T;
@@ -40,15 +40,17 @@ private
 
    function Default_Person_Id return Json_Parsing_Tests_Model.Person_Id_T is (1);
 
-   package Person_Id_Vector is new Aida.Bounded_Vector (Index_T         => Json_Parsing_Tests_Model.Person_Id_T,
+   MAX_IDS : constant := 10;
+
+   package Person_Id_Vector is new Aida.Bounded_Vector (Max_Last_Index  => Int32_T'First + MAX_IDS,
                                                         Element_T       => Json_Parsing_Tests_Model.Person_Id_T,
                                                         Default_Element => Default_Person_Id);
 
-   package Hand_Id_Vector is new Aida.Bounded_Vector (Index_T         => Json_Parsing_Tests_Model.Hand_Id_T,
+   package Hand_Id_Vector is new Aida.Bounded_Vector (Max_Last_Index  => Int32_T'First + MAX_IDS,
                                                       Element_T       => Json_Parsing_Tests_Model.Hand_Id_T,
                                                       Default_Element => Json_Parsing_Tests_Model.Person_Def.Default_Hand_Id);
 
-   package Vehicle_Id_Vector is new Aida.Bounded_Vector (Index_T         => Json_Parsing_Tests_Model.Vehicle_Id_T,
+   package Vehicle_Id_Vector is new Aida.Bounded_Vector (Max_Last_Index  => Int32_T'First + MAX_IDS,
                                                          Element_T       => Json_Parsing_Tests_Model.Vehicle_Id_T,
                                                          Default_Element => Json_Parsing_Tests_Model.Person_Def.Default_Vehicle_Id);
 

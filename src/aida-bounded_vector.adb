@@ -1,8 +1,14 @@
 package body Aida.Bounded_Vector is
 
-   function Default_Vector (C : Capacity_T) return T is
+   function Max_Index (This : T) return Int32_T is
+      pragma Unreferenced (This);
    begin
-      return This : T (C) do
+      return Max_Last_Index;
+   end Max_Index;
+
+   function Default_Vector return T is
+   begin
+      return This : T do
          This.Items := (others => Default_Element);
          This.Last_Index := Extended_Index_T'First;
       end return;
@@ -13,7 +19,7 @@ package body Aida.Bounded_Vector is
    begin
       if This.Last_Index = Extended_Index_T'First then
          This.Last_Index := Index_T'First;
-         This.Items (1) := New_Item;
+         This.Items (Index_T'First) := New_Item;
       else
          This.Last_Index := This.Last_Index + 1;
          This.Items (Index_T (This.Last_Index)) := New_Item;
@@ -25,7 +31,7 @@ package body Aida.Bounded_Vector is
    is
       Result : Boolean := False;
    begin
-      for I in Extended_Index_T range 1..This.Last_Index loop
+      for I in Extended_Index_T range Index_T'First..This.Last_Index loop
          if This.Items (I) = Element then
             Result := True;
             exit;
@@ -56,17 +62,17 @@ package body Aida.Bounded_Vector is
    begin
       This.Last_Index := This.Last_Index - 1;
    end Delete_Last;
-
-   procedure Act_On_Immutable_Elements (This : T) is
-   begin
-      Do_Something (This.Items (Index_T'First..Index_T(This.Last_Index)));
-   end Act_On_Immutable_Elements;
-
-   procedure Act_On_Mutable_Elements (This : in out T) is
-   begin
-      Do_Something (This.Items (Index_T'First..Index_T(This.Last_Index)));
-   end Act_On_Mutable_Elements;
-
+--
+--     procedure Act_On_Immutable_Elements (This : T) is
+--     begin
+--        Do_Something (This.Items (Index_T'First..Index_T(This.Last_Index)));
+--     end Act_On_Immutable_Elements;
+--
+--     procedure Act_On_Mutable_Elements (This : in out T) is
+--     begin
+--        Do_Something (This.Items (Index_T'First..Index_T(This.Last_Index)));
+--     end Act_On_Mutable_Elements;
+--
    procedure Clear (This : in out T) is
    begin
       This.Last_Index := Extended_Index_T'First;
