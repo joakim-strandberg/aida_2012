@@ -57,7 +57,8 @@ package Aida.Bounded_Vector is
      Global => null;
 
    function First_Index (This : T) return Index_T with
-     Global => null;
+     Global => null,
+     Post   => First_Index'Result = Index_T'First;
    pragma Annotate (GNATprove, Terminating, First_Index);
 
    function Last_Index (This : T) return Extended_Index_T with
@@ -81,7 +82,7 @@ package Aida.Bounded_Vector is
      Post   => (if Is_Empty'Result then
                   Last_Index (This) = Extended_Index_T'First
                   else
-                    Last_Index (This) > Extended_Index_T'First and then Last_Index (This) >= First_Index (This));
+                    Last_Index (This) >= First_Index (This));
 
    function Is_Full (This : T) return Boolean with
      Global => null;

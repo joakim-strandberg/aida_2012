@@ -263,7 +263,7 @@ begin
                         Delete_Last (Tag_Ids);
 
                         if
-                          Last_Index (Tag_Ids) >= First_Index (Tag_Ids) and then
+                          Last_Index (Array_Tag_Ids) >= First_Index (Array_Tag_Ids) and then
                           Last_Element (Array_Tag_Ids) = Last_Element (Tag_Ids)
                         then
                            State_Id := Found_End_Of_Element_In_Array;
