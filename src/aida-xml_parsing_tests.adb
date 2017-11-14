@@ -178,7 +178,7 @@ package body Aida.XML_Parsing_Tests is
 
       procedure Run_Test (XML : Aida.String_T) with
         Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices)),
-        Pre    => XML'Last < Integer'Last - 4;
+        Pre    => XML'Length > 0 and XML'Last < Integer'Last - 4;
 
    end Test_Person_With_Age_Utils;
 
@@ -348,7 +348,7 @@ package body Aida.XML_Parsing_Tests is
 
          Ahven.Assert (not Has_Failed (Call_Result), String (Message (Call_Result)));
          Ahven.Assert (State = Final_State, "592cbd68-ef97-4fc1-934b-80111d24fd32");
---         Ahven.Assert (Person_Id_Vector.Length (Current_Ids.Person_Ids) > 0, "1f861507-695e-458b-836e-aa9fe7f131e2");
+         Ahven.Assert (Last_Index (Current_Ids.Person_Ids) >= First_Index (Current_Ids.Person_Ids), "1f861507-695e-458b-836e-aa9fe7f131e2");
          Ahven.Assert (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) = 1, "949ca5e3-1353-47e6-90fc-b0aa21d398a6");
          Ahven.Assert (not Has_Failed (Call_Result), "4ed49d34-b03a-4251-ab05-dc9cb794bd91");
          if

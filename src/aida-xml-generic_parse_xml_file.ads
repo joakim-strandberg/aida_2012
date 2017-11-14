@@ -60,4 +60,4 @@ procedure Aida.XML.Generic_Parse_XML_File (Arg1        : in out Arg1_T;
                                            Contents    : in     Aida.String_T;
                                            Call_Result : in out Procedure_Call_Result.T) with
   Global => null,
-  Pre    => not Procedure_Call_Result.Has_Failed (Call_Result) and Procedure_Call_Result.Length (Call_Result) = 0 and Contents'Length > 38 and Contents'Last < Integer'Last - 4;
+  Pre    => not Procedure_Call_Result.Has_Failed (Call_Result) and Procedure_Call_Result.Length (Call_Result) = 0 and Contents'Length > 0 and Contents'Last < Integer'Last - 4;
