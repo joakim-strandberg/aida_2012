@@ -9,12 +9,12 @@ procedure Aida.JSON.Generic_Parse_JSON (Arg1        : in out Arg1_T;
                                         Arg3        : in out Arg3_T;
                                         Arg4        : in out Arg4_T;
                                         Contents    : Aida.String_T;
-                                        Call_Result : in out Procedure_Call_Result.T)
+                                        Call_Result : in out Subprogram_Call_Result.T)
 is
    use all type Aida.String_T;
    use all type Aida.Int32_T;
    use all type Aida.UTF8_Code_Point.T;
-   use all type Procedure_Call_Result.T;
+   use all type Subprogram_Call_Result.T;
 
    Tag_Ids : Tag_Id_Vector.T;
 
@@ -27,7 +27,7 @@ is
    Next_Tag_Id : Tag_Id_T := Tag_Id_T'First;
 begin
    if Contents'Length = 0 then
-      Initialize (Call_Result, "1a7aca16-16dd-41cc-99a2-491f27fbb432, Contents is empty!");
+      Call_Result.Initialize (-1522500631, -1361354891);
    else
       declare
          subtype P_T           is Integer range Contents'First..Contents'Last + 4;
@@ -57,7 +57,7 @@ begin
             if not Aida.UTF8.Is_Valid_UTF8_Code_Point (Source  => String (Contents),
                                                        Pointer => P)
             then
-               Initialize (Call_Result, "ad460552-b38f-4004-b95e-a00dbf59d9fa, Found invalid UTF-8 character.");
+               Call_Result.Initialize (-0694311125, 0512905127);
                exit;
             end if;
 
@@ -111,7 +111,7 @@ begin
 
                         Next_Tag_Id := Next_Tag_Id + 1;
                      else
-                        Initialize (Call_Result, "6c505745-532b-4597-9553-6c93d89bc4f9");
+                        Call_Result.Initialize (-0828857595, 0729658471);
                         exit;
                      end if;
                   end if;
@@ -123,7 +123,7 @@ begin
                   elsif CP = Character'Pos (' ') then
                      null;
                   else
-                     Initialize (Call_Result, "572be577-962a-466b-9f16-5a83576fe513");
+                     Call_Result.Initialize (0666875904, -0130597293);
                      exit;
                   end if;
                when Extracting_Key_Name =>
@@ -149,7 +149,7 @@ begin
                   elsif CP = Character'Pos (' ') then
                      null;
                   else
-                     Initialize (Call_Result, "a87ca7ac-4fdc-470e-b2f7-2acee4cc72fb");
+                     Call_Result.Initialize (2012396005, -0563874321);
                      exit;
                   end if;
                when Expecting_Value =>
@@ -181,7 +181,7 @@ begin
 
                         Next_Tag_Id := Next_Tag_Id + 1;
                      else
-                        Initialize (Call_Result, "81471a75-a68e-49fc-9341-85644da117af");
+                        Call_Result.Initialize (0511736023, -1155056733);
                         exit;
                      end if;
                   elsif CP = Character'Pos ('[') then
@@ -191,14 +191,14 @@ begin
                        (Last_Index (Array_Tag_Ids) >= First_Index (Array_Tag_Ids)) and then
                        Last_Element (Array_Tag_Ids) = Last_Element (Tag_Ids)
                      then
-                        Initialize (Call_Result, "07d6a3ab-179e-482b-b61d-b7915c34bd62");
+                        Call_Result.Initialize (0690744029, 1711091773);
                         exit;
                      end if;
 
                      if Last_Index (Array_Tag_Ids) < Max_Index (Array_Tag_Ids) then
                         Append (Array_Tag_Ids, Last_Element (Tag_Ids));
                      else
-                        Initialize (Call_Result, "3006c915-77e7-4fba-8c96-69567b96c373");
+                        Call_Result.Initialize (-0860721970, -0792673405);
                         exit;
                      end if;
 
@@ -221,7 +221,7 @@ begin
                   elsif CP = Character'Pos ('n') then
                      State_Id := Found_N;
                   else
-                     Initialize (Call_Result, "e23b3bfb-6e24-47e7-a461-a6412cadb395");
+                     Call_Result.Initialize (0573649478, -1295009043);
                      exit;
                   end if;
                when Extracting_Value_String =>
@@ -276,14 +276,14 @@ begin
                   elsif CP = Character'Pos (' ') then
                      null;
                   else
-                     Initialize (Call_Result, "427b46d0-8f27-475b-8856-9bb345517f55");
+                     Call_Result.Initialize (2101566339, -1066214396);
                      exit;
                   end if;
                when Found_End_Of_The_Very_Last_Object =>
                   if CP = Character'Pos (' ') then
                      null;
                   else
-                     Initialize (Call_Result, "51007c88-330d-4905-a82d-8fdd8354d5f7");
+                     Call_Result.Initialize (1630688703, 1885787424);
                      exit;
                   end if;
                when Extracting_Value_Integer =>
@@ -373,7 +373,7 @@ begin
 
                      State_Id := Found_End_Of_Object;
                   else
-                     Initialize (Call_Result, "db92b536-4543-4fe5-9254-e477d0cdc01b");
+                     Call_Result.Initialize (0198286677, 0715152759);
                      exit;
                   end if;
                when Extracting_Value_Integer_And_Found_Digit =>
@@ -461,7 +461,7 @@ begin
 
                      State_Id := Found_End_Of_Object;
                   else
-                     Initialize (Call_Result, "7a8a9fb2-81d4-4703-acbb-18a1864c1eff");
+                     Call_Result.Initialize (-0974748348, 0830710943);
                      exit;
                   end if;
                when Found_End_Of_Object =>
@@ -507,7 +507,7 @@ begin
                   elsif CP = Character'Pos (' ') then
                      null;
                   else
-                     Initialize (Call_Result, "51007c88-330d-4905-a82d-8fdd8354d5f7");
+                     Call_Result.Initialize (0743073911, 0562296894);
                      exit;
                   end if;
                when Found_Array_Start =>
@@ -529,13 +529,13 @@ begin
 
                         Next_Tag_Id := Next_Tag_Id + 1;
                      else
-                        Initialize (Call_Result, "62d0dd9d-de2b-4fd4-a879-f8691a591f73");
+                        Call_Result.Initialize (1158454393, 2020449118);
                         exit;
                      end if;
                   elsif CP = Character'Pos (' ') then
                      null;
                   else
-                     Initialize (Call_Result, "924eac23-376d-4648-821b-8f4fb68e2bf0");
+                     Call_Result.Initialize (-2083949210, -0974236942);
                      exit;
                   end if;
                when Found_End_Of_Element_In_Array =>
@@ -557,28 +557,28 @@ begin
 
                         Delete_Last (Array_Tag_Ids);
                      else
-                        Initialize (Call_Result, "c0c9ce80-36f7-4ad8-81e9-1129db4b3c8b");
+                        Call_Result.Initialize (-1612352731, -1655012836);
                         exit;
                      end if;
 
                   elsif CP = Character'Pos (' ') then
                      null;
                   else
-                     Initialize (Call_Result, "52ae4ef7-d735-4255-b00d-18396d0215ad");
+                     Call_Result.Initialize (-0942307720, -1564578584);
                      exit;
                   end if;
                when Found_T =>
                   if CP = Character'Pos ('r') then
                      State_Id := Found_Tr;
                   else
-                     Initialize (Call_Result, "f7b459e1-4c6e-4e68-bb47-d9971df79e17");
+                     Call_Result.Initialize (-1617816769, -1590689811);
                      exit;
                   end if;
                when Found_Tr =>
                   if CP = Character'Pos ('u') then
                      State_Id := Found_Tru;
                   else
-                     Initialize (Call_Result, "5eee9da0-dd19-4ae6-9de0-0930575674d4");
+                     Call_Result.Initialize (-0048100488, 0487444183);
                      exit;
                   end if;
                when Found_Tru =>
@@ -596,28 +596,28 @@ begin
 
                      State_Id := Expecting_Comma_Sign_Or_Right_Bracket;
                   else
-                     Initialize (Call_Result, "5eee9da0-dd19-4ae6-9de0-0930575674d4");
+                     Call_Result.Initialize (-1046526135, 1665221499);
                      exit;
                   end if;
                when Found_F =>
                   if CP = Character'Pos ('a') then
                      State_Id := Found_Fa;
                   else
-                     Initialize (Call_Result, "0ffe1a41-97fa-4c62-9668-a48429ed389f");
+                     Call_Result.Initialize (-0405689656, 1766237800);
                      exit;
                   end if;
                when Found_Fa =>
                   if CP = Character'Pos ('l') then
                      State_Id := Found_Fal;
                   else
-                     Initialize (Call_Result, "1b7d7f3b-209d-4c0d-942d-e50048641fbb");
+                     Call_Result.Initialize (-0832673158, 0650292100);
                      exit;
                   end if;
                when Found_Fal =>
                   if CP = Character'Pos ('s') then
                      State_Id := Found_Fals;
                   else
-                     Initialize (Call_Result, "7b6b70a1-610c-4e00-aa56-75aee5e2d038");
+                     Call_Result.Initialize (2123299680, 0898372600);
                      exit;
                   end if;
                when Found_Fals =>
@@ -635,21 +635,21 @@ begin
 
                      State_Id := Expecting_Comma_Sign_Or_Right_Bracket;
                   else
-                     Initialize (Call_Result, "f048b7f7-dc6e-4aa9-885f-18990f546d47");
+                     Call_Result.Initialize (1003390043, 0541089769);
                      exit;
                   end if;
                when Found_N =>
                   if CP = Character'Pos ('u') then
                      State_Id := Found_Nu;
                   else
-                     Initialize (Call_Result, "f36c41ee-5a95-4616-8ed9-0c2a9019ae2f");
+                     Call_Result.Initialize (-0396203491, -1065957165);
                      exit;
                   end if;
                when Found_Nu =>
                   if CP = Character'Pos ('l') then
                      State_Id := Found_Nul;
                   else
-                     Initialize (Call_Result, "a42ec593-4b26-41f9-9a9f-7b199902da01");
+                     Call_Result.Initialize (-1690061121, -0156509527);
                      exit;
                   end if;
                when Found_Nul =>
@@ -666,7 +666,7 @@ begin
 
                      State_Id := Expecting_Comma_Sign_Or_Right_Bracket;
                   else
-                     Initialize (Call_Result, "b71e1295-2685-48ad-a726-62f8edaac3d7");
+                     Call_Result.Initialize (-1016092230, -0426084221);
                      exit;
                   end if;
             end case;

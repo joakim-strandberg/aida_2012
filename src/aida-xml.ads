@@ -1,15 +1,11 @@
 with Aida.UTF8_Code_Point;
-with Aida.Subprogram_Call_Result;
 with Aida.Bounded_Vector;
 
 pragma Elaborate_All (Aida.Bounded_Vector);
-pragma Elaborate_All (Aida.Subprogram_Call_Result);
 
 package Aida.XML with SPARK_Mode is
 
    use all type Aida.UTF8_Code_Point.T;
-
-   package Procedure_Call_Result is new Aida.Subprogram_Call_Result (1_000);
 
 private
 
@@ -104,6 +100,7 @@ private
                                                                                else
                                                                                   False);
 
-   XML_IDENTIFIER_ERROR : constant Aida.String_T := "985A6A56-5C6F-408B-AAF7-7D18FA8E4882";
+   XML_IDENTIFIER_ERROR_1 : constant Aida.Int32_T := -1913564897;
+   XML_IDENTIFIER_ERROR_2 : constant Aida.Int32_T := -0537097086;
 
 end Aida.XML;

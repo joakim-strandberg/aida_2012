@@ -4,8 +4,6 @@ package body Aida.Bounded_String_Tests is
 
    type Bounded_String_20_T is new Aida.Bounded_String.T (20);
 
-   --   use all type Bounded_String_20_T;
-
    overriding procedure Initialize (T : in out Test) is
    begin
       Set_Name (T, "Aida.Bounded_String package tests");

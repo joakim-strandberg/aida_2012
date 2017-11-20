@@ -13,7 +13,7 @@ package body Aida_Z.Int32 with SPARK_Mode, Pure is
                              Result : in out Result_T;
                              P      : in out Index_T) with
         Pre  => Temp >= 0 and 300_000_000 > Temp and P = 15,
-        Post => P >= 6,
+        Post => P >= 6 and P <= 15,
         Inline_Always => True;
 
       procedure Make_Result (Temp   : in out T;
@@ -104,6 +104,7 @@ package body Aida_Z.Int32 with SPARK_Mode, Pure is
       if Temp <= 0 then
          if Temp = -2_147_483_648 then
             Result (Index_T'Last - 10..Index_T'Last) := "-2147483648";
+            P := 6;
          else
             Temp := -Temp;
 
@@ -140,6 +141,8 @@ package body Aida_Z.Int32 with SPARK_Mode, Pure is
          end;
       end if;
 
+      pragma Assert (P >= 6 and P <= 15);
+
       if This < 0 then
          Result (P) := '-';
          P := P - 1;
@@ -151,6 +154,8 @@ package body Aida_Z.Int32 with SPARK_Mode, Pure is
    function Hash32 (This : T) return Zzz_Hash32_T is
       X : Interfaces.Unsigned_32 := (if This >= 0 then
                                         Interfaces.Unsigned_32 (This)
+                                     elsif This = T'First then
+                                       1001
                                      else
                                         Interfaces.Unsigned_32 (-This));
    begin

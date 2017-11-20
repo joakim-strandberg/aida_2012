@@ -1,43 +1,107 @@
-package body Aida.Subprogram_Call_Result is
+package body Aida.Subprogram_Call_Result with SPARK_Mode is
 
-   use all type Bounded_String.T;
    use all type Aida.String_T;
+   use all type Aida.Int32_T;
 
    procedure Initialize (This    : in out T;
-                         Message : Aida.String_T) is
+                         Code_1 : Int32_T;
+                         Code_2 : Int32_T) is
    begin
-      Initialize (This => This.My_Message,
-                  Text => Message);
+      This.My_Code_1 := Code_1;
+      This.My_Code_2 := Code_2;
       This.My_Has_Failed := True;
    end Initialize;
 
---     procedure Initialize (This    : in out T;
---                           Message : String) is
---     begin
---        Initialize (This => This.My_Message,
---                    Text => Aida.String_T (Message));
---        This.My_Has_Failed := True;
---     end Initialize;
+   function Message (This : T) return String_T is
+      subtype Index_T is Positive range 1..24;
 
-   procedure Initialize (This : in out T;
-                         M1   : String;
-                         M2   : String) is
-   begin
-      Initialize (This => This.My_Message,
-                  Text => Concat (Aida.String_T (M1), Aida.String_T (M2)));
-      This.My_Has_Failed := True;
-   end Initialize;
+      Text : String_T (Index_T'Range) := (others => '0');
 
-   procedure Act_On_Immutable_Text (This : in T) is
-      procedure Act is new Aida.Bounded_String.Act_On_Immutable_Text (Bounded_String_T => Bounded_String_T, Do_Something => Do_Something);
+      Max : Index_T;
    begin
-      Act (This.My_Message);
-   end Act_On_Immutable_Text;
+      if This.My_Code_1 >= 0 then
+         if This.My_Code_2 >= 0 then
+            Max := 22;
 
-   function Message (This : T) return Aida.String_T is
-   begin
-      return To_String (This.My_Message);
+            declare
+               Text2 : String_T := To_String (This.My_Code_1);
+               L : Integer := 10 - Text2'Length + 1;
+            begin
+               pragma Assert (L <= 10);
+               Text (L..10) := Text2 (Text2'First .. Text2'Last);
+            end;
+
+            Text (11..12) := ", ";
+
+            declare
+               Text2 : String_T := To_String (This.My_Code_2);
+               L : Integer := 22 - Text2'Length + 1;
+            begin
+               Text (L..22) := Text2 (Text2'First .. Text2'Last);
+            end;
+         else
+            Max := 23;
+
+            declare
+               Text2 : String_T := To_String (This.My_Code_1);
+               L : Integer := 10 - Text2'Length + 1;
+            begin
+               pragma Assert (L <= 10);
+               Text (L..10) := Text2 (Text2'First .. Text2'Last);
+            end;
+
+            Text (11..12) := ", ";
+
+            declare
+               Text2 : String_T := To_String (This.My_Code_2);
+               L : Integer := 23 - Text2'Length + 1;
+            begin
+               Text (L..23) := Text2 (Text2'First .. Text2'Last);
+            end;
+         end if;
+      else
+         if This.My_Code_2 >= 0 then
+            Max := 23;
+
+            declare
+               Text2 : String_T := To_String (This.My_Code_1);
+               L : Integer := 11 - Text2'Length + 1;
+            begin
+               pragma Assert (L <= 11);
+               Text (L..11) := Text2 (Text2'First .. Text2'Last);
+            end;
+
+            Text (12..13) := ", ";
+
+            declare
+               Text2 : String_T := To_String (This.My_Code_2);
+               L : Integer := 23 - Text2'Length + 1;
+            begin
+               Text (L..23) := Text2 (Text2'First .. Text2'Last);
+            end;
+         else
+            Max := 24;
+
+            declare
+               Text2 : String_T := To_String (This.My_Code_1);
+               L : Integer := 11 - Text2'Length + 1;
+            begin
+               pragma Assert (L <= 11);
+               Text (L..11) := Text2 (Text2'First .. Text2'Last);
+            end;
+
+            Text (12..13) := ", ";
+
+            declare
+               Text2 : String_T := To_String (This.My_Code_2);
+               L : Integer := 24 - Text2'Length + 1;
+            begin
+               Text (L..24) := Text2 (Text2'First .. Text2'Last);
+            end;
+         end if;
+      end if;
+
+      return Text (1..Max);
    end Message;
-
 
 end Aida.Subprogram_Call_Result;

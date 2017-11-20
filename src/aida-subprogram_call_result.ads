@@ -1,59 +1,30 @@
-with Aida.Bounded_String;
-
 -- Useful for subprograms that can either succeed or report an error message,
 -- and under the contraint of satisfying the "one exit"-rule in GNATCheck.
-generic
-   Capacity : Positive;
-package Aida.Subprogram_Call_Result is
+package Aida.Subprogram_Call_Result with SPARK_Mode is
 
-   subtype Length_T is Natural range 0 .. Capacity;
+   type T is tagged limited private with Default_Initial_Condition => T.Has_Failed = False;
 
-   type T is limited private with Default_Initial_Condition => Length (T) = 0 and Has_Failed (T) = False;
-
-   procedure Initialize (This    : in out T;
-                         Message : Aida.String_T) with
-     Global => null,
-     Pre    => not Has_Failed (This) and Message'Length < Capacity,
-     Post   => Has_Failed (This) = True and Length (This) = Message'Length;
-
---     procedure Initialize (This    : in out T;
---                           Message : String) with
---       Global => null,
---       Pre    => Length (This) = 0 and Message'Length < Capacity,
---       Post   => Has_Failed (This) = True;
-
-   procedure Initialize (This : in out T;
-                         M1   : String;
-                         M2   : String) with
-     Global => null,
-     Pre    => not Has_Failed (This) and ((M1'Length < Positive'Last/2 and M2'Length < Positive'Last/2) and then (M1'Length + M2'Length < Capacity)),
-     Post   => Has_Failed (This) = True and Length (This) = M1'Length + M2'Length;
+   procedure Initialize (This   : in out T;
+                         Code_1 : Int32_T;
+                         Code_2 : Int32_T) with
+     Global     => null,
+     Pre'Class  => not Has_Failed (This),
+     Post'Class => This.Has_Failed = True;
 
    function Has_Failed (This : T) return Boolean with
      Global => null;
 
-   function Length (This : T) return Length_T with
-     Global => null;
-
-   generic
-      with procedure Do_Something (Text : Aida.String_T);
-   procedure Act_On_Immutable_Text (This : in T) with
-     Global => null;
-
-   function Message (This : T) return Aida.String_T with
+   function Message (This : T) return String_T with
      Global => null;
 
 private
 
-   type Bounded_String_T is new Aida.Bounded_String.T (Capacity);
-
-   type T is limited
+   type T is tagged limited
       record
-         My_Message    : Bounded_String_T;
+         My_Code_1 : Int32_T := 0;
+         My_Code_2 : Int32_T := 0;
          My_Has_Failed : Boolean := False;
       end record;
-
-   function Length (This : T) return Length_T is (Length (This.My_Message));
 
    function Has_Failed (This : T) return Boolean is (This.My_Has_Failed);
 

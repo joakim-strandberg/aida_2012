@@ -1,88 +1,66 @@
-with Aida.Bounded_Vector;
-
 generic
-   type Index_T is range <>;
+   Capacity : Pos32_T;
+   Max_Strings : Pos32_T;
    type Element_T is new String;
-   with function "=" (L, R : Element_T) return Boolean is <>;
 package Aida.Integer_To_String_Map is
 
-   subtype Extended_Index_T is Index_T'Base range Index_T'First-1..Index_T'Last;
+   subtype Char_Index_T is Nat32_T'Base range 1..Capacity;
 
-   type Length_T is new Index_T'Base range 0 .. Index_T'Last - Index_T'First + 1;
+   subtype Index_T is Pos32_T range 1..Max_Strings;
 
-   type T (Capacity : Positive) is limited private;
+   subtype Available_Capacity_T is Nat32_T range 0..Char_Index_T'Last;
 
-   function Available_Capacity (This : T) return Natural with
-     Global => null,
-     Pre    => Hidden_Index (This) <= This.Capacity;
+   subtype Available_Substrings_T is Nat32_T range 0..Index_T'Last;
 
-   function Length (This : T) return Length_T with
+   type T is tagged limited private;
+
+   function Available_Capacity (This : T) return Available_Capacity_T with
+     Global => null;
+
+   function Available_Substrings (This : T) return Available_Substrings_T with
      Global => null;
 
    procedure Append (This     : in out T;
-                     New_Item : Element_T) with
+                     New_Item : Element_T;
+                     Index    : out Index_T) with
      Global => null,
-     Pre  => (Hidden_Index (This) <= This.Capacity - New_Item'Length and New_Item'Length >= 1) and then (Available_Capacity (This) >= New_Item'Length) and then Length (This) < Length_T'Last,
-     Post => Available_Capacity (This)'Old - New_Item'Length = Available_Capacity (This) and Length (This) = Length (This)'Old + 1;
+     Pre'Class  => New_Item'Length >= 1 and This.Available_Capacity >= New_Item'Length and This.Available_Substrings > 0,
+     Post'Class => This.Available_Capacity'Old - New_Item'Length = This.Available_Capacity and This.Available_Substrings + 1 = This.Available_Substrings'Old;
 
-   function First_Index (This : T) return Index_T with
-     Global => null;
-
-   function Last_Index (This : T) return Extended_Index_T with
-     Global => null;
-
-   generic
-      with procedure Do_Something (Text : Element_T);
-   procedure Act_On_Immutable_Text (This  : T;
-                                    Index : Index_T) with
-     Global => null,
-     Pre => Index <= Last_Index (This);
-
-   generic
-      type Return_T is private;
-      type Arg_T is private;
-      with function Check_Something (Text : Element_T;
-                                     Arg  : Arg_T) return Return_T;
-   function Check_Something_On_Immutable_Text (This  : T;
-                                               Index : Index_T;
-                                               Arg   : Arg_T) return Return_T with
-     Global => null,
-     Pre => Index <= Last_Index (This);
-
-   function Hidden_Index (This : T) return Natural with
+   function Element (This  : T;
+                     Index : Index_T) return Element_T with
      Global => null;
 
 private
 
+   subtype From_Index_T is Pos32_T range 1..Char_Index_T'Last;
+
+   subtype To_Index_T   is Nat32_T range 0..Char_Index_T'Last;
+
    type Substring_T is record
-      From : Positive;
-      To   : Positive;
+      From : From_Index_T := 1;
+      To   : To_Index_T   := 0;
    end record;
 
-   function Default_Substring return Substring_T is (From => 1, To => 1);
+   type Substring_Indexes_T is array (Index_T) of Substring_T;
 
-   package Item_Vector is new Aida.Bounded_Vector (Index_T,
-                                                   Substring_T,
-                                                   "=",
-                                                   Default_Substring);
+   subtype Next_T is Nat32_T range 0..Char_Index_T'Last;
 
-   use all type Item_Vector.T;
+   subtype Next_Index_T is Nat32_T range 0..Index_T'Last;
 
-   type T (Capacity : Positive) is limited
+   type T is tagged limited
       record
-         My_Huge_Text  : Element_T (1..Capacity) := (others => ' ');
-         My_Next       : Natural := 0;
-         My_Substrings : Item_Vector.T;
+         My_Huge_Text  : Element_T (Positive (Char_Index_T'First)..Positive (Char_Index_T'Last)) := (others => ' ');
+         My_Next       : Next_T := 0;
+         My_Next_Index : Next_Index_T := 0;
+         My_Substrings : Substring_Indexes_T;
       end record;
 
-   function Available_Capacity (This : T) return Natural is (This.Capacity - This.My_Next);
+   function Available_Capacity (This : T) return Available_Capacity_T is (Char_Index_T'Last - This.My_Next);
 
-   function Length (This : T) return Length_T is (Length_T (Length (This.My_Substrings)));
+   function Available_Substrings (This : T) return Available_Substrings_T is (Index_T'Last - This.My_Next_Index);
 
-   function Hidden_Index (This : T) return Natural is (This.My_Next);
-
-   function First_Index (This : T) return Index_T is (First_Index (This.My_Substrings));
-
-   function Last_Index (This : T) return Extended_Index_T is (Last_Index (This.My_Substrings));
+   function Element (This  : T;
+                     Index : Index_T) return Element_T is (This.My_Huge_Text (Integer (This.My_Substrings (Index).From)..Integer (This.My_Substrings (Index).To)));
 
 end Aida.Integer_To_String_Map;

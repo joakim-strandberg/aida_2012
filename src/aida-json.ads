@@ -1,11 +1,8 @@
-with Aida.Subprogram_Call_Result;
 with Aida.Bounded_Vector;
 
 package Aida.JSON with SPARK_Mode is
 
    type Tag_Id_T is new Aida.Int32_T;
-
-   package Procedure_Call_Result is new Aida.Subprogram_Call_Result (1_000);
 
 private
 

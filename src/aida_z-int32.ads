@@ -4,7 +4,9 @@ package Aida_Z.Int32 with SPARK_Mode, Pure is
 
    function To_String (This : T) return Zzz_String_T with
      Global => null,
-     Post   => To_String'Result'Length <= 11;
+     Post   => To_String'Result'Length >= 1 and (if This < 0 then
+                                                   To_String'Result'Length <= 11 else
+                                                     To_String'Result'Length <= 10);
 
    function To_Char (This : T) return Zzz_Char_T with
      Global => null,

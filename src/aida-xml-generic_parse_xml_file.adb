@@ -14,12 +14,11 @@ procedure Aida.XML.Generic_Parse_XML_File (Arg1        : in out Arg1_T;
                                            Arg3        : in out Arg3_T;
                                            Arg4        : in out Arg4_T;
                                            Contents    : Aida.String_T;
-                                           Call_Result : in out Procedure_Call_Result.T)
+                                           Call_Result : in out Subprogram_Call_Result.T)
 is
    use all type Aida.String_T;
    use all type Aida.Int32_T;
    use all type Aida.UTF8_Code_Point.T;
-   use all type Procedure_Call_Result.T;
 
    subtype P_T      is Integer range Contents'First..Contents'Last + 4;
    subtype Prev_P_T is Integer range Contents'First + 1..Contents'Last;
@@ -27,7 +26,7 @@ is
    procedure Analyze_XML (P : in out P_T) with
      Global => (In_Out => (Call_Result, Arg1, Arg2, Arg3, Arg4),
                 Input  => Contents),
-     Pre    => not Has_Failed (Call_Result) and P > Contents'First and P <= Contents'Last and Contents'Last < Integer'Last - 4;
+     Pre    => not Call_Result.Has_Failed and P > Contents'First and P <= Contents'Last and Contents'Last < Integer'Last - 4;
 
    procedure Analyze_XML (P : in out P_T)
    is
@@ -84,7 +83,7 @@ is
                if not Aida.UTF8.Is_Valid_UTF8_Code_Point (Source  => String (Contents),
                                                           Pointer => P)
                then
-                  Initialize (Call_Result, "ECA440AC-A332-48A6-92D2-43E3AA805C54");
+                  Call_Result.Initialize (1434797854, -0068724898);
                   exit;
                end if;
 
@@ -93,7 +92,7 @@ is
                               Value   => CP);
 
                pragma Loop_Variant (Increases => P);
-               pragma Loop_Invariant (not Has_Failed (Call_Result));
+               pragma Loop_Invariant (not Call_Result.Has_Failed);
                pragma Loop_Invariant (P <= Contents'Last + 4);
                pragma Loop_Invariant (Prev_Prev_P < Prev_P and Prev_P < P);
                pragma Loop_Invariant (State_Id /= Extracting_Attribute_Name or
@@ -122,7 +121,7 @@ is
                      elsif CP = Character'Pos ('<') then
                         State_Id := Init_Found_Less_Sign;
                      else
-                        Initialize (Call_Result, "F393A197-9FE3-4DA7-94E7-F20293B90DC4");
+                        Call_Result.Initialize (1003548980, 1714289304);
                         exit;
                      end if;
                   when Init_Found_Less_Sign =>
@@ -130,12 +129,12 @@ is
                         State_Id := Init_Found_Less_Followed_By_Exclamation_Sign;
                      elsif CP = Character'Pos ('/') then
                         if Depth = 0 then
-                           Initialize (Call_Result, "5D33399A-94A5-4352-83A4-873C8303AECB");
+                           Call_Result.Initialize (-1797161339, -1801650669);
                            exit;
                         end if;
 
                         if P > Contents'Last then
-                           Initialize (Call_Result, "7FB4B266-4657-4185-8928-2DBBE3E5D16F");
+                           Call_Result.Initialize (0386434633, -1112825058);
                            exit;
                         end if;
 
@@ -146,7 +145,7 @@ is
                               "",
                               Call_Result);
 
-                        if Has_Failed (Call_Result) then
+                        if Call_Result.Has_Failed then
                            exit;
                         end if;
 
@@ -158,14 +157,14 @@ is
 
                         pragma Assert (Start_Tag_Name_First_Index < P);
                      else
-                        Initialize (Call_Result, "C0A824E6-C5A1-4772-B5AF-AD5A5A92E0F1");
+                        Call_Result.Initialize (1448645964, 0183871387);
                         exit;
                      end if;
                   when Init_Found_Less_Followed_By_Exclamation_Sign =>
                      if CP = Character'Pos ('-') then
                         State_Id := Init_Found_Less_Followed_By_Exclamation_And_Dash_Sign;
                      else
-                        Initialize (Call_Result, "31C379A3-C48E-4C99-B4B6-EA9D455AE938");
+                        Call_Result.Initialize (1915807131, 1377704704);
                         exit;
                      end if;
                   when Init_Found_Less_Followed_By_Exclamation_And_Dash_Sign =>
@@ -177,7 +176,7 @@ is
                                                 else
                                                    Contents'Last);
                      else
-                        Initialize (Call_Result, "3854EE8E-F8BA-4E43-AE22-9B89409E53BF");
+                        Call_Result.Initialize (-1302785225, -0551230956);
                         exit;
                      end if;
                   when Extracting_Start_Tag_Name =>
@@ -191,14 +190,14 @@ is
                                    Contents (Start_Tag_Name_First_Index..Start_Tag_Name_Last_Index),
                                    Call_Result);
 
-                        if Has_Failed (Call_Result) then
+                        if Call_Result.Has_Failed then
                            exit;
                         end if;
 
                         if Depth < Aida.Int32_T'Last then
                            Depth := Depth + 1;
                         else
-                           Initialize (Call_Result, "3854EE8E-F8BA-dd");
+                           Call_Result.Initialize (-0197127393, -1788002976);
                            exit;
                         end if;
 
@@ -213,14 +212,14 @@ is
                                    Contents (Start_Tag_Name_First_Index..Start_Tag_Name_Last_Index),
                                    Call_Result);
 
-                        if Has_Failed (Call_Result) then
+                        if Call_Result.Has_Failed then
                            exit;
                         end if;
 
                         if Depth < Aida.Int32_T'Last then
                            Depth := Depth + 1;
                         else
-                           Initialize (Call_Result, "3854EE8E-F8BA-ee");
+                           Call_Result.Initialize (0133265230, -0905163379);
                            exit;
                         end if;
 
@@ -231,7 +230,7 @@ is
 
                         State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
                      elsif Is_Special_Symbol (CP) then
-                        Initialize (Call_Result, "C75A8959-63EE-4563-8851-0DE63A1811F4");
+                        Call_Result.Initialize (-0192291225, -1709997324);
                         exit;
                      end if;
                   when Expecting_G_Sign_Or_Extracting_Attributes =>
@@ -241,7 +240,7 @@ is
                         State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
 
                         if P > Contents'Last then
-                           Initialize (Call_Result, "21A4D41D-158A-4EF8-966B-6BD1284323AE");
+                           Call_Result.Initialize (-1521899768, -0725554341);
                            exit;
                         end if;
 
@@ -252,7 +251,7 @@ is
                         Attribute_First_Index := Prev_P;
                         State_Id := Extracting_Attribute_Name;
                      else
-                        Initialize (Call_Result, "05E6E7A0-4ADC-48AE-9230-8A69F003521D");
+                        Call_Result.Initialize (-0429878843, 1344381718);
                         exit;
                      end if;
                   when Expecting_G_Sign_Or_Extracting_Attributes_And_Found_Slash =>
@@ -266,7 +265,7 @@ is
                               "",
                               Call_Result);
 
-                        if Has_Failed (Call_Result) then
+                        if Call_Result.Has_Failed then
                            exit;
                         end if;
 
@@ -279,14 +278,14 @@ is
                                  Contents (Start_Tag_Name_First_Index..Start_Tag_Name_Last_Index),
                                  Call_Result);
 
-                        if Has_Failed (Call_Result) then
+                        if Call_Result.Has_Failed then
                            exit;
                         end if;
 
                         if Depth > 0 then
                            Depth := Depth - 1;
                         else
-                           Initialize (Call_Result, "3854EE8E-F8BA-ff");
+                           Call_Result.Initialize (0766893447, -0197942014);
                            exit;
                         end if;
 
@@ -295,7 +294,7 @@ is
                                                   else
                                                      Contents'Last);
                      else
-                        Initialize (Call_Result, "2729276A-4777-4BD3-89A2-F2703EB58338");
+                        Call_Result.Initialize (1180086532, 1745903660);
                         exit;
                      end if;
                   when Extracting_Attribute_Name =>
@@ -303,12 +302,12 @@ is
                         Attribute_Last_Index := Prev_Prev_P;
                         State_Id := Expecting_Attribute_Value_Quotation_Mark;
                      elsif CP = Character'Pos (Ada.Characters.Latin_1.LF) then
-                        Initialize (Call_Result, "FC0897BB-A677-4520-81CD-2A042D0BA50E");
+                        Call_Result.Initialize (-0986469701, -0000005525);
                         exit;
                      elsif not Is_Special_Symbol (CP) then
                         null; -- Normal
                      else
-                        Initialize (Call_Result, "e7ae0b25-f5e5-44ca-8ae4-8928710b4b9d");
+                        Call_Result.Initialize (0819713752, 1428867079);
                         exit;
                      end if;
                   when Expecting_Attribute_Value_Quotation_Mark =>
@@ -328,7 +327,7 @@ is
                                                            Contents'Last);
                         State_Id := Extracting_Attribute_Value;
                      else
-                        Initialize (Call_Result, "82449A50-4F42-4474-9FFF-8AE4F43EADB0");
+                        Call_Result.Initialize (0240833721, 0455771309);
                         exit;
                      end if;
                   when Extracting_Attribute_Value =>
@@ -351,11 +350,11 @@ is
                                       Call_Result);
                         end;
 
-                        if Has_Failed (Call_Result) then
+                        if Call_Result.Has_Failed then
                            exit;
                         end if;
                      elsif CP = Character'Pos (Ada.Characters.Latin_1.LF) then
-                        Initialize (Call_Result, "F5C73899-191A-4FF2-A68A-5D0FF593D075");
+                        Call_Result.Initialize (0587945467, 1683764896);
                         exit;
                      end if;
                   when Expecting_New_Tag_Or_Extracting_Tag_Value =>
@@ -373,7 +372,7 @@ is
                               Contents (Tag_Value_First_Index..Tag_Value_Last_Index),
                               Call_Result);
 
-                        if Has_Failed (Call_Result) then
+                        if Call_Result.Has_Failed then
                            exit;
                         end if;
 
@@ -382,7 +381,7 @@ is
                   when Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L =>
                      if CP = Character'Pos ('/') then
                         if P > Contents'Last then
-                           Initialize (Call_Result, "827762F3-2C3A-4FDC-B3BA-8C2014E05489");
+                           Call_Result.Initialize (-1635958681, 2091153567);
                            exit;
                         end if;
 
@@ -392,7 +391,7 @@ is
                      elsif CP = Character'Pos ('!') then
                         State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L_And_Exclamation;
                      elsif Is_Special_Symbol (CP) then
-                        Initialize (Call_Result, "09CAF006-C519-4352-893C-E925F0132DCF");
+                        Call_Result.Initialize (-0115323975, -1084437773);
                         exit;
                      else
                         -- Will start parsing child tag!
@@ -467,7 +466,7 @@ is
                                Contents (Tag_Value_First_Index..Tag_Value_Last_Index),
                                Call_Result);
 
-                        if Has_Failed (Call_Result) then
+                        if Call_Result.Has_Failed then
                            exit;
                         end if;
 
@@ -491,14 +490,14 @@ is
                                  Contents (End_Tag_Name_First_Index..End_Tag_Name_Last_Index),
                                  Call_Result);
 
-                        if Has_Failed (Call_Result) then
+                        if Call_Result.Has_Failed then
                            exit;
                         end if;
 
                         if Depth > 0 then
                            Depth := Depth - 1;
                         else
-                           Initialize (Call_Result, "3854EE8E-F8BA-gg");
+                           Call_Result.Initialize (-0534201701, -0614895498);
                            exit;
                         end if;
 
@@ -514,10 +513,10 @@ is
                                                      Contents'Last);
 
                      elsif CP = Character'Pos (Ada.Characters.Latin_1.LF) then
-                        Initialize (Call_Result, "3B4C9CE5-B370-44A4-97EA-8A0DE764BB12");
+                        Call_Result.Initialize (-1658791000, 1638125646);
                         exit;
                      elsif Is_Special_Symbol (CP) then
-                        Initialize (Call_Result, "EF972DFF-625E-4189-9E9E-ED6F194DA206");
+                        Call_Result.Initialize (1726646144, -0779212513);
                         exit;
                      end if;
                   when Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L_And_Exclamation_And_Dash =>
@@ -549,7 +548,7 @@ is
                                  Value       => Contents (Comment_First_Index..(P - 4)),
                                  Call_Result => Call_Result);
 
-                        if Has_Failed (Call_Result) then
+                        if Call_Result.Has_Failed then
                            exit;
                         end if;
 
@@ -580,7 +579,7 @@ is
                                  Value       => Contents (Comment_First_Index..(P - 4)),
                                  Call_Result => Call_Result);
 
-                        if Has_Failed (Call_Result) then
+                        if Call_Result.Has_Failed then
                            exit;
                         end if;
 
@@ -596,23 +595,23 @@ is
                      if CP = Character'Pos (' ') then
                         null; -- Trailing spaces are OK
                      else
-                        Initialize (Call_Result, "2A0B3561-E2F4-448B-88FE-6A0190525B86");
+                        Call_Result.Initialize (1777504526, -1635825641);
                         exit;
                      end if;
                end case;
             end loop;
 
             if
-            not Has_Failed (Call_Result) and then
+            not Call_Result.Has_Failed and then
               State_Id /= Expecting_Only_Trailing_Spaces
             then
-               Initialize (Call_Result, "FABD4E1E-BD2B-42F5-BA61-2C8581EA38F9");
+               Call_Result.Initialize (-1968500370, -1627762655);
             end if;
          else
-            Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+            Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
          end if;
       else
-         Initialize (Call_Result, "5ADF2014-09F9-4AD0-BFA8-DC0FCE162CAA");
+         Call_Result.Initialize (-1672429119, -1233854200);
       end if;
    end Analyze_XML;
 
@@ -628,7 +627,7 @@ begin
       if not Aida.UTF8.Is_Valid_UTF8_Code_Point (Source  => String (Contents),
                                                  Pointer => P)
       then
-         Initialize (Call_Result, "5ADF2014-09F9-4AD0-BFA8-DC0FCE162CAA");
+         Call_Result.Initialize (-0356399774, -0280059910);
          exit;
       end if;
 
@@ -637,7 +636,7 @@ begin
                      Value   => CP);
 
       pragma Loop_Variant (Increases => P);
-      pragma Loop_Invariant (not Has_Failed (Call_Result));
+      pragma Loop_Invariant (not Call_Result.Has_Failed);
       pragma Loop_Invariant (Initial_State_Id /= Initial_State_Expecting_Less_Sign or
                                (Initial_State_Id = Initial_State_Expecting_Less_Sign and then (P > Contents'First and Contents'Last >= Contents'First)));
       pragma Loop_Invariant (Initial_State_Id /= Initial_State_Expecting_Question_Mark or
@@ -727,252 +726,252 @@ begin
             elsif CP = Character'Pos ('<') then
                Initial_State_Id := Initial_State_Expecting_Question_Mark;
             else
-               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+               Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
          when Initial_State_Expecting_Question_Mark =>
             if CP = Character'Pos ('?') then
                Initial_State_Id := Initial_State_Expecting_X;
             else
-               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+               Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
          when Initial_State_Expecting_X =>
             if CP = Character'Pos ('x') then
                Initial_State_Id := Initial_State_Expecting_XM;
             else
-               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+               Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
          when Initial_State_Expecting_XM =>
             if CP = Character'Pos ('m') then
                Initial_State_Id := Initial_State_Expecting_XML;
             else
-               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+               Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
          when Initial_State_Expecting_XML =>
             if CP = Character'Pos ('l') then
                Initial_State_Id := Initial_State_Expecting_XML_S;
             else
-               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+               Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
          when Initial_State_Expecting_XML_S =>
             if CP = Character'Pos (' ') then
                Initial_State_Id := Initial_State_Expecting_XML_S_V;
             else
-               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+               Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_V =>
             if CP = Character'Pos ('v') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VE;
             else
-               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+               Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VE =>
             if CP = Character'Pos ('e') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VER;
             else
-               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+               Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VER =>
             if CP = Character'Pos ('r') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERS;
             else
-               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+               Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERS =>
             if CP = Character'Pos ('s') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSI;
             else
-               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+               Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSI =>
             if CP = Character'Pos ('i') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSIO;
             else
-               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+               Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSIO =>
             if CP = Character'Pos ('o') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION;
             else
-               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+               Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION =>
             if CP = Character'Pos ('n') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E;
             else
-               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+               Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E =>
             if CP = Character'Pos ('=') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q;
             else
-               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+               Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q =>
             if CP = Character'Pos ('"') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1;
             else
-               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+               Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1 =>
             if CP = Character'Pos ('1') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P;
             else
-               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+               Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P =>
             if CP = Character'Pos ('.') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0;
             else
-               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+               Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0 =>
             if CP = Character'Pos ('0') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q;
             else
-               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+               Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q =>
             if CP = Character'Pos ('"') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S;
             else
-               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+               Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S =>
             if CP = Character'Pos (' ') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_E;
             else
-               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+               Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_E =>
             if CP = Character'Pos ('e') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_EN;
             else
-               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+               Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_EN =>
             if CP = Character'Pos ('n') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENC;
             else
-               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+               Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENC =>
             if CP = Character'Pos ('c') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCO;
             else
-               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+               Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCO =>
             if CP = Character'Pos ('o') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCOD;
             else
-               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+               Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCOD =>
             if CP = Character'Pos ('d') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODI;
             else
-               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+               Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODI =>
             if CP = Character'Pos ('i') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODIN;
             else
-               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+               Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODIN =>
             if CP = Character'Pos ('n') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING;
             else
-               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+               Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING =>
             if CP = Character'Pos ('g') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E;
             else
-               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+               Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E =>
             if CP = Character'Pos ('=') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q;
             else
-               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+               Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q =>
             if CP = Character'Pos ('"') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_U;
             else
-               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+               Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_U =>
             if CP = Character'Pos ('u') or CP = Character'Pos ('U') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UT;
             else
-               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+               Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UT =>
             if CP = Character'Pos ('t') or CP = Character'Pos ('T') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF;
             else
-               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+               Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF =>
             if CP = Character'Pos ('f') or CP = Character'Pos ('F') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D;
             else
-               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+               Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D =>
             if CP = Character'Pos ('-') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D_8;
             else
-               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+               Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D_8 =>
             if CP = Character'Pos ('8') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D_8_Q;
             else
-               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+               Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D_8_Q =>
             if CP = Character'Pos ('"') then
                Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D_8_Q_Question_Mark;
             else
-               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+               Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
          when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D_8_Q_Question_Mark =>
@@ -984,11 +983,11 @@ begin
 
                   Analyze_XML (P);
                else
-                  Initialize (Call_Result, "asdf");
+                  Call_Result.Initialize (-0645831530, 1132432555);
                   exit;
                end if;
             else
-               Initialize (Call_Result, XML_IDENTIFIER_ERROR);
+               Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
       end case;
