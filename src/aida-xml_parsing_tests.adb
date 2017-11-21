@@ -225,12 +225,12 @@ package body Aida.XML_Parsing_Tests is
                if Tag_Name = "person" then
                   State := Final_State;
                else
-                  Call_Result.Initialize ("0BC27327-A8A1-433D-B035-8FE65A43972F");
+                  Call_Result.Initialize (1597610772, -2107719936);
                end if;
             when Expecting_Age_Value |
                  Expecting_Person_Start_Tag |
                  Final_State =>
-               Call_Result.Initialize ("231A170D-9AFF-4C13-8490-51A80ED3A149");
+               Call_Result.Initialize (0945956380, -0903409252);
          end case;
       end End_Tag;
 
@@ -246,14 +246,14 @@ package body Aida.XML_Parsing_Tests is
          case State is
             when Expecting_Age_Value  =>
                if Is_Empty (Current_Ids.Person_Ids) then
-                  Call_Result.Initialize ("5B805BC2-E44C-4B38-A0F7-B78F0CB8EFBD");
+                  Call_Result.Initialize (0358232752, -1204136542);
                else
                   declare
                      Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T renames
                        Person_Id_Vector.Last_Element (Current_Ids.Person_Ids);
                   begin
                      if Value'Length > Json_Parsing_Tests_Model.Person_Def.NAME_MAX then
-                        Call_Result.Initialize ("0308B636-FD0C-4153-BC0D-D017441556AB");
+                        Call_Result.Initialize (1091656843, 0458821974);
                      else
                         Initialize (Result.Person (Person_Id).Name,
                                     Value);
@@ -264,7 +264,7 @@ package body Aida.XML_Parsing_Tests is
             when Expecting_Person_End_Tag |
                  Expecting_Person_Start_Tag |
                  Final_State =>
-               Call_Result.Initialize ("95E7AC3C-B7A1-4376-81D1-4AC559EE8E03");
+               Call_Result.Initialize (1306774674, 1255183792);
          end case;
       end Text;
 
@@ -283,7 +283,7 @@ package body Aida.XML_Parsing_Tests is
          pragma Unreferenced (Attribute_Value);
          pragma Unreferenced (State);
       begin
-         Call_Result.Initialize ("5DFB9B72-5794-4749-9A69-C662CB7259AA");
+         Call_Result.Initialize (0652491626, 0551170323);
       end Attribute;
 
       procedure Comment (Result      : in out Storage_T;
@@ -299,14 +299,15 @@ package body Aida.XML_Parsing_Tests is
          pragma Unreferenced (Value);
          pragma Unreferenced (State);
       begin
-         Call_Result.Initialize ("7D2ECEB3-7D76-446B-B2BC-E56985322B37");
+         Call_Result.Initialize (-0343657120, 1539002226);
       end Comment;
 
       procedure CDATA is new Generic_Unused_CDATA (Storage_T,
                                                    Max_Indices_T,
                                                    State_T,
                                                    Current_Ids_T,
-                                                   "481F859F-7E3C-431C-82C1-6F2060CC4AEC");
+                                                   0724097972,
+                                                   -0357024737);
 
       procedure Run_Test (XML : Aida.String_T) is
 
@@ -337,7 +338,7 @@ package body Aida.XML_Parsing_Tests is
                     XML,
                     Call_Result);
 
-         Ahven.Assert (not Call_Result.Has_Failed, String (Message (Call_Result)));
+         Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
          Ahven.Assert (State = Final_State, "592cbd68-ef97-4fc1-934b-80111d24fd32");
          Ahven.Assert (Last_Index (Current_Ids.Person_Ids) >= First_Index (Current_Ids.Person_Ids), "1f861507-695e-458b-836e-aa9fe7f131e2");
          Ahven.Assert (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) = 1, "949ca5e3-1353-47e6-90fc-b0aa21d398a6");
@@ -480,7 +481,7 @@ package body Aida.XML_Parsing_Tests is
                   end;
                   State := Expecting_Hand_Start_Tag;
                else
-                  Call_Result.Initialize ("E2CEC9DE-DFD0-4178-89AD-3A98929533BC");
+                  Call_Result.Initialize (-1986289250, -0911494611);
                end if;
             when Expecting_Hand_Start_Tag =>
                if
@@ -503,13 +504,13 @@ package body Aida.XML_Parsing_Tests is
 
                   State := Expecting_Hand_Attribute_Fingers;
                else
-                  Call_Result.Initialize ("97C2270E-E695-4F6C-83A9-5DB97DB3E3FE");
+                  Call_Result.Initialize (-1424208380, -0059734477);
                end if;
             when Expecting_Hand_Attribute_Fingers |
                  Expecting_Hand_End_Tag |
                  Expecting_Person_End_Tag |
                  End_State =>
-               Call_Result.Initialize ("83CD2BB8-346C-4BCA-A874-9093EA9B7ECD");
+               Call_Result.Initialize (-2065336582, -1689631337);
          end case;
       end Start_Tag;
 
@@ -529,19 +530,19 @@ package body Aida.XML_Parsing_Tests is
                if Tag_Name = "person" then
                   State := End_State;
                else
-                  Call_Result.Initialize ("B315E693-8E6F-4A90-BE89-1AA305BDC0BC");
+                  Call_Result.Initialize (-1177661661, 0292248373);
                end if;
             when Expecting_Hand_End_Tag =>
                if Tag_Name = "hand" then
                   State := Expecting_Person_End_Tag;
                else
-                  Call_Result.Initialize ("D9186C55-A0A5-4565-9F19-71FFBF3869A7");
+                  Call_Result.Initialize (0923544354, 1403232525);
                end if;
             when Expecting_Person_Start_Tag |
                  Expecting_Hand_Start_Tag |
                  Expecting_Hand_Attribute_Fingers |
                  End_State =>
-               Call_Result.Initialize ("7A269EB3-3E6E-4194-A32F-7C5BF672121C");
+               Call_Result.Initialize (-1782791758, 0355780636);
          end case;
       end End_Tag;
 
@@ -565,12 +566,12 @@ package body Aida.XML_Parsing_Tests is
                   null;
                else
                   Aida.Text_IO.Put_Line (Value);
-                  Call_Result.Initialize ("E2FE276D-DE59-476A-8997-7E9E2AD759E5");
+                  Call_Result.Initialize (-0239718217, 2014666842);
                end if;
             when Expecting_Person_Start_Tag |
                  Expecting_Hand_Attribute_Fingers |
                  End_State =>
-               Call_Result.Initialize ("5392E79D-7017-444A-BF23-996F28003162");
+               Call_Result.Initialize (-0303993979, 0911831101);
          end case;
       end Text;
 
@@ -598,7 +599,7 @@ package body Aida.XML_Parsing_Tests is
                                Has_Failed);
 
                      if Has_Failed then
-                        Call_Result.Initialize ("F530A269-4528-4CE7-87E7-5B67BDFC04E9");
+                        Call_Result.Initialize (-1415717893, 1464395596);
                      else
                         if
                           Last_Index (Current_Ids.Hand_Ids) >= First_Index (Current_Ids.Hand_Ids) and
@@ -609,19 +610,19 @@ package body Aida.XML_Parsing_Tests is
                              Json_Parsing_Tests_Model.Hand_Def.Number_Of_Fingers_T (I);
                            State := Expecting_Hand_End_Tag;
                         else
-                           Call_Result.Initialize ("92400069-D574-4A3A-89CB-7D8EEA0CB900");
+                           Call_Result.Initialize (1981747900, 0463476847);
                         end if;
                      end if;
                   end;
                else
-                  Call_Result.Initialize ("6CDC4CF7-FAAC-4584-8E15-77A25DB87550");
+                  Call_Result.Initialize (-1645434181, -0649226499);
                end if;
             when Expecting_Hand_Start_Tag |
                  Expecting_Hand_End_Tag |
                  Expecting_Person_End_Tag |
                  Expecting_Person_Start_Tag |
                  End_State =>
-               Call_Result.Initialize ("22041BE5-FF1C-4830-9627-2DB1AC172A0A");
+               Call_Result.Initialize (-0413044075, -0334413386);
          end case;
       end Attribute;
 
@@ -638,14 +639,15 @@ package body Aida.XML_Parsing_Tests is
          pragma Unreferenced (Value);
          pragma Unreferenced (State);
       begin
-         Call_Result.Initialize ("DF7E7CA8-431D-4CD8-BD42-A3C1139B63B0");
+         Call_Result.Initialize (-0010790613, -1154048092);
       end Comment;
 
       procedure CDATA is new Generic_Unused_CDATA (Storage_T,
                                                    Max_Indices_T,
                                                    State_T,
                                                    Current_Ids_T,
-                                                   "A8A292BB-E90C-4296-BCA8-C7DD5DB81CF1");
+                                                   -1905595456,
+                                                   -0073330819);
 
       procedure Run_Test (XML : Aida.String_T) is
 
@@ -676,7 +678,7 @@ package body Aida.XML_Parsing_Tests is
                     XML,
                     Call_Result);
 
-         Ahven.Assert (not Call_Result.Has_Failed, String (Message (Call_Result)));
+         Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
          Ahven.Assert (State = End_State, "397d359d-2d92-462b-8b32-2a4bbdc6ce25");
          Ahven.Assert (Last_Index (Current_Ids.Person_Ids) >= First_Index (Current_Ids.Person_Ids), "810561fa-2c9f-4582-a5cf-10e5abd85113");
          Ahven.Assert (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) = 1, "ae7399ea-3d2a-4400-a10f-34104d439978");
@@ -850,13 +852,13 @@ package body Aida.XML_Parsing_Tests is
                   end;
                   State := Expecting_Age_Value;
                else
-                  Call_Result.Initialize ("F44C193B-512E-4526-A64D-79881E6581F0");
+                  Call_Result.Initialize (1641034536, -0168331702);
                end if;
             when Expecting_Header_Comment |
                  Expecting_Age_Value |
                  Expecting_Person_End_Tag |
                  Final_State =>
-               Call_Result.Initialize ("9881A316-58D9-4D6E-BBA8-2A01594009DD");
+               Call_Result.Initialize (1151263009, 0745658434);
          end case;
       end Start_Tag;
 
@@ -876,13 +878,13 @@ package body Aida.XML_Parsing_Tests is
                if Tag_Name = "person" then
                   State := Final_State;
                else
-                  Call_Result.Initialize ("183C4C24-23D5-4F75-BEF6-23A138EE7125");
+                  Call_Result.Initialize (-0515223676, -0964032298);
                end if;
             when Expecting_Header_Comment |
                  Expecting_Age_Value |
                  Expecting_Person_Start_Tag |
                  Final_State =>
-               Call_Result.Initialize ("83434CB5-7AF9-48C7-90FD-E4094F99C9C3");
+               Call_Result.Initialize (1261506323, -1295836419);
          end case;
       end End_Tag;
 
@@ -899,14 +901,14 @@ package body Aida.XML_Parsing_Tests is
          case State is
             when Expecting_Age_Value  =>
                if Person_Id_Vector.Is_Empty (Current_Ids.Person_Ids) then
-                  Call_Result.Initialize ("8C12D298-7AB9-47C3-8C93-68B065329AA4");
+                  Call_Result.Initialize (-1774337066, -1727962634);
                else
                   declare
                      Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T renames
                        Person_Id_Vector.Last_Element (Current_Ids.Person_Ids);
                   begin
                      if Value'Length > Json_Parsing_Tests_Model.Person_Def.NAME_MAX then
-                        Call_Result.Initialize ("042908D3-BBDB-4D91-993D-5F0C13FAE471");
+                        Call_Result.Initialize (-1815221318, -0049022358);
                      else
                         Initialize (Result.Person (Person_Id).Name,
                                     Value);
@@ -918,7 +920,7 @@ package body Aida.XML_Parsing_Tests is
                  Expecting_Person_Start_Tag |
                  Expecting_Person_End_Tag |
                  Final_State =>
-               Call_Result.Initialize ("4472243F-1BA8-4342-884A-8E60314BF1E7");
+               Call_Result.Initialize (2029897928, -1645278456);
          end case;
       end Text;
 
@@ -937,7 +939,7 @@ package body Aida.XML_Parsing_Tests is
          pragma Unreferenced (Attribute_Value);
          pragma Unreferenced (State);
       begin
-         Call_Result.Initialize ("0D7C8F8E-BF4A-4194-9C3B-1A72A308C402");
+         Call_Result.Initialize (0903072198, -1070053815);
       end Attribute;
 
       procedure Comment (Result      : in out Storage_T;
@@ -956,13 +958,13 @@ package body Aida.XML_Parsing_Tests is
                   Result.Header_Comment (1..Value'Length) := Value (Value'Range);
                   State := Expecting_Person_Start_Tag;
                else
-                  Call_Result.Initialize ("9191A811-251E-4446-B313-F47AD50A362E");
+                  Call_Result.Initialize (1393880170, -1219176638);
                end if;
             when Expecting_Age_Value |
                  Expecting_Person_End_Tag |
                  Expecting_Person_Start_Tag |
                  Final_State =>
-               Call_Result.Initialize ("4472243F-1BA8-4342-884A-8E60314BF1E7");
+               Call_Result.Initialize (0968907604, -1718083384);
          end case;
       end Comment;
 
@@ -970,7 +972,8 @@ package body Aida.XML_Parsing_Tests is
                                                    Max_Indices_T,
                                                    State_T,
                                                    Current_Ids_T,
-                                                   "AE9C3770-38B0-4850-94ED-84F41D7B62F9");
+                                                   -0933625590,
+                                                   1250442975);
 
       procedure Run_Test (XML : Aida.String_T) is
 
@@ -1001,7 +1004,7 @@ package body Aida.XML_Parsing_Tests is
                     XML,
                     Call_Result);
 
-         Ahven.Assert (not Call_Result.Has_Failed, String (Message (Call_Result)));
+         Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
          Ahven.Assert (State = Final_State, "592cbd68-ef97-4fc1-934b-80111d24fd32");
          Ahven.Assert (Last_Index (Current_Ids.Person_Ids) >= First_Index (Current_Ids.Person_Ids), "1f861507-695e-458b-836e-aa9fe7f131e2");
          Ahven.Assert (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) = 1, "949ca5e3-1353-47e6-90fc-b0aa21d398a6");
@@ -1116,14 +1119,14 @@ package body Aida.XML_Parsing_Tests is
                   end;
                   State := Expecting_Pre_Age_Text;
                else
-                  Call_Result.Initialize ("95BA939B-D685-484D-BBC3-E25A1494925D");
+                  Call_Result.Initialize (-0206264299, 0284887201);
                end if;
             when Expecting_Pre_Age_Text |
                  Expecting_Pre_Age_Comment |
                  Expecting_Age_Value |
                  Expecting_Person_End_Tag |
                  Final_State =>
-               Call_Result.Initialize ("38A215E2-5587-4FDC-B8A2-69A9546718C5");
+               Call_Result.Initialize (0156529524, -1682928334);
          end case;
       end Start_Tag;
 
@@ -1143,14 +1146,14 @@ package body Aida.XML_Parsing_Tests is
                if Tag_Name = "person" then
                   State := Final_State;
                else
-                  Call_Result.Initialize ("733D4C3B-5724-4A5C-9836-77B86BA348CC");
+                  Call_Result.Initialize (0512431155, -0532051458);
                end if;
             when Expecting_Pre_Age_Text |
                  Expecting_Pre_Age_Comment |
                  Expecting_Age_Value |
                  Expecting_Person_Start_Tag |
                  Final_State =>
-               Call_Result.Initialize ("E8859A95-D6F9-4923-80BC-0D3F139BBD79");
+               Call_Result.Initialize (-1825682706, 0079776466);
          end case;
       end End_Tag;
 
@@ -1167,14 +1170,14 @@ package body Aida.XML_Parsing_Tests is
          case State is
             when Expecting_Age_Value  =>
                if Person_Id_Vector.Is_Empty (Current_Ids.Person_Ids) then
-                  Call_Result.Initialize ("F434F73C-825A-4B4E-A2EF-DC2A52DCA28D");
+                  Call_Result.Initialize (-1324547445, -1309193195);
                else
                   declare
                      Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T renames
                        Person_Id_Vector.Last_Element (Current_Ids.Person_Ids);
                   begin
                      if Value'Length > Json_Parsing_Tests_Model.Person_Def.NAME_MAX then
-                        Call_Result.Initialize ("A8DFF685-A883-4149-819D-9C0E039D38C3");
+                        Call_Result.Initialize (-0153689476, 0042874247);
                      else
                         Initialize (Result.Person (Person_Id).Name,
                                     Value);
@@ -1186,13 +1189,13 @@ package body Aida.XML_Parsing_Tests is
                if Value = "" then
                   State := Expecting_Pre_Age_Comment;
                else
-                  Call_Result.Initialize ("F98DD5FC-6225-4435-A285-850754C909DC");
+                  Call_Result.Initialize (1236802941, -1747027568);
                end if;
             when Expecting_Pre_Age_Comment |
                  Expecting_Person_Start_Tag |
                  Expecting_Person_End_Tag |
                  Final_State =>
-               Call_Result.Initialize ("AF37FE00-80CF-4A62-BF4A-E467E2145739");
+               Call_Result.Initialize (-0851733196, 0749207954);
          end case;
       end Text;
 
@@ -1211,7 +1214,7 @@ package body Aida.XML_Parsing_Tests is
          pragma Unreferenced (Attribute_Value);
          pragma Unreferenced (State);
       begin
-         Call_Result.Initialize ("46059C70-1275-4D1E-BB61-EC6B8B87CEC5");
+         Call_Result.Initialize (-0398933500, 0131921054);
       end Attribute;
 
       procedure Comment (Result      : in out Storage_T;
@@ -1230,14 +1233,14 @@ package body Aida.XML_Parsing_Tests is
                   Result.Header_Comment (1..Value'Length) := Value (Value'Range);
                   State := Expecting_Age_Value;
                else
-                  Call_Result.Initialize ("F4DF3CE3-6BB8-4466-BB3F-EB6C2A299A5C");
+                  Call_Result.Initialize (2095599376, 0300091204);
                end if;
             when Expecting_Pre_Age_Text |
                  Expecting_Age_Value |
                  Expecting_Person_End_Tag |
                  Expecting_Person_Start_Tag |
                  Final_State =>
-               Call_Result.Initialize ("DA8DFC69-0308-47D8-BC48-9757FAB1AB5B");
+               Call_Result.Initialize (-1990355837, -1187464962);
          end case;
       end Comment;
 
@@ -1245,7 +1248,8 @@ package body Aida.XML_Parsing_Tests is
                                                    Max_Indices_T,
                                                    State_T,
                                                    Current_Ids_T,
-                                                   "97181932-85F2-48C5-B6A0-8B49F7D8B39B");
+                                                   -0994849533,
+                                                   1267702157);
 
       procedure Run_Test (XML : Aida.String_T) is
 
@@ -1276,7 +1280,7 @@ package body Aida.XML_Parsing_Tests is
                     XML,
                     Call_Result);
 
-         Ahven.Assert (not Call_Result.Has_Failed, String (Message (Call_Result)));
+         Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
          Ahven.Assert (State = Final_State, "592cbd68-ef97-4fc1-934b-80111d24fd32");
          Ahven.Assert (Last_Index (Current_Ids.Person_Ids) >= First_Index (Current_Ids.Person_Ids), "1f861507-695e-458b-836e-aa9fe7f131e2");
          Ahven.Assert (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) = 1, "949ca5e3-1353-47e6-90fc-b0aa21d398a6");
@@ -1391,14 +1395,14 @@ package body Aida.XML_Parsing_Tests is
                   end;
                   State := Expecting_Age_Value;
                else
-                  Call_Result.Initialize ("95BA939B-D685-484D-BBC3-E25A1494925D");
+                  Call_Result.Initialize (1060981302, -0369276835);
                end if;
             when Expecting_Post_Age_Text |
                  Expecting_Post_Age_Comment |
                  Expecting_Age_Value |
                  Expecting_Person_End_Tag |
                  Final_State =>
-               Call_Result.Initialize ("38A215E2-5587-4FDC-B8A2-69A9546718C5");
+               Call_Result.Initialize (-1264879145, 0351870433);
          end case;
       end Start_Tag;
 
@@ -1418,14 +1422,14 @@ package body Aida.XML_Parsing_Tests is
                if Tag_Name = "person" then
                   State := Final_State;
                else
-                  Call_Result.Initialize ("733D4C3B-5724-4A5C-9836-77B86BA348CC");
+                  Call_Result.Initialize (2005019188, -1671506567);
                end if;
             when Expecting_Post_Age_Text |
                  Expecting_Post_Age_Comment |
                  Expecting_Age_Value |
                  Expecting_Person_Start_Tag |
                  Final_State =>
-               Call_Result.Initialize ("E8859A95-D6F9-4923-80BC-0D3F139BBD79");
+               Call_Result.Initialize (0565775576, -0152492210);
          end case;
       end End_Tag;
 
@@ -1442,14 +1446,14 @@ package body Aida.XML_Parsing_Tests is
          case State is
             when Expecting_Age_Value  =>
                if Person_Id_Vector.Is_Empty (Current_Ids.Person_Ids) then
-                  Call_Result.Initialize ("F434F73C-825A-4B4E-A2EF-DC2A52DCA28D");
+                  Call_Result.Initialize (1873536403, 1672121597);
                else
                   declare
                      Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T renames
                        Person_Id_Vector.Last_Element (Current_Ids.Person_Ids);
                   begin
                      if Value'Length > Json_Parsing_Tests_Model.Person_Def.NAME_MAX then
-                        Call_Result.Initialize ("A8DFF685-A883-4149-819D-9C0E039D38C3");
+                        Call_Result.Initialize (0652236873, -0431737624);
                      else
                         Initialize (Result.Person (Person_Id).Name,
                                     Value);
@@ -1461,13 +1465,13 @@ package body Aida.XML_Parsing_Tests is
                if Value = "" then
                   State := Expecting_Person_End_Tag;
                else
-                  Call_Result.Initialize ("F98DD5FC-6225-4435-A285-850754C909DC");
+                  Call_Result.Initialize (1404486087, 1338851999);
                end if;
             when Expecting_Post_Age_Comment |
                  Expecting_Person_Start_Tag |
                  Expecting_Person_End_Tag |
                  Final_State =>
-               Call_Result.Initialize ("AF37FE00-80CF-4A62-BF4A-E467E2145739");
+               Call_Result.Initialize (-0506190056, 2066536020);
          end case;
       end Text;
 
@@ -1486,7 +1490,7 @@ package body Aida.XML_Parsing_Tests is
          pragma Unreferenced (Attribute_Value);
          pragma Unreferenced (State);
       begin
-         Call_Result.Initialize ("46059C70-1275-4D1E-BB61-EC6B8B87CEC5");
+         Call_Result.Initialize (1685075415, 0079136961);
       end Attribute;
 
       procedure Comment (Result      : in out Storage_T;
@@ -1505,14 +1509,14 @@ package body Aida.XML_Parsing_Tests is
                   Result.Header_Comment (1..Value'Length) := Value (Value'Range);
                   State := Expecting_Post_Age_Text;
                else
-                  Call_Result.Initialize ("F4DF3CE3-6BB8-4466-BB3F-EB6C2A299A5C");
+                  Call_Result.Initialize (-1848128882, -2103490421);
                end if;
             when Expecting_Post_Age_Text |
                  Expecting_Age_Value |
                  Expecting_Person_End_Tag |
                  Expecting_Person_Start_Tag |
                  Final_State =>
-               Call_Result.Initialize ("DA8DFC69-0308-47D8-BC48-9757FAB1AB5B");
+               Call_Result.Initialize (-0578317557, -2024566314);
          end case;
       end Comment;
 
@@ -1520,7 +1524,8 @@ package body Aida.XML_Parsing_Tests is
                                                    Max_Indices_T,
                                                    State_T,
                                                    Current_Ids_T,
-                                                   "BAB89E5C-8186-4723-9567-A707016EAFB8");
+                                                   -1494886622,
+                                                   -1435235821);
       procedure Run_Test (XML : Aida.String_T) is
 
          procedure Parse_XML is new Aida.XML.Generic_Parse_XML_File (Storage_T,
@@ -1550,7 +1555,7 @@ package body Aida.XML_Parsing_Tests is
                     XML,
                     Call_Result);
 
-         Ahven.Assert (not Call_Result.Has_Failed, String (Message (Call_Result)));
+         Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
          Ahven.Assert (State = Final_State, "592cbd68-ef97-4fc1-934b-80111d24fd32");
          Ahven.Assert (Last_Index (Current_Ids.Person_Ids) >= First_Index (Current_Ids.Person_Ids), "1f861507-695e-458b-836e-aa9fe7f131e2");
          Ahven.Assert (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) = 1, "949ca5e3-1353-47e6-90fc-b0aa21d398a6");
@@ -1674,14 +1679,14 @@ package body Aida.XML_Parsing_Tests is
                   end;
                   State := Expecting_Pre_Age_Text;
                else
-                  Call_Result.Initialize ("95BA939B-D685-484D-BBC3-E25A1494925D");
+                  Call_Result.Initialize (-1514498303, 1742243882);
                end if;
             when Expecting_Pre_Age_Text |
                  Expecting_Pre_Age_CDATA |
                  Expecting_Age_Value |
                  Expecting_Person_End_Tag |
                  Final_State =>
-               Call_Result.Initialize ("38A215E2-5587-4FDC-B8A2-69A9546718C5");
+               Call_Result.Initialize (-1916263923, -1891215598);
          end case;
       end Start_Tag;
 
@@ -1701,14 +1706,14 @@ package body Aida.XML_Parsing_Tests is
                if Tag_Name = "person" then
                   State := Final_State;
                else
-                  Call_Result.Initialize ("733D4C3B-5724-4A5C-9836-77B86BA348CC");
+                  Call_Result.Initialize (1757113648, -2065026636);
                end if;
             when Expecting_Pre_Age_Text |
                  Expecting_Pre_Age_CDATA |
                  Expecting_Age_Value |
                  Expecting_Person_Start_Tag |
                  Final_State =>
-               Call_Result.Initialize ("E8859A95-D6F9-4923-80BC-0D3F139BBD79");
+               Call_Result.Initialize (1987615793, 0718894067);
          end case;
       end End_Tag;
 
@@ -1725,14 +1730,14 @@ package body Aida.XML_Parsing_Tests is
          case State is
             when Expecting_Age_Value  =>
                if Person_Id_Vector.Is_Empty (Current_Ids.Person_Ids) then
-                  Call_Result.Initialize ("F434F73C-825A-4B4E-A2EF-DC2A52DCA28D");
+                  Call_Result.Initialize (-1824053881, 2061413792);
                else
                   declare
                      Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T renames
                        Person_Id_Vector.Last_Element (Current_Ids.Person_Ids);
                   begin
                      if Value'Length > Json_Parsing_Tests_Model.Person_Def.NAME_MAX then
-                        Call_Result.Initialize ("A8DFF685-A883-4149-819D-9C0E039D38C3");
+                        Call_Result.Initialize (-1672668363, 0966305970);
                      else
                         Initialize (Result.Person (Person_Id).Name,
                                     Value);
@@ -1744,13 +1749,13 @@ package body Aida.XML_Parsing_Tests is
                if Value = "" then
                   State := Expecting_Pre_Age_CDATA;
                else
-                  Call_Result.Initialize ("F98DD5FC-6225-4435-A285-850754C909DC");
+                  Call_Result.Initialize (-0353024501, 0095044560);
                end if;
             when Expecting_Pre_Age_CDATA |
                  Expecting_Person_Start_Tag |
                  Expecting_Person_End_Tag |
                  Final_State =>
-               Call_Result.Initialize ("AF37FE00-80CF-4A62-BF4A-E467E2145739");
+               Call_Result.Initialize (-0440932756, 1176624933);
          end case;
       end Text;
 
@@ -1769,7 +1774,7 @@ package body Aida.XML_Parsing_Tests is
          pragma Unreferenced (Attribute_Value);
          pragma Unreferenced (State);
       begin
-         Call_Result.Initialize ("46059C70-1275-4D1E-BB61-EC6B8B87CEC5");
+         Call_Result.Initialize (1506567129, -1557041959);
       end Attribute;
 
       procedure Comment (Result      : in out Storage_T;
@@ -1785,7 +1790,7 @@ package body Aida.XML_Parsing_Tests is
          pragma Unreferenced (Value);
          pragma Unreferenced (State);
       begin
-         Call_Result.Initialize ("DA8DFC69-0308-47D8-BC48-9757FAB1AB5B");
+         Call_Result.Initialize (1733782299, 1310378793);
       end Comment;
 
       procedure CDATA (Result      : in out Storage_T;
@@ -1804,14 +1809,14 @@ package body Aida.XML_Parsing_Tests is
                   Result.Header_Comment (1..Value'Length) := Value (Value'Range);
                   State := Expecting_Age_Value;
                else
-                  Call_Result.Initialize ("D087DA52-AFEB-48F9-B767-87791980B20D");
+                  Call_Result.Initialize (0339578717, -0632456392);
                end if;
             when Expecting_Pre_Age_Text |
                  Expecting_Age_Value |
                  Expecting_Person_End_Tag |
                  Expecting_Person_Start_Tag |
                  Final_State =>
-               Call_Result.Initialize ("EC0B3613-D72C-42F4-A55D-4667C3B0D378");
+               Call_Result.Initialize (-0580058624, 0796480717);
          end case;
       end CDATA;
 
@@ -1844,7 +1849,7 @@ package body Aida.XML_Parsing_Tests is
                     XML,
                     Call_Result);
 
-         Ahven.Assert (not Call_Result.Has_Failed, String (Message (Call_Result)));
+         Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
          Ahven.Assert (State = Final_State, "592cbd68-ef97-4fc1-934b-80111d24fd32");
          Ahven.Assert (Last_Index (Current_Ids.Person_Ids) >= First_Index (Current_Ids.Person_Ids), "1f861507-695e-458b-836e-aa9fe7f131e2");
          Ahven.Assert (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) = 1, "949ca5e3-1353-47e6-90fc-b0aa21d398a6");
