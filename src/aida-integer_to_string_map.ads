@@ -25,7 +25,7 @@ package Aida.Integer_To_String_Map is
                      Index    : out Index_T) with
      Global => null,
      Pre'Class  => New_Item'Length >= 1 and This.Available_Capacity >= New_Item'Length and This.Available_Substrings > 0,
-     Post'Class => This.Available_Capacity'Old - New_Item'Length = This.Available_Capacity and This.Available_Substrings + 1 = This.Available_Substrings'Old;
+     Post'Class => This.Available_Capacity'Old - New_Item'Length = This.Available_Capacity and This.Available_Substrings + 1 = This.Available_Substrings'Old and This.Element (Index) = New_Item;
 
    function Element (This  : T;
                      Index : Index_T) return Element_T with
