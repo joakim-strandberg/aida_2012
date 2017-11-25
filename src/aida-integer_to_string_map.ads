@@ -1,37 +1,38 @@
+-- This is a key to value map where the keys are integers and the values are of String type.
 generic
-   Capacity : Pos32_T;
+   Max_Chars : Pos32_T;
    Max_Strings : Pos32_T;
-   type Element_T is new String;
+   type Value_T is new String;
 package Aida.Integer_To_String_Map is
 
-   subtype Char_Index_T is Nat32_T'Base range 1..Capacity;
+   subtype Key_T is Pos32_T range 1..Max_Strings;
 
-   subtype Index_T is Pos32_T range 1..Max_Strings;
+   subtype Available_Chars_T is Nat32_T range 0..Max_Chars;
 
-   subtype Available_Capacity_T is Nat32_T range 0..Char_Index_T'Last;
-
-   subtype Available_Substrings_T is Nat32_T range 0..Index_T'Last;
+   subtype Available_Keys_T is Nat32_T range 0..Max_Strings;
 
    type T is tagged limited private;
 
-   function Available_Capacity (This : T) return Available_Capacity_T with
+   function Available_Chars (This : T) return Available_Chars_T with
      Global => null;
 
-   function Available_Substrings (This : T) return Available_Substrings_T with
+   function Available_Keys (This : T) return Available_Keys_T with
      Global => null;
 
-   procedure Append (This     : in out T;
-                     New_Item : Element_T;
-                     Index    : out Index_T) with
+   procedure Append (This  : in out T;
+                     Value : Value_T;
+                     Key   : out Key_T) with
      Global => null,
-     Pre'Class  => New_Item'Length >= 1 and This.Available_Capacity >= New_Item'Length and This.Available_Substrings > 0,
-     Post'Class => This.Available_Capacity'Old - New_Item'Length = This.Available_Capacity and This.Available_Substrings + 1 = This.Available_Substrings'Old and This.Element (Index) = New_Item;
+     Pre'Class  => Value'Length >= 1 and This.Available_Chars >= Value'Length and This.Available_Keys > 0,
+     Post'Class => This.Available_Chars'Old - Value'Length = This.Available_Chars and This.Available_Keys + 1 = This.Available_Keys'Old and This.Value (Key) = Value;
 
-   function Element (This  : T;
-                     Index : Index_T) return Element_T with
+   function Value (This  : T;
+                   Index : Key_T) return Value_T with
      Global => null;
 
 private
+
+   subtype Char_Index_T is Nat32_T range 1..Max_Chars;
 
    subtype From_Index_T is Pos32_T range 1..Char_Index_T'Last;
 
@@ -42,25 +43,25 @@ private
       To   : To_Index_T   := 0;
    end record;
 
-   type Substring_Indexes_T is array (Index_T) of Substring_T;
+   type Substring_Indexes_T is array (Key_T) of Substring_T;
 
    subtype Next_T is Nat32_T range 0..Char_Index_T'Last;
 
-   subtype Next_Index_T is Nat32_T range 0..Index_T'Last;
+   subtype Next_Index_T is Nat32_T range 0..Key_T'Last;
 
    type T is tagged limited
       record
-         My_Huge_Text  : Element_T (Positive (Char_Index_T'First)..Positive (Char_Index_T'Last)) := (others => ' ');
+         My_Huge_Text  : Value_T (Positive (Char_Index_T'First)..Positive (Char_Index_T'Last)) := (others => ' ');
          My_Next       : Next_T := 0;
          My_Next_Index : Next_Index_T := 0;
          My_Substrings : Substring_Indexes_T;
       end record;
 
-   function Available_Capacity (This : T) return Available_Capacity_T is (Char_Index_T'Last - This.My_Next);
+   function Available_Chars (This : T) return Available_Chars_T is (Char_Index_T'Last - This.My_Next);
 
-   function Available_Substrings (This : T) return Available_Substrings_T is (Index_T'Last - This.My_Next_Index);
+   function Available_Keys (This : T) return Available_Keys_T is (Key_T'Last - This.My_Next_Index);
 
-   function Element (This  : T;
-                     Index : Index_T) return Element_T is (This.My_Huge_Text (Integer (This.My_Substrings (Index).From)..Integer (This.My_Substrings (Index).To)));
+   function Value (This  : T;
+                     Index : Key_T) return Value_T is (This.My_Huge_Text (Integer (This.My_Substrings (Index).From)..Integer (This.My_Substrings (Index).To)));
 
 end Aida.Integer_To_String_Map;
