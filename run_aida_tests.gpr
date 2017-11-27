@@ -13,6 +13,8 @@ project Run_Aida_Tests is
                          "aida-bounded_string_tests.adb",
                          "aida-bounded_vector_tests.ads",
                          "aida-bounded_vector_tests.adb",
+                         "aida-json_dom_parsing_tests.ads",
+                         "aida-json_dom_parsing_tests.adb",
                          "aida-json_parsing_tests.ads",
                          "aida-json_parsing_tests.adb",
                          "aida-json_parsing_tests_model.ads",
@@ -25,6 +27,8 @@ project Run_Aida_Tests is
                          "aida-xml_parsing_tests.adb",
                          "aida-subprogram_call_result_tests.ads",
                          "aida-subprogram_call_result_tests.adb",
+                         "aida-integer_to_string_map_tests.ads",
+                         "aida-integer_to_string_map_tests.adb",
                          "run_aida_tests.adb"
                         );
 

@@ -20,6 +20,8 @@ project Aida is
                          "aida-bounded_string.adb",
                          "aida-directories.ads",
                          "aida-directories.adb",
+                         "aida-json-generic_dom_parser.adb",
+                         "aida-json-generic_dom_parser.ads",
                          "aida-json-generic_parse_json.adb",
                          "aida-json-generic_parse_json.ads",
                          "aida-json.ads",

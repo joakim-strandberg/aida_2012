@@ -98,4 +98,4 @@ procedure Aida.JSON.Generic_Parse_JSON (Arg1        : in out Arg1_T;
                                         Contents    : Aida.String_T;
                                         Call_Result : in out Subprogram_Call_Result.T) with
   Global => null,
-  Pre    => not Subprogram_Call_Result.Has_Failed (Call_Result) and Contents'Last < Integer'Last - 4;
+  Pre    => not Call_Result.Has_Failed and Contents'Last < Integer'Last - 4;
