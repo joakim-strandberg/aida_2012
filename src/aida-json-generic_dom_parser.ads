@@ -48,13 +48,13 @@ package Aida.JSON.Generic_DOM_Parser is
    subtype Max_Indices_T is Max_Indices_Def.T;
 
    type JSON_Value_Id_T is (
+                            JSON_Integer,
                             JSON_Text
                            );
 
-   type JSON_Value_T (Id : JSON_Value_Id_T := JSON_Text) is record
-      case Id is
-         when JSON_Text => Text : Int_To_String_Map.Key_T;
-      end case;
+   type JSON_Value_T is record
+      Id  : JSON_Value_Id_T := JSON_Text;
+      Key : Int_To_String_Map.Key_T;
    end record;
 
    type Node_T is tagged limited private;
@@ -67,11 +67,14 @@ package Aida.JSON.Generic_DOM_Parser is
 
    function Has_Next_Node (This : Node_T) return Boolean;
 
+   function Default_Node return Node_T with
+     Global => null;
+
    type Node_Array_T is array (Node_Index_T) of Node_T;
 
    type Public_Part_T is abstract tagged limited record
-      Nodes : Node_Array_T;
-      Map   : Int_To_String_Map.T;
+      Nodes : Node_Array_T := (others => Default_Node);
+      Map   : Int_To_String_Map.T := Int_To_String_Map.Make;
    end record;
 
    type T is new Public_Part_T with private;
@@ -86,9 +89,15 @@ private
 
    type Node_T is tagged limited record
       My_JSON_Key   : Int_To_String_Map.Key_T := Int_To_String_Map.Key_T'First;
-      My_JSON_Value : JSON_Value_T;
+      My_JSON_Value : JSON_Value_T := (Id => JSON_Text, Key => Int_To_String_Map.Key_T'First);
       My_Next_Node  : Extended_Node_Id_T := Extended_Node_Id_T'First;
    end record;
+
+   function Default_Node return Node_T is (
+                                           My_JSON_Key   => Int_To_String_Map.Key_T'First,
+                                           My_JSON_Value => (Id => JSON_Text, Key => Int_To_String_Map.Key_T'First),
+                                           My_Next_Node  => Extended_Node_Id_T'First
+                                          );
 
    function JSON_Key (This : Node_T) return Int_To_String_Map.Key_T is (This.My_JSON_Key);
 
@@ -112,8 +121,8 @@ private
 
    type State_T is (
                     Expecting_Object_Start,
-                    Expecting_Length_Keyword,
-                    Expecting_Length_Float,
+                    Expecting_Key,
+                    Expecting_Value,
                     Expecting_Object_End,
                     End_State
                    );

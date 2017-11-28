@@ -28,9 +28,9 @@ package Aida with SPARK_Mode, Pure is
 
    function To_String (This : Int32_T) return String_T with
      Global => null,
-     Post   => To_String'Result'Length >= 1 and (if This < 0 then
-                                                   To_String'Result'Length <= 11 else
-                                                     To_String'Result'Length <= 10);
+     Post   =>  (if This < 0 then
+                   To_String'Result'Length >= 2 and To_String'Result'Length <= 11 else
+                     To_String'Result'Length >= 1 and To_String'Result'Length <= 10);
 
    function To_String (This : Float_T) return String_T with
      Global => null,

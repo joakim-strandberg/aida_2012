@@ -22,4 +22,13 @@ private
    procedure Test_3 (T : in out Ahven.Framework.Test_Case'Class) with
      Global => null;
 
+   procedure Test_4 (T : in out Ahven.Framework.Test_Case'Class) with
+     Global => null;
+
+   procedure Test_5 (T : in out Ahven.Framework.Test_Case'Class) with
+     Global => null;
+
+   procedure Test_6 (T : in out Ahven.Framework.Test_Case'Class) with
+     Global => null;
+
 end Aida.Subprogram_Call_Result_Tests;

@@ -42,17 +42,20 @@ package body Aida.JSON_DOM_Parsing_Tests is
                                                               Max_Strings => 2,
                                                               Max_Nodes   => 100);
 
+      use all type DOM_Parser.JSON_Value_Id_T;
+
       Parser : DOM_Parser.T;
 
       Call_Result : Aida.Subprogram_Call_Result.T;
-
    begin
       Parser.Parse (JSON_Message => JSON_Test_Person_With_Age_0,
                     Call_Result  => Call_Result);
 
-      Ahven.Assert (Parser.Nodes (DOM_Parser.Node_Index_T'First).JSON_Key);
-      --      Test_Person_With_Name_Adam_Utils.Run_Test (JSON_Test_Person_With_Name_Adam_0);
-      null;
+      Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
+
+      Ahven.Assert (Parser.Map.Value (Parser.Nodes (DOM_Parser.Node_Index_T'First).JSON_Key) = "age", "was ", Parser.Map.Value (Parser.Nodes (DOM_Parser.Node_Index_T'First).JSON_Key));
+      Ahven.Assert (Parser.Nodes (DOM_Parser.Node_Index_T'First).JSON_Value.Id = DOM_Parser.JSON_Integer, " xyx");
+      Ahven.Assert (Parser.Map.Value (Parser.Nodes (DOM_Parser.Node_Index_T'First).JSON_Value.Key) = "10", "was ", Parser.Map.Value (Parser.Nodes (DOM_Parser.Node_Index_T'First).JSON_Value.Key));
    end Test_Person_With_Age_0;
 
 end Aida.JSON_DOM_Parsing_Tests;

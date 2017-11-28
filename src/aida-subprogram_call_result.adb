@@ -56,7 +56,8 @@ package body Aida.Subprogram_Call_Result with SPARK_Mode is
                Text2 : String_T := To_String (This.My_Code_2);
                L : Integer := 23 - Text2'Length + 1;
             begin
-               Text (L..23) := Text2 (Text2'First .. Text2'Last);
+               Text (13) := '-';
+               Text (L + 1..23) := Text2 (Text2'First + 1 .. Text2'Last);
             end;
          end if;
       else
@@ -68,7 +69,8 @@ package body Aida.Subprogram_Call_Result with SPARK_Mode is
                L : Integer := 11 - Text2'Length + 1;
             begin
                pragma Assert (L <= 11);
-               Text (L..11) := Text2 (Text2'First .. Text2'Last);
+               Text (1) := '-';
+               Text (L + 1..11) := Text2 (Text2'First + 1 .. Text2'Last);
             end;
 
             Text (12..13) := ", ";
@@ -87,7 +89,8 @@ package body Aida.Subprogram_Call_Result with SPARK_Mode is
                L : Integer := 11 - Text2'Length + 1;
             begin
                pragma Assert (L <= 11);
-               Text (L..11) := Text2 (Text2'First .. Text2'Last);
+               Text (1) := '-';
+               Text (L + 1..11) := Text2 (Text2'First + 1 .. Text2'Last);
             end;
 
             Text (12..13) := ", ";
@@ -96,7 +99,8 @@ package body Aida.Subprogram_Call_Result with SPARK_Mode is
                Text2 : String_T := To_String (This.My_Code_2);
                L : Integer := 24 - Text2'Length + 1;
             begin
-               Text (L..24) := Text2 (Text2'First .. Text2'Last);
+               Text (14) := '-';
+               Text (L + 1..24) := Text2 (Text2'First + 1 .. Text2'Last);
             end;
          end if;
       end if;

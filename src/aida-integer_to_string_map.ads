@@ -30,6 +30,9 @@ package Aida.Integer_To_String_Map is
                    Index : Key_T) return Value_T with
      Global => null;
 
+   function Make return T with
+     Global => null;
+
 private
 
    subtype Char_Index_T is Nat32_T range 1..Max_Chars;
@@ -63,5 +66,12 @@ private
 
    function Value (This  : T;
                      Index : Key_T) return Value_T is (This.My_Huge_Text (Integer (This.My_Substrings (Index).From)..Integer (This.My_Substrings (Index).To)));
+
+   function Make return T is (
+                              My_Huge_Text  => (others => ' '),
+                              My_Next       => 0,
+                              My_Next_Index => 0,
+                              My_Substrings => (others => (From => 1, To => 0))
+                                               );
 
 end Aida.Integer_To_String_Map;
