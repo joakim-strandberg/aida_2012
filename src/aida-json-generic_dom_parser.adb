@@ -31,7 +31,7 @@ package body Aida.JSON.Generic_DOM_Parser is
       pragma Unmodified (Map);
    begin
       case Current_Ids.State is
-         when Expecting_Object_Start                    =>
+         when Expecting_Object_Start =>
             if
               Max_Indices.Node_Id_Max < Extended_Node_Id_T'Last and
               Last_Index (Current_Ids.Node_Ids) < Max_Index (Current_Ids.Node_Ids)
@@ -47,9 +47,29 @@ package body Aida.JSON.Generic_DOM_Parser is
             else
                Call_Result.Initialize (-1009145668, 1145949162);
             end if;
+         when Expecting_Value =>
+            if
+              Max_Indices.Node_Id_Max < Extended_Node_Id_T'Last and
+              Last_Index (Current_Ids.Node_Ids) >= First_Index (Current_Ids.Node_Ids) and
+              Last_Index (Current_Ids.Node_Ids) < Max_Index (Current_Ids.Node_Ids)
+            then
+               declare
+                  Node_Id : Node_Index_T;
+               begin
+                  Max_Indices.Allocate_Node_Id (Node_Id);
+
+                  Storage (Last_Element (Current_Ids.Node_Ids)).My_JSON_Value.Id := JSON_Object;
+                  Storage (Last_Element (Current_Ids.Node_Ids)).My_JSON_Value.Node_Id := Node_Id;
+
+                  Append (Current_Ids.Node_Ids, Node_Id);
+               end;
+
+               Current_Ids.State := Expecting_Key_Or_Object_End_After_Object_Start;
+            else
+               Call_Result.Initialize (-0170327793, 0219201593);
+            end if;
          when Expecting_Key_Or_Object_End |
               Expecting_Key_Or_Object_End_After_Object_Start |
-              Expecting_Value |
               End_State =>
             Call_Result.Initialize (2125265128, 1677007664);
       end case;
@@ -157,10 +177,8 @@ package body Aida.JSON.Generic_DOM_Parser is
          then
             Map.Append (Value => String (Value),
                         Key   => Key);
-            Result (Last_Element (Current_Ids.Node_Ids)).My_JSON_Value := (
-                                                                           Id  => JSON_Text,
-                                                                           Key => Key
-                                                                          );
+            Result (Last_Element (Current_Ids.Node_Ids)).My_JSON_Value.Id := JSON_Text;
+            Result (Last_Element (Current_Ids.Node_Ids)).My_JSON_Value.Key := Key;
 
             Current_Ids.State := Expecting_Key_Or_Object_End;
          else
@@ -194,10 +212,9 @@ package body Aida.JSON.Generic_DOM_Parser is
 
                Map.Append (Value => String (Value),
                            Key   => Key);
-               Storage (Last_Element (Current_Ids.Node_Ids)).My_JSON_Value := (
-                                                                               Id  => JSON_Integer,
-                                                                               Key => Key
-                                                                              );
+               Storage (Last_Element (Current_Ids.Node_Ids)).My_JSON_Value.Id := JSON_Integer;
+               Storage (Last_Element (Current_Ids.Node_Ids)).My_JSON_Value.Key := Key;
+
                Current_Ids.State := Expecting_Key_Or_Object_End;
             else
                Call_Result.Initialize (0940180052, -0596365545);

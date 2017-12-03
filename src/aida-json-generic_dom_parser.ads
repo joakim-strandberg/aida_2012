@@ -56,12 +56,14 @@ package Aida.JSON.Generic_DOM_Parser is
                             JSON_No_Value, -- If the first node in the array has this value,
                                            -- it means the parsed JSON is an empty object "{}"
                             JSON_Integer,
-                            JSON_Text
+                            JSON_Text,
+                            JSON_Object
                            );
 
    type JSON_Value_T is record
-      Id  : JSON_Value_Id_T := JSON_Text;
-      Key : Int_To_String_Map.Key_T;
+      Id      : JSON_Value_Id_T := JSON_Text;
+      Key     : Int_To_String_Map.Key_T;
+      Node_Id : Node_Index_T := Node_Index_T'First;
    end record;
 
    type JSON_Array_Value_Id_T is (
@@ -129,13 +131,13 @@ private
 
    type Node_T is tagged limited record
       My_JSON_Key   : Int_To_String_Map.Key_T := Int_To_String_Map.Key_T'First;
-      My_JSON_Value : JSON_Value_T := (Id => JSON_No_Value, Key => Int_To_String_Map.Key_T'First);
+      My_JSON_Value : JSON_Value_T := (Id => JSON_No_Value, Key => Int_To_String_Map.Key_T'First, Node_Id => Node_Index_T'First);
       My_Next_Node  : Extended_Node_Id_T := Extended_Node_Id_T'First;
    end record;
 
    function Default_Node return Node_T is (
                                            My_JSON_Key   => Int_To_String_Map.Key_T'First,
-                                           My_JSON_Value => (Id => JSON_No_Value, Key => Int_To_String_Map.Key_T'First),
+                                           My_JSON_Value => (Id => JSON_No_Value, Key => Int_To_String_Map.Key_T'First, Node_Id => Node_Index_T'First),
                                            My_Next_Node  => Extended_Node_Id_T'First
                                           );
 
