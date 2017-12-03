@@ -6,9 +6,10 @@ pragma Elaborate_All (Aida.Integer_To_String_Map);
 pragma Elaborate_All (Aida.Bounded_Vector);
 
 generic
-   Max_Chars   : Pos32_T;
-   Max_Strings : Pos32_T;
-   Max_Nodes   : Pos32_T;
+   Max_Chars        : Pos32_T;
+   Max_Strings      : Pos32_T;
+   Max_Nodes        : Pos32_T;
+   Max_Array_Values : Pos32_T;
 package Aida.JSON.Generic_DOM_Parser is
 
    package Int_To_String_Map is new Aida.Integer_To_String_Map (Max_Chars   => Max_Chars,
@@ -18,6 +19,10 @@ package Aida.JSON.Generic_DOM_Parser is
    type Node_Index_T is new Int32_T range 1..Max_Nodes;
 
    subtype Extended_Node_Id_T is Node_Index_T'Base range 0..Node_Index_T'Last;
+
+   type Array_Index_T is new Int32_T range 1..Max_Array_Values;
+
+   subtype Extended_Array_Id_T is Array_Index_T'Base range 0..Array_Index_T'Last;
 
    package Max_Indices_Def is
 
@@ -48,6 +53,8 @@ package Aida.JSON.Generic_DOM_Parser is
    subtype Max_Indices_T is Max_Indices_Def.T;
 
    type JSON_Value_Id_T is (
+                            JSON_No_Value, -- If the first node in the array has this value,
+                                           -- it means the parsed JSON is an empty object "{}"
                             JSON_Integer,
                             JSON_Text
                            );
@@ -56,6 +63,24 @@ package Aida.JSON.Generic_DOM_Parser is
       Id  : JSON_Value_Id_T := JSON_Text;
       Key : Int_To_String_Map.Key_T;
    end record;
+
+   type JSON_Array_Value_Id_T is (
+                                  JSON_Integer,
+                                  JSON_Text
+                                 );
+
+   type JSON_Array_Value_T is record
+      Id  : JSON_Array_Value_Id_T := JSON_Text;
+      Key : Int_To_String_Map.Key_T;
+   end record;
+
+   type Array_Component_T is tagged limited private;
+
+   function JSON_Value (This : Array_Component_T) return JSON_Array_Value_T with
+     Global => null;
+
+   function Default_Array_Component return Array_Component_T with
+     Global => null;
 
    type Node_T is tagged limited private;
 
@@ -72,9 +97,12 @@ package Aida.JSON.Generic_DOM_Parser is
 
    type Node_Array_T is array (Node_Index_T) of Node_T;
 
+   type Array_T is array (Array_Index_T) of Array_Component_T;
+
    type Public_Part_T is abstract tagged limited record
-      Nodes : Node_Array_T := (others => Default_Node);
-      Map   : Int_To_String_Map.T := Int_To_String_Map.Make;
+      Nodes  : Node_Array_T        := (others => Default_Node);
+      Arrays : Array_T             := (others => Default_Array_Component);
+      Map    : Int_To_String_Map.T := Int_To_String_Map.Make;
    end record;
 
    type T is new Public_Part_T with private;
@@ -87,15 +115,27 @@ package Aida.JSON.Generic_DOM_Parser is
 
 private
 
+   type Array_Component_T is tagged limited record
+      My_JSON_Value : JSON_Array_Value_T := (Id => JSON_Text, Key => Int_To_String_Map.Key_T'First);
+      My_Next       : Extended_Array_Id_T := Extended_Array_Id_T'First;
+   end record;
+
+   function JSON_Value (This : Array_Component_T) return JSON_Array_Value_T is (This.My_JSON_Value);
+
+   function Default_Array_Component return Array_Component_T is (
+                                                                 My_JSON_Value => (Id => JSON_Text, Key => Int_To_String_Map.Key_T'First),
+                                                                 My_Next       => Extended_Array_Id_T'First
+                                                                );
+
    type Node_T is tagged limited record
       My_JSON_Key   : Int_To_String_Map.Key_T := Int_To_String_Map.Key_T'First;
-      My_JSON_Value : JSON_Value_T := (Id => JSON_Text, Key => Int_To_String_Map.Key_T'First);
+      My_JSON_Value : JSON_Value_T := (Id => JSON_No_Value, Key => Int_To_String_Map.Key_T'First);
       My_Next_Node  : Extended_Node_Id_T := Extended_Node_Id_T'First;
    end record;
 
    function Default_Node return Node_T is (
                                            My_JSON_Key   => Int_To_String_Map.Key_T'First,
-                                           My_JSON_Value => (Id => JSON_Text, Key => Int_To_String_Map.Key_T'First),
+                                           My_JSON_Value => (Id => JSON_No_Value, Key => Int_To_String_Map.Key_T'First),
                                            My_Next_Node  => Extended_Node_Id_T'First
                                           );
 
@@ -121,9 +161,9 @@ private
 
    type State_T is (
                     Expecting_Object_Start,
-                    Expecting_Key,
+                    Expecting_Key_Or_Object_End_After_Object_Start,
                     Expecting_Value,
-                    Expecting_Object_End,
+                    Expecting_Key_Or_Object_End,
                     End_State
                    );
 
@@ -157,7 +197,6 @@ private
      Global => null,
      Pre    => not Call_Result.Has_Failed;
 
-   pragma Warnings (Off, """Current_Ids"" is not modified, could be IN");
    procedure String_Value (Result      : in out Node_Array_T;
                            Max_Indices : in out Max_Indices_T;
                            Map         : in out Int_To_String_Map.T;
@@ -201,7 +240,6 @@ private
                          Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
      Pre    => not Call_Result.Has_Failed;
-   pragma Warnings (On, """Current_Ids"" is not modified, could be IN");
 
    procedure Array_Start (Result      : in out Node_Array_T;
                           Max_Indices : in out Max_Indices_T;

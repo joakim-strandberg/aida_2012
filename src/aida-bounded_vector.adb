@@ -85,4 +85,10 @@ package body Aida.Bounded_Vector is
       This.Items (Index) := New_Element;
    end Replace_Element;
 
+   procedure Replace_Last_Element (This        : in out T;
+                                   New_Element : Element_T) is
+   begin
+      This.Items (Last_Index (This)) := New_Element;
+   end Replace_Last_Element;
+
 end Aida.Bounded_Vector;

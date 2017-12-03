@@ -77,6 +77,12 @@ package Aida.Bounded_Vector is
      Pre    => Index <= Last_Index (This),
      Post   => Last_Index (This)'Old = Last_Index (This);
 
+   procedure Replace_Last_Element (This        : in out T;
+                                   New_Element : Element_T) with
+     Global => null,
+     Pre    => Last_Index (This) >= First_Index (This),
+     Post   => Last_Index (This)'Old = Last_Index (This);
+
    function Is_Empty (This : T) return Boolean with
      Global => null,
      Post   => (if Is_Empty'Result then
