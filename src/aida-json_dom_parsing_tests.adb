@@ -56,7 +56,9 @@ package body Aida.JSON_DOM_Parsing_Tests is
 
       Ahven.Assert (Parser.Map.Value (Parser.Nodes (F).JSON_Key) = "age", "was ", Parser.Map.Value (Parser.Nodes (F).JSON_Key));
       Ahven.Assert (Parser.Nodes (F).JSON_Value.Id = DOM_Parser.JSON_Integer, "was ");--, Parser.Nodes (DOM_Parser.Node_Index_T'First).JSON_Value.Id'Image);
-      Ahven.Assert (Parser.Map.Value (Parser.Nodes (F).JSON_Value.Key) = "10", "was ", Parser.Map.Value (Parser.Nodes (F).JSON_Value.Key));
+      if Parser.Nodes (F).JSON_Value.Id = DOM_Parser.JSON_Integer then
+         Ahven.Assert (Parser.Map.Value (Parser.Nodes (F).JSON_Value.Key) = "10", "was ", Parser.Map.Value (Parser.Nodes (F).JSON_Value.Key));
+      end if;
    end Test_Person_With_Age_0;
 
    procedure Test_Person_With_Hand_0 (T : in out Ahven.Framework.Test_Case'Class) with
@@ -85,12 +87,16 @@ package body Aida.JSON_DOM_Parsing_Tests is
 
       Ahven.Assert (Parser.Map.Value (Parser.Nodes (F).JSON_Key) = "hand", "1 was ", Parser.Map.Value (Parser.Nodes (F).JSON_Key));
       Ahven.Assert (Parser.Nodes (F).JSON_Value.Id = DOM_Parser.JSON_Object, "2 was ");--, Parser.Nodes (DOM_Parser.Node_Index_T'First).JSON_Value.Id'Image);
-      Ahven.Assert (Parser.Nodes (F).JSON_Value.Node_Id = F + 1, "3 was ");
+      if Parser.Nodes (F).JSON_Value.Id = DOM_Parser.JSON_Object then
+         Ahven.Assert (Parser.Nodes (F).JSON_Value.Node_Id = F + 1, "3 was ");
+      end if;
       Ahven.Assert (not Parser.Nodes (F).Has_Next_Node, "7 was ");
 
       Ahven.Assert (Parser.Map.Value (Parser.Nodes (F + 1).JSON_Key) = "fingers", "4 was ", Parser.Map.Value (Parser.Nodes (F + 1).JSON_Key));
       Ahven.Assert (Parser.Nodes (F + 1).JSON_Value.Id = DOM_Parser.JSON_Integer, "5 was ");
-      Ahven.Assert (Parser.Map.Value (Parser.Nodes (F + 1).JSON_Value.Key) = "4", "6 was ", Parser.Map.Value (Parser.Nodes (F + 1).JSON_Value.Key));
+      if Parser.Nodes (F + 1).JSON_Value.Id = DOM_Parser.JSON_Integer then
+         Ahven.Assert (Parser.Map.Value (Parser.Nodes (F + 1).JSON_Value.Key) = "4", "6 was ", Parser.Map.Value (Parser.Nodes (F + 1).JSON_Value.Key));
+      end if;
       Ahven.Assert (not Parser.Nodes (F + 1).Has_Next_Node, "8 was ");
    end Test_Person_With_Hand_0;
 
@@ -120,13 +126,17 @@ package body Aida.JSON_DOM_Parsing_Tests is
 
       Ahven.Assert (Parser.Map.Value (Parser.Nodes (F).JSON_Key) = "name", "1 was ", Parser.Map.Value (Parser.Nodes (F).JSON_Key));
       Ahven.Assert (Parser.Nodes (F).JSON_Value.Id = DOM_Parser.JSON_Text, "2 was ");--, Parser.Nodes (DOM_Parser.Node_Index_T'First).JSON_Value.Id'Image);
-      Ahven.Assert (Parser.Map.Value (Parser.Nodes (F).JSON_Value.Key) = "bertil", "3 was ", Parser.Map.Value (Parser.Nodes (F).JSON_Value.Key));
+      if Parser.Nodes (F).JSON_Value.Id = DOM_Parser.JSON_Text then
+         Ahven.Assert (Parser.Map.Value (Parser.Nodes (F).JSON_Value.Key) = "bertil", "3 was ", Parser.Map.Value (Parser.Nodes (F).JSON_Value.Key));
+      end if;
       Ahven.Assert (Parser.Nodes (F).Has_Next_Node, "4 was ", Boolean'Image (Parser.Nodes (F).Has_Next_Node));
       Ahven.Assert (Parser.Nodes (F).Next_Node = F + 1, "5 was ", DOM_Parser.Node_Index_T'Image (Parser.Nodes (F).Next_Node));
 
       Ahven.Assert (Parser.Map.Value (Parser.Nodes (F + 1).JSON_Key) = "age", "6 was ", Parser.Map.Value (Parser.Nodes (F + 1).JSON_Key));
       Ahven.Assert (Parser.Nodes (F + 1).JSON_Value.Id = DOM_Parser.JSON_Integer, "7 was ");--, Parser.Nodes (DOM_Parser.Node_Index_T'First).JSON_Value.Id'Image);
-      Ahven.Assert (Parser.Map.Value (Parser.Nodes (F + 1).JSON_Value.Key) = "5", "8 was ", Parser.Map.Value (Parser.Nodes (F + 1).JSON_Value.Key));
+      if Parser.Nodes (F + 1).JSON_Value.Id = DOM_Parser.JSON_Integer then
+         Ahven.Assert (Parser.Map.Value (Parser.Nodes (F + 1).JSON_Value.Key) = "5", "8 was ", Parser.Map.Value (Parser.Nodes (F + 1).JSON_Value.Key));
+      end if;
       Ahven.Assert (not Parser.Nodes (F + 1).Has_Next_Node, "9 was ", Boolean'Image (Parser.Nodes (F + 1).Has_Next_Node));
    end Test_Person_With_Name_And_Age_0;
 

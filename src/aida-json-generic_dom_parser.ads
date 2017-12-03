@@ -60,10 +60,12 @@ package Aida.JSON.Generic_DOM_Parser is
                             JSON_Object
                            );
 
-   type JSON_Value_T is record
-      Id      : JSON_Value_Id_T := JSON_Text;
-      Key     : Int_To_String_Map.Key_T;
-      Node_Id : Node_Index_T := Node_Index_T'First;
+   type JSON_Value_T (Id : JSON_Value_Id_T := JSON_Text) is record
+      case Id is
+         when JSON_No_Value => null;
+         when JSON_Integer | JSON_Text => Key : Int_To_String_Map.Key_T;
+         when JSON_Object   => Node_Id : Node_Index_T := Node_Index_T'First;
+      end case;
    end record;
 
    type JSON_Array_Value_Id_T is (
@@ -131,13 +133,13 @@ private
 
    type Node_T is tagged limited record
       My_JSON_Key   : Int_To_String_Map.Key_T := Int_To_String_Map.Key_T'First;
-      My_JSON_Value : JSON_Value_T := (Id => JSON_No_Value, Key => Int_To_String_Map.Key_T'First, Node_Id => Node_Index_T'First);
+      My_JSON_Value : JSON_Value_T := (Id => JSON_No_Value);
       My_Next_Node  : Extended_Node_Id_T := Extended_Node_Id_T'First;
    end record;
 
    function Default_Node return Node_T is (
                                            My_JSON_Key   => Int_To_String_Map.Key_T'First,
-                                           My_JSON_Value => (Id => JSON_No_Value, Key => Int_To_String_Map.Key_T'First, Node_Id => Node_Index_T'First),
+                                           My_JSON_Value => (Id => JSON_No_Value),
                                            My_Next_Node  => Extended_Node_Id_T'First
                                           );
 
@@ -180,7 +182,7 @@ private
                            Current_Ids : in out Current_Ids_T;
                            Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
-     Pre    => not Call_Result.Has_Failed;
+     Pre    => not Call_Result.Has_Failed and (for all I in Storage'Range => not Storage (I).My_JSON_Value'Constrained);
 
    procedure End_Object (Result      : in out Node_Array_T;
                          Max_Indices : in out Max_Indices_T;
@@ -188,7 +190,7 @@ private
                          Current_Ids : in out Current_Ids_T;
                          Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
-     Pre    => not Call_Result.Has_Failed;
+     Pre    => not Call_Result.Has_Failed and (for all I in Result'Range => not Result (I).My_JSON_Value'Constrained);
 
    procedure Key (Result      : in out Node_Array_T;
                   Max_Indices : in out Max_Indices_T;
@@ -197,7 +199,7 @@ private
                   Name        : Aida.String_T;
                   Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
-     Pre    => not Call_Result.Has_Failed;
+     Pre    => not Call_Result.Has_Failed and (for all I in Result'Range => not Result (I).My_JSON_Value'Constrained);
 
    procedure String_Value (Result      : in out Node_Array_T;
                            Max_Indices : in out Max_Indices_T;
@@ -206,7 +208,7 @@ private
                            Value       : Aida.String_T;
                            Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
-     Pre    => not Call_Result.Has_Failed;
+     Pre    => not Call_Result.Has_Failed and (for all I in Result'Range => not Result (I).My_JSON_Value'Constrained);
 
    procedure Integer_Value (Storage     : in out Node_Array_T;
                             Max_Indices : in out Max_Indices_T;
@@ -215,7 +217,7 @@ private
                             Value       : in     Aida.String_T;
                             Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
-     Pre    => not Call_Result.Has_Failed;
+     Pre    => not Call_Result.Has_Failed and (for all I in Storage'Range => not Storage (I).My_JSON_Value'Constrained);
 
    procedure Real_Value (Storage     : in out Node_Array_T;
                          Max_Indices : in out Max_Indices_T;
@@ -224,7 +226,7 @@ private
                          Value       : in     Aida.String_T;
                          Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
-     Pre    => not Call_Result.Has_Failed;
+     Pre    => not Call_Result.Has_Failed and (for all I in Storage'Range => not Storage (I).My_JSON_Value'Constrained);
 
    procedure Boolean_Value (Storage     : in out Node_Array_T;
                             Max_Indices : in out Max_Indices_T;
@@ -233,7 +235,7 @@ private
                             Value       : in     Boolean;
                             Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
-     Pre    => not Call_Result.Has_Failed;
+     Pre    => not Call_Result.Has_Failed and (for all I in Storage'Range => not Storage (I).My_JSON_Value'Constrained);
 
    procedure Null_Value (Storage     : in out Node_Array_T;
                          Max_Indices : in out Max_Indices_T;
@@ -241,7 +243,7 @@ private
                          Current_Ids : in out Current_Ids_T;
                          Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
-     Pre    => not Call_Result.Has_Failed;
+     Pre    => not Call_Result.Has_Failed and (for all I in Storage'Range => not Storage (I).My_JSON_Value'Constrained);
 
    procedure Array_Start (Result      : in out Node_Array_T;
                           Max_Indices : in out Max_Indices_T;
@@ -249,7 +251,7 @@ private
                           Current_Ids : in out Current_Ids_T;
                           Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
-     Pre    => not Call_Result.Has_Failed;
+     Pre    => not Call_Result.Has_Failed and (for all I in Result'Range => not Result (I).My_JSON_Value'Constrained);
 
    procedure Array_End (Result      : in out Node_Array_T;
                         Max_Indices : in out Max_Indices_T;
@@ -257,6 +259,6 @@ private
                         Current_Ids : in out Current_Ids_T;
                         Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
-     Pre    => not Call_Result.Has_Failed;
+     Pre    => not Call_Result.Has_Failed and (for all I in Result'Range => not Result (I).My_JSON_Value'Constrained);
 
 end Aida.JSON.Generic_DOM_Parser;

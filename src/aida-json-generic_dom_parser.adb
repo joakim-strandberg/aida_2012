@@ -27,7 +27,6 @@ package body Aida.JSON.Generic_DOM_Parser is
                            Current_Ids : in out Current_Ids_T;
                            Call_Result : in out Aida.Subprogram_Call_Result.T)
    is
-      pragma Unreferenced (Storage);
       pragma Unmodified (Map);
    begin
       case Current_Ids.State is
@@ -58,8 +57,10 @@ package body Aida.JSON.Generic_DOM_Parser is
                begin
                   Max_Indices.Allocate_Node_Id (Node_Id);
 
-                  Storage (Last_Element (Current_Ids.Node_Ids)).My_JSON_Value.Id := JSON_Object;
-                  Storage (Last_Element (Current_Ids.Node_Ids)).My_JSON_Value.Node_Id := Node_Id;
+                  pragma Assert (not Storage (Last_Element (Current_Ids.Node_Ids)).My_JSON_Value'Constrained);
+
+                  Storage (Last_Element (Current_Ids.Node_Ids)).My_JSON_Value := (Id      => JSON_Object,
+                                                                                  Node_Id => Node_Id);
 
                   Append (Current_Ids.Node_Ids, Node_Id);
                end;
@@ -177,8 +178,8 @@ package body Aida.JSON.Generic_DOM_Parser is
          then
             Map.Append (Value => String (Value),
                         Key   => Key);
-            Result (Last_Element (Current_Ids.Node_Ids)).My_JSON_Value.Id := JSON_Text;
-            Result (Last_Element (Current_Ids.Node_Ids)).My_JSON_Value.Key := Key;
+            Result (Last_Element (Current_Ids.Node_Ids)).My_JSON_Value := (Id  => JSON_Text,
+                                                                           Key => Key);
 
             Current_Ids.State := Expecting_Key_Or_Object_End;
          else
@@ -212,8 +213,8 @@ package body Aida.JSON.Generic_DOM_Parser is
 
                Map.Append (Value => String (Value),
                            Key   => Key);
-               Storage (Last_Element (Current_Ids.Node_Ids)).My_JSON_Value.Id := JSON_Integer;
-               Storage (Last_Element (Current_Ids.Node_Ids)).My_JSON_Value.Key := Key;
+               Storage (Last_Element (Current_Ids.Node_Ids)).My_JSON_Value := (Id  => JSON_Integer,
+                                                                               Key => Key);
 
                Current_Ids.State := Expecting_Key_Or_Object_End;
             else
