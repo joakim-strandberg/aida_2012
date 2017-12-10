@@ -96,20 +96,24 @@ package body Aida.JSON.Generic_DOM_Parser is
                         This.Nodes (Last_Element (Current_Ids.Node_Ids).Node_Id).My_JSON_Value := (Id      => JSON_Object,
                                                                                                    Node_Id => Node_Id);
                      when Array_Construct =>
-                        declare
-                           Array_Id : Array_Index_T;
-                        begin
-                           Max_Indices.Allocate_Array_Id (Array_Id);
+                        if Max_Indices.Array_Id_Max < Array_Index_T'Last then
+                           declare
+                              Array_Id : Array_Index_T;
+                           begin
+                              Max_Indices.Allocate_Array_Id (Array_Id);
 
-                           pragma Assert (not This.Arrays (Last_Element (Current_Ids.Node_Ids).Array_Id).My_JSON_Value'Constrained);
+                              pragma Assert (not This.Arrays (Last_Element (Current_Ids.Node_Ids).Array_Id).My_JSON_Value'Constrained);
 
-                           This.Arrays (Array_Id).My_JSON_Value := (Id      => JSON_Object,
-                                                                    Node_Id => Node_Id);
-                           This.Arrays (Last_Element (Current_Ids.Node_Ids).Array_Id).My_Next := Array_Id;
+                              This.Arrays (Array_Id).My_JSON_Value := (Id      => JSON_Object,
+                                                                       Node_Id => Node_Id);
+                              This.Arrays (Last_Element (Current_Ids.Node_Ids).Array_Id).My_Next := Array_Id;
 
-                           Replace_Last_Element (Current_Ids.Node_Ids, ((Id       => Array_Construct,
-                                                                         Array_Id => Array_Id)));
-                        end;
+                              Replace_Last_Element (Current_Ids.Node_Ids, ((Id       => Array_Construct,
+                                                                            Array_Id => Array_Id)));
+                           end;
+                        else
+                           Call_Result.Initialize (-1740465586, 0780682940);
+                        end if;
                   end case;
 
                   Current_Ids.Append_Node_Id (Node_Id);
@@ -283,28 +287,26 @@ package body Aida.JSON.Generic_DOM_Parser is
 
                      Current_Ids.State := Expecting_Key_Or_Object_End;
                   when Array_Construct =>
-                     declare
-                        Array_Id : Array_Index_T;
-                     begin
-                        Max_Indices.Allocate_Array_Id (Array_Id);
+                     if Max_Indices.Array_Id_Max < Array_Index_T'Last then
+                        declare
+                           Array_Id : Array_Index_T;
+                        begin
+                           Max_Indices.Allocate_Array_Id (Array_Id);
 
-                        pragma Assert (not This.Arrays (Last_Element (Current_Ids.Node_Ids).Array_Id).My_JSON_Value'Constrained);
+                           pragma Assert (not This.Arrays (Last_Element (Current_Ids.Node_Ids).Array_Id).My_JSON_Value'Constrained);
 
-                        This.Arrays (Array_Id).My_JSON_Value := (Id  => JSON_Text,
-                                                                 Key => Key);
-                        This.Arrays (Last_Element (Current_Ids.Node_Ids).Array_Id).My_Next := Array_Id;
+                           This.Arrays (Array_Id).My_JSON_Value := (Id  => JSON_Text,
+                                                                    Key => Key);
+                           This.Arrays (Last_Element (Current_Ids.Node_Ids).Array_Id).My_Next := Array_Id;
 
-                        Replace_Last_Element (Current_Ids.Node_Ids, ((Id       => Array_Construct,
-                                                                      Array_Id => Array_Id)));
-                     end;
+                           Replace_Last_Element (Current_Ids.Node_Ids, ((Id       => Array_Construct,
+                                                                         Array_Id => Array_Id)));
+                        end;
 
---                       if Last_Element (Current_Ids.Node_Ids).Array_Id < Array_Index_T'Last then
---                          This.Nodes (Last_Element (Current_Ids.Node_Ids).Node_Id).My_JSON_Value := (Id  => JSON_Text,
---                                                                                                     Key => Key);
---                       else
---                          Call_Result.Initialize (0057564449, 1521149725);
---                       end if;
-                     Current_Ids.State := Expecting_Value;
+                        Current_Ids.State := Expecting_Value;
+                     else
+                        Call_Result.Initialize (0057564449, 1521149725);
+                     end if;
                end case;
             else
                Call_Result.Initialize (-1300101017, -2051786091);
@@ -323,8 +325,8 @@ package body Aida.JSON.Generic_DOM_Parser is
                      if Last_Element (Current_Ids.Node_Ids).Array_Id < Array_Index_T'Last then
                         This.Map.Append (Value => String (Value),
                                          Key   => Key);
-                        This.Nodes (Last_Element (Current_Ids.Node_Ids).Node_Id).My_JSON_Value := (Id  => JSON_Text,
-                                                                                                   Key => Key);
+                        This.Arrays (Last_Element (Current_Ids.Node_Ids).Array_Id).My_JSON_Value := (Id  => JSON_Text,
+                                                                                                     Key => Key);
                      else
                         Call_Result.Initialize (1856910549, -0283523795);
                      end if;
@@ -371,33 +373,27 @@ package body Aida.JSON.Generic_DOM_Parser is
 
                      Current_Ids.State := Expecting_Key_Or_Object_End;
                   when Array_Construct =>
-                     declare
-                        Array_Id : Array_Index_T;
-                     begin
-                        Max_Indices.Allocate_Array_Id (Array_Id);
+                     if Max_Indices.Array_Id_Max < Array_Index_T'Last then
+                        declare
+                           Array_Id : Array_Index_T;
+                        begin
+                           Max_Indices.Allocate_Array_Id (Array_Id);
 
-                        pragma Assert (not This.Arrays (Last_Element (Current_Ids.Node_Ids).Array_Id).My_JSON_Value'Constrained);
+                           pragma Assert (not This.Arrays (Last_Element (Current_Ids.Node_Ids).Array_Id).My_JSON_Value'Constrained);
 
-                        This.Arrays (Array_Id).My_JSON_Value := (Id  => JSON_Integer,
-                                                                 Key => Key);
-                        This.Arrays (Last_Element (Current_Ids.Node_Ids).Array_Id).My_Next := Array_Id;
+                           This.Arrays (Array_Id).My_JSON_Value := (Id  => JSON_Integer,
+                                                                    Key => Key);
+                           This.Arrays (Last_Element (Current_Ids.Node_Ids).Array_Id).My_Next := Array_Id;
 
-                        Replace_Last_Element (Current_Ids.Node_Ids, ((Id       => Array_Construct,
-                                                                      Array_Id => Array_Id)));
-                     end;
+                           Replace_Last_Element (Current_Ids.Node_Ids, ((Id       => Array_Construct,
+                                                                         Array_Id => Array_Id)));
+                        end;
 
-                     Current_Ids.State := Expecting_Value;
+                        Current_Ids.State := Expecting_Value;
+                     else
+                        Call_Result.Initialize (0940180052, -0596365545);
+                     end if;
                end case;
-               --                 if Last_Element (Current_Ids.Node_Ids).Node_Id < Node_Index_T'Last then
---                    This.Map.Append (Value => String (Value),
---                                     Key   => Key);
---                    This.Nodes (Last_Element (Current_Ids.Node_Ids).Node_Id).My_JSON_Value := (Id  => JSON_Integer,
---                                                                                               Key => Key);
---
---                    Current_Ids.State := Expecting_Key_Or_Object_End;
---                 else
---                    Call_Result.Initialize (0940180052, -0596365545);
---                 end if;
             else
                Call_Result.Initialize (-0036863206, 1757298512);
             end if;
@@ -462,34 +458,27 @@ package body Aida.JSON.Generic_DOM_Parser is
 
                      Current_Ids.State := Expecting_Key_Or_Object_End;
                   when Array_Construct =>
-                     declare
-                        Array_Id : Array_Index_T;
-                     begin
-                        Max_Indices.Allocate_Array_Id (Array_Id);
+                     if Max_Indices.Array_Id_Max < Array_Index_T'Last then
+                        declare
+                           Array_Id : Array_Index_T;
+                        begin
+                           Max_Indices.Allocate_Array_Id (Array_Id);
 
-                        pragma Assert (not This.Arrays (Last_Element (Current_Ids.Node_Ids).Array_Id).My_JSON_Value'Constrained);
+                           pragma Assert (not This.Arrays (Last_Element (Current_Ids.Node_Ids).Array_Id).My_JSON_Value'Constrained);
 
-                        This.Arrays (Array_Id).My_JSON_Value := (Id  => JSON_Real,
-                                                                 Key => Key);
-                        This.Arrays (Last_Element (Current_Ids.Node_Ids).Array_Id).My_Next := Array_Id;
+                           This.Arrays (Array_Id).My_JSON_Value := (Id  => JSON_Real,
+                                                                    Key => Key);
+                           This.Arrays (Last_Element (Current_Ids.Node_Ids).Array_Id).My_Next := Array_Id;
 
-                        Replace_Last_Element (Current_Ids.Node_Ids, ((Id       => Array_Construct,
-                                                                      Array_Id => Array_Id)));
-                     end;
+                           Replace_Last_Element (Current_Ids.Node_Ids, ((Id       => Array_Construct,
+                                                                         Array_Id => Array_Id)));
+                        end;
 
-                     Current_Ids.State := Expecting_Value;
+                        Current_Ids.State := Expecting_Value;
+                     else
+                        Call_Result.Initialize (-1801369631, 2075621022);
+                     end if;
                end case;
-
---                 if Last_Element (Current_Ids.Node_Ids).Node_Id < Node_Index_T'Last then
---                    This.Map.Append (Value => String (Value),
---                                     Key   => Key);
---                    This.Nodes (Last_Element (Current_Ids.Node_Ids).Node_Id).My_JSON_Value := (Id  => JSON_Real,
---                                                                                               Key => Key);
---
---                    Current_Ids.State := Expecting_Key_Or_Object_End;
---                 else
---                    Call_Result.Initialize (-1801369631, 2075621022);
---                 end if;
             else
                Call_Result.Initialize (-1613099809, -2137872755);
             end if;
@@ -537,8 +526,7 @@ package body Aida.JSON.Generic_DOM_Parser is
       case Current_Ids.State is
          when Expecting_Value =>
             if
-              Last_Index (Current_Ids.Node_Ids) >= First_Index (Current_Ids.Node_Ids) and then
-              Last_Element (Current_Ids.Node_Ids).Node_Id < Node_Index_T'Last
+              Last_Index (Current_Ids.Node_Ids) >= First_Index (Current_Ids.Node_Ids)
             then
                case Last_Element (Current_Ids.Node_Ids).Id is
                   when Node_Construct =>
@@ -547,28 +535,31 @@ package body Aida.JSON.Generic_DOM_Parser is
 
                      Current_Ids.State := Expecting_Key_Or_Object_End;
                   when Array_Construct =>
-                     declare
-                        Array_Id : Array_Index_T;
-                     begin
-                        Max_Indices.Allocate_Array_Id (Array_Id);
+                     if Max_Indices.Array_Id_Max < Array_Index_T'Last then
+                        declare
+                           Array_Id : Array_Index_T;
+                        begin
+                           Max_Indices.Allocate_Array_Id (Array_Id);
 
-                        pragma Assert (not This.Arrays (Last_Element (Current_Ids.Node_Ids).Array_Id).My_JSON_Value'Constrained);
+                           pragma Assert (not This.Arrays (Last_Element (Current_Ids.Node_Ids).Array_Id).My_JSON_Value'Constrained);
 
-                        This.Arrays (Array_Id).My_JSON_Value := (Id      => JSON_Boolean,
-                                                                 Is_True => Value);
-                        This.Arrays (Last_Element (Current_Ids.Node_Ids).Array_Id).My_Next := Array_Id;
+                           This.Arrays (Array_Id).My_JSON_Value := (Id      => JSON_Boolean,
+                                                                    Is_True => Value);
+                           This.Arrays (Last_Element (Current_Ids.Node_Ids).Array_Id).My_Next := Array_Id;
 
-                        Replace_Last_Element (Current_Ids.Node_Ids, ((Id       => Array_Construct,
-                                                                      Array_Id => Array_Id)));
-                     end;
+                           Replace_Last_Element (Current_Ids.Node_Ids, ((Id       => Array_Construct,
+                                                                         Array_Id => Array_Id)));
+                        end;
+                     else
+                        Call_Result.Initialize (1359929063, 1175382196);
+                     end if;
                end case;
             else
                Call_Result.Initialize (-2041731431, -1617070961);
             end if;
          when Expecting_Array_Value_After_Array_Start =>
             if
-              Last_Index (Current_Ids.Node_Ids) >= First_Index (Current_Ids.Node_Ids) and then
-              Last_Element (Current_Ids.Node_Ids).Node_Id < Node_Index_T'Last
+              Last_Index (Current_Ids.Node_Ids) >= First_Index (Current_Ids.Node_Ids)
             then
                case Last_Element (Current_Ids.Node_Ids).Id is
                   when Node_Construct =>
@@ -604,8 +595,7 @@ package body Aida.JSON.Generic_DOM_Parser is
       case Current_Ids.State is
          when Expecting_Value =>
             if
-              Last_Index (Current_Ids.Node_Ids) >= First_Index (Current_Ids.Node_Ids) and
-              Last_Element (Current_Ids.Node_Ids).Node_Id < Node_Index_T'Last
+              Last_Index (Current_Ids.Node_Ids) >= First_Index (Current_Ids.Node_Ids)
             then
                case Last_Element (Current_Ids.Node_Ids).Id is
                   when Node_Construct =>
@@ -613,6 +603,7 @@ package body Aida.JSON.Generic_DOM_Parser is
 
                      Current_Ids.State := Expecting_Key_Or_Object_End;
                  when Array_Construct =>
+                     if Max_Indices.Array_Id_Max < Array_Index_T'Last then
                      declare
                         Array_Id : Array_Index_T;
                      begin
@@ -625,15 +616,17 @@ package body Aida.JSON.Generic_DOM_Parser is
 
                         Replace_Last_Element (Current_Ids.Node_Ids, ((Id       => Array_Construct,
                                                                       Array_Id => Array_Id)));
-                     end;
+                        end;
+                     else
+                        Call_Result.Initialize (0666213217, 1667042557);
+                     end if;
                end case;
             else
                Call_Result.Initialize (-2043468213, 1486043026);
             end if;
          when Expecting_Array_Value_After_Array_Start =>
             if
-              Last_Index (Current_Ids.Node_Ids) >= First_Index (Current_Ids.Node_Ids) and
-              Last_Element (Current_Ids.Node_Ids).Node_Id < Node_Index_T'Last
+              Last_Index (Current_Ids.Node_Ids) >= First_Index (Current_Ids.Node_Ids)
             then
                case Last_Element (Current_Ids.Node_Ids).Id is
                   when Node_Construct =>
