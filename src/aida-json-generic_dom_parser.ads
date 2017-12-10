@@ -28,25 +28,38 @@ package Aida.JSON.Generic_DOM_Parser is
 
       type T is tagged limited private;
 
-      function Node_Id_Max (This : T) return Extended_Node_Id_T;
+      function Node_Id_Max (This : T) return Extended_Node_Id_T with
+        Global => null;
 
       procedure Allocate_Node_Id (This : in out T;
                                   Id   : out Node_Index_T) with
         Global => null,
-        Pre'Class    => Node_Id_Max (This) < Extended_Node_Id_T'Last,
-        Post'Class   => Node_Id_Max (This) = Node_Id_Max (This)'Old + 1;
+        Pre'Class    => This.Node_Id_Max < Extended_Node_Id_T'Last,
+        Post'Class   => This.Node_Id_Max = This.Node_Id_Max'Old + 1;
+
+      function Array_Id_Max (This : T) return Extended_Array_Id_T with
+        Global => null;
+
+      procedure Allocate_Array_Id (This : in out T;
+                                   Id   : out Array_Index_T) with
+        Global      => null,
+        Pre'Class   => Array_Id_Max (This) < Extended_Array_Id_T'Last,
+        Post'Class  => Array_Id_Max (This) = Array_Id_Max (This)'Old + 1;
 
       procedure Clear (This : in out T) with
         Global       => null,
-          Post'Class => Node_Id_Max (This) = 0;
+          Post'Class => This.Node_Id_Max = 0 and This.Array_Id_Max = 0;
 
    private
 
       type T is tagged limited record
-         My_Node_Id_Max : Extended_Node_Id_T  := 0;
+         My_Node_Id_Max  : Extended_Node_Id_T  := 0;
+         My_Array_Id_Max : Extended_Array_Id_T := 0;
       end record;
 
       function Node_Id_Max (This : T) return Extended_Node_Id_T is (This.My_Node_Id_Max);
+
+      function Array_Id_Max (This : T) return Extended_Array_Id_T is (This.My_Array_Id_Max);
 
    end Max_Indices_Def;
 
@@ -56,31 +69,37 @@ package Aida.JSON.Generic_DOM_Parser is
                             JSON_No_Value, -- If the first node in the array has this value,
                                            -- it means the parsed JSON is an empty object "{}"
                             JSON_Integer,
+                            JSON_Real,
+                            JSON_Boolean,
                             JSON_Text,
-                            JSON_Object
+                            JSON_Null,
+                            JSON_Object,
+                            JSON_Array
                            );
 
-   type JSON_Value_T (Id : JSON_Value_Id_T := JSON_Text) is record
+   type JSON_Value_T (Id : JSON_Value_Id_T := JSON_No_Value) is record
       case Id is
-         when JSON_No_Value => null;
-         when JSON_Integer | JSON_Text => Key : Int_To_String_Map.Key_T;
-         when JSON_Object   => Node_Id : Node_Index_T := Node_Index_T'First;
+         when JSON_No_Value | JSON_Null            => null;
+         when JSON_Integer | JSON_Real | JSON_Text => Key : Int_To_String_Map.Key_T;
+         when JSON_Object                          => Node_Id  : Node_Index_T := Node_Index_T'First;
+         when JSON_Array                           => Array_Id : Array_Index_T := Array_Index_T'First;
+         when JSON_Boolean                         => Is_True  : Boolean := False;
       end case;
    end record;
 
-   type JSON_Array_Value_Id_T is (
-                                  JSON_Integer,
-                                  JSON_Text
-                                 );
-
-   type JSON_Array_Value_T is record
-      Id  : JSON_Array_Value_Id_T := JSON_Text;
-      Key : Int_To_String_Map.Key_T;
-   end record;
+--     type JSON_Array_Value_Id_T is (
+--                                    JSON_Integer,
+--                                    JSON_Text
+--                                   );
+--
+--     type JSON_Array_Value_T is record
+--        Id  : JSON_Array_Value_Id_T := JSON_Text;
+--        Key : Int_To_String_Map.Key_T;
+--     end record;
 
    type Array_Component_T is tagged limited private;
 
-   function JSON_Value (This : Array_Component_T) return JSON_Array_Value_T with
+   function JSON_Value (This : Array_Component_T) return JSON_Value_T with
      Global => null;
 
    function Default_Array_Component return Array_Component_T with
@@ -103,13 +122,17 @@ package Aida.JSON.Generic_DOM_Parser is
 
    type Array_T is array (Array_Index_T) of Array_Component_T;
 
-   type Public_Part_T is abstract tagged limited record
-      Nodes  : Node_Array_T        := (others => Default_Node);
-      Arrays : Array_T             := (others => Default_Array_Component);
-      Map    : Int_To_String_Map.T := Int_To_String_Map.Make;
-   end record;
+   package Public_Part_Def is
 
-   type T is new Public_Part_T with private;
+      type Public_Part_T is tagged limited record
+         Nodes  : Node_Array_T        := (others => Default_Node);
+         Arrays : Array_T             := (others => Default_Array_Component);
+         Map    : Int_To_String_Map.T := Int_To_String_Map.Make;
+      end record;
+
+   end Public_Part_Def;
+
+   type T is new Public_Part_Def.Public_Part_T with private;
 
    procedure Parse (This         : in out T;
                     JSON_Message : String_T;
@@ -120,11 +143,11 @@ package Aida.JSON.Generic_DOM_Parser is
 private
 
    type Array_Component_T is tagged limited record
-      My_JSON_Value : JSON_Array_Value_T := (Id => JSON_Text, Key => Int_To_String_Map.Key_T'First);
+      My_JSON_Value : JSON_Value_T := (Id => JSON_Text, Key => Int_To_String_Map.Key_T'First);
       My_Next       : Extended_Array_Id_T := Extended_Array_Id_T'First;
    end record;
 
-   function JSON_Value (This : Array_Component_T) return JSON_Array_Value_T is (This.My_JSON_Value);
+   function JSON_Value (This : Array_Component_T) return JSON_Value_T is (This.My_JSON_Value);
 
    function Default_Array_Component return Array_Component_T is (
                                                                  My_JSON_Value => (Id => JSON_Text, Key => Int_To_String_Map.Key_T'First),
@@ -151,114 +174,152 @@ private
 
    function Has_Next_Node (This : Node_T) return Boolean is (This.My_Next_Node /= Extended_Node_Id_T'First);
 
-   type T is new Public_Part_T with record
+   type T is new Public_Part_Def.Public_Part_T with record
       Max_Indices : Max_Indices_Def.T;
    end record;
 
-   function Default_Node_Id return Node_Index_T is (1);
+   type Inside_Construct_Id is (
+                                Node_Construct,
+                                Array_Construct
+                                );
+
+   type Inside_Construct (Id : Inside_Construct_Id := Node_Construct) is record
+      case Id is
+         when Node_Construct  => Node_Id : Node_Index_T;
+         when Array_Construct => Array_Id : Array_Index_T;
+      end case;
+   end record;
+
+   function Default_Inside_Construct return Inside_Construct is ((Id      => Node_Construct,
+                                                                  Node_Id => 1));
 
    MAX_IDS : constant := 10;
 
    package Node_Id_Vector is new Aida.Bounded_Vector (Max_Last_Index  => Int32_T'First + MAX_IDS,
-                                                      Element_T       => Node_Index_T,
-                                                      Default_Element => Default_Node_Id);
+                                                      Element_T       => Inside_Construct,
+                                                      Default_Element => Default_Inside_Construct);
 
    type State_T is (
                     Expecting_Object_Start,
                     Expecting_Key_Or_Object_End_After_Object_Start,
                     Expecting_Value,
+                    Expecting_Array_Value_After_Array_Start,
                     Expecting_Key_Or_Object_End,
                     End_State
                    );
 
-   type Current_Ids_T is limited record
-      Node_Ids : Node_Id_Vector.T;
-      State    : State_T := Expecting_Object_Start;
-   end record;
+   package Current_Ids_Def is
 
-   procedure Start_Object (Storage     : in out Node_Array_T;
+      type Current_Ids_T is tagged limited record
+         Node_Ids : Node_Id_Vector.T;
+         State    : State_T := Expecting_Object_Start;
+      end record;
+
+      function Max_Node_Id (This : Current_Ids_T) return Node_Index_T with
+        Global => null;
+
+      procedure Append_Node_Id (This    : in out Current_Ids_T;
+                                Node_Id : in     Node_Index_T) with
+        Global => null,
+          Pre'Class  => Node_Id_Vector.Last_Index (This.Node_Ids) < Node_Id_Vector.Max_Index (This.Node_Ids),
+        Post'Class => Node_Id_Vector.Last_Index (This.Node_Ids) = Node_Id_Vector.Last_Index (This.Node_Ids)'Old + 1;
+
+      procedure Append_Array_Id (This     : in out Current_Ids_T;
+                                 Array_Id : in     Array_Index_T) with
+        Global => null,
+          Pre'Class  => Node_Id_Vector.Last_Index (This.Node_Ids) < Node_Id_Vector.Max_Index (This.Node_Ids),
+        Post'Class => Node_Id_Vector.Last_Index (This.Node_Ids) = Node_Id_Vector.Last_Index (This.Node_Ids)'Old + 1;
+
+   end Current_Ids_Def;
+
+   type Arg3_T is (
+                     Dummy_Value
+                     );
+
+   procedure Start_Object (This        : in out Public_Part_Def.Public_Part_T;
                            Max_Indices : in out Max_Indices_T;
-                           Map         : in out Int_To_String_Map.T;
-                           Current_Ids : in out Current_Ids_T;
+                           Arg3        : in out Arg3_T;
+                           Current_Ids : in out Current_Ids_Def.Current_Ids_T;
                            Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
-     Pre    => not Call_Result.Has_Failed and (for all I in Storage'Range => not Storage (I).My_JSON_Value'Constrained);
+     Pre    => not Call_Result.Has_Failed and (for all I in This.Nodes'Range => not This.Nodes (I).My_JSON_Value'Constrained) and
+     (for all I in This.Arrays'Range => not This.Arrays (I).My_JSON_Value'Constrained);
 
-   procedure End_Object (Result      : in out Node_Array_T;
+   procedure End_Object (This        : in out Public_Part_Def.Public_Part_T;
                          Max_Indices : in out Max_Indices_T;
-                         Map         : in out Int_To_String_Map.T;
-                         Current_Ids : in out Current_Ids_T;
+                         Arg3        : in out Arg3_T;
+                         Current_Ids : in out Current_Ids_Def.Current_Ids_T;
                          Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
-     Pre    => not Call_Result.Has_Failed and (for all I in Result'Range => not Result (I).My_JSON_Value'Constrained);
+     Pre    => not Call_Result.Has_Failed and (for all I in This.Nodes'Range => not This.Nodes (I).My_JSON_Value'Constrained);
 
-   procedure Key (Result      : in out Node_Array_T;
+   procedure Key (This        : in out Public_Part_Def.Public_Part_T;
                   Max_Indices : in out Max_Indices_T;
-                  Map         : in out Int_To_String_Map.T;
-                  Current_Ids : in out Current_Ids_T;
+                  Arg3        : in out Arg3_T;
+                  Current_Ids : in out Current_Ids_Def.Current_Ids_T;
                   Name        : Aida.String_T;
                   Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
-     Pre    => not Call_Result.Has_Failed and (for all I in Result'Range => not Result (I).My_JSON_Value'Constrained);
+     Pre    => not Call_Result.Has_Failed and (for all I in This.Nodes'Range => not This.Nodes (I).My_JSON_Value'Constrained);
 
-   procedure String_Value (Result      : in out Node_Array_T;
+   procedure String_Value (This        : in out Public_Part_Def.Public_Part_T;
                            Max_Indices : in out Max_Indices_T;
-                           Map         : in out Int_To_String_Map.T;
-                           Current_Ids : in out Current_Ids_T;
+                           Arg3        : in out Arg3_T;
+                           Current_Ids : in out Current_Ids_Def.Current_Ids_T;
                            Value       : Aida.String_T;
                            Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
-     Pre    => not Call_Result.Has_Failed and (for all I in Result'Range => not Result (I).My_JSON_Value'Constrained);
+     Pre    => not Call_Result.Has_Failed and (for all I in This.Nodes'Range => not This.Nodes (I).My_JSON_Value'Constrained);
 
-   procedure Integer_Value (Storage     : in out Node_Array_T;
+   procedure Integer_Value (This        : in out Public_Part_Def.Public_Part_T;
                             Max_Indices : in out Max_Indices_T;
-                            Map         : in out Int_To_String_Map.T;
-                            Current_Ids : in out Current_Ids_T;
+                            Arg3        : in out Arg3_T;
+                            Current_Ids : in out Current_Ids_Def.Current_Ids_T;
                             Value       : in     Aida.String_T;
                             Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
-     Pre    => not Call_Result.Has_Failed and (for all I in Storage'Range => not Storage (I).My_JSON_Value'Constrained);
+     Pre    => not Call_Result.Has_Failed and (for all I in This.Nodes'Range => not This.Nodes (I).My_JSON_Value'Constrained);
 
-   procedure Real_Value (Storage     : in out Node_Array_T;
+   procedure Real_Value (This        : in out Public_Part_Def.Public_Part_T;
                          Max_Indices : in out Max_Indices_T;
-                         Map         : in out Int_To_String_Map.T;
-                         Current_Ids : in out Current_Ids_T;
+                         Arg3        : in out Arg3_T;
+                         Current_Ids : in out Current_Ids_Def.Current_Ids_T;
                          Value       : in     Aida.String_T;
                          Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
-     Pre    => not Call_Result.Has_Failed and (for all I in Storage'Range => not Storage (I).My_JSON_Value'Constrained);
+     Pre    => not Call_Result.Has_Failed and (for all I in This.Nodes'Range => not This.Nodes (I).My_JSON_Value'Constrained);
 
-   procedure Boolean_Value (Storage     : in out Node_Array_T;
+   procedure Boolean_Value (This        : in out Public_Part_Def.Public_Part_T;
                             Max_Indices : in out Max_Indices_T;
-                            Map         : in out Int_To_String_Map.T;
-                            Current_Ids : in out Current_Ids_T;
+                            Arg3        : in out Arg3_T;
+                            Current_Ids : in out Current_Ids_Def.Current_Ids_T;
                             Value       : in     Boolean;
                             Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
-     Pre    => not Call_Result.Has_Failed and (for all I in Storage'Range => not Storage (I).My_JSON_Value'Constrained);
+     Pre    => not Call_Result.Has_Failed and (for all I in This.Nodes'Range => not This.Nodes (I).My_JSON_Value'Constrained);
 
-   procedure Null_Value (Storage     : in out Node_Array_T;
+   procedure Null_Value (This        : in out Public_Part_Def.Public_Part_T;
                          Max_Indices : in out Max_Indices_T;
-                         Map         : in out Int_To_String_Map.T;
-                         Current_Ids : in out Current_Ids_T;
+                         Arg3        : in out Arg3_T;
+                         Current_Ids : in out Current_Ids_Def.Current_Ids_T;
                          Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
-     Pre    => not Call_Result.Has_Failed and (for all I in Storage'Range => not Storage (I).My_JSON_Value'Constrained);
+     Pre    => not Call_Result.Has_Failed and (for all I in This.Nodes'Range => not This.Nodes (I).My_JSON_Value'Constrained);
 
-   procedure Array_Start (Result      : in out Node_Array_T;
+   procedure Array_Start (This        : in out Public_Part_Def.Public_Part_T;
                           Max_Indices : in out Max_Indices_T;
-                          Map         : in out Int_To_String_Map.T;
-                          Current_Ids : in out Current_Ids_T;
+                          Arg3        : in out Arg3_T;
+                          Current_Ids : in out Current_Ids_Def.Current_Ids_T;
                           Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
-     Pre    => not Call_Result.Has_Failed and (for all I in Result'Range => not Result (I).My_JSON_Value'Constrained);
+     Pre    => not Call_Result.Has_Failed and (for all I in This.Nodes'Range => not This.Nodes (I).My_JSON_Value'Constrained);
 
-   procedure Array_End (Result      : in out Node_Array_T;
+   procedure Array_End (This        : in out Public_Part_Def.Public_Part_T;
                         Max_Indices : in out Max_Indices_T;
-                        Map         : in out Int_To_String_Map.T;
-                        Current_Ids : in out Current_Ids_T;
+                        Arg3        : in out Arg3_T;
+                        Current_Ids : in out Current_Ids_Def.Current_Ids_T;
                         Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
-     Pre    => not Call_Result.Has_Failed and (for all I in Result'Range => not Result (I).My_JSON_Value'Constrained);
+     Pre    => not Call_Result.Has_Failed and (for all I in This.Nodes'Range => not This.Nodes (I).My_JSON_Value'Constrained);
 
 end Aida.JSON.Generic_DOM_Parser;

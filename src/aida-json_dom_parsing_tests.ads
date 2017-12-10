@@ -18,17 +18,16 @@ private
    procedure Test_Person_With_Hand_0 (T : in out Ahven.Framework.Test_Case'Class) with
      Global => null;
 
---     procedure Test_Person_With_Name_Adam_1 (T : in out Ahven.Framework.Test_Case'Class) with
---       Global => null;
---
+   procedure Test_Person_With_Name_Adam_0 (T : in out Ahven.Framework.Test_Case'Class) with
+     Global => null;
+
 --     procedure Test_Person_With_Length_0 (T : in out Ahven.Framework.Test_Case'Class) with
 --       Global => null;
 --
---
---     procedure Test_Person_With_Vehicles_0 (T : in out Ahven.Framework.Test_Case'Class) with
---       Global => null;
-
    procedure Test_Person_With_Name_And_Age_0 (T : in out Ahven.Framework.Test_Case'Class) with
+     Global => null;
+
+   procedure Test_Person_With_Vehicles_0 (T : in out Ahven.Framework.Test_Case'Class) with
      Global => null;
 
 --     procedure Test_Person_With_Is_Happy_True_0 (T : in out Ahven.Framework.Test_Case'Class) with
