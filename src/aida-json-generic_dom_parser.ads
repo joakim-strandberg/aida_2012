@@ -87,17 +87,14 @@ package Aida.JSON.Generic_DOM_Parser is
       end case;
    end record;
 
---     type JSON_Array_Value_Id_T is (
---                                    JSON_Integer,
---                                    JSON_Text
---                                   );
---
---     type JSON_Array_Value_T is record
---        Id  : JSON_Array_Value_Id_T := JSON_Text;
---        Key : Int_To_String_Map.Key_T;
---     end record;
-
    type Array_Component_T is tagged limited private;
+
+   function Next (This : Array_Component_T) return Array_Index_T with
+     Global => null,
+     Pre    => This.Has_Next;
+
+   function Has_Next (This : Array_Component_T) return Boolean with
+     Global => null;
 
    function JSON_Value (This : Array_Component_T) return JSON_Value_T with
      Global => null;
@@ -146,6 +143,10 @@ private
       My_JSON_Value : JSON_Value_T := (Id => JSON_Text, Key => Int_To_String_Map.Key_T'First);
       My_Next       : Extended_Array_Id_T := Extended_Array_Id_T'First;
    end record;
+
+   function Next (This : Array_Component_T) return Array_Index_T is (Array_Index_T (This.My_Next));
+
+   function Has_Next (This : Array_Component_T) return Boolean is (This.My_Next /= Extended_Array_Id_T'First);
 
    function JSON_Value (This : Array_Component_T) return JSON_Value_T is (This.My_JSON_Value);
 

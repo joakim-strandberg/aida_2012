@@ -180,6 +180,7 @@ package body Aida.JSON_DOM_Parsing_Tests is
 
       use all type DOM_Parser.JSON_Value_Id_T;
       use all type DOM_Parser.Array_Index_T;
+      use all type DOM_Parser.Node_Index_T;
 
       F  : constant DOM_Parser.Node_Index_T := DOM_Parser.Node_Index_T'First;
       AF : constant DOM_Parser.Array_Index_T := DOM_Parser.Array_Index_T'First;
@@ -193,10 +194,29 @@ package body Aida.JSON_DOM_Parsing_Tests is
 
       Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
 
-      Ahven.Assert (Parser.Map.Value (Parser.Nodes (F).JSON_Key) = "vehicles", "was ", Parser.Map.Value (Parser.Nodes (F).JSON_Key));
-      Ahven.Assert (Parser.Nodes (F).JSON_Value.Id = DOM_Parser.JSON_Array, "was ");--, Parser.Nodes (DOM_Parser.Node_Index_T'First).JSON_Value.Id'Image);
+      Ahven.Assert (Parser.Map.Value (Parser.Nodes (F).JSON_Key)     = "vehicles",            "1 was ", Parser.Map.Value (Parser.Nodes (F).JSON_Key));
+      Ahven.Assert (                  Parser.Nodes (F).JSON_Value.Id = DOM_Parser.JSON_Array, "2 was ", DOM_Parser.JSON_Value_Id_T'Image (Parser.Nodes (F).JSON_Value.Id));
+      Ahven.Assert (not Parser.Nodes (F).Has_Next_Node, "3 was ");
       if Parser.Nodes (F).JSON_Value.Id = DOM_Parser.JSON_Array then
-         Ahven.Assert (Parser.Nodes (F).JSON_Value.Array_Id = AF, "was ", DOM_Parser.Array_Index_T'Image (Parser.Nodes (F).JSON_Value.Array_Id));
+         Ahven.Assert (Parser.Nodes (F).JSON_Value.Array_Id = AF, "4 was ", DOM_Parser.Array_Index_T'Image (Parser.Nodes (F).JSON_Value.Array_Id));
+
+         Ahven.Assert (Parser.Arrays (AF).JSON_Value.Id      = DOM_Parser.JSON_Object, "5 was ",  DOM_Parser.JSON_Value_Id_T'Image (Parser.Arrays (AF).JSON_Value.Id));
+         Ahven.Assert (Parser.Arrays (AF).JSON_Value.Node_Id = F + 1,                  "6 was ",  DOM_Parser.Node_Index_T'Image (Parser.Arrays (AF).JSON_Value.Node_Id));
+         Ahven.Assert (Parser.Arrays (AF).Has_Next,                                    "15 was ", DOM_Parser.Node_Index_T'Image (Parser.Arrays (AF).JSON_Value.Node_Id));
+         Ahven.Assert (Parser.Arrays (AF).Next = AF + 1,                               "16 was ", DOM_Parser.Node_Index_T'Image (Parser.Arrays (AF).JSON_Value.Node_Id));
+
+         Ahven.Assert (    Parser.Arrays (AF + 1).JSON_Value.Id      = DOM_Parser.JSON_Object, "17 was ", DOM_Parser.JSON_Value_Id_T'Image (Parser.Arrays (AF).JSON_Value.Id));
+         Ahven.Assert (    Parser.Arrays (AF + 1).JSON_Value.Node_Id = F + 2,                  "18 was ", DOM_Parser.Node_Index_T'Image (Parser.Arrays (AF).JSON_Value.Node_Id));
+         Ahven.Assert (not Parser.Arrays (AF + 1).Has_Next,                                    "19 was ", DOM_Parser.Node_Index_T'Image (Parser.Arrays (AF).JSON_Value.Node_Id));
+
+         Ahven.Assert (Parser.Map.Value (Parser.Nodes (F + 1).JSON_Key)       = "wheels"               , "7 was ", Parser.Map.Value (Parser.Nodes (F + 1).JSON_Key));
+         Ahven.Assert (                  Parser.Nodes (F + 1).JSON_Value.Id   = DOM_Parser.JSON_Integer, "8 was ", DOM_Parser.JSON_Value_Id_T'Image (Parser.Nodes (F + 1).JSON_Value.Id));
+         Ahven.Assert (Parser.Map.Value (Parser.Nodes (F + 1).JSON_Value.Key) = "4"                    , "9 was ", Parser.Map.Value (Parser.Nodes (F + 1).JSON_Value.Key));
+         Ahven.Assert (              not Parser.Nodes (F + 1).Has_Next_Node,                             "10 was ");
+         Ahven.Assert (Parser.Map.Value (Parser.Nodes (F + 2).JSON_Key)       = "wheels",                "11 was ", Parser.Map.Value (Parser.Nodes (F + 1).JSON_Key));
+         Ahven.Assert (                  Parser.Nodes (F + 2).JSON_Value.Id   = DOM_Parser.JSON_Integer, "12 was ", DOM_Parser.JSON_Value_Id_T'Image (Parser.Nodes (F + 1).JSON_Value.Id));
+         Ahven.Assert (Parser.Map.Value (Parser.Nodes (F + 2).JSON_Value.Key) = "2",                     "13 was ", Parser.Map.Value (Parser.Nodes (F + 1).JSON_Value.Key));
+         Ahven.Assert (              not Parser.Nodes (F + 2).Has_Next_Node,                             "14 was ");
       end if;
    end Test_Person_With_Vehicles_0;
 
