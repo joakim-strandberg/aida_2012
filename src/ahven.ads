@@ -25,11 +25,13 @@ package Ahven is
    Test_Skipped_Error : exception;
    -- Exception, raised when test is skipped
 
-   procedure Assert (Condition : Boolean; Message : String);
+   pragma Warnings (Off, "postcondition does not check the outcome of calling ""Assert""");
+   procedure Assert (Condition : Boolean; Message : String) with
+     Global =>  null,
+     Post   => Condition;
    -- If Condition is false, Assert raises Assertion_Error
    -- with given Message.
 
-   pragma Warnings (Off, "postcondition does not check the outcome of calling ""Assert""");
    procedure Assert (Condition : Boolean;
                      M1        : String;
                      M2        : String) with

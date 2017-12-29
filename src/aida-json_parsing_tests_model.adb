@@ -35,12 +35,34 @@ package body Aida.Json_Parsing_Tests_Model with SPARK_Mode is
 
    package body Person_Def is
 
+      function Make return Name_T with
+        Global => null;
+
       function Make return Name_T is
       begin
          return This : Name_T do
             Initialize2 (This, "");
          end return;
       end Make;
+
+      function Make return T is
+      begin
+         return This : constant T := ((Age      => 10,
+                                       My_Name  => Make,
+                                       Length   => 0.0,
+                                       Hands    => Hand_Vector.Default_Vector,
+                                       Vehicles => Vehicle_Vector.Default_Vector,
+                                       Is_Happy => (Exists => False))) do
+            null;
+         end return;
+      end Make;
+
+      procedure Set_Name (This  : in out T;
+                          Value : String_T) is
+      begin
+         Initialize (This.My_Name, Value);
+      end Set_Name;
+
 
    end Person_Def;
 

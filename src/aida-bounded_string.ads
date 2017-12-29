@@ -27,7 +27,8 @@
 -- The formal containers packages are therefore avoided in the Aida library (for now).
 with Aida;
 
-package Aida.Bounded_String with SPARK_Mode is
+package Aida.Bounded_String is
+   pragma SPARK_Mode;
 
 --     type T (Maximum_Length : Positive) is limited private with
 --       Default_Initial_Condition => Length (T) = 0;

@@ -15,18 +15,12 @@ package Aida.JSON_Parsing_Tests with SPARK_Mode is
 
 private
 
-   use all type Aida.Json_Parsing_Tests_Model.Person_Def.Name_T;
    use all type Aida.Json_Parsing_Tests_Model.Person_Def.Vehicle_Vector.T;
 
    subtype Max_Indices_T is Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T;
 
    type Storage_T is record
-      Person : Json_Parsing_Tests_Model.People_T := (others => (Age      => 10,
-                                                                Name     => Make,
-                                                                Length   => 0.0,
-                                                                Hands    => Aida.Json_Parsing_Tests_Model.Person_Def.Hand_Vector.Default_Vector,
-                                                                Vehicles => Default_Vector,
-                                                                Is_Happy => (Exists => False)));
+      Person  : Json_Parsing_Tests_Model.People_T := (others => Json_Parsing_Tests_Model.Person_Def.Make);
       Hand    : Json_Parsing_Tests_Model.Hands_T;
       Vehicle : Json_Parsing_Tests_Model.Vehicles_T;
    end record;

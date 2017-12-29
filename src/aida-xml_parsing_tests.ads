@@ -14,7 +14,6 @@ package Aida.XML_Parsing_Tests with SPARK_Mode is
 
 private
 
-   use all type Aida.Json_Parsing_Tests_Model.Person_Def.Name_T;
    use all type Aida.Json_Parsing_Tests_Model.Person_Def.Hand_Vector.T;
    use all type Aida.Json_Parsing_Tests_Model.Person_Def.Vehicle_Vector.T;
 
@@ -22,13 +21,7 @@ private
 
    type Storage_T is record
       Header_Comment : Aida.String_T (1..100) := (others => ' '); -- Not using Aida.Bounded_String at the moment.
-      Person : Json_Parsing_Tests_Model.People_T :=
-        (others => (Age      => 10,
-                    Name     => Make,
-                    Length   => 0.0,
-                    Hands    => Default_Vector,
-                    Vehicles => Default_Vector,
-                    Is_Happy => (Exists => False)));
+      Person  : Json_Parsing_Tests_Model.People_T := (others => Json_Parsing_Tests_Model.Person_Def.Make);
       Hand    : Json_Parsing_Tests_Model.Hands_T;
       Vehicle : Json_Parsing_Tests_Model.Vehicles_T;
    end record;

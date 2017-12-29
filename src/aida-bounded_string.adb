@@ -1,4 +1,5 @@
-package body Aida.Bounded_String with SPARK_Mode is
+package body Aida.Bounded_String is
+   pragma SPARK_Mode;
 
    use all type Aida.String_T;
 

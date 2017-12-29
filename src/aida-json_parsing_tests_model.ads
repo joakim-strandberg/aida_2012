@@ -106,11 +106,6 @@ package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
 
       VEHICLES_MAX : constant := 5;
 
-      type Name_T is new Aida.Bounded_String.T (NAME_MAX);
-
-      function Make return Name_T with
-        Global => null;
-
       function Default_Hand_Id return Hand_Id_T is (5);
 
       package Hand_Vector is new Aida.Tagged_Bounded_Vector (Max_Last_Index  => Aida.Int32_T'First + HANDS_MAX,
@@ -132,18 +127,48 @@ package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
          end case;
       end record;
 
-      type T is record
-         Age      : Age_T := 0;
-         Name     : Name_T;
-         Length   : Length_T := 0.0;
-         Hands    : Hand_Vector.T;
-         Vehicles : Vehicle_Vector.T;
-         Is_Happy : Is_Happy_T := (Exists => False);
+      package Public_Part is
+
+         type Public_Part_T is tagged limited record
+            Age      : Age_T := 0;
+            Length   : Length_T := 0.0;
+            Hands    : Hand_Vector.T;
+            Vehicles : Vehicle_Vector.T;
+            Is_Happy : Is_Happy_T := (Exists => False);
+         end record;
+
+      end Public_Part;
+
+      type T is new Public_Part.Public_Part_T with private;
+
+      function Name (This : T) return String_T with
+        Global => null;
+
+      procedure Set_Name (This  : in out T;
+                          Value : String_T) with
+        Global    => null,
+        Pre'Class => Value'Length <= This.Max_Name_Size;
+
+      function Max_Name_Size (This  : T) return Positive with
+        Global => null,
+        Post   => Max_Name_Size'Result = NAME_MAX;
+
+      function Make return T with
+        Global => null;
+
+   private
+
+      type Name_T is new Aida.Bounded_String.T (NAME_MAX);
+
+      type T is new Public_Part.Public_Part_T with record
+         My_Name : Name_T;
       end record;
 
-   end Person_Def;
+      function Name (This : T) return String_T is (To_String (This.My_Name));
 
-   use all type Person_Def.Name_T;
+      function Max_Name_Size (This  : T) return Positive is (This.My_Name.Maximum_Length);
+
+   end Person_Def;
 
    subtype Hand_T is Hand_Def.T;
 
