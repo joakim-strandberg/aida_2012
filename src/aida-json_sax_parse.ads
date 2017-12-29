@@ -91,11 +91,11 @@ generic
                              Arg3        : in out Arg3_T;
                              Arg4        : in out Arg4_T;
                              Call_Result : in out Subprogram_Call_Result.T);
-procedure Aida.JSON.Generic_Parse_JSON (Arg1        : in out Arg1_T;
-                                        Arg2        : in out Arg2_T;
-                                        Arg3        : in out Arg3_T;
-                                        Arg4        : in out Arg4_T;
-                                        Contents    : Aida.String_T;
-                                        Call_Result : in out Subprogram_Call_Result.T) with
+procedure Aida.JSON_SAX_Parse (Arg1        : in out Arg1_T;
+                               Arg2        : in out Arg2_T;
+                               Arg3        : in out Arg3_T;
+                               Arg4        : in out Arg4_T;
+                               Contents    : Aida.String_T;
+                               Call_Result : in out Subprogram_Call_Result.T) with
   Global => null,
   Pre    => not Call_Result.Has_Failed and Contents'Last < Integer'Last - 4;

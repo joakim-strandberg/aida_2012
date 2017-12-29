@@ -88,17 +88,21 @@ package Aida.Tagged_Bounded_Vector is
                   else
                     Last_Index (This) >= First_Index (This));
 
+   function Is_Non_Empty (This : T) return Boolean with
+     Global => null,
+     Post   => Is_Non_Empty'Result = (This.Last_Index >= This.First_Index);
+   pragma Annotate (GNATprove, Terminating, Is_Non_Empty);
+
    function Is_Full (This : T) return Boolean with
      Global => null;
 
    function Last_Element (This : T) return Element_T with
-     Global => null,
-     Pre'Class    => Last_Index (This) >= First_Index (This);
+     Global    => null,
+     Pre'Class => This.Is_Non_Empty;
 
    procedure Delete_Last (This : in out T) with
      Global => null,
      Pre'Class  => This.Last_Index >= This.First_Index,
---     Post'Class => This.Last_Index = This.Last_Index'Old - 1,
      Post       => This.Last_Index = This.Last_Index'Old - 1;
 
    procedure Clear (This : in out T) with
@@ -116,6 +120,8 @@ private
    function Last_Index (This : T) return Extended_Index_T is (This.My_Last_Index);
 
    function Is_Empty (This : T) return Boolean is (This.My_Last_Index = Extended_Index_T'First);
+
+   function Is_Non_Empty (This : T) return Boolean is (This.My_Last_Index >= This.First_Index);
 
    function Is_Full (This : T) return Boolean is (This.My_Last_Index = Extended_Index_T'Last);
 

@@ -1,6 +1,6 @@
-with Aida.JSON.Generic_Parse_JSON;
+with Aida.JSON_SAX_Parse;
 
-package body Aida.JSON.Generic_DOM_Parser is
+package body Aida.JSON_DOM_Parser is
 
    use all type Node_Id_Vector.T;
 
@@ -724,20 +724,20 @@ package body Aida.JSON.Generic_DOM_Parser is
       end case;
    end Array_End;
 
-   procedure Parse_JSON is new Aida.JSON.Generic_Parse_JSON (Public_Part_Def.Public_Part_T,
-                                                             Max_Indices_Def.T,
-                                                             Arg3_T,
-                                                             Current_Ids_Def.Current_Ids_T,
-                                                             Start_Object,
-                                                             End_Object,
-                                                             Key,
-                                                             String_Value,
-                                                             Integer_Value,
-                                                             Real_Value,
-                                                             Boolean_Value,
-                                                             Null_Value,
-                                                             Array_Start,
-                                                             Array_End);
+   procedure Parse_JSON is new Aida.JSON_SAX_Parse (Public_Part_Def.Public_Part_T,
+                                                    Max_Indices_Def.T,
+                                                    Arg3_T,
+                                                    Current_Ids_Def.Current_Ids_T,
+                                                    Start_Object,
+                                                    End_Object,
+                                                    Key,
+                                                    String_Value,
+                                                    Integer_Value,
+                                                    Real_Value,
+                                                    Boolean_Value,
+                                                    Null_Value,
+                                                    Array_Start,
+                                                    Array_End);
 
    procedure Parse (This         : in out T;
                     JSON_Message : String_T;
@@ -763,4 +763,4 @@ package body Aida.JSON.Generic_DOM_Parser is
       pragma Unused (Arg3);
    end Parse;
 
-end Aida.JSON.Generic_DOM_Parser;
+end Aida.JSON_DOM_Parser;

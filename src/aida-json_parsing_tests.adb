@@ -1,5 +1,4 @@
-with Aida.JSON.Generic_Parse_JSON;
-with Aida.JSON;
+with Aida.JSON_SAX_Parse;
 with Aida.Subprogram_Call_Result;
 
 package body Aida.JSON_Parsing_Tests is
@@ -28,7 +27,7 @@ package body Aida.JSON_Parsing_Tests is
 
    overriding procedure Initialize (T : in out Test) is
    begin
-      Set_Name (T, "Aida.JSON.Generic_Parse_JSON package tests");
+      Set_Name (T, "Aida.JSON_SAX_Parse package tests");
 
       Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Age_0'Access, "Test_Person_With_Age_0");
       Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Age_1'Access, "Test_Person_With_Age_1");
@@ -42,10 +41,6 @@ package body Aida.JSON_Parsing_Tests is
       Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Is_Happy_False_0'Access, "Test_Person_With_Is_Happy_False_0");
       Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Is_Happy_Null_0'Access, "Test_Person_With_Is_Happy_Null_0");
    end Initialize;
-
-   use all type Person_Id_Vector.T;
-   use all type Hand_Id_Vector.T;
-   use all type Vehicle_Id_Vector.T;
 
    type Current_Ids_T is limited record
       Person_Ids  : Person_Id_Vector.T;
@@ -274,14 +269,14 @@ package body Aida.JSON_Parsing_Tests is
       begin
          if
            Max_Indices.Person_Id_Max < Json_Parsing_Tests_Model.Extended_Person_Id_T'Last and
-           Last_Index (Current_Ids.Person_Ids) < Max_Index (Current_Ids.Person_Ids)
+           Current_Ids.Person_Ids.Last_Index < Current_Ids.Person_Ids.Max_Index
          then
             declare
                Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T;
             begin
                Allocate_Person_Id (This      => Max_Indices,
                                    Person_Id => Person_Id);
-               Append (Current_Ids.Person_Ids, Person_Id);
+               Current_Ids.Person_Ids.Append (Person_Id);
             end;
          else
             Call_Result.Initialize (0313390224, -1612869688);
@@ -351,20 +346,20 @@ package body Aida.JSON_Parsing_Tests is
 
       procedure Run_Test (JSON : Aida.String_T) is
 
-         procedure Parse_XML is new Aida.JSON.Generic_Parse_JSON (Storage_T,
-                                                                  Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
-                                                                  Unused_State_T,
-                                                                  Current_Ids_T,
-                                                                  Test_Person_With_Name_Adam_Utils.Root_Start_Tag,
-                                                                  Test_Person_With_Name_Adam_Utils.Root_End_Tag,
-                                                                  Test_Person_With_Name_Adam_Utils.Key_Name,
-                                                                  Test_Person_With_Name_Adam_Utils.Value_String,
-                                                                  Unused_Value_Integer,
-                                                                  Unused_Real_Value,
-                                                                  Unused_Boolean_Value,
-                                                                  Unused_Null_Value,
-                                                                  Unused_Array_Start,
-                                                                  Unused_Array_End);
+         procedure Parse_XML is new Aida.JSON_SAX_Parse (Storage_T,
+                                                         Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
+                                                         Unused_State_T,
+                                                         Current_Ids_T,
+                                                         Test_Person_With_Name_Adam_Utils.Root_Start_Tag,
+                                                         Test_Person_With_Name_Adam_Utils.Root_End_Tag,
+                                                         Test_Person_With_Name_Adam_Utils.Key_Name,
+                                                         Test_Person_With_Name_Adam_Utils.Value_String,
+                                                         Unused_Value_Integer,
+                                                         Unused_Real_Value,
+                                                         Unused_Boolean_Value,
+                                                         Unused_Null_Value,
+                                                         Unused_Array_Start,
+                                                         Unused_Array_End);
 
          Call_Result : Aida.Subprogram_Call_Result.T;
 
@@ -384,7 +379,7 @@ package body Aida.JSON_Parsing_Tests is
                     Call_Result);
 
          Ahven.Assert (State = End_Of_Json_Object_Reached, "dd1327b2-c0d2-4414-87f5-8a35d0a94d6f");
-         Ahven.Assert (Last_Index (Current_Ids.Person_Ids) >= First_Index (Current_Ids.Person_Ids), "150be077-0e4c-43b2-901e-1ffc9f57bb76");
+         Ahven.Assert (Current_Ids.Person_Ids.Last_Index >= Current_Ids.Person_Ids.First_Index, "150be077-0e4c-43b2-901e-1ffc9f57bb76");
          Ahven.Assert (not Call_Result.Has_Failed, "5a84dd71-1bee-4e2c-b7f8-13915f953605");
          Ahven.Assert (Max_Indices.Person_Id_Max = 1, "87f1346a-607c-4e7a-8a3a-621365c323d9");
          Ahven.Assert (Max_Indices.Person_Id_Max > 0, "87f1346a-607c-4e7a-8a3a-621365c323d9");
@@ -471,7 +466,7 @@ package body Aida.JSON_Parsing_Tests is
       begin
          if
            Person_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Person_Id_T'Last and
-           Last_Index (Current_Ids.Person_Ids) < Max_Index (Current_Ids.Person_Ids)
+           Current_Ids.Person_Ids.Last_Index < Current_Ids.Person_Ids.Max_Index
          then
             declare
                Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T;
@@ -555,20 +550,20 @@ package body Aida.JSON_Parsing_Tests is
 
       procedure Run_Test (JSON : Aida.String_T) is
 
-         procedure Parse_XML is new Aida.JSON.Generic_Parse_JSON (Storage_T,
-                                                                  Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
-                                                                  Unused_State_T,
-                                                                  Current_Ids_T,
-                                                                  Root_Start_Tag,
-                                                                  Root_End_Tag,
-                                                                  Key_Name,
-                                                                  Unused_Value_String,
-                                                                  Value_Integer,
-                                                                  Unused_Real_Value,
-                                                                  Unused_Boolean_Value,
-                                                                  Unused_Null_Value,
-                                                                  Unused_Array_Start,
-                                                                  Unused_Array_End);
+         procedure Parse_XML is new Aida.JSON_SAX_Parse (Storage_T,
+                                                         Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
+                                                         Unused_State_T,
+                                                         Current_Ids_T,
+                                                         Root_Start_Tag,
+                                                         Root_End_Tag,
+                                                         Key_Name,
+                                                         Unused_Value_String,
+                                                         Value_Integer,
+                                                         Unused_Real_Value,
+                                                         Unused_Boolean_Value,
+                                                         Unused_Null_Value,
+                                                         Unused_Array_Start,
+                                                         Unused_Array_End);
 
          Call_Result : Aida.Subprogram_Call_Result.T;
 
@@ -587,7 +582,7 @@ package body Aida.JSON_Parsing_Tests is
 
          Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
          Ahven.Assert (State = End_Of_Json_Object_Reached, "592cbd68-ef97-4fc1-934b-80111d24fd32");
-         Ahven.Assert (Last_Index (Current_Ids.Person_Ids) >= First_Index (Current_Ids.Person_Ids), "1f861507-695e-458b-836e-aa9fe7f131e2");
+         Ahven.Assert (Current_Ids.Person_Ids.Last_Index >= Current_Ids.Person_Ids.First_Index, "1f861507-695e-458b-836e-aa9fe7f131e2");
          Ahven.Assert (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) = 1, "949ca5e3-1353-47e6-90fc-b0aa21d398a6");
          Ahven.Assert (not Call_Result.Has_Failed, "4ed49d34-b03a-4251-ab05-dc9cb794bd91");
          if
@@ -682,7 +677,7 @@ package body Aida.JSON_Parsing_Tests is
       begin
          if
            Person_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Person_Id_T'Last and
-           Last_Index (Current_Ids.Person_Ids) < Max_Index (Current_Ids.Person_Ids)
+           Current_Ids.Person_Ids.Last_Index < Current_Ids.Person_Ids.Max_Index
          then
             declare
                Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T;
@@ -794,20 +789,20 @@ package body Aida.JSON_Parsing_Tests is
 
       procedure Run_Test (JSON : Aida.String_T) is
 
-         procedure Parse_XML is new Aida.JSON.Generic_Parse_JSON (Storage_T,
-                                                                  Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
-                                                                  Unused_State_T,
-                                                                  Current_Ids_T,
-                                                                  Root_Start_Tag,
-                                                                  Root_End_Tag,
-                                                                  Key_Name,
-                                                                  Value_String,
-                                                                  Value_Integer,
-                                                                  Unused_Real_Value,
-                                                                  Unused_Boolean_Value,
-                                                                  Unused_Null_Value,
-                                                                  Unused_Array_Start,
-                                                                  Unused_Array_End);
+         procedure Parse_XML is new Aida.JSON_SAX_Parse (Storage_T,
+                                                         Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
+                                                         Unused_State_T,
+                                                         Current_Ids_T,
+                                                         Root_Start_Tag,
+                                                         Root_End_Tag,
+                                                         Key_Name,
+                                                         Value_String,
+                                                         Value_Integer,
+                                                         Unused_Real_Value,
+                                                         Unused_Boolean_Value,
+                                                         Unused_Null_Value,
+                                                         Unused_Array_Start,
+                                                         Unused_Array_End);
 
          Call_Result : Aida.Subprogram_Call_Result.T;
 
@@ -826,7 +821,7 @@ package body Aida.JSON_Parsing_Tests is
 
          Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
          Ahven.Assert (State = End_Of_Json_Object_Reached, "4b9650d2-c30f-401a-a060-a0e039fe413c");
-         Ahven.Assert (Last_Index (Current_Ids.Person_Ids) >= First_Index (Current_Ids.Person_Ids), "bb095008-4756-4392-ac77-03799c82a947");
+         Ahven.Assert (Current_Ids.Person_Ids.Last_Index >= Current_Ids.Person_Ids.First_Index, "bb095008-4756-4392-ac77-03799c82a947");
          Ahven.Assert (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) = 1, "e095f887-42d1-4fbf-846c-75e32af16af6");
          Ahven.Assert (not Call_Result.Has_Failed, "decc36b9-2538-4cfb-8fa2-4fd7b240abd8");
          if
@@ -859,7 +854,7 @@ package body Aida.JSON_Parsing_Tests is
                        Expecting_Hand_Object_End,
                        Expecting_Object_End,
                        End_State
-                       );
+                      );
 
       procedure Root_Start_Tag (Storage     : in out Storage_T;
                                 Max_Indices : in out Max_Indices_T;
@@ -967,7 +962,7 @@ package body Aida.JSON_Parsing_Tests is
             when Expecting_Object_Start      =>
                if
                  Person_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Person_Id_T'Last and
-                 Last_Index (Current_Ids.Person_Ids) < Max_Index (Current_Ids.Person_Ids)
+                 Current_Ids.Person_Ids.Last_Index < Current_Ids.Person_Ids.Max_Index
                then
                   declare
                      Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T;
@@ -983,10 +978,10 @@ package body Aida.JSON_Parsing_Tests is
                end if;
             when Expecting_Hand_Object_Start =>
                if
-                 not Is_Empty (Current_Ids.Person_Ids) and then
+               not Current_Ids.Person_Ids.Is_Empty and then
                  (Hand_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Hand_Id_T'Last and
-                      Last_Index (Current_Ids.Hand_Ids) < Max_Index (Current_Ids.Hand_Ids) and
-                      Last_Index (Storage.Person (Person_Id_Vector.Last_Element (Current_Ids.Person_Ids)).Hands) < Max_Index (Storage.Person (Person_Id_Vector.Last_Element (Current_Ids.Person_Ids)).Hands))
+                      Current_Ids.Hand_Ids.Last_Index < Current_Ids.Hand_Ids.Max_Index and
+                      Storage.Person (Current_Ids.Person_Ids.Last_Element).Hands.Last_Index < Storage.Person (Current_Ids.Person_Ids.Last_Element).Hands.Max_Index)
                then
                   declare
                      Hand_Id : Aida.Json_Parsing_Tests_Model.Hand_Id_T;
@@ -1187,20 +1182,20 @@ package body Aida.JSON_Parsing_Tests is
 
       procedure Run_Test (JSON : Aida.String_T) is
 
-         procedure Parse_XML is new Aida.JSON.Generic_Parse_JSON (Storage_T,
-                                                                  Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
-                                                                  State_T,
-                                                                  Current_Ids_T,
-                                                                  Root_Start_Tag,
-                                                                  Root_End_Tag,
-                                                                  Key_Name,
-                                                                  Value_String,
-                                                                  Value_Integer,
-                                                                  Real_Value,
-                                                                  Boolean_Value,
-                                                                  Null_Value,
-                                                                  Array_Start,
-                                                                  Array_End);
+         procedure Parse_XML is new Aida.JSON_SAX_Parse (Storage_T,
+                                                         Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
+                                                         State_T,
+                                                         Current_Ids_T,
+                                                         Root_Start_Tag,
+                                                         Root_End_Tag,
+                                                         Key_Name,
+                                                         Value_String,
+                                                         Value_Integer,
+                                                         Real_Value,
+                                                         Boolean_Value,
+                                                         Null_Value,
+                                                         Array_Start,
+                                                         Array_End);
 
          Call_Result : Aida.Subprogram_Call_Result.T;
 
@@ -1219,16 +1214,16 @@ package body Aida.JSON_Parsing_Tests is
 
          Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
          Ahven.Assert (State = End_State, "397d359d-2d92-462b-8b32-2a4bbdc6ce25");
-         Ahven.Assert (Last_Index (Current_Ids.Person_Ids) >= First_Index (Current_Ids.Person_Ids), "810561fa-2c9f-4582-a5cf-10e5abd85113");
+         Ahven.Assert (Current_Ids.Person_Ids.Last_Index >= Current_Ids.Person_Ids.First_Index, "810561fa-2c9f-4582-a5cf-10e5abd85113");
          Ahven.Assert (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) = 1, "ae7399ea-3d2a-4400-a10f-34104d439978");
          Ahven.Assert (Hand_Id_Max (Json_Parsing_Tests_Model.Max_Indices) = 1, "0b77dd49-3cbd-44cd-ab53-9b65d0d75c05");
          if
            (Hand_Id_Max (Json_Parsing_Tests_Model.Max_Indices) > 0 and
-                Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) > 0) and then (not Is_Empty (Storage.Person (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices)).Hands))
+                Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) > 0) and then (not Storage.Person (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices)).Hands.Is_Empty)
          then
             declare
                Hand_Id : constant Json_Parsing_Tests_Model.Hand_Id_T :=
-                 Last_Element (Storage.Person (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices)).Hands);
+                 Storage.Person (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices)).Hands.Last_Element;
             begin
                Ahven.Assert (Storage.Hand (Hand_Id).Number_Of_Fingers = 4, "bf757f75-1d4a-425c-9842-27e1f6de2841");
             end;
@@ -1366,14 +1361,14 @@ package body Aida.JSON_Parsing_Tests is
             when Expecting_Object_Start                    =>
                if
                  Person_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Person_Id_T'Last and
-                 Last_Index (Current_Ids.Person_Ids) < Max_Index (Current_Ids.Person_Ids)
+                 Current_Ids.Person_Ids.Last_Index < Current_Ids.Person_Ids.Max_Index
                then
                   declare
                      Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T;
                   begin
                      Allocate_Person_Id (This      => Max_Indices,
                                          Person_Id => Person_Id);
-                     Append (Current_Ids.Person_Ids, Person_Id);
+                     Current_Ids.Person_Ids.Append (Person_Id);
                   end;
 
                   State := Expecting_Vehicles_Keyword;
@@ -1382,20 +1377,20 @@ package body Aida.JSON_Parsing_Tests is
                end if;
             when Expecting_Array_Object_Start_Or_Array_End =>
                if
-                 not Is_Empty (Current_Ids.Person_Ids) and then
+               not Current_Ids.Person_Ids.Is_Empty and then
                  (
-                  Last_Index (Storage.Person (Last_Element (Current_Ids.Person_Ids)).Vehicles) <
-                  Max_Index (Storage.Person (Last_Element (Current_Ids.Person_Ids)).Vehicles) and
-                  Vehicle_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Vehicle_Id_T'Last and
-                  Last_Index (Current_Ids.Vehicle_Ids) < Max_Index (Current_Ids.Vehicle_Ids))
+                  Storage.Person (Current_Ids.Person_Ids.Last_Element).Vehicles.Last_Index <
+                      Storage.Person (Current_Ids.Person_Ids.Last_Element).Vehicles.Max_Index and
+                      Vehicle_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Vehicle_Id_T'Last and
+                      Current_Ids.Vehicle_Ids.Last_Index < Current_Ids.Vehicle_Ids.Max_Index)
                then
                   declare
                      Id : Aida.Json_Parsing_Tests_Model.Vehicle_Id_T;
                   begin
                      Allocate_Vehicle_Id (Max_Indices, Id);
-                     Append (Current_Ids.Vehicle_Ids, Id);
+                     Current_Ids.Vehicle_Ids.Append (Id);
 
-                     Append (Storage.Person (Last_Element (Current_Ids.Person_Ids)).Vehicles, Id);
+                     Storage.Person (Current_Ids.Person_Ids.Last_Element).Vehicles.Append (Id);
                   end;
 
                   State := Expecting_Wheels_Keyword;
@@ -1494,13 +1489,13 @@ package body Aida.JSON_Parsing_Tests is
             pragma Warnings (Off, "explicit membership test may be optimized away");
             if State = Expecting_Wheels_Integer then
                if
-                 Is_Empty (Current_Ids.Vehicle_Ids) or
+                 Current_Ids.Vehicle_Ids.Is_Empty or
                  V not in Aida.Int32_T (Json_Parsing_Tests_Model.Vehicle_Def.Wheels_T'First)..Aida.Int32_T (Json_Parsing_Tests_Model.Vehicle_Def.Wheels_T'Last)
                then
                   Call_Result.Initialize (1062490083, -1931193623);
                else
                   declare
-                     Id : Aida.Json_Parsing_Tests_Model.Vehicle_Id_T renames Last_Element (Current_Ids.Vehicle_Ids);
+                     Id : Aida.Json_Parsing_Tests_Model.Vehicle_Id_T renames Current_Ids.Vehicle_Ids.Last_Element;
                   begin
                      Storage.Vehicle (Id).Wheels := Json_Parsing_Tests_Model.Vehicle_Def.Wheels_T (V);
                   end;
@@ -1612,20 +1607,20 @@ package body Aida.JSON_Parsing_Tests is
 
       procedure Run_Test (JSON : Aida.String_T) is
 
-         procedure Parse_XML is new Aida.JSON.Generic_Parse_JSON (Storage_T,
-                                                                  Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
-                                                                  State_T,
-                                                                  Current_Ids_T,
-                                                                  Root_Start_Tag,
-                                                                  Root_End_Tag,
-                                                                  Key_Name,
-                                                                  Value_String,
-                                                                  Value_Integer,
-                                                                  Real_Value,
-                                                                  Boolean_Value,
-                                                                  Null_Value,
-                                                                  Array_Start,
-                                                                  Array_End);
+         procedure Parse_XML is new Aida.JSON_SAX_Parse (Storage_T,
+                                                         Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
+                                                         State_T,
+                                                         Current_Ids_T,
+                                                         Root_Start_Tag,
+                                                         Root_End_Tag,
+                                                         Key_Name,
+                                                         Value_String,
+                                                         Value_Integer,
+                                                         Real_Value,
+                                                         Boolean_Value,
+                                                         Null_Value,
+                                                         Array_Start,
+                                                         Array_End);
 
          Call_Result : Aida.Subprogram_Call_Result.T;
 
@@ -1644,7 +1639,7 @@ package body Aida.JSON_Parsing_Tests is
 
          Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
          Ahven.Assert (State = End_State, "18f1a2a4-741c-4a0c-90d3-8854e8a70a6d");
-         Ahven.Assert (Last_Index (Current_Ids.Person_Ids) >= First_Index (Current_Ids.Person_Ids), "07c6cd3a-40ce-4b81-9681-9954e56c9670");
+         Ahven.Assert (Current_Ids.Person_Ids.Last_Index >= Current_Ids.Person_Ids.First_Index, "07c6cd3a-40ce-4b81-9681-9954e56c9670");
          Ahven.Assert (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) = 1, "4bc9f5b1-5451-49cd-b7aa-3ebd79f0abd3");
          Ahven.Assert (Vehicle_Id_Max (Json_Parsing_Tests_Model.Max_Indices) = 2, "d1c1c8fb-539c-456e-8c41-8c2254079abe");
          if
@@ -1783,14 +1778,14 @@ package body Aida.JSON_Parsing_Tests is
             when Expecting_Object_Start                    =>
                if
                  Person_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Person_Id_T'Last and
-                 Last_Index (Current_Ids.Person_Ids) < Max_Index (Current_Ids.Person_Ids)
+                 Current_Ids.Person_Ids.Last_Index < Current_Ids.Person_Ids.Max_Index
                then
                   declare
                      Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T;
                   begin
                      Allocate_Person_Id (This      => Max_Indices,
                                          Person_Id => Person_Id);
-                     Append (Current_Ids.Person_Ids, Person_Id);
+                     Current_Ids.Person_Ids.Append (Person_Id);
                   end;
 
                   State := Expecting_Length_Keyword;
@@ -1987,20 +1982,20 @@ package body Aida.JSON_Parsing_Tests is
 
       procedure Run_Test (JSON : Aida.String_T) is
 
-         procedure Parse_XML is new Aida.JSON.Generic_Parse_JSON (Storage_T,
-                                                                  Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
-                                                                  State_T,
-                                                                  Current_Ids_T,
-                                                                  Start_Object,
-                                                                  End_Object,
-                                                                  Key,
-                                                                  String_Value,
-                                                                  Integer_Value,
-                                                                  Real_Value,
-                                                                  Boolean_Value,
-                                                                  Null_Value,
-                                                                  Array_Start,
-                                                                  Array_End);
+         procedure Parse_XML is new Aida.JSON_SAX_Parse (Storage_T,
+                                                         Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
+                                                         State_T,
+                                                         Current_Ids_T,
+                                                         Start_Object,
+                                                         End_Object,
+                                                         Key,
+                                                         String_Value,
+                                                         Integer_Value,
+                                                         Real_Value,
+                                                         Boolean_Value,
+                                                         Null_Value,
+                                                         Array_Start,
+                                                         Array_End);
 
          Call_Result : Aida.Subprogram_Call_Result.T;
 
@@ -2019,7 +2014,7 @@ package body Aida.JSON_Parsing_Tests is
 
          Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
          Ahven.Assert (State = End_State, "192a5b94-e6da-4302-81fc-f98211cd92d7");
-         Ahven.Assert (Last_Index (Current_Ids.Person_Ids) >= First_Index (Current_Ids.Person_Ids), "72ac1a27-0a07-4e71-ae7f-a49252f51989");
+         Ahven.Assert (Current_Ids.Person_Ids.Last_Index >= Current_Ids.Person_Ids.First_Index, "72ac1a27-0a07-4e71-ae7f-a49252f51989");
          Ahven.Assert (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) = 1, "bd1380ff-2a9e-486e-810b-5896bea26d07");
          if
            Json_Parsing_Tests_Model.Max_Indices.Person_Id_Max > 0
@@ -2159,14 +2154,14 @@ package body Aida.JSON_Parsing_Tests is
             when Expecting_Object_Start                    =>
                if
                  Person_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Person_Id_T'Last and
-                 Last_Index (Current_Ids.Person_Ids) < Max_Index (Current_Ids.Person_Ids)
+                 Current_Ids.Person_Ids.Last_Index < Current_Ids.Person_Ids.Max_Index
                then
                   declare
                      Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T;
                   begin
                      Allocate_Person_Id (This      => Max_Indices,
                                          Person_Id => Person_Id);
-                     Append (Current_Ids.Person_Ids, Person_Id);
+                     Current_Ids.Person_Ids.Append (Person_Id);
                   end;
 
                   State := Expecting_Is_Happy_Keyword;
@@ -2364,20 +2359,20 @@ package body Aida.JSON_Parsing_Tests is
       procedure Run_Test (JSON            : Aida.String_T;
                           Expected_Result : Boolean) is
 
-         procedure Parse_XML is new Aida.JSON.Generic_Parse_JSON (Storage_T,
-                                                                  Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
-                                                                  State_T,
-                                                                  Current_Ids_T,
-                                                                  Start_Object,
-                                                                  End_Object,
-                                                                  Key,
-                                                                  String_Value,
-                                                                  Integer_Value,
-                                                                  Real_Value,
-                                                                  Boolean_Value,
-                                                                  Null_Value,
-                                                                  Array_Start,
-                                                                  Array_End);
+         procedure Parse_XML is new Aida.JSON_SAX_Parse (Storage_T,
+                                                         Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
+                                                         State_T,
+                                                         Current_Ids_T,
+                                                         Start_Object,
+                                                         End_Object,
+                                                         Key,
+                                                         String_Value,
+                                                         Integer_Value,
+                                                         Real_Value,
+                                                         Boolean_Value,
+                                                         Null_Value,
+                                                         Array_Start,
+                                                         Array_End);
 
          Call_Result : Aida.Subprogram_Call_Result.T;
 
@@ -2399,7 +2394,7 @@ package body Aida.JSON_Parsing_Tests is
 
          Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
          Ahven.Assert (State = End_State, "3204a87f-ba9d-4564-8f7b-c94397343761");
-         Ahven.Assert (Last_Index (Current_Ids.Person_Ids) >= First_Index (Current_Ids.Person_Ids), "6b7aebdd-cab8-49aa-b524-cfb906e3c596");
+         Ahven.Assert (Current_Ids.Person_Ids.Last_Index >= Current_Ids.Person_Ids.First_Index, "6b7aebdd-cab8-49aa-b524-cfb906e3c596");
          Ahven.Assert (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) = 1, "07df518d-3a9e-4225-8795-27443231c29c");
          if
            Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) > 0
@@ -2410,20 +2405,20 @@ package body Aida.JSON_Parsing_Tests is
 
       procedure Run_Null_Value_Test (JSON : Aida.String_T) is
 
-         procedure Parse_XML is new Aida.JSON.Generic_Parse_JSON (Storage_T,
-                                                                  Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
-                                                                  State_T,
-                                                                  Current_Ids_T,
-                                                                  Start_Object,
-                                                                  End_Object,
-                                                                  Key,
-                                                                  String_Value,
-                                                                  Integer_Value,
-                                                                  Real_Value,
-                                                                  Boolean_Value,
-                                                                  Null_Value,
-                                                                  Array_Start,
-                                                                  Array_End);
+         procedure Parse_XML is new Aida.JSON_SAX_Parse (Storage_T,
+                                                         Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
+                                                         State_T,
+                                                         Current_Ids_T,
+                                                         Start_Object,
+                                                         End_Object,
+                                                         Key,
+                                                         String_Value,
+                                                         Integer_Value,
+                                                         Real_Value,
+                                                         Boolean_Value,
+                                                         Null_Value,
+                                                         Array_Start,
+                                                         Array_End);
 
          Call_Result : Aida.Subprogram_Call_Result.T;
 
@@ -2445,7 +2440,7 @@ package body Aida.JSON_Parsing_Tests is
 
          Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
          Ahven.Assert (State = End_State, "b8146e47-6f99-4567-90ef-e2297131f667");
-         Ahven.Assert (Last_Index (Current_Ids.Person_Ids) >= First_Index (Current_Ids.Person_Ids), "7072eb74-b0e2-47bc-9122-cdf748fb6dd8");
+         Ahven.Assert (Current_Ids.Person_Ids.Is_Non_Empty, "7072eb74-b0e2-47bc-9122-cdf748fb6dd8");
          Ahven.Assert (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) = 1, "54753e3d-5985-4c67-8473-763e538e99a4");
          if
            Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) > 0

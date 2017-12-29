@@ -7,17 +7,16 @@ with Aida.Text_IO;
 
 pragma Elaborate_All (Aida.Tagged_Bounded_Vector);
 
-procedure Aida.JSON.Generic_Parse_JSON (Arg1        : in out Arg1_T;
-                                        Arg2        : in out Arg2_T;
-                                        Arg3        : in out Arg3_T;
-                                        Arg4        : in out Arg4_T;
-                                        Contents    : Aida.String_T;
-                                        Call_Result : in out Subprogram_Call_Result.T)
+procedure Aida.JSON_SAX_Parse (Arg1        : in out Arg1_T;
+                               Arg2        : in out Arg2_T;
+                               Arg3        : in out Arg3_T;
+                               Arg4        : in out Arg4_T;
+                               Contents    : Aida.String_T;
+                               Call_Result : in out Subprogram_Call_Result.T)
 is
    use all type Aida.String_T;
    use all type Aida.Int32_T;
    use all type Aida.UTF8_Code_Point.T;
-   use all type Subprogram_Call_Result.T;
 
    type State_Id_Type is (
                           Expecting_NL_Sign_Or_Space_Or_Left_Curly_Bracket, -- NL = New Line
@@ -109,13 +108,12 @@ begin
                            Value   => CP);
 
             pragma Loop_Variant (Increases => P);
-            pragma Loop_Invariant (not Has_Failed (Call_Result));
+            pragma Loop_Invariant (not Call_Result.Has_Failed);
             pragma Loop_Invariant (
                                    ((Prev_Prev_P = Contents'First and Prev_P = Contents'First) and then P > Contents'First) or
                                      ((Prev_Prev_P = Contents'First and Prev_P > Contents'First) and then Prev_P < P) or
                                        (Prev_Prev_P > Contents'First and then (Prev_Prev_P < Prev_P and Prev_P < P))
                                   );
-            pragma Loop_Invariant (not Has_Failed (Call_Result));
 
             pragma Loop_Invariant (State_Id /= Expecting_NL_Sign_Or_Space_Or_Left_Curly_Bracket or
                                      (State_Id = Expecting_NL_Sign_Or_Space_Or_Left_Curly_Bracket and then (Tag_Ids.Is_Empty)));
@@ -145,11 +143,11 @@ begin
                                    Arg4,
                                    Call_Result);
 
-                     if Has_Failed (Call_Result) then
+                     if Call_Result.Has_Failed then
                         exit;
                      end if;
 
-                     if Tag_Ids.Last_Index < Tag_Ids.Max_Index and Next_Tag_Id < Tag_Id_T'Last then
+                     if not Tag_Ids.Is_Full and Next_Tag_Id < Tag_Id_T'Last then
                         Tag_Ids.Append (Next_Tag_Id);
 
                         Next_Tag_Id := Next_Tag_Id + 1;
@@ -182,7 +180,7 @@ begin
                                Contents (Key_Name_First_Index..Key_Name_Last_Index),
                                Call_Result);
 
-                     if Has_Failed (Call_Result) then
+                     if Call_Result.Has_Failed then
                         exit;
                      end if;
                   end if;
@@ -215,11 +213,11 @@ begin
                                      Arg4,
                                      Call_Result);
 
-                     if Has_Failed (Call_Result) then
+                     if Call_Result.Has_Failed then
                         exit;
                      end if;
 
-                     if Tag_Ids.Last_Index < Tag_Ids.Max_Index and Next_Tag_Id < Tag_Id_T'Last then
+                     if not Tag_Ids.Is_Full and Next_Tag_Id < Tag_Id_T'Last then
                         Tag_Ids.Append (Next_Tag_Id);
 
                         Next_Tag_Id := Next_Tag_Id + 1;
@@ -231,14 +229,14 @@ begin
                      State_Id := Found_Array_Start;
 
                      if
-                       (Array_Tag_Ids.Last_Index >= Array_Tag_Ids.First_Index) and then
+                       Array_Tag_Ids.Is_Non_Empty and then
                        Array_Tag_Ids.Last_Element = Tag_Ids.Last_Element
                      then
                         Call_Result.Initialize (0690744029, 1711091773);
                         exit;
                      end if;
 
-                     if Array_Tag_Ids.Last_Index < Array_Tag_Ids.Max_Index then
+                     if not Array_Tag_Ids.Is_Full then
                         Array_Tag_Ids.Append (Tag_Ids.Last_Element);
                      else
                         Call_Result.Initialize (-0860721970, -0792673405);
@@ -251,7 +249,7 @@ begin
                                   Arg4,
                                   Call_Result);
 
-                     if Has_Failed (Call_Result) then
+                     if Call_Result.Has_Failed then
                         exit;
                      end if;
 
@@ -280,7 +278,7 @@ begin
                                    Contents (Value_First_Index..Value_Last_Index),
                                    Call_Result);
 
-                     if Has_Failed (Call_Result) then
+                     if Call_Result.Has_Failed then
                         exit;
                      end if;
 
@@ -289,12 +287,12 @@ begin
                   if CP = Character'Pos ('}') then
 
                      End_Object (Arg1,
-                                   Arg2,
-                                   Arg3,
-                                   Arg4,
-                                   Call_Result);
+                                 Arg2,
+                                 Arg3,
+                                 Arg4,
+                                 Call_Result);
 
-                     if Has_Failed (Call_Result) then
+                     if Call_Result.Has_Failed then
                         exit;
                      end if;
 
@@ -306,7 +304,7 @@ begin
                         Tag_Ids.Delete_Last;
 
                         if
-                          Array_Tag_Ids.Last_Index >= Array_Tag_Ids.First_Index and then
+                          Array_Tag_Ids.Is_Non_Empty and then
                           Array_Tag_Ids.Last_Element = Tag_Ids.Last_Element
                         then
                            State_Id := Found_End_Of_Element_In_Array;
@@ -343,7 +341,7 @@ begin
                                     Contents (Value_First_Index..Value_Last_Index),
                                     Call_Result);
 
-                     if Has_Failed (Call_Result) then
+                     if Call_Result.Has_Failed then
                         exit;
                      end if;
 
@@ -356,7 +354,7 @@ begin
                                     Arg4,
                                     Call_Result);
 
-                        if Has_Failed (Call_Result) then
+                        if Call_Result.Has_Failed then
                            exit;
                         end if;
 
@@ -368,14 +366,14 @@ begin
                                     Arg4,
                                     Call_Result);
 
-                        if Has_Failed (Call_Result) then
+                        if Call_Result.Has_Failed then
                            exit;
                         end if;
 
                         Tag_Ids.Delete_Last;
 
                         if
-                          Array_Tag_Ids.Last_Index >= Array_Tag_Ids.First_Index and then
+                          Array_Tag_Ids.Is_Non_Empty and then
                           Array_Tag_Ids.Last_Element = Tag_Ids.Last_Element
                         then
                            State_Id := Found_End_Of_Element_In_Array;
@@ -393,7 +391,7 @@ begin
                                     Contents (Value_First_Index..Value_Last_Index),
                                     Call_Result);
 
-                     if Has_Failed (Call_Result) then
+                     if Call_Result.Has_Failed then
                         exit;
                      end if;
 
@@ -410,7 +408,7 @@ begin
                                     Contents (Value_First_Index..Value_Last_Index),
                                     Call_Result);
 
-                     if Has_Failed (Call_Result) then
+                     if Call_Result.Has_Failed then
                         exit;
                      end if;
 
@@ -433,7 +431,7 @@ begin
                                  Contents (Value_First_Index..Value_Last_Index),
                                  Call_Result);
 
-                     if Has_Failed (Call_Result) then
+                     if Call_Result.Has_Failed then
                         exit;
                      end if;
 
@@ -446,7 +444,7 @@ begin
                                     Arg4,
                                     Call_Result);
 
-                        if Has_Failed (Call_Result) then
+                        if Call_Result.Has_Failed then
                            exit;
                         end if;
 
@@ -458,14 +456,14 @@ begin
                                     Arg4,
                                     Call_Result);
 
-                        if Has_Failed (Call_Result) then
+                        if Call_Result.Has_Failed then
                            exit;
                         end if;
 
                         Tag_Ids.Delete_Last;
 
                         if
-                          Array_Tag_Ids.Last_Index >= Array_Tag_Ids.First_Index and then
+                          Array_Tag_Ids.Is_Non_Empty and then
                           Array_Tag_Ids.Last_Element = Tag_Ids.Last_Element
                         then
                            State_Id := Found_End_Of_Element_In_Array;
@@ -483,7 +481,7 @@ begin
                                  Contents (Value_First_Index..Value_Last_Index),
                                  Call_Result);
 
-                     if Has_Failed (Call_Result) then
+                     if Call_Result.Has_Failed then
                         exit;
                      end if;
 
@@ -498,7 +496,7 @@ begin
                                  Contents (Value_First_Index..Value_Last_Index),
                                  Call_Result);
 
-                     if Has_Failed (Call_Result) then
+                     if Call_Result.Has_Failed then
                         exit;
                      end if;
 
@@ -520,7 +518,7 @@ begin
                                       Arg4,
                                       Call_Result);
 
-                        if Has_Failed (Call_Result) then
+                        if Call_Result.Has_Failed then
                            exit;
                         end if;
 
@@ -532,14 +530,14 @@ begin
                                       Arg4,
                                       Call_Result);
 
-                        if Has_Failed (Call_Result) then
+                        if Call_Result.Has_Failed then
                            exit;
                         end if;
 
                         Tag_Ids.Delete_Last;
 
                         if
-                          Array_Tag_Ids.Last_Index >= Array_Tag_Ids.First_Index and then
+                          Array_Tag_Ids.Is_Non_Empty and then
                           Array_Tag_Ids.Last_Element = Tag_Ids.Last_Element
                         then
                            State_Id := Found_End_Of_Element_In_Array;
@@ -558,16 +556,16 @@ begin
                      State_Id := Found_Left_Curly_Bracket;
 
                      Start_Object (Arg1,
-                                     Arg2,
-                                     Arg3,
-                                     Arg4,
-                                     Call_Result);
+                                   Arg2,
+                                   Arg3,
+                                   Arg4,
+                                   Call_Result);
 
-                     if Has_Failed (Call_Result) then
+                     if Call_Result.Has_Failed then
                         exit;
                      end if;
 
-                     if Tag_Ids.Last_Index < Tag_Ids.Max_Index and Next_Tag_Id < Tag_Id_T'Last then
+                     if not Tag_Ids.Is_Full and Next_Tag_Id < Tag_Id_T'Last then
                         Tag_Ids.Append (Next_Tag_Id);
 
                         Next_Tag_Id := Next_Tag_Id + 1;
@@ -587,14 +585,14 @@ begin
                   elsif CP = Character'Pos (']') then
                      State_Id := Expecting_Comma_Sign_Or_Right_Bracket;
 
-                     if Array_Tag_Ids.Last_Index >= Array_Tag_Ids.First_Index then
+                     if Array_Tag_Ids.Is_Non_Empty then
                         Array_End (Arg1,
                                    Arg2,
                                    Arg3,
                                    Arg4,
                                    Call_Result);
 
-                        if Has_Failed (Call_Result) then
+                        if Call_Result.Has_Failed then
                            exit;
                         end if;
 
@@ -633,7 +631,7 @@ begin
                                     True,
                                     Call_Result);
 
-                     if Has_Failed (Call_Result) then
+                     if Call_Result.Has_Failed then
                         exit;
                      end if;
 
@@ -672,7 +670,7 @@ begin
                                     False,
                                     Call_Result);
 
-                     if Has_Failed (Call_Result) then
+                     if Call_Result.Has_Failed then
                         exit;
                      end if;
 
@@ -703,7 +701,7 @@ begin
                                  Arg4,
                                  Call_Result);
 
-                     if Has_Failed (Call_Result) then
+                     if Call_Result.Has_Failed then
                         exit;
                      end if;
 
@@ -717,4 +715,4 @@ begin
       end;
    end if;
 
-end Aida.JSON.Generic_Parse_JSON;
+end Aida.JSON_SAX_Parse;

@@ -1,4 +1,4 @@
-with Aida.JSON.Generic_DOM_Parser;
+with Aida.JSON_DOM_Parser;
 with Aida.Subprogram_Call_Result;
 
 package body Aida.JSON_DOM_Parsing_Tests is
@@ -9,24 +9,24 @@ package body Aida.JSON_DOM_Parsing_Tests is
    JSON_Test_Person_With_Name_Adam_0      : constant Aida.String_T := "{""name"" : ""adam""}";
    JSON_Test_Person_With_Name_And_Age_0   : constant Aida.String_T := "{""name"" : ""bertil"", ""age"" : 5}";
    JSON_Test_Person_With_Vehicles_0       : constant Aida.String_T := "{""vehicles"" : [ {""wheels"" : 4 }, {""wheels"" : 2 } ]}";
---     JSON_Test_Person_With_Length_0         : constant Aida.String_T := "{""length"" : 1.98}";
---     JSON_Test_Person_With_Is_Happy_True_0  : constant Aida.String_T := "{""isHappy"" : true}";
---     JSON_Test_Person_With_Is_Happy_False_0 : constant Aida.String_T := "{""isHappy"" : false}";
---     JSON_Test_Person_With_Is_Happy_Null_0  : constant Aida.String_T := "{""isHappy"" : null}";
+   --     JSON_Test_Person_With_Length_0         : constant Aida.String_T := "{""length"" : 1.98}";
+   --     JSON_Test_Person_With_Is_Happy_True_0  : constant Aida.String_T := "{""isHappy"" : true}";
+   --     JSON_Test_Person_With_Is_Happy_False_0 : constant Aida.String_T := "{""isHappy"" : false}";
+   --     JSON_Test_Person_With_Is_Happy_Null_0  : constant Aida.String_T := "{""isHappy"" : null}";
 
    overriding procedure Initialize (T : in out Test) is
    begin
-      Set_Name (T, "Aida.JSON.Generic_DOM_Parser package tests");
+      Set_Name (T, "Aida.JSON_DOM_Parser package tests");
 
       Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Age_0'Access, "Test_Person_With_Age_0");
       Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Hand_0'Access, "Test_Person_With_Hand_0");
       Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Name_Adam_0'Access, "Test_Person_With_Name_Adam_0");
       Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Name_And_Age_0'Access, "Test_Person_With_Name_And_Age_0");
       Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Vehicles_0'Access, "Test_Person_With_Vehicles_0");
---        Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Length_0'Access, "Test_Person_With_Length_0");
---        Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Is_Happy_True_0'Access, "Test_Person_With_Is_Happy_True_0");
---        Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Is_Happy_False_0'Access, "Test_Person_With_Is_Happy_False_0");
---        Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Is_Happy_Null_0'Access, "Test_Person_With_Is_Happy_Null_0");
+      --        Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Length_0'Access, "Test_Person_With_Length_0");
+      --        Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Is_Happy_True_0'Access, "Test_Person_With_Is_Happy_True_0");
+      --        Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Is_Happy_False_0'Access, "Test_Person_With_Is_Happy_False_0");
+      --        Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Is_Happy_Null_0'Access, "Test_Person_With_Is_Happy_Null_0");
    end Initialize;
 
    procedure Test_Person_With_Age_0 (T : in out Ahven.Framework.Test_Case'Class) with
@@ -34,10 +34,10 @@ package body Aida.JSON_DOM_Parsing_Tests is
    is
       pragma Unreferenced (T);
 
-      package DOM_Parser is new Aida.JSON.Generic_DOM_Parser (Max_Chars        => 100,
-                                                              Max_Strings      => 2,
-                                                              Max_Nodes        => 10,
-                                                              Max_Array_Values => 1);
+      package DOM_Parser is new Aida.JSON_DOM_Parser (Max_Chars        => 100,
+                                                      Max_Strings      => 2,
+                                                      Max_Nodes        => 10,
+                                                      Max_Array_Values => 1);
 
       use all type DOM_Parser.JSON_Value_Id_T;
 
@@ -64,10 +64,10 @@ package body Aida.JSON_DOM_Parsing_Tests is
    is
       pragma Unreferenced (T);
 
-      package DOM_Parser is new Aida.JSON.Generic_DOM_Parser (Max_Chars        => 100,
-                                                              Max_Strings      => 10,
-                                                              Max_Nodes        => 10,
-                                                              Max_Array_Values => 1);
+      package DOM_Parser is new Aida.JSON_DOM_Parser (Max_Chars        => 100,
+                                                      Max_Strings      => 10,
+                                                      Max_Nodes        => 10,
+                                                      Max_Array_Values => 1);
 
       use all type DOM_Parser.JSON_Value_Id_T;
       use all type DOM_Parser.Node_Index_T;
@@ -103,10 +103,10 @@ package body Aida.JSON_DOM_Parsing_Tests is
    is
       pragma Unreferenced (T);
 
-      package DOM_Parser is new Aida.JSON.Generic_DOM_Parser (Max_Chars        => 100,
-                                                              Max_Strings      => 2,
-                                                              Max_Nodes        => 10,
-                                                              Max_Array_Values => 1);
+      package DOM_Parser is new Aida.JSON_DOM_Parser (Max_Chars        => 100,
+                                                      Max_Strings      => 2,
+                                                      Max_Nodes        => 10,
+                                                      Max_Array_Values => 1);
 
       use all type DOM_Parser.JSON_Value_Id_T;
 
@@ -133,10 +133,10 @@ package body Aida.JSON_DOM_Parsing_Tests is
    is
       pragma Unreferenced (T);
 
-      package DOM_Parser is new Aida.JSON.Generic_DOM_Parser (Max_Chars        => 100,
-                                                              Max_Strings      => 10,
-                                                              Max_Nodes        => 10,
-                                                              Max_Array_Values => 10);
+      package DOM_Parser is new Aida.JSON_DOM_Parser (Max_Chars        => 100,
+                                                      Max_Strings      => 10,
+                                                      Max_Nodes        => 10,
+                                                      Max_Array_Values => 10);
 
       use all type DOM_Parser.JSON_Value_Id_T;
       use all type DOM_Parser.Node_Index_T;
@@ -173,10 +173,10 @@ package body Aida.JSON_DOM_Parsing_Tests is
    is
       pragma Unreferenced (T);
 
-      package DOM_Parser is new Aida.JSON.Generic_DOM_Parser (Max_Chars        => 100,
-                                                              Max_Strings      => 10,
-                                                              Max_Nodes        => 10,
-                                                              Max_Array_Values => 10);
+      package DOM_Parser is new Aida.JSON_DOM_Parser (Max_Chars        => 100,
+                                                      Max_Strings      => 10,
+                                                      Max_Nodes        => 10,
+                                                      Max_Array_Values => 10);
 
       use all type DOM_Parser.JSON_Value_Id_T;
       use all type DOM_Parser.Array_Index_T;

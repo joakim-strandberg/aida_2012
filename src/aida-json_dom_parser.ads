@@ -10,7 +10,7 @@ generic
    Max_Strings      : Pos32_T;
    Max_Nodes        : Pos32_T;
    Max_Array_Values : Pos32_T;
-package Aida.JSON.Generic_DOM_Parser is
+package Aida.JSON_DOM_Parser is
 
    package Int_To_String_Map is new Aida.Integer_To_String_Map (Max_Chars   => Max_Chars,
                                                                 Max_Strings => Max_Strings,
@@ -327,4 +327,4 @@ private
      Global => null,
      Pre    => not Call_Result.Has_Failed and (for all I in This.Nodes'Range => not This.Nodes (I).My_JSON_Value'Constrained);
 
-end Aida.JSON.Generic_DOM_Parser;
+end Aida.JSON_DOM_Parser;
