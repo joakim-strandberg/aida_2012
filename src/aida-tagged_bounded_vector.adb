@@ -9,20 +9,20 @@ package body Aida.Tagged_Bounded_Vector is
    function Default_Vector return T is
    begin
       return This : T do
-         This.Items := (others => Default_Element);
-         This.Last_Index := Extended_Index_T'First;
+         This.My_Items := (others => Default_Element);
+         This.My_Last_Index := Extended_Index_T'First;
       end return;
    end Default_Vector;
 
    procedure Append (This     : in out T;
                      New_Item : Element_T) is
    begin
-      if This.Last_Index = Extended_Index_T'First then
-         This.Last_Index := Index_T'First;
-         This.Items (Index_T'First) := New_Item;
+      if This.My_Last_Index = Extended_Index_T'First then
+         This.My_Last_Index := Index_T'First;
+         This.My_Items (Index_T'First) := New_Item;
       else
-         This.Last_Index := This.Last_Index + 1;
-         This.Items (Index_T (This.Last_Index)) := New_Item;
+         This.My_Last_Index := This.My_Last_Index + 1;
+         This.My_Items (Index_T (This.My_Last_Index)) := New_Item;
       end if;
    end Append;
 
@@ -32,7 +32,7 @@ package body Aida.Tagged_Bounded_Vector is
       Result : Boolean := False;
    begin
       for I in Extended_Index_T range Index_T'First..This.Last_Index loop
-         if This.Items (I) = Element then
+         if This.My_Items (I) = Element then
             Result := True;
             exit;
          end if;
@@ -44,7 +44,7 @@ package body Aida.Tagged_Bounded_Vector is
    function Element (This  : T;
                      Index : Index_T) return Element_T is
    begin
-      return This.Items (Index);
+      return This.My_Items (Index);
    end Element;
 
    function First_Index (This : T) return Index_T is
@@ -55,12 +55,12 @@ package body Aida.Tagged_Bounded_Vector is
 
    function Last_Element (This : T) return Element_T is
    begin
-      return This.Items (Index_T (This.Last_Index));
+      return This.My_Items (Index_T (This.Last_Index));
    end Last_Element;
 
    procedure Delete_Last (This : in out T) is
    begin
-      This.Last_Index := This.Last_Index - 1;
+      This.My_Last_Index := This.My_Last_Index - 1;
    end Delete_Last;
 --
 --     procedure Act_On_Immutable_Elements (This : T) is
@@ -75,20 +75,20 @@ package body Aida.Tagged_Bounded_Vector is
 --
    procedure Clear (This : in out T) is
    begin
-      This.Last_Index := Extended_Index_T'First;
+      This.My_Last_Index := Extended_Index_T'First;
    end Clear;
 
    procedure Replace_Element (This        : in out T;
                               Index       : Index_T;
                               New_Element : Element_T) is
    begin
-      This.Items (Index) := New_Element;
+      This.My_Items (Index) := New_Element;
    end Replace_Element;
 
    procedure Replace_Last_Element (This        : in out T;
                                    New_Element : Element_T) is
    begin
-      This.Items (Last_Index (This)) := New_Element;
+      This.My_Items (Last_Index (This)) := New_Element;
    end Replace_Last_Element;
 
 end Aida.Tagged_Bounded_Vector;

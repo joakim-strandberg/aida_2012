@@ -1976,6 +1976,15 @@ package body Aida.JSON_Parsing_Tests is
          Call_Result.Initialize (1329123355, -0441958475);
       end Array_End;
 
+      function Expected_Float_Value_1_98 return Float with
+        Global => null;
+
+      function Expected_Float_Value_1_98 return Float with
+        SPARK_Mode => Off is
+      begin
+         return (Float'Value ("1.98"));
+      end Expected_Float_Value_1_98;
+
       procedure Run_Test (JSON : Aida.String_T) is
 
          procedure Parse_XML is new Aida.JSON.Generic_Parse_JSON (Storage_T,
@@ -2015,7 +2024,7 @@ package body Aida.JSON_Parsing_Tests is
          if
            Json_Parsing_Tests_Model.Max_Indices.Person_Id_Max > 0
          then
-            Ahven.Assert (Float (Storage.Person (Aida.Json_Parsing_Tests_Model.Person_Id_T'First).Length) = Float'Value ("1.98"), "e7f16b3a-d3f1-4b6b-b258-20fc95ce5bf4");
+            Ahven.Assert (Float (Storage.Person (Aida.Json_Parsing_Tests_Model.Person_Id_T'First).Length) = Expected_Float_Value_1_98, "e7f16b3a-d3f1-4b6b-b258-20fc95ce5bf4");
          end if;
       end Run_Test;
    end Test_Person_With_Length_Utils;

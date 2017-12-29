@@ -2,8 +2,11 @@ with Aida.UTF8;
 with Aida.UTF8_Code_Point;
 with Ada.Characters.Latin_1;
 with Aida.Text_IO;
-with Aida.Bounded_Vector;
+with Aida.Tagged_Bounded_Vector;
 with Aida.Text_IO;
+
+pragma Elaborate_All (Aida.Tagged_Bounded_Vector);
+
 procedure Aida.JSON.Generic_Parse_JSON (Arg1        : in out Arg1_T;
                                         Arg2        : in out Arg2_T;
                                         Arg3        : in out Arg3_T;
@@ -53,9 +56,9 @@ is
 
    type Tag_Id_Index_T is new Aida.Pos32_T range 1..MAX_DEPTH;
 
-   package Tag_Id_Vector is new Aida.Bounded_Vector (Max_Last_Index  => Int32_T'First + MAX_DEPTH,
-                                                     Element_T       => Tag_Id_T,
-                                                     Default_Element => Default_Tag_Id);
+   package Tag_Id_Vector is new Aida.Tagged_Bounded_Vector (Max_Last_Index  => Int32_T'First + MAX_DEPTH,
+                                                            Element_T       => Tag_Id_T,
+                                                            Default_Element => Default_Tag_Id);
 
 
    Tag_Ids : Tag_Id_Vector.T;
@@ -63,8 +66,6 @@ is
    Array_Tag_Ids : Tag_Id_Vector.T;
 
    State_Id : State_Id_Type := Expecting_NL_Sign_Or_Space_Or_Left_Curly_Bracket;
-
-   use all type Tag_Id_Vector.T;
 
    Next_Tag_Id : Tag_Id_T := Tag_Id_T'First;
 begin
@@ -117,15 +118,15 @@ begin
             pragma Loop_Invariant (not Has_Failed (Call_Result));
 
             pragma Loop_Invariant (State_Id /= Expecting_NL_Sign_Or_Space_Or_Left_Curly_Bracket or
-                                     (State_Id = Expecting_NL_Sign_Or_Space_Or_Left_Curly_Bracket and then (Tag_Id_Vector.Is_Empty (Tag_Ids))));
+                                     (State_Id = Expecting_NL_Sign_Or_Space_Or_Left_Curly_Bracket and then (Tag_Ids.Is_Empty)));
             pragma Loop_Invariant (State_Id /= Extracting_Key_Name or
-                                     (State_Id = Extracting_Key_Name and then (Key_Name_First_Index <= Contents'Last and Tag_Id_Vector.Last_Index (Tag_Ids) >= Tag_Id_Vector.First_Index (Tag_Ids))));
+                                     (State_Id = Extracting_Key_Name and then (Key_Name_First_Index <= Contents'Last and Tag_Ids.Last_Index >= Tag_Ids.First_Index)));
             pragma Loop_Invariant (State_Id /= Found_End_Of_The_Very_Last_Object or
-                                     (State_Id = Found_End_Of_The_Very_Last_Object and then (Tag_Id_Vector.Is_Empty (Tag_Ids))));
+                                     (State_Id = Found_End_Of_The_Very_Last_Object and then (Tag_Ids.Is_Empty)));
             pragma Loop_Invariant ((State_Id = Extracting_Key_Name or State_Id = Found_End_Of_The_Very_Last_Object
                                   or State_Id = Expecting_NL_Sign_Or_Space_Or_Left_Curly_Bracket) or
                                    ((State_Id /= Extracting_Key_Name and State_Id /= Found_End_Of_The_Very_Last_Object
-                                  and State_Id /= Expecting_NL_Sign_Or_Space_Or_Left_Curly_Bracket) and then (Tag_Id_Vector.Last_Index (Tag_Ids) >= Tag_Id_Vector.First_Index (Tag_Ids))));
+                                  and State_Id /= Expecting_NL_Sign_Or_Space_Or_Left_Curly_Bracket) and then (Tag_Ids.Last_Index >= Tag_Ids.First_Index)));
 
 --                                Aida.Text_IO.Put ("Extracted:");
 --                                Aida.Text_IO.Put (Image (CP));
@@ -148,8 +149,8 @@ begin
                         exit;
                      end if;
 
-                     if Tag_Id_Vector.Last_Index (Tag_Ids) < Tag_Id_Vector.Max_Index (Tag_Ids) and Next_Tag_Id < Tag_Id_T'Last then
-                        Tag_Id_Vector.Append (Tag_Ids, Next_Tag_Id);
+                     if Tag_Ids.Last_Index < Tag_Ids.Max_Index and Next_Tag_Id < Tag_Id_T'Last then
+                        Tag_Ids.Append (Next_Tag_Id);
 
                         Next_Tag_Id := Next_Tag_Id + 1;
                      else
@@ -218,8 +219,8 @@ begin
                         exit;
                      end if;
 
-                     if Tag_Id_Vector.Last_Index (Tag_Ids) < Tag_Id_Vector.Max_Index (Tag_Ids) and Next_Tag_Id < Tag_Id_T'Last then
-                        Tag_Id_Vector.Append (Tag_Ids, Next_Tag_Id);
+                     if Tag_Ids.Last_Index < Tag_Ids.Max_Index and Next_Tag_Id < Tag_Id_T'Last then
+                        Tag_Ids.Append (Next_Tag_Id);
 
                         Next_Tag_Id := Next_Tag_Id + 1;
                      else
@@ -230,15 +231,15 @@ begin
                      State_Id := Found_Array_Start;
 
                      if
-                       (Tag_Id_Vector.Last_Index (Array_Tag_Ids) >= Tag_Id_Vector.First_Index (Array_Tag_Ids)) and then
-                       Tag_Id_Vector.Last_Element (Array_Tag_Ids) = Tag_Id_Vector.Last_Element (Tag_Ids)
+                       (Array_Tag_Ids.Last_Index >= Array_Tag_Ids.First_Index) and then
+                       Array_Tag_Ids.Last_Element = Tag_Ids.Last_Element
                      then
                         Call_Result.Initialize (0690744029, 1711091773);
                         exit;
                      end if;
 
-                     if Tag_Id_Vector.Last_Index (Array_Tag_Ids) < Tag_Id_Vector.Max_Index (Array_Tag_Ids) then
-                        Tag_Id_Vector.Append (Array_Tag_Ids, Tag_Id_Vector.Last_Element (Tag_Ids));
+                     if Array_Tag_Ids.Last_Index < Array_Tag_Ids.Max_Index then
+                        Array_Tag_Ids.Append (Tag_Ids.Last_Element);
                      else
                         Call_Result.Initialize (-0860721970, -0792673405);
                         exit;
@@ -297,16 +298,16 @@ begin
                         exit;
                      end if;
 
-                     if Tag_Id_Vector.Last_Index (Tag_Ids) = Tag_Id_Vector.First_Index (Tag_Ids) then
+                     if Tag_Ids.Last_Index = Tag_Ids.First_Index then
                         State_Id := Found_End_Of_The_Very_Last_Object;
 
-                        Tag_Id_Vector.Delete_Last (Tag_Ids);
+                        Tag_Ids.Delete_Last;
                      else
-                        Tag_Id_Vector.Delete_Last (Tag_Ids);
+                        Tag_Ids.Delete_Last;
 
                         if
-                          Tag_Id_Vector.Last_Index (Array_Tag_Ids) >= Tag_Id_Vector.First_Index (Array_Tag_Ids) and then
-                          Tag_Id_Vector.Last_Element (Array_Tag_Ids) = Tag_Id_Vector.Last_Element (Tag_Ids)
+                          Array_Tag_Ids.Last_Index >= Array_Tag_Ids.First_Index and then
+                          Array_Tag_Ids.Last_Element = Tag_Ids.Last_Element
                         then
                            State_Id := Found_End_Of_Element_In_Array;
                         else
@@ -346,7 +347,7 @@ begin
                         exit;
                      end if;
 
-                     if Tag_Id_Vector.Last_Index (Tag_Ids) = Tag_Id_Vector.First_Index (Tag_Ids) then
+                     if Tag_Ids.Last_Index = Tag_Ids.First_Index then
                         State_Id := Found_End_Of_The_Very_Last_Object;
 
                         End_Object (Arg1,
@@ -359,7 +360,7 @@ begin
                            exit;
                         end if;
 
-                        Tag_Id_Vector.Delete_Last (Tag_Ids);
+                        Tag_Ids.Delete_Last;
                      else
                         End_Object (Arg1,
                                     Arg2,
@@ -371,11 +372,11 @@ begin
                            exit;
                         end if;
 
-                        Tag_Id_Vector.Delete_Last (Tag_Ids);
+                        Tag_Ids.Delete_Last;
 
                         if
-                          Tag_Id_Vector.Last_Index (Array_Tag_Ids) >= Tag_Id_Vector.First_Index (Array_Tag_Ids) and then
-                          Tag_Id_Vector.Last_Element (Array_Tag_Ids) = Tag_Id_Vector.Last_Element (Tag_Ids)
+                          Array_Tag_Ids.Last_Index >= Array_Tag_Ids.First_Index and then
+                          Array_Tag_Ids.Last_Element = Tag_Ids.Last_Element
                         then
                            State_Id := Found_End_Of_Element_In_Array;
                         else
@@ -436,7 +437,7 @@ begin
                         exit;
                      end if;
 
-                     if Tag_Id_Vector.Last_Index (Tag_Ids) = Tag_Id_Vector.First_Index (Tag_Ids) then
+                     if Tag_Ids.Last_Index = Tag_Ids.First_Index then
                         State_Id := Found_End_Of_The_Very_Last_Object;
 
                         End_Object (Arg1,
@@ -449,7 +450,7 @@ begin
                            exit;
                         end if;
 
-                        Tag_Id_Vector.Delete_Last (Tag_Ids);
+                        Tag_Ids.Delete_Last;
                      else
                         End_Object (Arg1,
                                     Arg2,
@@ -461,11 +462,11 @@ begin
                            exit;
                         end if;
 
-                        Tag_Id_Vector.Delete_Last (Tag_Ids);
+                        Tag_Ids.Delete_Last;
 
                         if
-                          Tag_Id_Vector.Last_Index (Array_Tag_Ids) >= Tag_Id_Vector.First_Index (Array_Tag_Ids) and then
-                          Tag_Id_Vector.Last_Element (Array_Tag_Ids) = Tag_Id_Vector.Last_Element (Tag_Ids)
+                          Array_Tag_Ids.Last_Index >= Array_Tag_Ids.First_Index and then
+                          Array_Tag_Ids.Last_Element = Tag_Ids.Last_Element
                         then
                            State_Id := Found_End_Of_Element_In_Array;
                         else
@@ -510,7 +511,7 @@ begin
                   if CP = Character'Pos (',') then
                      State_Id := Found_Left_Curly_Bracket;
                   elsif CP = Character'Pos ('}') then
-                     if Tag_Id_Vector.Last_Index (Tag_Ids) = Tag_Id_Vector.First_Index (Tag_Ids) then
+                     if Tag_Ids.Last_Index = Tag_Ids.First_Index then
                         State_Id := Found_End_Of_The_Very_Last_Object;
 
                         End_Object (Arg1,
@@ -523,7 +524,7 @@ begin
                            exit;
                         end if;
 
-                        Tag_Id_Vector.Delete_Last (Tag_Ids);
+                        Tag_Ids.Delete_Last;
                      else
                         End_Object (Arg1,
                                       Arg2,
@@ -535,11 +536,11 @@ begin
                            exit;
                         end if;
 
-                        Tag_Id_Vector.Delete_Last (Tag_Ids);
+                        Tag_Ids.Delete_Last;
 
                         if
-                          Tag_Id_Vector.Last_Index (Array_Tag_Ids) >= Tag_Id_Vector.First_Index (Array_Tag_Ids) and then
-                          Tag_Id_Vector.Last_Element (Array_Tag_Ids) = Tag_Id_Vector.Last_Element (Tag_Ids)
+                          Array_Tag_Ids.Last_Index >= Array_Tag_Ids.First_Index and then
+                          Array_Tag_Ids.Last_Element = Tag_Ids.Last_Element
                         then
                            State_Id := Found_End_Of_Element_In_Array;
                         else
@@ -566,8 +567,8 @@ begin
                         exit;
                      end if;
 
-                     if Tag_Id_Vector.Last_Index (Tag_Ids) < Tag_Id_Vector.Max_Index (Tag_Ids) and Next_Tag_Id < Tag_Id_T'Last then
-                        Tag_Id_Vector.Append (Tag_Ids, Next_Tag_Id);
+                     if Tag_Ids.Last_Index < Tag_Ids.Max_Index and Next_Tag_Id < Tag_Id_T'Last then
+                        Tag_Ids.Append (Next_Tag_Id);
 
                         Next_Tag_Id := Next_Tag_Id + 1;
                      else
@@ -586,7 +587,7 @@ begin
                   elsif CP = Character'Pos (']') then
                      State_Id := Expecting_Comma_Sign_Or_Right_Bracket;
 
-                     if Tag_Id_Vector.Last_Index (Array_Tag_Ids) >= Tag_Id_Vector.First_Index (Array_Tag_Ids) then
+                     if Array_Tag_Ids.Last_Index >= Array_Tag_Ids.First_Index then
                         Array_End (Arg1,
                                    Arg2,
                                    Arg3,
@@ -597,7 +598,7 @@ begin
                            exit;
                         end if;
 
-                        Tag_Id_Vector.Delete_Last (Array_Tag_Ids);
+                        Array_Tag_Ids.Delete_Last;
                      else
                         Call_Result.Initialize (-1612352731, -1655012836);
                         exit;

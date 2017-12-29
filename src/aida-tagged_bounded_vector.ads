@@ -55,8 +55,8 @@ package Aida.Tagged_Bounded_Vector is
      Global => null;
 
    function First_Index (This : T) return Index_T with
-     Global => null,
-     Post'Class   => First_Index'Result = Index_T'First;
+     Global     => null,
+     Post'Class => First_Index'Result = Index_T'First;
    pragma Annotate (GNATprove, Terminating, First_Index);
 
    function Last_Index (This : T) return Extended_Index_T with
@@ -97,8 +97,9 @@ package Aida.Tagged_Bounded_Vector is
 
    procedure Delete_Last (This : in out T) with
      Global => null,
-     Pre'Class    => Last_Index (This) >= First_Index (This),
-     Post'Class   => Last_Index (This) = Last_Index (This)'Old - 1;
+     Pre'Class  => This.Last_Index >= This.First_Index,
+--     Post'Class => This.Last_Index = This.Last_Index'Old - 1,
+     Post       => This.Last_Index = This.Last_Index'Old - 1;
 
    procedure Clear (This : in out T) with
      Global => null,
@@ -108,17 +109,17 @@ private
 
    type T is tagged  limited
       record
-         Items       : aliased Elements_Array_T (Index_T) := (others => Default_Element);
-         Last_Index  : Extended_Index_T := Extended_Index_T'First;
+         My_Items       : aliased Elements_Array_T (Index_T) := (others => Default_Element);
+         My_Last_Index  : Extended_Index_T := Extended_Index_T'First;
       end record;
 
-   function Last_Index (This : T) return Extended_Index_T is (This.Last_Index);
+   function Last_Index (This : T) return Extended_Index_T is (This.My_Last_Index);
 
-   function Is_Empty (This : T) return Boolean is (This.Last_Index = Extended_Index_T'First);
+   function Is_Empty (This : T) return Boolean is (This.My_Last_Index = Extended_Index_T'First);
 
-   function Is_Full (This : T) return Boolean is (This.Last_Index = Extended_Index_T'Last);
+   function Is_Full (This : T) return Boolean is (This.My_Last_Index = Extended_Index_T'Last);
 
    function "=" (L, R : T) return Boolean is (Last_Index (L) = Last_Index (R) and then
-                                                (for all I in Index_T range Index_T'First..Last_Index (L) => L.Items (I) = R.Items (I)));
+                                                (for all I in Index_T range Index_T'First..Last_Index (L) => L.My_Items (I) = R.My_Items (I)));
 
 end Aida.Tagged_Bounded_Vector;
