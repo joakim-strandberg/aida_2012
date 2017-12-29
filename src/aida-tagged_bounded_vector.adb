@@ -1,4 +1,4 @@
-package body Aida.Bounded_Vector2 is
+package body Aida.Tagged_Bounded_Vector is
 
    function Max_Index (This : T) return Int32_T is
       pragma Unreferenced (This);
@@ -85,4 +85,10 @@ package body Aida.Bounded_Vector2 is
       This.Items (Index) := New_Element;
    end Replace_Element;
 
-end Aida.Bounded_Vector2;
+   procedure Replace_Last_Element (This        : in out T;
+                                   New_Element : Element_T) is
+   begin
+      This.Items (Last_Index (This)) := New_Element;
+   end Replace_Last_Element;
+
+end Aida.Tagged_Bounded_Vector;

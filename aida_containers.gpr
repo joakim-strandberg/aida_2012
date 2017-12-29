@@ -19,6 +19,8 @@ project Aida_Containers is
                          "aida-bounded_hash_map.adb",
                          "aida-bounded_vector.ads",
                          "aida-bounded_vector.adb",
+                         "aida-tagged_bounded_vector.ads",
+                         "aida-tagged_bounded_vector.adb",
                          "aida-integer_to_string_map.ads",
                          "aida-integer_to_string_map.adb");
 

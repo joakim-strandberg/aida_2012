@@ -59,7 +59,6 @@ package body Aida.XML_Parsing_Tests is
 
    use all type Person_Id_Vector.T;
    use all type Hand_Id_Vector.T;
---   use all type Vehicle_Id_Vector.T;
 
    type Current_Ids_T is limited record
       Person_Ids  : Person_Id_Vector.T;
@@ -76,7 +75,6 @@ package body Aida.XML_Parsing_Tests is
       S.Header_Comment := (others => ' ');
    end Clear;
 
---   pragma Warnings (Off, """State"" is not modified");
    generic
       type Specific_Storage_T is limited private;
       type Specific_Max_Indices_T is limited private;
@@ -92,7 +90,6 @@ package body Aida.XML_Parsing_Tests is
                                    Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
      Pre    => not Call_Result.Has_Failed;
---   pragma Warnings (On, """State"" is not modified");
 
    procedure Generic_Unused_CDATA (Result      : in out Specific_Storage_T;
                                    Max_Indices : in out Specific_Max_Indices_T;
