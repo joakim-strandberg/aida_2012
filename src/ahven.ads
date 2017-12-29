@@ -29,10 +29,13 @@ package Ahven is
    -- If Condition is false, Assert raises Assertion_Error
    -- with given Message.
 
+   pragma Warnings (Off, "postcondition does not check the outcome of calling ""Assert""");
    procedure Assert (Condition : Boolean;
                      M1        : String;
                      M2        : String) with
-     Global => null;
+     Global => null,
+     Post   => Condition;
+   pragma Warnings (On, "postcondition does not check the outcome of calling ""Assert""");
 
    procedure Assert (Condition : Boolean;
                      M1        : String;

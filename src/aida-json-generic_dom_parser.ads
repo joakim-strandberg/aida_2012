@@ -80,7 +80,7 @@ package Aida.JSON.Generic_DOM_Parser is
    type JSON_Value_T (Id : JSON_Value_Id_T := JSON_No_Value) is record
       case Id is
          when JSON_No_Value | JSON_Null            => null;
-         when JSON_Integer | JSON_Real | JSON_Text => Key : Int_To_String_Map.Key_T;
+         when JSON_Integer | JSON_Real | JSON_Text => Key      : Int_To_String_Map.Key_T;
          when JSON_Object                          => Node_Id  : Node_Index_T := Node_Index_T'First;
          when JSON_Array                           => Array_Id : Array_Index_T := Array_Index_T'First;
          when JSON_Boolean                         => Is_True  : Boolean := False;
@@ -90,8 +90,8 @@ package Aida.JSON.Generic_DOM_Parser is
    type Array_Component_T is tagged limited private;
 
    function Next (This : Array_Component_T) return Array_Index_T with
-     Global => null,
-     Pre    => This.Has_Next;
+     Global    => null,
+     Pre'Class => This.Has_Next;
 
    function Has_Next (This : Array_Component_T) return Boolean with
      Global => null;
@@ -104,13 +104,17 @@ package Aida.JSON.Generic_DOM_Parser is
 
    type Node_T is tagged limited private;
 
-   function JSON_Key (This : Node_T) return Int_To_String_Map.Key_T;
+   function JSON_Key (This : Node_T) return Int_To_String_Map.Key_T
+     with Global => null;
 
-   function JSON_Value (This : Node_T) return JSON_Value_T;
+   function JSON_Value (This : Node_T) return JSON_Value_T
+     with Global => null;
 
-   function Next_Node (This : Node_T) return Extended_Node_Id_T;
+   function Next_Node (This : Node_T) return Extended_Node_Id_T
+     with Global => null;
 
-   function Has_Next_Node (This : Node_T) return Boolean;
+   function Has_Next_Node (This : Node_T) return Boolean
+     with Global => null;
 
    function Default_Node return Node_T with
      Global => null;
@@ -234,8 +238,8 @@ private
    end Current_Ids_Def;
 
    type Arg3_T is (
-                     Dummy_Value
-                     );
+                   Dummy_Value
+                  );
 
    procedure Start_Object (This        : in out Public_Part_Def.Public_Part_T;
                            Max_Indices : in out Max_Indices_T;
