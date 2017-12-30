@@ -19,16 +19,15 @@ private
 
    subtype Max_Indices_T is Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T;
 
-   type Storage_T is record
+   type Storage_T is tagged limited record
       Header_Comment : Aida.String_T (1..100) := (others => ' '); -- Not using Aida.Bounded_String at the moment.
       Person  : Json_Parsing_Tests_Model.People_T := (others => Json_Parsing_Tests_Model.Person_Def.Make);
       Hand    : Json_Parsing_Tests_Model.Hands_T;
       Vehicle : Json_Parsing_Tests_Model.Vehicles_T;
    end record;
 
-   Storage : Storage_T;
-
-   procedure Clear (S : in out Storage_T);
+   procedure Clear (S : in out Storage_T) with
+     Global => null;
 
    function Default_Person_Id return Json_Parsing_Tests_Model.Person_Id_T is (1);
 
@@ -47,54 +46,54 @@ private
                                                          Default_Element => Json_Parsing_Tests_Model.Person_Def.Default_Vehicle_Id);
 
    procedure Test_Person_With_Age_0 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage));
+     Global => null;
 
    procedure Test_Person_With_Age_1 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage));
+     Global => null;
 
    procedure Test_Person_With_Age_2 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage));
+     Global => null;
 
    procedure Test_Person_With_Age_3 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage));
+     Global => null;
 
    procedure Test_Person_With_Age_4 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage));
+     Global => null;
 
    procedure Test_Person_With_Hand_0 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage));
+     Global => null;
 
    procedure Test_Person_With_Hand_1 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage));
+     Global => null;
 
    procedure Test_Person_With_Hand_2 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage));
+     Global => null;
 
    procedure Test_Person_With_Hand_3 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage));
+     Global => null;
 
    procedure Test_Person_With_Hand_4 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage));
+     Global => null;
 
    procedure Test_Person_With_Hand_5 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage));
+     Global => null;
 
    procedure Test_Person_With_Hand_6 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage));
+     Global => null;
 
    procedure Test_Person_With_Hand_7 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage));
+     Global => null;
 
    procedure Test_Comment_0 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage));
+     Global => null;
 
    procedure Test_Person_With_Age_Pre_Comment_0 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage));
+     Global => null;
 
    procedure Test_Person_With_Age_Post_Comment_0 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage));
+     Global => null;
 
    procedure Test_Person_With_Age_Pre_CDATA_Comment_0 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage));
+     Global => null;
 
 end Aida.XML_Parsing_Tests;

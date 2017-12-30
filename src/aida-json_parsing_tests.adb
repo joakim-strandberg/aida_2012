@@ -247,7 +247,7 @@ package body Aida.JSON_Parsing_Tests is
         Pre    => not Call_Result.Has_Failed;
 
       procedure Run_Test (JSON : Aida.String_T) with
-        Global => (In_Out => (Storage)),
+        Global => null,
         Pre    => JSON'Last < Integer'Last - 4;
 
    end Test_Person_With_Name_Adam_Utils;
@@ -357,6 +357,8 @@ package body Aida.JSON_Parsing_Tests is
 
          Max_Indices : Json_Parsing_Tests_Model.Max_Indices_Def.T;
 
+         Storage : Storage_T;
+
          Current_Ids : Current_Ids_T;
       begin
          Max_Indices.Clear;
@@ -433,7 +435,7 @@ package body Aida.JSON_Parsing_Tests is
       pragma Warnings (On, """Current_Ids"" is not modified, could be IN");
 
       procedure Run_Test (JSON : Aida.String_T) with
-        Global => (In_Out => (Storage)),
+        Global => null,
         Pre    => JSON'Last < Integer'Last - 4;
 
    end Test_Person_With_Age_Utils;
@@ -556,6 +558,8 @@ package body Aida.JSON_Parsing_Tests is
          Current_Ids : Current_Ids_T;
 
          Max_Indices : Json_Parsing_Tests_Model.Max_Indices_Def.T;
+
+         Storage : Storage_T;
       begin
          Max_Indices.Clear;
 
@@ -640,7 +644,7 @@ package body Aida.JSON_Parsing_Tests is
       pragma Warnings (On, """Current_Ids"" is not modified, could be IN");
 
       procedure Run_Test (JSON : Aida.String_T) with
-        Global => (In_Out => (Storage)),
+        Global => null,
         Pre    => JSON'Last < Integer'Last - 4;
 
    end Test_Person_With_Name_And_Age_Utils;
@@ -790,6 +794,8 @@ package body Aida.JSON_Parsing_Tests is
          Current_Ids : Current_Ids_T;
 
          Max_Indices : Json_Parsing_Tests_Model.Max_Indices_Def.T;
+
+         Storage : Storage_T;
       begin
          Max_Indices.Clear;
 
@@ -920,7 +926,7 @@ package body Aida.JSON_Parsing_Tests is
         Pre    => not Call_Result.Has_Failed;
 
       procedure Run_Test (JSON : Aida.String_T) with
-        Global => (In_Out => (Storage)),
+        Global => null,
         Pre    => JSON'Last < Integer'Last - 4;
 
    end Test_Person_With_Hand_Utils;
@@ -1178,6 +1184,8 @@ package body Aida.JSON_Parsing_Tests is
          Current_Ids : Current_Ids_T;
 
          Max_Indices : Json_Parsing_Tests_Model.Max_Indices_Def.T;
+
+         Storage : Storage_T;
       begin
          Max_Indices.Clear;
 
@@ -1319,7 +1327,7 @@ package body Aida.JSON_Parsing_Tests is
         Pre    => not Call_Result.Has_Failed;
 
       procedure Run_Test (JSON : Aida.String_T) with
-        Global => (In_Out => (Storage)),
+        Global => null,
         Pre    => JSON'Last < Integer'Last - 4;
 
    end Test_Person_With_Vehicles_Utils;
@@ -1604,6 +1612,8 @@ package body Aida.JSON_Parsing_Tests is
          Current_Ids : Current_Ids_T;
 
          Max_Indices : Json_Parsing_Tests_Model.Max_Indices_Def.T;
+
+         Storage : Storage_T;
       begin
          Max_Indices.Clear;
 
@@ -1621,7 +1631,7 @@ package body Aida.JSON_Parsing_Tests is
          Ahven.Assert (Max_Indices.Vehicle_Id_Max = 2, "d1c1c8fb-539c-456e-8c41-8c2254079abe");
          if
            (Max_Indices.Vehicle_Id_Max > 0 and
-                Max_Indices.Person_Id_Max > 0) and then (not Is_Empty (Storage.Person (Max_Indices.Person_Id_Max).Vehicles))
+                Max_Indices.Person_Id_Max > 0) and then (not Storage.Person (Max_Indices.Person_Id_Max).Vehicles.Is_Empty)
          then
             Ahven.Assert (Storage.Vehicle (1).Wheels = 4, "84d4a3a0-bc8a-4918-8ff7-5fa9a2fc1e9f");
             Ahven.Assert (Storage.Vehicle (2).Wheels = 2, "984aa38f-7efa-46db-a93e-768c4e36ebe6");
@@ -1736,7 +1746,7 @@ package body Aida.JSON_Parsing_Tests is
         Pre    => not Call_Result.Has_Failed;
 
       procedure Run_Test (JSON : Aida.String_T) with
-        Global => (In_Out => (Storage)),
+        Global => null,
         Pre    => JSON'Last < Integer'Last - 4;
 
    end Test_Person_With_Length_Utils;
@@ -1980,6 +1990,8 @@ package body Aida.JSON_Parsing_Tests is
          Current_Ids : Current_Ids_T;
 
          Max_Indices : Json_Parsing_Tests_Model.Max_Indices_Def.T;
+
+         Storage : Storage_T;
       begin
          Max_Indices.Clear;
 
@@ -2109,11 +2121,11 @@ package body Aida.JSON_Parsing_Tests is
 
       procedure Run_Test (JSON            : Aida.String_T;
                           Expected_Result : Boolean) with
-        Global => (In_Out => (Storage)),
+        Global => null,
         Pre    => JSON'Last < Integer'Last - 4;
 
       procedure Run_Null_Value_Test (JSON : Aida.String_T) with
-        Global => (In_Out => (Storage)),
+        Global => null,
         Pre    => JSON'Last < Integer'Last - 4;
 
    end Test_Person_With_Is_Happy_Utils;
@@ -2358,6 +2370,8 @@ package body Aida.JSON_Parsing_Tests is
          Current_Ids : Current_Ids_T;
 
          Max_Indices : Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T;
+
+         Storage : Storage_T;
       begin
          Max_Indices.Clear;
 
@@ -2402,6 +2416,8 @@ package body Aida.JSON_Parsing_Tests is
          Current_Ids : Current_Ids_T;
 
          Max_Indices : Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T;
+
+         Storage : Storage_T;
       begin
          Max_Indices.Clear;
 

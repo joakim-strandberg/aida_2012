@@ -69,8 +69,8 @@ package body Aida.XML_Parsing_Tests is
    procedure Clear (S : in out Storage_T) is
    begin
       for I in Json_Parsing_Tests_Model.Person_Id_T'Range loop
-         Clear (S.Person (I).Hands);
-         Clear (S.Person (I).Vehicles);
+         S.Person (I).Hands.Clear;
+         S.Person (I).Vehicles.Clear;
       end loop;
       S.Header_Comment := (others => ' ');
    end Clear;
@@ -165,7 +165,7 @@ package body Aida.XML_Parsing_Tests is
         Pre    => not Call_Result.Has_Failed;
 
       procedure Run_Test (XML : Aida.String_T) with
-        Global => (In_Out => (Storage)),
+        Global => null,
         Pre    => XML'Length > 0 and XML'Last < Integer'Last - 4;
 
    end Test_Person_With_Age_Utils;
@@ -325,9 +325,11 @@ package body Aida.XML_Parsing_Tests is
          Current_Ids : Current_Ids_T;
 
          Max_Indices : Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T;
+
+         Storage : Storage_T;
       begin
          Max_Indices.Clear;
-         Clear (Storage);
+         Storage.Clear;
 
          Parse_XML (Storage,
                     Max_Indices,
@@ -444,7 +446,7 @@ package body Aida.XML_Parsing_Tests is
         Pre    => not Call_Result.Has_Failed;
 
       procedure Run_Test (XML : Aida.String_T) with
-        Global => (In_Out => (Storage)),
+        Global => null,
         Pre    => XML'Length > 0 and XML'Last < Integer'Last - 4;
 
    end Test_Person_With_Hand_Utils;
@@ -662,9 +664,11 @@ package body Aida.XML_Parsing_Tests is
          Current_Ids : Current_Ids_T;
 
          Max_Indices : Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T;
+
+         Storage : Storage_T;
       begin
          Max_Indices.Clear;
-         Clear (Storage);
+         Storage.Clear;
 
          Parse_XML (Storage,
                     Max_Indices,
@@ -814,7 +818,7 @@ package body Aida.XML_Parsing_Tests is
         Pre    => not Call_Result.Has_Failed;
 
       procedure Run_Test (XML : Aida.String_T) with
-        Global => (In_Out => (Storage)),
+        Global => null,
         Pre    => XML'Length > 0 and XML'Last < Integer'Last - 4;
 
    end Test_Comment_Utils;
@@ -988,6 +992,8 @@ package body Aida.XML_Parsing_Tests is
          Current_Ids : Current_Ids_T;
 
          Max_Indices : Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T;
+
+         Storage : Storage_T;
       begin
          Max_Indices.Clear;
          Clear (Storage);
@@ -1077,7 +1083,7 @@ package body Aida.XML_Parsing_Tests is
         Pre    => not Call_Result.Has_Failed;
 
       procedure Run_Test (XML : Aida.String_T) with
-        Global => (In_Out => (Storage)),
+        Global => null,
         Pre    => XML'Length > 0 and XML'Last < Integer'Last - 4;
 
    end Test_Person_With_Age_Pre_Comment_Utils;
@@ -1260,6 +1266,8 @@ package body Aida.XML_Parsing_Tests is
          Current_Ids : Current_Ids_T;
 
          Max_Indices : Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T;
+
+         Storage : Storage_T;
       begin
          Max_Indices.Clear;
          Clear (Storage);
@@ -1349,7 +1357,7 @@ package body Aida.XML_Parsing_Tests is
         Pre    => not Call_Result.Has_Failed;
 
       procedure Run_Test (XML : Aida.String_T) with
-        Global => (In_Out => (Storage)),
+        Global => null,
         Pre    => XML'Length > 0 and XML'Last < Integer'Last - 4;
 
    end Test_Person_With_Age_Post_Comment_Utils;
@@ -1531,6 +1539,8 @@ package body Aida.XML_Parsing_Tests is
          Current_Ids : Current_Ids_T;
 
          Max_Indices : Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T;
+
+         Storage : Storage_T;
       begin
          Max_Indices.Clear;
          Clear (Storage);
@@ -1629,7 +1639,7 @@ package body Aida.XML_Parsing_Tests is
         Pre    => not Call_Result.Has_Failed;
 
       procedure Run_Test (XML : Aida.String_T) with
-        Global => (In_Out => (Storage)),
+        Global => null,
         Pre    => XML'Length > 0 and XML'Last < Integer'Last - 4;
 
    end Test_Person_With_Age_Pre_CDATA_Comment_Utils;
@@ -1821,6 +1831,8 @@ package body Aida.XML_Parsing_Tests is
          Current_Ids : Current_Ids_T;
 
          Max_Indices : Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T;
+
+         Storage : Storage_T;
       begin
          Max_Indices.Clear;
          Clear (Storage);
