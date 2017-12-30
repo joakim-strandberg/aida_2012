@@ -4,8 +4,6 @@ with Aida.Subprogram_Call_Result;
 
 package body Aida.XML_Parsing_Tests is
 
-   use all type Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T;
-
    use type Json_Parsing_Tests_Model.Extended_Person_Id_T;
    use type Json_Parsing_Tests_Model.Extended_Hand_Id_T;
    use type Json_Parsing_Tests_Model.Person_Def.Age_T;
@@ -56,9 +54,6 @@ package body Aida.XML_Parsing_Tests is
       Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Age_Post_Comment_0'Access, "Test_Person_With_Age_Post_Comment_0");
       Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Age_Pre_CDATA_Comment_0'Access, "Test_Person_With_Age_Pre_CDATA_Comment_0");
    end Initialize;
-
-   use all type Person_Id_Vector.T;
-   use all type Hand_Id_Vector.T;
 
    type Current_Ids_T is limited record
       Person_Ids  : Person_Id_Vector.T;
@@ -185,15 +180,14 @@ package body Aida.XML_Parsing_Tests is
             when Expecting_Person_Start_Tag =>
                if
                  Tag_Name = "person" and
-                 Person_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Person_Id_T'Last and
-                 Person_Id_Vector.Last_Index (Current_Ids.Person_Ids) < Person_Id_Vector.Max_Index (Current_Ids.Person_Ids)
+                 Max_Indices.Person_Id_Max < Json_Parsing_Tests_Model.Extended_Person_Id_T'Last and
+                 not Current_Ids.Person_Ids.Is_Full
                then
                   declare
                      Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T;
                   begin
-                     Allocate_Person_Id (This      => Max_Indices,
-                                         Person_Id => Person_Id);
-                     Person_Id_Vector.Append (Current_Ids.Person_Ids, Person_Id);
+                     Max_Indices.Allocate_Person_Id (Person_Id);
+                     Current_Ids.Person_Ids.Append (Person_Id);
                   end;
                   State := Expecting_Age_Value;
                else
@@ -242,19 +236,14 @@ package body Aida.XML_Parsing_Tests is
       begin
          case State is
             when Expecting_Age_Value  =>
-               if Is_Empty (Current_Ids.Person_Ids) then
+               if Current_Ids.Person_Ids.Is_Empty then
                   Call_Result.Initialize (0358232752, -1204136542);
                else
-                  declare
-                     Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T renames
-                       Person_Id_Vector.Last_Element (Current_Ids.Person_Ids);
-                  begin
-                     if Value'Length > Json_Parsing_Tests_Model.Person_Def.NAME_MAX then
-                        Call_Result.Initialize (1091656843, 0458821974);
-                     else
-                        Result.Person (Person_Id).Set_Name (Value);
-                     end if;
-                  end;
+                  if Value'Length > Result.Person (Current_Ids.Person_Ids.Last_Element).Max_Name_Size then
+                     Call_Result.Initialize (1091656843, 0458821974);
+                  else
+                     Result.Person (Current_Ids.Person_Ids.Last_Element).Set_Name (Value);
+                  end if;
                   State := Expecting_Person_End_Tag;
                end if;
             when Expecting_Person_End_Tag |
@@ -340,7 +329,7 @@ package body Aida.XML_Parsing_Tests is
 
          Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
          Ahven.Assert (State = Final_State, "592cbd68-ef97-4fc1-934b-80111d24fd32");
-         Ahven.Assert (Last_Index (Current_Ids.Person_Ids) >= First_Index (Current_Ids.Person_Ids), "1f861507-695e-458b-836e-aa9fe7f131e2");
+         Ahven.Assert (Current_Ids.Person_Ids.Is_Non_Empty, "1f861507-695e-458b-836e-aa9fe7f131e2");
          Ahven.Assert (Max_Indices.Person_Id_Max = 1, "949ca5e3-1353-47e6-90fc-b0aa21d398a6");
          Ahven.Assert (not Call_Result.Has_Failed, "4ed49d34-b03a-4251-ab05-dc9cb794bd91");
          Ahven.Assert (Storage.Person (Max_Indices.Person_Id_Max).Age = 10, "1d10d12b-c726-40aa-881b-8374801f539e");
@@ -465,14 +454,13 @@ package body Aida.XML_Parsing_Tests is
                if
                  Tag_Name = "person" and
                  Max_Indices.Person_Id_Max < Json_Parsing_Tests_Model.Extended_Person_Id_T'Last and
-                 Last_Index (Current_Ids.Person_Ids) < Max_Index (Current_Ids.Person_Ids)
+                 not Current_Ids.Person_Ids.Is_Full
                then
                   declare
                      Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T;
                   begin
-                     Allocate_Person_Id (This      => Max_Indices,
-                                         Person_Id => Person_Id);
-                     Person_Id_Vector.Append (Current_Ids.Person_Ids, Person_Id);
+                     Max_Indices.Allocate_Person_Id (Person_Id);
+                     Current_Ids.Person_Ids.Append (Person_Id);
                   end;
                   State := Expecting_Hand_Start_Tag;
                else
@@ -480,21 +468,18 @@ package body Aida.XML_Parsing_Tests is
                end if;
             when Expecting_Hand_Start_Tag =>
                if
-                 Last_Index (Current_Ids.Person_Ids) >= First_Index (Current_Ids.Person_Ids) and then
-                 (
-                  Last_Index (Result.Person (Person_Id_Vector.Last_Element (Current_Ids.Person_Ids)).Hands) <
-                  Max_Index (Result.Person (Person_Id_Vector.Last_Element (Current_Ids.Person_Ids)).Hands) and
+                 Current_Ids.Person_Ids.Is_Non_Empty and then
+                 (not Result.Person (Current_Ids.Person_Ids.Last_Element).Hands.Is_Full and
                   Max_Indices.Hand_Id_Max < Json_Parsing_Tests_Model.Extended_Hand_Id_T'Last and
-                  Last_Index (Current_Ids.Hand_Ids) < Max_Index (Current_Ids.Hand_Ids))
+                  not Current_Ids.Hand_Ids.Is_Full)
                then
                   declare
                      Hand_Id : Aida.Json_Parsing_Tests_Model.Hand_Id_T;
                   begin
-                     Allocate_Hand_Id (This    => Max_Indices,
-                                       Hand_Id => Hand_Id);
+                     Max_Indices.Allocate_Hand_Id (Hand_Id);
                      Hand_Id_Vector.Append (Current_Ids.Hand_Ids, Hand_Id);
 
-                     Append (Result.Person (Person_Id_Vector.Last_Element (Current_Ids.Person_Ids)).Hands, Hand_Id);
+                     Result.Person (Current_Ids.Person_Ids.Last_Element).Hands.Append (Hand_Id);
                   end;
 
                   State := Expecting_Hand_Attribute_Fingers;
@@ -597,11 +582,11 @@ package body Aida.XML_Parsing_Tests is
                         Call_Result.Initialize (-1415717893, 1464395596);
                      else
                         if
-                          Last_Index (Current_Ids.Hand_Ids) >= First_Index (Current_Ids.Hand_Ids) and
+                          Current_Ids.Hand_Ids.Is_Non_Empty and
                           I >= Aida.Int32_T (Json_Parsing_Tests_Model.Hand_Def.Number_Of_Fingers_T'First) and
                           I <= Aida.Int32_T (Json_Parsing_Tests_Model.Hand_Def.Number_Of_Fingers_T'Last)
                         then
-                           Storage.Hand (Last_Element (Current_Ids.Hand_Ids)).Number_Of_Fingers :=
+                           Storage.Hand (Current_Ids.Hand_Ids.Last_Element).Number_Of_Fingers :=
                              Json_Parsing_Tests_Model.Hand_Def.Number_Of_Fingers_T (I);
                            State := Expecting_Hand_End_Tag;
                         else
@@ -679,7 +664,7 @@ package body Aida.XML_Parsing_Tests is
 
          Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
          Ahven.Assert (State = End_State, "397d359d-2d92-462b-8b32-2a4bbdc6ce25");
-         Ahven.Assert (Last_Index (Current_Ids.Person_Ids) >= First_Index (Current_Ids.Person_Ids), "810561fa-2c9f-4582-a5cf-10e5abd85113");
+         Ahven.Assert (Current_Ids.Person_Ids.Is_Non_Empty, "810561fa-2c9f-4582-a5cf-10e5abd85113");
          Ahven.Assert (Max_Indices.Person_Id_Max = 1, "ae7399ea-3d2a-4400-a10f-34104d439978");
          Ahven.Assert (Max_Indices.Hand_Id_Max = 1, "0b77dd49-3cbd-44cd-ab53-9b65d0d75c05");
          if
@@ -838,15 +823,14 @@ package body Aida.XML_Parsing_Tests is
             when Expecting_Person_Start_Tag =>
                if
                  Tag_Name = "person" and
-                 Person_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Person_Id_T'Last and
-                 Last_Index (Current_Ids.Person_Ids) < Max_Index (Current_Ids.Person_Ids)
+                 Max_Indices.Person_Id_Max < Json_Parsing_Tests_Model.Extended_Person_Id_T'Last and
+                 not Current_Ids.Person_Ids.Is_Full
                then
                   declare
                      Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T;
                   begin
-                     Allocate_Person_Id (This      => Max_Indices,
-                                         Person_Id => Person_Id);
-                     Append (Current_Ids.Person_Ids, Person_Id);
+                     Max_Indices.Allocate_Person_Id (Person_Id);
+                     Current_Ids.Person_Ids.Append (Person_Id);
                   end;
                   State := Expecting_Age_Value;
                else
@@ -898,19 +882,14 @@ package body Aida.XML_Parsing_Tests is
       begin
          case State is
             when Expecting_Age_Value  =>
-               if Person_Id_Vector.Is_Empty (Current_Ids.Person_Ids) then
+               if Current_Ids.Person_Ids.Is_Empty then
                   Call_Result.Initialize (-1774337066, -1727962634);
                else
-                  declare
-                     Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T renames
-                       Person_Id_Vector.Last_Element (Current_Ids.Person_Ids);
-                  begin
-                     if Value'Length > Result.Person (Person_Id).Max_Name_Size then
-                        Call_Result.Initialize (-1815221318, -0049022358);
-                     else
-                        Result.Person (Person_Id).Set_Name (Value);
-                     end if;
-                  end;
+                  if Value'Length > Result.Person (Current_Ids.Person_Ids.Last_Element).Max_Name_Size then
+                  Call_Result.Initialize (-1815221318, -0049022358);
+                  else
+                  Result.Person (Current_Ids.Person_Ids.Last_Element).Set_Name (Value);
+                  end if;
                   State := Expecting_Person_End_Tag;
                end if;
             when Expecting_Header_Comment |
@@ -1007,7 +986,7 @@ package body Aida.XML_Parsing_Tests is
 
          Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
          Ahven.Assert (State = Final_State, "592cbd68-ef97-4fc1-934b-80111d24fd32");
-         Ahven.Assert (Last_Index (Current_Ids.Person_Ids) >= First_Index (Current_Ids.Person_Ids), "1f861507-695e-458b-836e-aa9fe7f131e2");
+         Ahven.Assert (Current_Ids.Person_Ids.Is_Non_Empty, "1f861507-695e-458b-836e-aa9fe7f131e2");
          Ahven.Assert (Max_Indices.Person_Id_Max = 1, "949ca5e3-1353-47e6-90fc-b0aa21d398a6");
          Ahven.Assert (not Call_Result.Has_Failed, "4ed49d34-b03a-4251-ab05-dc9cb794bd91");
          Ahven.Assert (Storage.Person (Max_Indices.Person_Id_Max).Age = 10, "1d10d12b-c726-40aa-881b-8374801f539e");
@@ -1103,15 +1082,14 @@ package body Aida.XML_Parsing_Tests is
             when Expecting_Person_Start_Tag =>
                if
                  Tag_Name = "person" and
-                 Person_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Person_Id_T'Last and
-                 Last_Index (Current_Ids.Person_Ids) < Max_Index (Current_Ids.Person_Ids)
+                 Max_Indices.Person_Id_Max < Json_Parsing_Tests_Model.Extended_Person_Id_T'Last and
+                 not Current_Ids.Person_Ids.Is_Full
                then
                   declare
                      Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T;
                   begin
-                     Allocate_Person_Id (This      => Max_Indices,
-                                         Person_Id => Person_Id);
-                     Append (Current_Ids.Person_Ids, Person_Id);
+                     Max_Indices.Allocate_Person_Id (Person_Id);
+                     Current_Ids.Person_Ids.Append (Person_Id);
                   end;
                   State := Expecting_Pre_Age_Text;
                else
@@ -1165,19 +1143,14 @@ package body Aida.XML_Parsing_Tests is
       begin
          case State is
             when Expecting_Age_Value  =>
-               if Person_Id_Vector.Is_Empty (Current_Ids.Person_Ids) then
+               if Current_Ids.Person_Ids.Is_Empty then
                   Call_Result.Initialize (-1324547445, -1309193195);
                else
-                  declare
-                     Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T renames
-                       Person_Id_Vector.Last_Element (Current_Ids.Person_Ids);
-                  begin
-                     if Value'Length > Result.Person (Person_Id).Max_Name_Size then
+                     if Value'Length > Result.Person (Current_Ids.Person_Ids.Last_Element).Max_Name_Size then
                         Call_Result.Initialize (-0153689476, 0042874247);
                      else
-                        Result.Person (Person_Id).Set_Name (Value);
+                        Result.Person (Current_Ids.Person_Ids.Last_Element).Set_Name (Value);
                      end if;
-                  end;
                   State := Expecting_Person_End_Tag;
                end if;
             when Expecting_Pre_Age_Text =>
@@ -1281,7 +1254,7 @@ package body Aida.XML_Parsing_Tests is
 
          Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
          Ahven.Assert (State = Final_State, "592cbd68-ef97-4fc1-934b-80111d24fd32");
-         Ahven.Assert (Last_Index (Current_Ids.Person_Ids) >= First_Index (Current_Ids.Person_Ids), "1f861507-695e-458b-836e-aa9fe7f131e2");
+         Ahven.Assert (Current_Ids.Person_Ids.Is_Non_Empty, "1f861507-695e-458b-836e-aa9fe7f131e2");
          Ahven.Assert (Max_Indices.Person_Id_Max = 1, "949ca5e3-1353-47e6-90fc-b0aa21d398a6");
          Ahven.Assert (not Call_Result.Has_Failed, "4ed49d34-b03a-4251-ab05-dc9cb794bd91");
          Ahven.Assert (Storage.Person (Max_Indices.Person_Id_Max).Age = 10, "1d10d12b-c726-40aa-881b-8374801f539e");
@@ -1377,15 +1350,14 @@ package body Aida.XML_Parsing_Tests is
             when Expecting_Person_Start_Tag =>
                if
                  Tag_Name = "person" and
-                 Person_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Person_Id_T'Last and
-                 Last_Index (Current_Ids.Person_Ids) < Max_Index (Current_Ids.Person_Ids)
+                 Max_Indices.Person_Id_Max < Json_Parsing_Tests_Model.Extended_Person_Id_T'Last and
+                 not Current_Ids.Person_Ids.Is_Full
                then
                   declare
                      Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T;
                   begin
-                     Allocate_Person_Id (This      => Max_Indices,
-                                         Person_Id => Person_Id);
-                     Append (Current_Ids.Person_Ids, Person_Id);
+                     Max_Indices.Allocate_Person_Id (Person_Id);
+                     Current_Ids.Person_Ids.Append (Person_Id);
                   end;
                   State := Expecting_Age_Value;
                else
@@ -1439,19 +1411,14 @@ package body Aida.XML_Parsing_Tests is
       begin
          case State is
             when Expecting_Age_Value  =>
-               if Person_Id_Vector.Is_Empty (Current_Ids.Person_Ids) then
+               if Current_Ids.Person_Ids.Is_Empty then
                   Call_Result.Initialize (1873536403, 1672121597);
                else
-                  declare
-                     Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T renames
-                       Person_Id_Vector.Last_Element (Current_Ids.Person_Ids);
-                  begin
-                     if Value'Length > Result.Person (Person_Id).Max_Name_Size then
+                     if Value'Length > Result.Person (Current_Ids.Person_Ids.Last_Element).Max_Name_Size then
                         Call_Result.Initialize (0652236873, -0431737624);
                      else
-                        Result.Person (Person_Id).Set_Name (Value);
+                        Result.Person (Current_Ids.Person_Ids.Last_Element).Set_Name (Value);
                      end if;
-                  end;
                   State := Expecting_Post_Age_Comment;
                end if;
             when Expecting_Post_Age_Text =>
@@ -1554,7 +1521,7 @@ package body Aida.XML_Parsing_Tests is
 
          Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
          Ahven.Assert (State = Final_State, "592cbd68-ef97-4fc1-934b-80111d24fd32");
-         Ahven.Assert (Last_Index (Current_Ids.Person_Ids) >= First_Index (Current_Ids.Person_Ids), "1f861507-695e-458b-836e-aa9fe7f131e2");
+         Ahven.Assert (Current_Ids.Person_Ids.Is_Non_Empty, "1f861507-695e-458b-836e-aa9fe7f131e2");
          Ahven.Assert (Max_Indices.Person_Id_Max = 1, "949ca5e3-1353-47e6-90fc-b0aa21d398a6");
          Ahven.Assert (not Call_Result.Has_Failed, "4ed49d34-b03a-4251-ab05-dc9cb794bd91");
          Ahven.Assert (Storage.Person (Max_Indices.Person_Id_Max).Age = 10, "1d10d12b-c726-40aa-881b-8374801f539e");
@@ -1659,15 +1626,14 @@ package body Aida.XML_Parsing_Tests is
             when Expecting_Person_Start_Tag =>
                if
                  Tag_Name = "person" and
-                 Person_Id_Max (Max_Indices) < Json_Parsing_Tests_Model.Extended_Person_Id_T'Last and
-                 Last_Index (Current_Ids.Person_Ids) < Max_Index (Current_Ids.Person_Ids)
+                 Max_Indices.Person_Id_Max < Json_Parsing_Tests_Model.Extended_Person_Id_T'Last and
+                 not Current_Ids.Person_Ids.Is_Full
                then
                   declare
                      Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T;
                   begin
-                     Allocate_Person_Id (This      => Max_Indices,
-                                         Person_Id => Person_Id);
-                     Append (Current_Ids.Person_Ids, Person_Id);
+                     Max_Indices.Allocate_Person_Id (Person_Id);
+                     Current_Ids.Person_Ids.Append (Person_Id);
                   end;
                   State := Expecting_Pre_Age_Text;
                else
@@ -1721,19 +1687,14 @@ package body Aida.XML_Parsing_Tests is
       begin
          case State is
             when Expecting_Age_Value  =>
-               if Person_Id_Vector.Is_Empty (Current_Ids.Person_Ids) then
+               if Current_Ids.Person_Ids.Is_Empty then
                   Call_Result.Initialize (-1824053881, 2061413792);
                else
-                  declare
-                     Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T renames
-                       Person_Id_Vector.Last_Element (Current_Ids.Person_Ids);
-                  begin
-                     if Value'Length > Result.Person (Person_Id).Max_Name_Size then
-                        Call_Result.Initialize (-1672668363, 0966305970);
-                     else
-                        Result.Person (Person_Id).Set_Name (Value);
-                     end if;
-                  end;
+                  if Value'Length > Result.Person (Current_Ids.Person_Ids.Last_Element).Max_Name_Size then
+                  Call_Result.Initialize (-1672668363, 0966305970);
+                  else
+                  Result.Person (Current_Ids.Person_Ids.Last_Element).Set_Name (Value);
+                  end if;
                   State := Expecting_Person_End_Tag;
                end if;
             when Expecting_Pre_Age_Text =>
@@ -1846,7 +1807,7 @@ package body Aida.XML_Parsing_Tests is
 
          Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
          Ahven.Assert (State = Final_State, "592cbd68-ef97-4fc1-934b-80111d24fd32");
-         Ahven.Assert (Last_Index (Current_Ids.Person_Ids) >= First_Index (Current_Ids.Person_Ids), "1f861507-695e-458b-836e-aa9fe7f131e2");
+         Ahven.Assert (Current_Ids.Person_Ids.Is_Non_Empty, "1f861507-695e-458b-836e-aa9fe7f131e2");
          Ahven.Assert (Max_Indices.Person_Id_Max = 1, "949ca5e3-1353-47e6-90fc-b0aa21d398a6");
          Ahven.Assert (not Call_Result.Has_Failed, "4ed49d34-b03a-4251-ab05-dc9cb794bd91");
          Ahven.Assert (Storage.Person (Max_Indices.Person_Id_Max).Age = 10, "1d10d12b-c726-40aa-881b-8374801f539e");

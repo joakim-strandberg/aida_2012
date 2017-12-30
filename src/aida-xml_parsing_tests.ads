@@ -1,8 +1,9 @@
 with Ahven.Framework;
 with Aida.Json_Parsing_Tests_Model;
-with Aida.Bounded_Vector;
+with Aida.Tagged_Bounded_Vector;
 
 pragma Elaborate_All (Aida.Json_Parsing_Tests_Model);
+pragma Elaborate_All (Aida.Tagged_Bounded_Vector);
 
 package Aida.XML_Parsing_Tests with SPARK_Mode is
 
@@ -13,9 +14,6 @@ package Aida.XML_Parsing_Tests with SPARK_Mode is
      SPARK_Mode => Off;
 
 private
-
-   use all type Aida.Json_Parsing_Tests_Model.Person_Def.Hand_Vector.T;
-   use all type Aida.Json_Parsing_Tests_Model.Person_Def.Vehicle_Vector.T;
 
    subtype Max_Indices_T is Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T;
 
@@ -33,17 +31,17 @@ private
 
    MAX_IDS : constant := 10;
 
-   package Person_Id_Vector is new Aida.Bounded_Vector (Max_Last_Index  => Int32_T'First + MAX_IDS,
-                                                        Element_T       => Json_Parsing_Tests_Model.Person_Id_T,
-                                                        Default_Element => Default_Person_Id);
+   package Person_Id_Vector is new Aida.Tagged_Bounded_Vector (Max_Last_Index  => Int32_T'First + MAX_IDS,
+                                                               Element_T       => Json_Parsing_Tests_Model.Person_Id_T,
+                                                               Default_Element => Default_Person_Id);
 
-   package Hand_Id_Vector is new Aida.Bounded_Vector (Max_Last_Index  => Int32_T'First + MAX_IDS,
-                                                      Element_T       => Json_Parsing_Tests_Model.Hand_Id_T,
-                                                      Default_Element => Json_Parsing_Tests_Model.Person_Def.Default_Hand_Id);
+   package Hand_Id_Vector is new Aida.Tagged_Bounded_Vector (Max_Last_Index  => Int32_T'First + MAX_IDS,
+                                                             Element_T       => Json_Parsing_Tests_Model.Hand_Id_T,
+                                                             Default_Element => Json_Parsing_Tests_Model.Person_Def.Default_Hand_Id);
 
-   package Vehicle_Id_Vector is new Aida.Bounded_Vector (Max_Last_Index  => Int32_T'First + MAX_IDS,
-                                                         Element_T       => Json_Parsing_Tests_Model.Vehicle_Id_T,
-                                                         Default_Element => Json_Parsing_Tests_Model.Person_Def.Default_Vehicle_Id);
+   package Vehicle_Id_Vector is new Aida.Tagged_Bounded_Vector (Max_Last_Index  => Int32_T'First + MAX_IDS,
+                                                                Element_T       => Json_Parsing_Tests_Model.Vehicle_Id_T,
+                                                                Default_Element => Json_Parsing_Tests_Model.Person_Def.Default_Vehicle_Id);
 
    procedure Test_Person_With_Age_0 (T : in out Ahven.Framework.Test_Case'Class) with
      Global => null;
