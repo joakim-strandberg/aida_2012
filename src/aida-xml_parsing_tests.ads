@@ -47,54 +47,54 @@ private
                                                          Default_Element => Json_Parsing_Tests_Model.Person_Def.Default_Vehicle_Id);
 
    procedure Test_Person_With_Age_0 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
+     Global => (In_Out => (Storage));
 
    procedure Test_Person_With_Age_1 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
+     Global => (In_Out => (Storage));
 
    procedure Test_Person_With_Age_2 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
+     Global => (In_Out => (Storage));
 
    procedure Test_Person_With_Age_3 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
+     Global => (In_Out => (Storage));
 
    procedure Test_Person_With_Age_4 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
+     Global => (In_Out => (Storage));
 
    procedure Test_Person_With_Hand_0 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
+     Global => (In_Out => (Storage));
 
    procedure Test_Person_With_Hand_1 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
+     Global => (In_Out => (Storage));
 
    procedure Test_Person_With_Hand_2 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
+     Global => (In_Out => (Storage));
 
    procedure Test_Person_With_Hand_3 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
+     Global => (In_Out => (Storage));
 
    procedure Test_Person_With_Hand_4 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
+     Global => (In_Out => (Storage));
 
    procedure Test_Person_With_Hand_5 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
+     Global => (In_Out => (Storage));
 
    procedure Test_Person_With_Hand_6 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
+     Global => (In_Out => (Storage));
 
    procedure Test_Person_With_Hand_7 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
+     Global => (In_Out => (Storage));
 
    procedure Test_Comment_0 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
+     Global => (In_Out => (Storage));
 
    procedure Test_Person_With_Age_Pre_Comment_0 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
+     Global => (In_Out => (Storage));
 
    procedure Test_Person_With_Age_Post_Comment_0 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
+     Global => (In_Out => (Storage));
 
    procedure Test_Person_With_Age_Pre_CDATA_Comment_0 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
+     Global => (In_Out => (Storage));
 
 end Aida.XML_Parsing_Tests;

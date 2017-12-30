@@ -50,30 +50,30 @@ private
      Global => (In_Out => (Storage));
 
    procedure Test_Person_With_Age_0 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
+     Global => (In_Out => (Storage));
 
    procedure Test_Person_With_Age_1 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
+     Global => (In_Out => (Storage));
 
    procedure Test_Person_With_Length_0 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
+     Global => (In_Out => (Storage));
 
    procedure Test_Person_With_Hand_0 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
+     Global => (In_Out => (Storage));
 
    procedure Test_Person_With_Vehicles_0 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
+     Global => (In_Out => (Storage));
 
    procedure Test_Person_With_Name_And_Age_0 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
+     Global => (In_Out => (Storage));
 
    procedure Test_Person_With_Is_Happy_True_0 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
+     Global => (In_Out => (Storage));
 
    procedure Test_Person_With_Is_Happy_False_0 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
+     Global => (In_Out => (Storage));
 
    procedure Test_Person_With_Is_Happy_Null_0 (T : in out Ahven.Framework.Test_Case'Class) with
-     Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices));
+     Global => (In_Out => (Storage));
 
 end Aida.JSON_Parsing_Tests;

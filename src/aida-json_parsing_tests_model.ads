@@ -66,8 +66,6 @@ package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
 
    end Max_Indices_Def;
 
-   Max_Indices : Max_Indices_Def.T;
-
    -- This is what we would wish to express:
    --     subtype Person_Id_T is Person_Array_Index_T with
    --       Dynamic_Predicate => Person_Id_T <= Aida.Json_Parsing_Tests_Model.Max_Indices_Def.Person_Id_Max (Max_Indices);

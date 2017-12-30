@@ -165,7 +165,7 @@ package body Aida.XML_Parsing_Tests is
         Pre    => not Call_Result.Has_Failed;
 
       procedure Run_Test (XML : Aida.String_T) with
-        Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices)),
+        Global => (In_Out => (Storage)),
         Pre    => XML'Length > 0 and XML'Last < Integer'Last - 4;
 
    end Test_Person_With_Age_Utils;
@@ -323,12 +323,14 @@ package body Aida.XML_Parsing_Tests is
          State : State_T := Expecting_Person_Start_Tag;
 
          Current_Ids : Current_Ids_T;
+
+         Max_Indices : Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T;
       begin
-         Clear (Aida.Json_Parsing_Tests_Model.Max_Indices);
+         Max_Indices.Clear;
          Clear (Storage);
 
          Parse_XML (Storage,
-                    Aida.Json_Parsing_Tests_Model.Max_Indices,
+                    Max_Indices,
                     State,
                     Current_Ids,
                     XML,
@@ -337,9 +339,9 @@ package body Aida.XML_Parsing_Tests is
          Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
          Ahven.Assert (State = Final_State, "592cbd68-ef97-4fc1-934b-80111d24fd32");
          Ahven.Assert (Last_Index (Current_Ids.Person_Ids) >= First_Index (Current_Ids.Person_Ids), "1f861507-695e-458b-836e-aa9fe7f131e2");
-         Ahven.Assert (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) = 1, "949ca5e3-1353-47e6-90fc-b0aa21d398a6");
+         Ahven.Assert (Max_Indices.Person_Id_Max = 1, "949ca5e3-1353-47e6-90fc-b0aa21d398a6");
          Ahven.Assert (not Call_Result.Has_Failed, "4ed49d34-b03a-4251-ab05-dc9cb794bd91");
-         Ahven.Assert (Storage.Person (Json_Parsing_Tests_Model.Max_Indices.Person_Id_Max).Age = 10, "1d10d12b-c726-40aa-881b-8374801f539e");
+         Ahven.Assert (Storage.Person (Max_Indices.Person_Id_Max).Age = 10, "1d10d12b-c726-40aa-881b-8374801f539e");
       end Run_Test;
 
    end Test_Person_With_Age_Utils;
@@ -442,7 +444,7 @@ package body Aida.XML_Parsing_Tests is
         Pre    => not Call_Result.Has_Failed;
 
       procedure Run_Test (XML : Aida.String_T) with
-        Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices)),
+        Global => (In_Out => (Storage)),
         Pre    => XML'Length > 0 and XML'Last < Integer'Last - 4;
 
    end Test_Person_With_Hand_Utils;
@@ -658,12 +660,14 @@ package body Aida.XML_Parsing_Tests is
          State : State_T := Expecting_Person_Start_Tag;
 
          Current_Ids : Current_Ids_T;
+
+         Max_Indices : Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T;
       begin
-         Clear (Aida.Json_Parsing_Tests_Model.Max_Indices);
+         Max_Indices.Clear;
          Clear (Storage);
 
          Parse_XML (Storage,
-                    Aida.Json_Parsing_Tests_Model.Max_Indices,
+                    Max_Indices,
                     State,
                     Current_Ids,
                     XML,
@@ -672,15 +676,14 @@ package body Aida.XML_Parsing_Tests is
          Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
          Ahven.Assert (State = End_State, "397d359d-2d92-462b-8b32-2a4bbdc6ce25");
          Ahven.Assert (Last_Index (Current_Ids.Person_Ids) >= First_Index (Current_Ids.Person_Ids), "810561fa-2c9f-4582-a5cf-10e5abd85113");
-         Ahven.Assert (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) = 1, "ae7399ea-3d2a-4400-a10f-34104d439978");
-         Ahven.Assert (Hand_Id_Max (Json_Parsing_Tests_Model.Max_Indices) = 1, "0b77dd49-3cbd-44cd-ab53-9b65d0d75c05");
+         Ahven.Assert (Max_Indices.Person_Id_Max = 1, "ae7399ea-3d2a-4400-a10f-34104d439978");
+         Ahven.Assert (Max_Indices.Hand_Id_Max = 1, "0b77dd49-3cbd-44cd-ab53-9b65d0d75c05");
          if
-           (Hand_Id_Max (Json_Parsing_Tests_Model.Max_Indices) > 0 and
-                Json_Parsing_Tests_Model.Max_Indices.Person_Id_Max > 0) and then (Last_Index (Storage.Person (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices)).Hands) >= Max_Index (Storage.Person (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices)).Hands))
+           Storage.Person (Max_Indices.Person_Id_Max).Hands.Is_Non_Empty
          then
             declare
                Hand_Id : constant Json_Parsing_Tests_Model.Hand_Id_T :=
-                 Last_Element (Storage.Person (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices)).Hands);
+                 Storage.Person (Max_Indices.Person_Id_Max).Hands.Last_Element;
             begin
                Ahven.Assert (Storage.Hand (Hand_Id).Number_Of_Fingers = 4, "bf757f75-1d4a-425c-9842-27e1f6de2841");
             end;
@@ -811,7 +814,7 @@ package body Aida.XML_Parsing_Tests is
         Pre    => not Call_Result.Has_Failed;
 
       procedure Run_Test (XML : Aida.String_T) with
-        Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices)),
+        Global => (In_Out => (Storage)),
         Pre    => XML'Length > 0 and XML'Last < Integer'Last - 4;
 
    end Test_Comment_Utils;
@@ -983,12 +986,14 @@ package body Aida.XML_Parsing_Tests is
          State : State_T := Expecting_Header_Comment;
 
          Current_Ids : Current_Ids_T;
+
+         Max_Indices : Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T;
       begin
-         Clear (Aida.Json_Parsing_Tests_Model.Max_Indices);
+         Max_Indices.Clear;
          Clear (Storage);
 
          Parse_XML (Storage,
-                    Aida.Json_Parsing_Tests_Model.Max_Indices,
+                    Max_Indices,
                     State,
                     Current_Ids,
                     XML,
@@ -997,9 +1002,9 @@ package body Aida.XML_Parsing_Tests is
          Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
          Ahven.Assert (State = Final_State, "592cbd68-ef97-4fc1-934b-80111d24fd32");
          Ahven.Assert (Last_Index (Current_Ids.Person_Ids) >= First_Index (Current_Ids.Person_Ids), "1f861507-695e-458b-836e-aa9fe7f131e2");
-         Ahven.Assert (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) = 1, "949ca5e3-1353-47e6-90fc-b0aa21d398a6");
+         Ahven.Assert (Max_Indices.Person_Id_Max = 1, "949ca5e3-1353-47e6-90fc-b0aa21d398a6");
          Ahven.Assert (not Call_Result.Has_Failed, "4ed49d34-b03a-4251-ab05-dc9cb794bd91");
-         Ahven.Assert (Storage.Person (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices)).Age = 10, "1d10d12b-c726-40aa-881b-8374801f539e");
+         Ahven.Assert (Storage.Person (Max_Indices.Person_Id_Max).Age = 10, "1d10d12b-c726-40aa-881b-8374801f539e");
 
          Ahven.Assert (Storage.Header_Comment (1..14) = " Some comment ", "1DC369DF-0657-46DE-8E45-711F49789555");
       end Run_Test;
@@ -1072,7 +1077,7 @@ package body Aida.XML_Parsing_Tests is
         Pre    => not Call_Result.Has_Failed;
 
       procedure Run_Test (XML : Aida.String_T) with
-        Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices)),
+        Global => (In_Out => (Storage)),
         Pre    => XML'Length > 0 and XML'Last < Integer'Last - 4;
 
    end Test_Person_With_Age_Pre_Comment_Utils;
@@ -1253,12 +1258,14 @@ package body Aida.XML_Parsing_Tests is
          State : State_T := Expecting_Person_Start_Tag;
 
          Current_Ids : Current_Ids_T;
+
+         Max_Indices : Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T;
       begin
-         Clear (Aida.Json_Parsing_Tests_Model.Max_Indices);
+         Max_Indices.Clear;
          Clear (Storage);
 
          Parse_XML (Storage,
-                    Aida.Json_Parsing_Tests_Model.Max_Indices,
+                    Max_Indices,
                     State,
                     Current_Ids,
                     XML,
@@ -1267,9 +1274,9 @@ package body Aida.XML_Parsing_Tests is
          Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
          Ahven.Assert (State = Final_State, "592cbd68-ef97-4fc1-934b-80111d24fd32");
          Ahven.Assert (Last_Index (Current_Ids.Person_Ids) >= First_Index (Current_Ids.Person_Ids), "1f861507-695e-458b-836e-aa9fe7f131e2");
-         Ahven.Assert (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) = 1, "949ca5e3-1353-47e6-90fc-b0aa21d398a6");
+         Ahven.Assert (Max_Indices.Person_Id_Max = 1, "949ca5e3-1353-47e6-90fc-b0aa21d398a6");
          Ahven.Assert (not Call_Result.Has_Failed, "4ed49d34-b03a-4251-ab05-dc9cb794bd91");
-         Ahven.Assert (Storage.Person (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices)).Age = 10, "1d10d12b-c726-40aa-881b-8374801f539e");
+         Ahven.Assert (Storage.Person (Max_Indices.Person_Id_Max).Age = 10, "1d10d12b-c726-40aa-881b-8374801f539e");
 
          Ahven.Assert (Storage.Header_Comment (1..9) = " Comment ", "1DC369DF-0657-46DE-8E45-711F49789555");
       end Run_Test;
@@ -1342,7 +1349,7 @@ package body Aida.XML_Parsing_Tests is
         Pre    => not Call_Result.Has_Failed;
 
       procedure Run_Test (XML : Aida.String_T) with
-        Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices)),
+        Global => (In_Out => (Storage)),
         Pre    => XML'Length > 0 and XML'Last < Integer'Last - 4;
 
    end Test_Person_With_Age_Post_Comment_Utils;
@@ -1522,12 +1529,14 @@ package body Aida.XML_Parsing_Tests is
          State : State_T := Expecting_Person_Start_Tag;
 
          Current_Ids : Current_Ids_T;
+
+         Max_Indices : Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T;
       begin
-         Clear (Aida.Json_Parsing_Tests_Model.Max_Indices);
+         Max_Indices.Clear;
          Clear (Storage);
 
          Parse_XML (Storage,
-                    Aida.Json_Parsing_Tests_Model.Max_Indices,
+                    Max_Indices,
                     State,
                     Current_Ids,
                     XML,
@@ -1536,9 +1545,9 @@ package body Aida.XML_Parsing_Tests is
          Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
          Ahven.Assert (State = Final_State, "592cbd68-ef97-4fc1-934b-80111d24fd32");
          Ahven.Assert (Last_Index (Current_Ids.Person_Ids) >= First_Index (Current_Ids.Person_Ids), "1f861507-695e-458b-836e-aa9fe7f131e2");
-         Ahven.Assert (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) = 1, "949ca5e3-1353-47e6-90fc-b0aa21d398a6");
+         Ahven.Assert (Max_Indices.Person_Id_Max = 1, "949ca5e3-1353-47e6-90fc-b0aa21d398a6");
          Ahven.Assert (not Call_Result.Has_Failed, "4ed49d34-b03a-4251-ab05-dc9cb794bd91");
-         Ahven.Assert (Storage.Person (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices)).Age = 10, "1d10d12b-c726-40aa-881b-8374801f539e");
+         Ahven.Assert (Storage.Person (Max_Indices.Person_Id_Max).Age = 10, "1d10d12b-c726-40aa-881b-8374801f539e");
 
          Ahven.Assert (Storage.Header_Comment (1..9) = " Comment ", "1DC369DF-0657-46DE-8E45-711F49789555");
       end Run_Test;
@@ -1620,7 +1629,7 @@ package body Aida.XML_Parsing_Tests is
         Pre    => not Call_Result.Has_Failed;
 
       procedure Run_Test (XML : Aida.String_T) with
-        Global => (In_Out => (Storage, Aida.Json_Parsing_Tests_Model.Max_Indices)),
+        Global => (In_Out => (Storage)),
         Pre    => XML'Length > 0 and XML'Last < Integer'Last - 4;
 
    end Test_Person_With_Age_Pre_CDATA_Comment_Utils;
@@ -1810,12 +1819,14 @@ package body Aida.XML_Parsing_Tests is
          State : State_T := Expecting_Person_Start_Tag;
 
          Current_Ids : Current_Ids_T;
+
+         Max_Indices : Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T;
       begin
-         Clear (Aida.Json_Parsing_Tests_Model.Max_Indices);
+         Max_Indices.Clear;
          Clear (Storage);
 
          Parse_XML (Storage,
-                    Aida.Json_Parsing_Tests_Model.Max_Indices,
+                    Max_Indices,
                     State,
                     Current_Ids,
                     XML,
@@ -1824,9 +1835,9 @@ package body Aida.XML_Parsing_Tests is
          Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
          Ahven.Assert (State = Final_State, "592cbd68-ef97-4fc1-934b-80111d24fd32");
          Ahven.Assert (Last_Index (Current_Ids.Person_Ids) >= First_Index (Current_Ids.Person_Ids), "1f861507-695e-458b-836e-aa9fe7f131e2");
-         Ahven.Assert (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices) = 1, "949ca5e3-1353-47e6-90fc-b0aa21d398a6");
+         Ahven.Assert (Max_Indices.Person_Id_Max = 1, "949ca5e3-1353-47e6-90fc-b0aa21d398a6");
          Ahven.Assert (not Call_Result.Has_Failed, "4ed49d34-b03a-4251-ab05-dc9cb794bd91");
-         Ahven.Assert (Storage.Person (Person_Id_Max (Json_Parsing_Tests_Model.Max_Indices)).Age = 10, "1d10d12b-c726-40aa-881b-8374801f539e");
+         Ahven.Assert (Storage.Person (Max_Indices.Person_Id_Max).Age = 10, "1d10d12b-c726-40aa-881b-8374801f539e");
 
          Ahven.Assert (Storage.Header_Comment (1..19) = " Important comment ", "1DC369DF-0657-46DE-8E45-711F49789555");
       end Run_Test;
