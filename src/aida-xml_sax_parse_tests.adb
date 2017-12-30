@@ -2,7 +2,7 @@ with Aida.Text_IO;
 with Aida.XML_SAX_Parse;
 with Aida.Subprogram_Call_Result;
 
-package body Aida.XML_Parsing_Tests is
+package body Aida.XML_SAX_Parse_Tests is
 
    use type Json_Parsing_Tests_Model.Extended_Person_Id_T;
    use type Json_Parsing_Tests_Model.Extended_Hand_Id_T;
@@ -2118,4 +2118,4 @@ package body Aida.XML_Parsing_Tests is
       Test_Person_With_Single_Quote_Attribute_Utils.Run_Test (XML_Test_Person_With_Double_Quote_Attribute_0, "'joe' or 'john'");
    end Test_Person_With_Double_Quote_Attribute_0;
 
-end Aida.XML_Parsing_Tests;
+end Aida.XML_SAX_Parse_Tests;

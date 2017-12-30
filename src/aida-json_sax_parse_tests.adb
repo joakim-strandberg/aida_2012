@@ -1,7 +1,7 @@
 with Aida.JSON_SAX_Parse;
 with Aida.Subprogram_Call_Result;
 
-package body Aida.JSON_Parsing_Tests is
+package body Aida.JSON_SAX_Parse_Tests is
 
    use type Json_Parsing_Tests_Model.Extended_Person_Id_T;
    use type Json_Parsing_Tests_Model.Extended_Hand_Id_T;
@@ -2464,4 +2464,4 @@ package body Aida.JSON_Parsing_Tests is
       Test_Person_With_Is_Happy_Utils.Run_Null_Value_Test (JSON_Test_Person_With_Is_Happy_Null_0);
    end Test_Person_With_Is_Happy_Null_0;
 
-end Aida.JSON_Parsing_Tests;
+end Aida.JSON_SAX_Parse_Tests;

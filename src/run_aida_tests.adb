@@ -5,9 +5,9 @@ with Aida.Tests;
 with Aida.UTF8.Tests;
 with Aida.Bounded_String_Tests;
 with Aida.Bounded_Hash_Map_Tests;
-with Aida.XML_Parsing_Tests;
-with Aida.JSON_Parsing_Tests;
-with Aida.JSON_DOM_Parsing_Tests;
+with Aida.XML_SAX_Parse_Tests;
+with Aida.JSON_SAX_Parse_Tests;
+with Aida.JSON_DOM_Parser_Tests;
 with Aida.Subprogram_Call_Result_Tests;
 with Aida.Integer_To_String_Map_Tests;
 
@@ -20,11 +20,11 @@ procedure Run_Aida_Tests is
 
    Bounded_Hash_Map_Test : Aida.Bounded_Hash_Map_Tests.Test;
 
-   XML_Parsing_Test : Aida.XML_Parsing_Tests.Test;
+   XML_Parsing_Test : Aida.XML_SAX_Parse_Tests.Test;
 
-   JSON_Parsing_Test : Aida.JSON_Parsing_Tests.Test;
+   JSON_Parsing_Test : Aida.JSON_SAX_Parse_Tests.Test;
 
-   JSON_DOM_Parsing_Test : Aida.JSON_DOM_Parsing_Tests.Test;
+   JSON_DOM_Parsing_Test : Aida.JSON_DOM_Parser_Tests.Test;
 
    Subprogram_Call_Test : Aida.Subprogram_Call_Result_Tests.Test;
 

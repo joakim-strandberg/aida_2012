@@ -1,7 +1,7 @@
 with Aida.JSON_DOM_Parser;
 with Aida.Subprogram_Call_Result;
 
-package body Aida.JSON_DOM_Parsing_Tests is
+package body Aida.JSON_DOM_Parser_Tests is
 
    -- The trailing numbers are to differentiate between the same json except different number of spaces
    JSON_Test_Person_With_Age_0            : constant Aida.String_T := "{""age"" : 10}";
@@ -218,4 +218,4 @@ package body Aida.JSON_DOM_Parsing_Tests is
       Ahven.Assert (              not Parser.Nodes (F + 2).Has_Next_Node,                             "14 was ");
    end Test_Person_With_Vehicles_0;
 
-end Aida.JSON_DOM_Parsing_Tests;
+end Aida.JSON_DOM_Parser_Tests;

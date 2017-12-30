@@ -5,7 +5,7 @@ with Aida.Tagged_Bounded_Vector;
 pragma Elaborate_All (Aida.Json_Parsing_Tests_Model);
 pragma Elaborate_All (Aida.Tagged_Bounded_Vector);
 
-package Aida.JSON_Parsing_Tests with SPARK_Mode is
+package Aida.JSON_SAX_Parse_Tests with SPARK_Mode is
 
    type Test is new Ahven.Framework.Test_Case with null record;
 
@@ -72,4 +72,4 @@ private
    procedure Test_Person_With_Is_Happy_Null_0 (T : in out Ahven.Framework.Test_Case'Class) with
      Global => null;
 
-end Aida.JSON_Parsing_Tests;
+end Aida.JSON_SAX_Parse_Tests;
