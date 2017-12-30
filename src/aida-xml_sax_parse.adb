@@ -9,12 +9,12 @@ pragma Elaborate_All (Aida.Bounded_Vector);
 -- Known unsupported issues: Escaping of text (for example &amp;)
 -- The stack roof may be hit if the comments and texts in the XML are HUGE.
 -- It should not be an issue in general.
-procedure Aida.XML.Generic_Parse_XML_File (Arg1        : in out Arg1_T;
-                                           Arg2        : in out Arg2_T;
-                                           Arg3        : in out Arg3_T;
-                                           Arg4        : in out Arg4_T;
-                                           Contents    : Aida.String_T;
-                                           Call_Result : in out Subprogram_Call_Result.T)
+procedure Aida.XML_SAX_Parse (Arg1        : in out Arg1_T;
+                              Arg2        : in out Arg2_T;
+                              Arg3        : in out Arg3_T;
+                              Arg4        : in out Arg4_T;
+                              Contents    : Aida.String_T;
+                              Call_Result : in out Subprogram_Call_Result.T)
 is
    use all type Aida.String_T;
    use all type Aida.Int32_T;
@@ -1086,4 +1086,4 @@ begin
             end if;
       end case;
    end loop;
-end Aida.XML.Generic_Parse_XML_File;
+end Aida.XML_SAX_Parse;

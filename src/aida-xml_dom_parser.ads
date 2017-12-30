@@ -12,7 +12,7 @@ generic
    Max_Strings      : Pos32_T;
    Max_Nodes        : Pos32_T;
    Max_Attributes   : Pos32_T;
-package Aida.XML.Generic_DOM_Parser is
+package Aida.XML_DOM_Parser is
 
    package Int_To_String_Map is new Aida.Integer_To_String_Map (Max_Chars   => Max_Chars,
                                                                 Max_Strings => Max_Strings,
@@ -232,4 +232,4 @@ private
 
    subtype Current_Ids_T is Current_Ids_Def.Current_Ids_T;
 
-end Aida.XML.Generic_DOM_Parser;
+end Aida.XML_DOM_Parser;

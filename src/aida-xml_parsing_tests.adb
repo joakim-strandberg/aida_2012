@@ -1,5 +1,5 @@
 with Aida.Text_IO;
-with Aida.XML.Generic_Parse_XML_File;
+with Aida.XML_SAX_Parse;
 with Aida.Subprogram_Call_Result;
 
 package body Aida.XML_Parsing_Tests is
@@ -296,16 +296,16 @@ package body Aida.XML_Parsing_Tests is
 
       procedure Run_Test (XML : Aida.String_T) is
 
-         procedure Parse_XML is new Aida.XML.Generic_Parse_XML_File (Storage_T,
-                                                                     Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
-                                                                     State_T,
-                                                                     Current_Ids_T,
-                                                                     Start_Tag,
-                                                                     End_Tag,
-                                                                     Text,
-                                                                     Attribute,
-                                                                     Comment,
-                                                                     CDATA);
+         procedure Parse_XML is new Aida.XML_SAX_Parse (Storage_T,
+                                                        Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
+                                                        State_T,
+                                                        Current_Ids_T,
+                                                        Start_Tag,
+                                                        End_Tag,
+                                                        Text,
+                                                        Attribute,
+                                                        Comment,
+                                                        CDATA);
 
          Call_Result : Aida.Subprogram_Call_Result.T;
 
@@ -631,16 +631,16 @@ package body Aida.XML_Parsing_Tests is
 
       procedure Run_Test (XML : Aida.String_T) is
 
-         procedure Parse_XML is new Aida.XML.Generic_Parse_XML_File (Storage_T,
-                                                                     Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
-                                                                     State_T,
-                                                                     Current_Ids_T,
-                                                                     Start_Tag,
-                                                                     End_Tag,
-                                                                     Text,
-                                                                     Attribute,
-                                                                     Comment,
-                                                                     CDATA);
+         procedure Parse_XML is new Aida.XML_SAX_Parse (Storage_T,
+                                                        Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
+                                                        State_T,
+                                                        Current_Ids_T,
+                                                        Start_Tag,
+                                                        End_Tag,
+                                                        Text,
+                                                        Attribute,
+                                                        Comment,
+                                                        CDATA);
 
          Call_Result : Aida.Subprogram_Call_Result.T;
 
@@ -953,16 +953,16 @@ package body Aida.XML_Parsing_Tests is
 
       procedure Run_Test (XML : Aida.String_T) is
 
-         procedure Parse_XML is new Aida.XML.Generic_Parse_XML_File (Storage_T,
-                                                                     Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
-                                                                     State_T,
-                                                                     Current_Ids_T,
-                                                                     Start_Tag,
-                                                                     End_Tag,
-                                                                     Text,
-                                                                     Attribute,
-                                                                     Comment,
-                                                                     CDATA);
+         procedure Parse_XML is new Aida.XML_SAX_Parse (Storage_T,
+                                                        Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
+                                                        State_T,
+                                                        Current_Ids_T,
+                                                        Start_Tag,
+                                                        End_Tag,
+                                                        Text,
+                                                        Attribute,
+                                                        Comment,
+                                                        CDATA);
 
          Call_Result : Aida.Subprogram_Call_Result.T;
 
@@ -1221,16 +1221,16 @@ package body Aida.XML_Parsing_Tests is
 
       procedure Run_Test (XML : Aida.String_T) is
 
-         procedure Parse_XML is new Aida.XML.Generic_Parse_XML_File (Storage_T,
-                                                                     Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
-                                                                     State_T,
-                                                                     Current_Ids_T,
-                                                                     Start_Tag,
-                                                                     End_Tag,
-                                                                     Text,
-                                                                     Attribute,
-                                                                     Comment,
-                                                                     CDATA);
+         procedure Parse_XML is new Aida.XML_SAX_Parse (Storage_T,
+                                                        Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
+                                                        State_T,
+                                                        Current_Ids_T,
+                                                        Start_Tag,
+                                                        End_Tag,
+                                                        Text,
+                                                        Attribute,
+                                                        Comment,
+                                                        CDATA);
 
          Call_Result : Aida.Subprogram_Call_Result.T;
 
@@ -1488,16 +1488,16 @@ package body Aida.XML_Parsing_Tests is
                                                    -1435235821);
       procedure Run_Test (XML : Aida.String_T) is
 
-         procedure Parse_XML is new Aida.XML.Generic_Parse_XML_File (Storage_T,
-                                                                     Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
-                                                                     State_T,
-                                                                     Current_Ids_T,
-                                                                     Start_Tag,
-                                                                     End_Tag,
-                                                                     Text,
-                                                                     Attribute,
-                                                                     Comment,
-                                                                     CDATA);
+         procedure Parse_XML is new Aida.XML_SAX_Parse (Storage_T,
+                                                        Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
+                                                        State_T,
+                                                        Current_Ids_T,
+                                                        Start_Tag,
+                                                        End_Tag,
+                                                        Text,
+                                                        Attribute,
+                                                        Comment,
+                                                        CDATA);
 
          Call_Result : Aida.Subprogram_Call_Result.T;
 
@@ -1774,16 +1774,16 @@ package body Aida.XML_Parsing_Tests is
 
       procedure Run_Test (XML : Aida.String_T) is
 
-         procedure Parse_XML is new Aida.XML.Generic_Parse_XML_File (Storage_T,
-                                                                     Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
-                                                                     State_T,
-                                                                     Current_Ids_T,
-                                                                     Start_Tag,
-                                                                     End_Tag,
-                                                                     Text,
-                                                                     Attribute,
-                                                                     Comment,
-                                                                     CDATA);
+         procedure Parse_XML is new Aida.XML_SAX_Parse (Storage_T,
+                                                        Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
+                                                        State_T,
+                                                        Current_Ids_T,
+                                                        Start_Tag,
+                                                        End_Tag,
+                                                        Text,
+                                                        Attribute,
+                                                        Comment,
+                                                        CDATA);
 
          Call_Result : Aida.Subprogram_Call_Result.T;
 

@@ -2,7 +2,7 @@ with Aida.XML.Generic_Parse_XML_File;
 
 pragma Elaborate_All (Aida.XML.Generic_Parse_XML_File);
 
-package body Aida.XML.Generic_DOM_Parser is
+package body Aida.XML_DOM_Parser is
 
    package body Current_Ids_Def is
 
@@ -311,4 +311,4 @@ package body Aida.XML.Generic_DOM_Parser is
       pragma Unused (State);
    end Parse;
 
-end Aida.XML.Generic_DOM_Parser;
+end Aida.XML_DOM_Parser;
