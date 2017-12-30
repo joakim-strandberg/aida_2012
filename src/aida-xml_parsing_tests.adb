@@ -32,9 +32,13 @@ package body Aida.XML_Parsing_Tests is
 
    XML_Test_Person_With_Age_Pre_CDATA_Comment_0 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person><![CDATA[ Important comment ]]>10</person>";
 
+   XML_Test_Person_With_Single_Quote_Attribute_0 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person name='""joe"" or ""john""'></person>";
+
+   XML_Test_Person_With_Double_Quote_Attribute_0 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person name=""'joe' or 'john'""></person>";
+
    overriding procedure Initialize (T : in out Test) is
    begin
-      Set_Name (T, "Aida.XML.Generic_Parse_XML_File package tests");
+      Set_Name (T, "Aida.XML_SAX_Parse package tests");
 
       Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Age_0'Access, "Test_Person_With_Age_0");
       Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Age_1'Access, "Test_Person_With_Age_1");
@@ -53,6 +57,8 @@ package body Aida.XML_Parsing_Tests is
       Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Age_Pre_Comment_0'Access, "Test_Person_With_Age_Pre_Comment_0");
       Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Age_Post_Comment_0'Access, "Test_Person_With_Age_Post_Comment_0");
       Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Age_Pre_CDATA_Comment_0'Access, "Test_Person_With_Age_Pre_CDATA_Comment_0");
+      Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Single_Quote_Attribute_0'Access, "Test_Person_With_Single_Quote_Attribute_0");
+      Ahven.Framework.Add_Test_Routine (T, Test_Person_With_Double_Quote_Attribute_0'Access, "Test_Person_With_Double_Quote_Attribute_0");
    end Initialize;
 
    type Current_Ids_T is limited record
@@ -1691,9 +1697,9 @@ package body Aida.XML_Parsing_Tests is
                   Call_Result.Initialize (-1824053881, 2061413792);
                else
                   if Value'Length > Result.Person (Current_Ids.Person_Ids.Last_Element).Max_Name_Size then
-                  Call_Result.Initialize (-1672668363, 0966305970);
+                     Call_Result.Initialize (-1672668363, 0966305970);
                   else
-                  Result.Person (Current_Ids.Person_Ids.Last_Element).Set_Name (Value);
+                     Result.Person (Current_Ids.Person_Ids.Last_Element).Set_Name (Value);
                   end if;
                   State := Expecting_Person_End_Tag;
                end if;
@@ -1824,5 +1830,292 @@ package body Aida.XML_Parsing_Tests is
    begin
       Test_Person_With_Age_Pre_CDATA_Comment_Utils.Run_Test (XML_Test_Person_With_Age_Pre_CDATA_Comment_0);
    end Test_Person_With_Age_Pre_CDATA_Comment_0;
+
+   package Test_Person_With_Single_Quote_Attribute_Utils is
+      pragma SPARK_Mode;
+
+      type State_T is (
+                       Expecting_Person_Start_Tag,
+                       Expecting_Attribute,
+                       Expecting_Empty_Value,
+                       Expecting_Person_End_Tag,
+                       Final_State
+                       );
+
+      procedure Start_Tag (Result      : in out Storage_T;
+                           Max_Indices : in out Max_Indices_T;
+                           State       : in out State_T;
+                           Current_Ids : in out Current_Ids_T;
+                           Tag_Name    : Aida.String_T;
+                           Call_Result : in out Aida.Subprogram_Call_Result.T) with
+        Global => null,
+        Pre    => not Call_Result.Has_Failed;
+
+      procedure End_Tag (Result      : in out Storage_T;
+                         Max_Indices : in out Max_Indices_T;
+                         State       : in out State_T;
+                         Current_Ids : in out Current_Ids_T;
+                         Tag_Name    : Aida.String_T;
+                         Call_Result : in out Aida.Subprogram_Call_Result.T) with
+        Global => null,
+        Pre    => not Call_Result.Has_Failed;
+
+      procedure Text (Result      : in out Storage_T;
+                      Max_Indices : in out Max_Indices_T;
+                      State       : in out State_T;
+                      Current_Ids : in out Current_Ids_T;
+                      Value       : Aida.String_T;
+                      Call_Result : in out Aida.Subprogram_Call_Result.T) with
+        Global => null,
+        Pre    => not Call_Result.Has_Failed;
+
+      procedure Attribute (Result          : in out Storage_T;
+                           Max_Indices     : in out Max_Indices_T;
+                           State           : in out State_T;
+                           Current_Ids     : in out Current_Ids_T;
+                           Attribute_Name  : Aida.String_T;
+                           Attribute_Value : Aida.String_T;
+                           Call_Result     : in out Aida.Subprogram_Call_Result.T) with
+        Global => null,
+        Pre    => not Call_Result.Has_Failed;
+
+      procedure Comment (Result      : in out Storage_T;
+                         Max_Indices : in out Max_Indices_T;
+                         State       : in out State_T;
+                         Current_Ids : in out Current_Ids_T;
+                         Value       : Aida.String_T;
+                         Call_Result : in out Aida.Subprogram_Call_Result.T) with
+        Global => null,
+        Pre    => not Call_Result.Has_Failed;
+
+      procedure CDATA (Result      : in out Storage_T;
+                       Max_Indices : in out Max_Indices_T;
+                       State       : in out State_T;
+                       Current_Ids : in out Current_Ids_T;
+                       Value       : Aida.String_T;
+                       Call_Result : in out Aida.Subprogram_Call_Result.T) with
+        Global => null,
+        Pre    => not Call_Result.Has_Failed;
+
+      procedure Run_Test (XML                : Aida.String_T;
+                          Expected_Attribute : Aida.String_T) with
+        Global => null,
+        Pre    => XML'Length > 0 and XML'Last < Integer'Last - 4;
+
+   end Test_Person_With_Single_Quote_Attribute_Utils;
+
+   package body Test_Person_With_Single_Quote_Attribute_Utils is
+      pragma SPARK_Mode;
+
+      procedure Start_Tag (Result      : in out Storage_T;
+                           Max_Indices : in out Max_Indices_T;
+                           State       : in out State_T;
+                           Current_Ids : in out Current_Ids_T;
+                           Tag_Name    : Aida.String_T;
+                           Call_Result : in out Aida.Subprogram_Call_Result.T)
+      is
+         pragma Unreferenced (Result);
+      begin
+         case State is
+            when Expecting_Person_Start_Tag =>
+               if
+                 Tag_Name = "person" and
+                 Max_Indices.Person_Id_Max < Json_Parsing_Tests_Model.Extended_Person_Id_T'Last and
+                 not Current_Ids.Person_Ids.Is_Full
+               then
+                  declare
+                     Person_Id : Aida.Json_Parsing_Tests_Model.Person_Id_T;
+                  begin
+                     Max_Indices.Allocate_Person_Id (Person_Id);
+                     Current_Ids.Person_Ids.Append (Person_Id);
+                  end;
+                  State := Expecting_Attribute;
+               else
+                  Call_Result.Initialize (-1778052921, 0742206668);
+               end if;
+            when Expecting_Attribute |
+                 Expecting_Empty_Value |
+                 Expecting_Person_End_Tag |
+                 Final_State =>
+               Call_Result.Initialize (-1982292661, 0204153609);
+         end case;
+      end Start_Tag;
+
+      procedure End_Tag (Result      : in out Storage_T;
+                         Max_Indices : in out Max_Indices_T;
+                         State       : in out State_T;
+                         Current_Ids : in out Current_Ids_T;
+                         Tag_Name    : Aida.String_T;
+                         Call_Result : in out Aida.Subprogram_Call_Result.T)
+      is
+         pragma Unreferenced (Result);
+         pragma Unreferenced (Max_Indices);
+         pragma Unreferenced (Current_Ids);
+      begin
+         case State is
+            when Expecting_Person_End_Tag =>
+               if Tag_Name = "person" then
+                  State := Final_State;
+               else
+                  Call_Result.Initialize (0573296931, -0661012874);
+               end if;
+            when Expecting_Attribute |
+                 Expecting_Empty_Value |
+                 Expecting_Person_Start_Tag |
+                 Final_State =>
+               Call_Result.Initialize (-1434939725, -1569639445);
+         end case;
+      end End_Tag;
+
+      procedure Text (Result      : in out Storage_T;
+                      Max_Indices : in out Max_Indices_T;
+                      State       : in out State_T;
+                      Current_Ids : in out Current_Ids_T;
+                      Value       : Aida.String_T;
+                      Call_Result : in out Aida.Subprogram_Call_Result.T)
+      is
+         pragma Unreferenced (Max_Indices);
+         pragma Unreferenced (Result);
+         pragma Unmodified (Current_Ids);
+      begin
+         case State is
+            when Expecting_Empty_Value =>
+               if Current_Ids.Person_Ids.Is_Empty then
+                  Call_Result.Initialize (-1166822625, 0624736144);
+               else
+                  if Value'Length = 0 then
+                     State := Expecting_Person_End_Tag;
+                  else
+                     Call_Result.Initialize (-1739311526, -1879999007);
+                  end if;
+               end if;
+            when Expecting_Attribute |
+                 Expecting_Person_Start_Tag |
+                 Expecting_Person_End_Tag |
+                 Final_State =>
+               Call_Result.Initialize (0165541118, 1487181886);
+         end case;
+      end Text;
+
+      procedure Attribute (Result          : in out Storage_T;
+                           Max_Indices     : in out Max_Indices_T;
+                           State           : in out State_T;
+                           Current_Ids     : in out Current_Ids_T;
+                           Attribute_Name  : Aida.String_T;
+                           Attribute_Value : Aida.String_T;
+                           Call_Result     : in out Aida.Subprogram_Call_Result.T)
+      is
+         pragma Unreferenced (Max_Indices);
+      begin
+         case State is
+            when Expecting_Attribute =>
+               if Current_Ids.Person_Ids.Is_Empty then
+                  Call_Result.Initialize (-0236136172, -0180683845);
+               elsif Attribute_Name /= "name" then
+                  Call_Result.Initialize (-1993277347, -1612320261);
+               else
+                  if Attribute_Value'Length > Result.Person (Current_Ids.Person_Ids.Last_Element).Max_Name_Size then
+                     Call_Result.Initialize (-0691993277, -0832249817);
+                  else
+                     Result.Person (Current_Ids.Person_Ids.Last_Element).Set_Name (Attribute_Value);
+                  end if;
+                  State := Expecting_Empty_Value;
+               end if;
+            when Expecting_Empty_Value |
+                 Expecting_Person_Start_Tag |
+                 Expecting_Person_End_Tag |
+                 Final_State =>
+               Call_Result.Initialize (2027137067, 0850453105);
+         end case;
+      end Attribute;
+
+      procedure Comment (Result      : in out Storage_T;
+                         Max_Indices : in out Max_Indices_T;
+                         State       : in out State_T;
+                         Current_Ids : in out Current_Ids_T;
+                         Value       : Aida.String_T;
+                         Call_Result : in out Aida.Subprogram_Call_Result.T)
+      is
+         pragma Unreferenced (Result);
+         pragma Unreferenced (Max_Indices);
+         pragma Unreferenced (Current_Ids);
+         pragma Unreferenced (Value);
+         pragma Unreferenced (State);
+      begin
+         Call_Result.Initialize (-0915178087, -1332045495);
+      end Comment;
+
+      procedure CDATA (Result      : in out Storage_T;
+                       Max_Indices : in out Max_Indices_T;
+                       State       : in out State_T;
+                       Current_Ids : in out Current_Ids_T;
+                       Value       : Aida.String_T;
+                       Call_Result : in out Aida.Subprogram_Call_Result.T)
+      is
+         pragma Unreferenced (Result);
+         pragma Unreferenced (Max_Indices);
+         pragma Unreferenced (Current_Ids);
+         pragma Unreferenced (Value);
+         pragma Unreferenced (State);
+      begin
+         Call_Result.Initialize (1245600917, -0131738197);
+      end CDATA;
+
+      procedure Run_Test (XML                : Aida.String_T;
+                          Expected_Attribute : Aida.String_T) is
+
+         procedure Parse_XML is new Aida.XML_SAX_Parse (Storage_T,
+                                                        Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
+                                                        State_T,
+                                                        Current_Ids_T,
+                                                        Start_Tag,
+                                                        End_Tag,
+                                                        Text,
+                                                        Attribute,
+                                                        Comment,
+                                                        CDATA);
+
+         Call_Result : Aida.Subprogram_Call_Result.T;
+
+         State : State_T := Expecting_Person_Start_Tag;
+
+         Current_Ids : Current_Ids_T;
+
+         Max_Indices : Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T;
+
+         Storage : Storage_T;
+      begin
+         Max_Indices.Clear;
+         Storage.Clear;
+
+         Parse_XML (Storage,
+                    Max_Indices,
+                    State,
+                    Current_Ids,
+                    XML,
+                    Call_Result);
+
+         Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
+         Ahven.Assert (State = Final_State, "1");
+         Ahven.Assert (Current_Ids.Person_Ids.Is_Non_Empty, "2");
+         Ahven.Assert (Max_Indices.Person_Id_Max = 1, "3");
+         Ahven.Assert (Storage.Person (Max_Indices.Person_Id_Max).Name = Expected_Attribute, "4", String (Storage.Person (Max_Indices.Person_Id_Max).Name));
+      end Run_Test;
+
+   end Test_Person_With_Single_Quote_Attribute_Utils;
+
+   procedure Test_Person_With_Single_Quote_Attribute_0 (T : in out Ahven.Framework.Test_Case'Class) is
+      pragma SPARK_Mode;
+      pragma Unreferenced (T);
+   begin
+      Test_Person_With_Single_Quote_Attribute_Utils.Run_Test (XML_Test_Person_With_Single_Quote_Attribute_0, """joe"" or ""john""");
+   end Test_Person_With_Single_Quote_Attribute_0;
+
+   procedure Test_Person_With_Double_Quote_Attribute_0 (T : in out Ahven.Framework.Test_Case'Class) is
+      pragma SPARK_Mode;
+      pragma Unreferenced (T);
+   begin
+      Test_Person_With_Single_Quote_Attribute_Utils.Run_Test (XML_Test_Person_With_Double_Quote_Attribute_0, "'joe' or 'john'");
+   end Test_Person_With_Double_Quote_Attribute_0;
 
 end Aida.XML_Parsing_Tests;

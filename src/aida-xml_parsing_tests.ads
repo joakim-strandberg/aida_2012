@@ -94,4 +94,10 @@ private
    procedure Test_Person_With_Age_Pre_CDATA_Comment_0 (T : in out Ahven.Framework.Test_Case'Class) with
      Global => null;
 
+   procedure Test_Person_With_Single_Quote_Attribute_0 (T : in out Ahven.Framework.Test_Case'Class) with
+     Global => null;
+
+   procedure Test_Person_With_Double_Quote_Attribute_0 (T : in out Ahven.Framework.Test_Case'Class) with
+     Global => null;
+
 end Aida.XML_Parsing_Tests;
