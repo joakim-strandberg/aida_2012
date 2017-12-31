@@ -118,53 +118,70 @@ package body Aida.XML_DOM_Parser is
          when Expecting_Object_Start =>
             if
               Tag_Name'Length > 0 and
-              Max_Indices.Node_Id_Max < Extended_Node_Id_T'Last and
+              Max_Indices.Can_Allocate_Node_Id and
 --              not Current_Ids.Node_Ids.Is_Full and
               Current_Ids.Node_Ids.Is_Empty
             then
-               declare
-                  Id : Node_Id_T;
-                  Current_Node : Current_Node_T;
-                  Key : Int_To_String_Map.Key_T;
-               begin
-                  Max_Indices.Allocate_Node_Id (Id);
-                  Current_Node.Node_Id := Id;
-                  Current_Ids.Node_Ids.Append (Current_Node);
+               if
+                 This.Map.Available_Keys > 0 and
+                 This.Map.Available_Chars >= Tag_Name'Length
+               then
+                  declare
+                     Id : Node_Id_T;
+                     Current_Node : Current_Node_T;
+                     Key : Int_To_String_Map.Key_T;
+                  begin
+                     Max_Indices.Allocate_Node_Id (Id);
+                     Current_Node := (Node_Id           => Id,
+                                      Last_Child_Id     => Extended_Node_Id_T'First,
+                                      Last_Attribute_Id => Extended_Attribute_Id_T'First);
+                     Current_Ids.Node_Ids.Append (Current_Node);
 
-                  This.Map.Append (Tag_Name, Key);
-                  This.Nodes (Id).Inner := (My_Id        => XML_Tag,
-                                            My_Next_Node => Extended_Node_Id_T'First,
-                                            My_JSON_Key  => Key,
-                                            My_First_Child_Node   => Extended_Node_Id_T'First,
-                                            My_First_Attribute_Id => Extended_Attribute_Id_T'First);
-               end;
-               State := Expecting_Default;
+                     This.Map.Append (Tag_Name, Key);
+                     This.Nodes (Id).Inner := (My_Id        => XML_Tag,
+                                               My_Next_Node => Extended_Node_Id_T'First,
+                                               My_JSON_Key  => Key,
+                                               My_First_Child_Node   => Extended_Node_Id_T'First,
+                                               My_First_Attribute_Id => Extended_Attribute_Id_T'First);
+                  end;
+                  State := Expecting_Default;
+               else
+                  Call_Result.Initialize (2092703626, 1055891069);
+               end if;
             else
                Call_Result.Initialize (-1835682926, -1646923797);
             end if;
          when Expecting_Default =>
             if
               Tag_Name'Length > 0 and
-              Max_Indices.Node_Id_Max < Extended_Node_Id_T'Last and
+              Max_Indices.Can_Allocate_Node_Id and
               not Current_Ids.Node_Ids.Is_Full
             then
-               declare
-                  Id : Node_Id_T;
-                  Current_Node : Current_Node_T;
-                  Key : Int_To_String_Map.Key_T;
-               begin
-                  Max_Indices.Allocate_Node_Id (Id);
-                  Current_Node.Node_Id := Id;
-                  Current_Ids.Node_Ids.Append (Current_Node);
+               if
+                 This.Map.Available_Keys > 0 and
+                 This.Map.Available_Chars >= Tag_Name'Length
+               then
+                  declare
+                     Id : Node_Id_T;
+                     Current_Node : Current_Node_T;
+                     Key : Int_To_String_Map.Key_T;
+                  begin
+                     Max_Indices.Allocate_Node_Id (Id);
+                     Current_Node := (Node_Id           => Id,
+                                      Last_Child_Id     => Extended_Node_Id_T'First,
+                                      Last_Attribute_Id => Extended_Attribute_Id_T'First);
+                     Current_Ids.Node_Ids.Append (Current_Node);
 
-                  This.Map.Append (Tag_Name, Key);
-                  This.Nodes (Id).Inner := (My_Id        => XML_Tag,
-                                            My_Next_Node => Extended_Node_Id_T'First,
-                                            My_JSON_Key  => Key,
-                                            My_First_Child_Node   => Extended_Node_Id_T'First,
-                                            My_First_Attribute_Id => Extended_Attribute_Id_T'First);
-               end;
-               State := Expecting_Default;
+                     This.Map.Append (Tag_Name, Key);
+                     This.Nodes (Id).Inner := (My_Id        => XML_Tag,
+                                               My_Next_Node => Extended_Node_Id_T'First,
+                                               My_JSON_Key  => Key,
+                                               My_First_Child_Node   => Extended_Node_Id_T'First,
+                                               My_First_Attribute_Id => Extended_Attribute_Id_T'First);
+                  end;
+               else
+                  Call_Result.Initialize (1664667095, -0647795774);
+               end if;
             else
                Call_Result.Initialize (1882474635, -0124544835);
             end if;
@@ -185,7 +202,9 @@ package body Aida.XML_DOM_Parser is
    begin
       case State is
          when Expecting_Default =>
-            if not Current_Ids.Node_Ids.Is_Empty then
+            if not Current_Ids.Node_Ids.Is_Empty and then
+              (This.Nodes (Current_Ids.Node_Ids.Last_Element.Node_Id).Id = XML_Tag)
+            then
                if This.Nodes (Current_Ids.Node_Ids.Last_Element.Node_Id).Name (This.Map) = Tag_Name then
                   Current_Ids.Node_Ids.Delete_Last;
                   if Current_Ids.Node_Ids.Is_Empty then
@@ -208,15 +227,23 @@ package body Aida.XML_DOM_Parser is
                    State       : in out State_T;
                    Current_Ids : in out Current_Ids_T;
                    Value       : Aida.String_T;
-                   Call_Result : in out Aida.Subprogram_Call_Result.T) is
+                   Call_Result : in out Aida.Subprogram_Call_Result.T)
+   is
+      pragma Unmodified (State);
    begin
       case State is
          when Expecting_Default =>
-            if not Current_Ids.Node_Ids.Is_Empty then
-               if Value'Length = 0 or (Value'Length > 0 and then
-                                         (for all I in Value'Range => Value (I) = ' ' or Value (I) = Character'Val (12) or Value (I) = Character'Val (13))) then
-                  null;
-               else
+            if Value'Length = 0 or (Value'Length > 0 and then
+                                      (for all I in Value'Range => Value (I) = ' ' or Value (I) = Character'Val (12) or Value (I) = Character'Val (13)))
+            then
+               null;
+            elsif
+              Max_Indices.Can_Allocate_Node_Id and
+              not Current_Ids.Node_Ids.Is_Empty
+            then
+               if
+                 This.Map.Available_Keys > 0 and This.Map.Available_Chars >= Value'Length
+               then
                   declare
                      Id  : Node_Id_T;
                      Key : Int_To_String_Map.Key_T;
@@ -231,7 +258,11 @@ package body Aida.XML_DOM_Parser is
                                                My_Key       => Key);
 
                      if Current_Ids.Node_Ids.Last_Element.Last_Child_Id = Extended_Node_Id_T'First then
-                        This.Nodes (Current_Ids.Node_Ids.Last_Element.Node_Id).Inner.My_First_Child_Node := Id;
+                        if This.Nodes (Current_Ids.Node_Ids.Last_Element.Node_Id).Id = XML_Tag then
+                           This.Nodes (Current_Ids.Node_Ids.Last_Element.Node_Id).Inner.My_First_Child_Node := Id;
+                        else
+                           Call_Result.Initialize (0638744504, -1415872799);
+                        end if;
                      else
                         This.Nodes (Current_Ids.Node_Ids.Last_Element.Last_Child_Id).Inner.My_Next_Node := Id;
                      end if;
@@ -240,6 +271,8 @@ package body Aida.XML_DOM_Parser is
                      Current_Node.Last_Child_Id := Id;
                      Current_Ids.Node_Ids.Replace_Last_Element (Current_Node);
                   end;
+               else
+                  Call_Result.Initialize (0218412406, -0895015360);
                end if;
             else
                Call_Result.Initialize (0621778668, -1095646032);
@@ -256,11 +289,16 @@ package body Aida.XML_DOM_Parser is
                         Current_Ids     : in out Current_Ids_T;
                         Attribute_Name  : Aida.String_T;
                         Attribute_Value : Aida.String_T;
-                        Call_Result     : in out Aida.Subprogram_Call_Result.T) is
+                        Call_Result     : in out Aida.Subprogram_Call_Result.T)
+   is
+      pragma Unmodified (State);
    begin
       case State is
          when Expecting_Default =>
-            if not Current_Ids.Node_Ids.Is_Empty then
+            if
+              Max_Indices.Can_Allocate_Attribute_Id and
+              not Current_Ids.Node_Ids.Is_Empty
+            then
                declare
                   Id  : Attribute_Id_T;
                   Name_Key  : Int_To_String_Map.Key_T;
@@ -269,23 +307,45 @@ package body Aida.XML_DOM_Parser is
                   Current_Node : Current_Node_T;
                begin
                   Max_Indices.Allocate_Attribute_Id (Id);
-                  This.Map.Append (Attribute_Name,  Name_Key);
-                  This.Map.Append (Attribute_Value, Value_Key);
+                  if
+                    This.Map.Available_Keys > 0 and
+                    This.Map.Available_Chars >= Attribute_Name'Length and
+                    Attribute_Name'Length > 0
+                  then
+                     This.Map.Append (Attribute_Name,  Name_Key);
 
+                     if
+                       This.Map.Available_Keys > 0 and
+                       This.Map.Available_Chars >= Attribute_Value'Length and
+                       Attribute_Value'Length > 0
+                     then
+                        This.Map.Append (Attribute_Value, Value_Key);
 
+                        This.Attributes (Id).My_Name_Key  := Name_Key;
+                        This.Attributes (Id).My_Value_Key := Value_Key;
 
---                    This.Nodes (Id).Inner := (My_Id        => XML_Text,
---                                              My_Next_Node => Extended_Node_Id_T'First,
---                                              My_Key       => Key);
-                  if Current_Ids.Node_Ids.Last_Element.Last_Attribute_Id = Extended_Attribute_Id_T'First then
-                     This.Nodes (Current_Ids.Node_Ids.Last_Element.Node_Id).Inner.My_First_Attribute_Id := Id;
+                        if Current_Ids.Node_Ids.Last_Element.Last_Attribute_Id = Extended_Attribute_Id_T'First then
+                           if This.Nodes (Current_Ids.Node_Ids.Last_Element.Node_Id).Id = XML_Tag then
+                              This.Nodes (Current_Ids.Node_Ids.Last_Element.Node_Id).Inner.My_First_Attribute_Id := Id;
 
-                     Current_Node := Current_Ids.Node_Ids.Last_Element;
-                     Current_Node.Last_Attribute_Id := Id;
-                     Current_Ids.Node_Ids.Replace_Last_Element (Current_Node);
+                              Current_Node := Current_Ids.Node_Ids.Last_Element;
+                              Current_Node.Last_Attribute_Id := Id;
+                              Current_Ids.Node_Ids.Replace_Last_Element (Current_Node);
+                           else
+                              Call_Result.Initialize (1957291889, -1734827804);
+                           end if;
+                        else
+                           This.Attributes (Current_Ids.Node_Ids.Last_Element.Last_Attribute_Id).My_Next_Attribute := Id;
+                        end if;
+
+                     else
+                        Call_Result.Initialize (0420479066, 0527456968);
+                     end if;
+
                   else
-                     This.Attributes (Current_Ids.Node_Ids.Last_Element.Last_Attribute_Id).My_Next_Attribute := Id;
+                     Call_Result.Initialize (1780391481, 0404382112);
                   end if;
+
                end;
             else
                Call_Result.Initialize (0161942634, 2123499335);
@@ -301,34 +361,49 @@ package body Aida.XML_DOM_Parser is
                       State       : in out State_T;
                       Current_Ids : in out Current_Ids_T;
                       Value       : Aida.String_T;
-                      Call_Result : in out Aida.Subprogram_Call_Result.T) is
+                      Call_Result : in out Aida.Subprogram_Call_Result.T)
+   is
+      pragma Unmodified (State);
    begin
       case State is
          when Expecting_Default =>
-            if not Current_Ids.Node_Ids.Is_Empty then
-               declare
-                  Id  : Node_Id_T;
-                  Key : Int_To_String_Map.Key_T;
+            if
+              Max_Indices.Can_Allocate_Node_Id and
+              not Current_Ids.Node_Ids.Is_Empty
+            then
+               if
+                 This.Map.Available_Keys > 0 and This.Map.Available_Chars >= Value'Length and Value'Length > 0
+               then
+                  declare
+                     Id  : Node_Id_T;
+                     Key : Int_To_String_Map.Key_T;
 
-                  Current_Node : Current_Node_T;
-               begin
-                  Max_Indices.Allocate_Node_Id (Id);
-                  This.Map.Append (Value, Key);
+                     Current_Node : Current_Node_T;
+                  begin
+                     Max_Indices.Allocate_Node_Id (Id);
+                     This.Map.Append (Value, Key);
 
-                  This.Nodes (Id).Inner := (My_Id        => XML_Comment,
-                                            My_Next_Node => Extended_Node_Id_T'First,
-                                            My_Key       => Key);
+                     This.Nodes (Id).Inner := (My_Id        => XML_Comment,
+                                               My_Next_Node => Extended_Node_Id_T'First,
+                                               My_Key       => Key);
 
-                  if Current_Ids.Node_Ids.Last_Element.Last_Child_Id = Extended_Node_Id_T'First then
-                     This.Nodes (Current_Ids.Node_Ids.Last_Element.Node_Id).Inner.My_First_Child_Node := Id;
-                  else
-                     This.Nodes (Current_Ids.Node_Ids.Last_Element.Last_Child_Id).Inner.My_Next_Node := Id;
-                  end if;
+                     if Current_Ids.Node_Ids.Last_Element.Last_Child_Id = Extended_Node_Id_T'First then
+                        if This.Nodes (Current_Ids.Node_Ids.Last_Element.Node_Id).Id = XML_Tag then
+                           This.Nodes (Current_Ids.Node_Ids.Last_Element.Node_Id).Inner.My_First_Child_Node := Id;
+                        else
+                           Call_Result.Initialize (-0324889388, -1600913185);
+                        end if;
+                     else
+                        This.Nodes (Current_Ids.Node_Ids.Last_Element.Last_Child_Id).Inner.My_Next_Node := Id;
+                     end if;
 
-                  Current_Node := Current_Ids.Node_Ids.Last_Element;
-                  Current_Node.Last_Child_Id := Id;
-                  Current_Ids.Node_Ids.Replace_Last_Element (Current_Node);
-               end;
+                     Current_Node := Current_Ids.Node_Ids.Last_Element;
+                     Current_Node.Last_Child_Id := Id;
+                     Current_Ids.Node_Ids.Replace_Last_Element (Current_Node);
+                  end;
+               else
+                  Call_Result.Initialize (1435504396, 0652030300);
+               end if;
             else
                Call_Result.Initialize (1397833757, -1569655120);
             end if;
@@ -343,34 +418,49 @@ package body Aida.XML_DOM_Parser is
                     State       : in out State_T;
                     Current_Ids : in out Current_Ids_T;
                     Value       : Aida.String_T;
-                    Call_Result : in out Aida.Subprogram_Call_Result.T) is
+                    Call_Result : in out Aida.Subprogram_Call_Result.T)
+   is
+      pragma Unmodified (State);
    begin
       case State is
          when Expecting_Default =>
-            if not Current_Ids.Node_Ids.Is_Empty then
-               declare
-                  Id  : Node_Id_T;
-                  Key : Int_To_String_Map.Key_T;
+            if
+              Max_Indices.Can_Allocate_Node_Id and
+              not Current_Ids.Node_Ids.Is_Empty
+            then
+               if
+                 This.Map.Available_Keys > 0 and This.Map.Available_Chars >= Value'Length and Value'Length > 0
+               then
+                  declare
+                     Id  : Node_Id_T;
+                     Key : Int_To_String_Map.Key_T;
 
-                  Current_Node : Current_Node_T;
-               begin
-                  Max_Indices.Allocate_Node_Id (Id);
-                  This.Map.Append (Value, Key);
+                     Current_Node : Current_Node_T;
+                  begin
+                     Max_Indices.Allocate_Node_Id (Id);
+                     This.Map.Append (Value, Key);
 
-                  This.Nodes (Id).Inner := (My_Id        => XML_CDATA,
-                                            My_Next_Node => Extended_Node_Id_T'First,
-                                            My_Key       => Key);
+                     This.Nodes (Id).Inner := (My_Id        => XML_CDATA,
+                                               My_Next_Node => Extended_Node_Id_T'First,
+                                               My_Key       => Key);
 
-                  if Current_Ids.Node_Ids.Last_Element.Last_Child_Id = Extended_Node_Id_T'First then
-                     This.Nodes (Current_Ids.Node_Ids.Last_Element.Node_Id).Inner.My_First_Child_Node := Id;
-                  else
-                     This.Nodes (Current_Ids.Node_Ids.Last_Element.Last_Child_Id).Inner.My_Next_Node := Id;
-                  end if;
+                     if Current_Ids.Node_Ids.Last_Element.Last_Child_Id = Extended_Node_Id_T'First then
+                        if This.Nodes (Current_Ids.Node_Ids.Last_Element.Node_Id).Id = XML_Tag then
+                           This.Nodes (Current_Ids.Node_Ids.Last_Element.Node_Id).Inner.My_First_Child_Node := Id;
+                        else
+                           Call_Result.Initialize (-0012453674, 1793720627);
+                        end if;
+                     else
+                        This.Nodes (Current_Ids.Node_Ids.Last_Element.Last_Child_Id).Inner.My_Next_Node := Id;
+                     end if;
 
-                  Current_Node := Current_Ids.Node_Ids.Last_Element;
-                  Current_Node.Last_Child_Id := Id;
-                  Current_Ids.Node_Ids.Replace_Last_Element (Current_Node);
-               end;
+                     Current_Node := Current_Ids.Node_Ids.Last_Element;
+                     Current_Node.Last_Child_Id := Id;
+                     Current_Ids.Node_Ids.Replace_Last_Element (Current_Node);
+                  end;
+               else
+                  Call_Result.Initialize (0725532100, 1302769854);
+               end if;
             else
                Call_Result.Initialize (0616203826, 1974203512);
             end if;

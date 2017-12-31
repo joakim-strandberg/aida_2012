@@ -111,7 +111,7 @@ package Aida.Tagged_Bounded_Vector is
 
 private
 
-   type T is tagged  limited
+   type T is tagged limited
       record
          My_Items       : aliased Elements_Array_T (Index_T) := (others => Default_Element);
          My_Last_Index  : Extended_Index_T := Extended_Index_T'First;
