@@ -6,6 +6,7 @@ with Aida.UTF8.Tests;
 with Aida.Bounded_String_Tests;
 with Aida.Bounded_Hash_Map_Tests;
 with Aida.XML_SAX_Parse_Tests;
+with Aida.XML_DOM_Parser_Tests;
 with Aida.JSON_SAX_Parse_Tests;
 with Aida.JSON_DOM_Parser_Tests;
 with Aida.Subprogram_Call_Result_Tests;
@@ -21,6 +22,8 @@ procedure Run_Aida_Tests is
    Bounded_Hash_Map_Test : Aida.Bounded_Hash_Map_Tests.Test;
 
    XML_Parsing_Test : Aida.XML_SAX_Parse_Tests.Test;
+
+   XML_DOM_Parser_Test : Aida.XML_DOM_Parser_Tests.Test;
 
    JSON_Parsing_Test : Aida.JSON_SAX_Parse_Tests.Test;
 
@@ -52,6 +55,7 @@ begin
    Ahven.Framework.Add_Static_Test (S, Converstion_Test);
    Ahven.Framework.Add_Static_Test (S, UTF8_Test);
    Ahven.Framework.Add_Static_Test (S, XML_Parsing_Test);
+   Ahven.Framework.Add_Static_Test (S, XML_DOM_Parser_Test);
    Ahven.Framework.Add_Static_Test (S, JSON_Parsing_Test);
    Ahven.Framework.Add_Static_Test (S, JSON_DOM_Parsing_Test);
    Ahven.Framework.Add_Static_Test (S, Subprogram_Call_Test);

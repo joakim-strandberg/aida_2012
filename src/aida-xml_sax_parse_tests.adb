@@ -1,4 +1,3 @@
-with Aida.Text_IO;
 with Aida.XML_SAX_Parse;
 with Aida.Subprogram_Call_Result;
 
@@ -551,7 +550,6 @@ package body Aida.XML_SAX_Parse_Tests is
                if Value = "" then
                   null;
                else
-                  Aida.Text_IO.Put_Line (Value);
                   Call_Result.Initialize (-0239718217, 2014666842);
                end if;
             when Expecting_Person_Start_Tag |

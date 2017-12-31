@@ -77,6 +77,23 @@ package Aida.XML_DOM_Parser is
 
    subtype Max_Indices_T is Max_Indices_Def.T;
 
+   type Attribute_T is tagged limited private;
+
+   function Name (This : Attribute_T;
+                  Map  : Int_To_String_Map.T) return String_T with
+     Global    => null;
+
+   function Value (This : Attribute_T;
+                   Map  : Int_To_String_Map.T) return String_T with
+     Global    => null;
+
+   function Next_Attribute (This : Attribute_T) return Attribute_Id_T with
+     Global    => null,
+     Pre'Class => This.Has_Next_Attribute;
+
+   function Has_Next_Attribute (This : Attribute_T) return Boolean with
+     Global => null;
+
    type Node_Kind_Id_T is (
                            XML_Tag,
                            XML_Comment,
@@ -84,7 +101,7 @@ package Aida.XML_DOM_Parser is
                            XML_Text
                           );
 
-   type Node_T is tagged limited private;
+   type Node_T is tagged private;
 
    function Id (This : Node_T) return Node_Kind_Id_T with
      Global => null;
@@ -127,13 +144,19 @@ package Aida.XML_DOM_Parser is
    function Default_Node return Node_T with
      Global => null;
 
+   function Default_Attribute return Attribute_T with
+     Global => null;
+
    type Node_Array_T is array (Node_Id_T) of Node_T;
+
+   type Attribute_Array_T is array (Attribute_Id_T) of Attribute_T;
 
    package Public_Part_Def is
 
       type Public_Part_T is tagged limited record
-         Nodes  : Node_Array_T        := (others => Default_Node);
-         Map    : Int_To_String_Map.T := Int_To_String_Map.Make;
+         Nodes      : Node_Array_T        := (others => Default_Node);
+         Attributes : Attribute_Array_T   := (others => Default_Attribute);
+         Map        : Int_To_String_Map.T := Int_To_String_Map.Make;
       end record;
 
    end Public_Part_Def;
@@ -148,42 +171,69 @@ package Aida.XML_DOM_Parser is
 
 private
 
-   type Node_T (My_Id : Node_Kind_Id_T := Node_Kind_Id_T'First) is tagged limited record
+   type Attribute_T is tagged limited record
+      My_Name_Key       : Int_To_String_Map.Key_T := Int_To_String_Map.Key_T'First;
+      My_Value_Key      : Int_To_String_Map.Key_T := Int_To_String_Map.Key_T'First;
+      My_Next_Attribute : Extended_Attribute_Id_T := Extended_Attribute_Id_T'First;
+   end record;
+
+   function Name (This : Attribute_T;
+                  Map  : Int_To_String_Map.T) return String_T is (Map.Value (This.My_Name_Key));
+
+   function Value (This : Attribute_T;
+                   Map  : Int_To_String_Map.T) return String_T is (Map.Value (This.My_Value_Key));
+
+   function Next_Attribute (This : Attribute_T) return Attribute_Id_T is (This.My_Next_Attribute);
+
+   function Has_Next_Attribute (This : Attribute_T) return Boolean is (This.My_Next_Attribute > Extended_Attribute_Id_T'First);
+
+   function Default_Attribute return Attribute_T is ((My_Name_Key       => Int_To_String_Map.Key_T'First,
+                                                      My_Value_Key      => Int_To_String_Map.Key_T'First,
+                                                      My_Next_Attribute => Extended_Attribute_Id_T'First));
+
+   type Inner_Node_T (My_Id : Node_Kind_Id_T := Node_Kind_Id_T'First) is record
       My_Next_Node : Extended_Node_Id_T := Extended_Node_Id_T'First;
       case My_Id is
          when XML_Tag     =>
-            My_JSON_Key         : Int_To_String_Map.Key_T := Int_To_String_Map.Key_T'First;
-            My_First_Child_Node : Extended_Node_Id_T      := Extended_Node_Id_T'First;
-         when XML_Comment | XML_CDATA | XML_Text => My_Key : Int_To_String_Map.Key_T;
+            My_JSON_Key           : Int_To_String_Map.Key_T := Int_To_String_Map.Key_T'First;
+            My_First_Child_Node   : Extended_Node_Id_T      := Extended_Node_Id_T'First;
+            My_First_Attribute_Id : Extended_Attribute_Id_T := Extended_Attribute_Id_T'First;
+         when XML_Comment | XML_CDATA | XML_Text =>
+            My_Key                : Int_To_String_Map.Key_T;
       end case;
    end record;
 
-   function Id (This : Node_T) return Node_Kind_Id_T is (This.My_Id);
+   type Node_T is tagged record
+      Inner : Inner_Node_T;
+   end record;
+
+   function Id (This : Node_T) return Node_Kind_Id_T is (This.Inner.My_Id);
 
    function Name (This : Node_T;
-                  Map  : Int_To_String_Map.T) return String_T is (Map.Value (This.My_JSON_Key));
+                  Map  : Int_To_String_Map.T) return String_T is (Map.Value (This.Inner.My_JSON_Key));
 
    function Comment (This : Node_T;
-                     Map  : Int_To_String_Map.T) return String_T is (Map.Value (This.My_Key));
+                     Map  : Int_To_String_Map.T) return String_T is (Map.Value (This.Inner.My_Key));
 
    function CDATA (This : Node_T;
-                   Map  : Int_To_String_Map.T) return String_T is (Map.Value (This.My_Key));
+                   Map  : Int_To_String_Map.T) return String_T is (Map.Value (This.Inner.My_Key));
 
    function Text (This : Node_T;
-                  Map  : Int_To_String_Map.T) return String_T is (Map.Value (This.My_Key));
+                  Map  : Int_To_String_Map.T) return String_T is (Map.Value (This.Inner.My_Key));
 
-   function First_Child_Node (This : Node_T) return Node_Id_T is (This.My_First_Child_Node);
+   function First_Child_Node (This : Node_T) return Node_Id_T is (This.Inner.My_First_Child_Node);
 
-   function Has_Child_Nodes (This : Node_T) return Boolean is (This.My_First_Child_Node > Extended_Node_Id_T'First);
+   function Has_Child_Nodes (This : Node_T) return Boolean is (This.Inner.My_First_Child_Node > Extended_Node_Id_T'First);
 
-   function Next_Node (This : Node_T) return Node_Id_T is (This.My_Next_Node);
+   function Next_Node (This : Node_T) return Node_Id_T is (This.Inner.My_Next_Node);
 
-   function Has_Next_Node (This : Node_T) return Boolean is (This.My_Next_Node > Extended_Node_Id_T'First);
+   function Has_Next_Node (This : Node_T) return Boolean is (This.Inner.My_Next_Node > Extended_Node_Id_T'First);
 
-   function Default_Node return Node_T is ((My_Id               => XML_Tag,
-                                            My_JSON_Key         => Int_To_String_Map.Key_T'First,
-                                            My_First_Child_Node => Extended_Node_Id_T'First,
-                                            My_Next_Node        => Extended_Node_Id_T'First));
+   function Default_Node return Node_T is ((Inner => (My_Id                 => XML_Tag,
+                                                      My_JSON_Key           => Int_To_String_Map.Key_T'First,
+                                                      My_First_Child_Node   => Extended_Node_Id_T'First,
+                                                      My_First_Attribute_Id => Extended_Attribute_Id_T'First,
+                                                      My_Next_Node          => Extended_Node_Id_T'First)));
 
    type T is new Public_Part_Def.Public_Part_T with record
       Max_Indices : Max_Indices_Def.T;
@@ -192,24 +242,24 @@ private
    MAX_IDS : constant := 10;
 
    type Current_Node_T is record
-      Node_Id       : Node_Id_T;
-      Last_Child_Id : Extended_Node_Id_T;
+      Node_Id           : Node_Id_T;
+      Last_Child_Id     : Extended_Node_Id_T;
+      Last_Attribute_Id : Extended_Attribute_Id_T;
       -- An xml tag  can have several child tags and this index points out the last one
    end record;
 
-   function Default_Current_Node return Current_Node_T is ((Node_Id       => Node_Id_T'First,
-                                                            Last_Child_Id => Extended_Node_Id_T'First));
+   function Default_Current_Node return Current_Node_T is ((Node_Id           => Node_Id_T'First,
+                                                            Last_Child_Id     => Extended_Node_Id_T'First,
+                                                            Last_Attribute_Id => Extended_Attribute_Id_T'First));
 
    package Node_Vector is new Aida.Tagged_Bounded_Vector (Max_Last_Index  => Int32_T'First + MAX_IDS,
                                                           Element_T       => Current_Node_T,
                                                           Default_Element => Default_Current_Node);
 
    type State_T is (
-                    Expecting_Object_Start,
-                    Expecting_Key_Or_Object_End_After_Object_Start,
-                    Expecting_Value,
-                    Expecting_Array_Value_After_Array_Start,
-                    Expecting_Key_Or_Object_End,
+                    Expecting_Object_Start, -- seems to only apply to the root start tag
+--                    Expecting_Attribute_Or_Text_Or_Comment_Or_CDATA_Or_Object_Start_Or_Object_End,
+                    Expecting_Default, -- Attribute_Or_Text_Or_Comment_Or_CDATA_Or_Object_Start_Or_Object_End
                     End_State
                    );
 

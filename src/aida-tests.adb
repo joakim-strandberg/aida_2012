@@ -1,5 +1,5 @@
 with GNAT.Source_Info;
-with Aida.Text_IO;
+
 package body Aida.Tests is
 
    overriding procedure Initialize (T : in out Test) is
@@ -60,7 +60,6 @@ package body Aida.Tests is
 
       Result : constant Aida.String_T := To_String (I);
    begin
-      Aida.Text_IO.Put_Line (Result);
       Ahven.Assert (Result = "2147483647", "");
    end SHOULD_Successfully_Convert_Int32_2147483647_To_String;
 

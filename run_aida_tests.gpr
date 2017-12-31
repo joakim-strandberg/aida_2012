@@ -25,6 +25,8 @@ project Run_Aida_Tests is
                          "aida-utf8-tests.adb",
                          "aida-xml_sax_parse_tests.ads",
                          "aida-xml_sax_parse_tests.adb",
+                         "aida-xml_dom_parser_tests.ads",
+                         "aida-xml_dom_parser_tests.adb",
                          "aida-subprogram_call_result_tests.ads",
                          "aida-subprogram_call_result_tests.adb",
                          "aida-integer_to_string_map_tests.ads",
