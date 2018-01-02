@@ -683,7 +683,7 @@ is
                         State_Id := Init_Extracting_Comment;
                      end if;
                   when Expecting_Only_Trailing_Spaces =>
-                     if CP = Character'Pos (' ') then
+                     if CP = Character'Pos (' ') or CP = 10 or CP = 13 then
                         null; -- Trailing spaces are OK
                      else
                         Call_Result.Initialize (1777504526, -1635825641);

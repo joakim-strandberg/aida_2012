@@ -126,6 +126,14 @@ package Aida.XML_DOM_Parser is
      Global    => null,
        Pre'Class => This.Id = XML_Text;
 
+   function First_Attribute (This : Node_T) return Attribute_Id_T with
+     Global    => null,
+     Pre'Class => This.Id = XML_Tag and then This.Has_Attributes;
+
+   function Has_Attributes (This : Node_T) return Boolean with
+     Global    => null,
+     Pre'Class => This.Id = XML_Tag;
+
    function First_Child_Node (This : Node_T) return Node_Id_T with
      Global    => null,
      Pre'Class => This.Id = XML_Tag and then This.Has_Child_Nodes;
@@ -220,6 +228,10 @@ private
 
    function Text (This : Node_T;
                   Map  : Int_To_String_Map.T) return String_T is (Map.Value (This.Inner.My_Key));
+
+   function First_Attribute (This : Node_T) return Attribute_Id_T is (This.Inner.My_First_Attribute_Id);
+
+   function Has_Attributes (This : Node_T) return Boolean is (This.Inner.My_First_Attribute_Id > Extended_Attribute_Id_T'First);
 
    function First_Child_Node (This : Node_T) return Node_Id_T is (This.Inner.My_First_Child_Node);
 
