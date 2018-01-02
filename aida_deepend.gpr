@@ -1,0 +1,40 @@
+with "deepend.gpr";
+with "aida_utf8.gpr";
+
+project Aida_Deepend is
+
+   type OS_T is ("Windows", "Linux", "Mac");
+
+   OS : OS_T := external ("OS", "Linux");
+
+   case OS is
+      when "Windows" =>
+         for Source_Dirs use ("src", "src/windows");
+      when "Linux"   =>
+         for Source_Dirs use ("src", "src/linux");
+      when "Mac"     =>
+         for Source_Dirs use ("src", "src/mac");
+   end case;
+
+   for Source_Files use (
+--                           "aida-deepend_json_dom_parser.adb",
+--                           "aida-deepend_json_dom_parser.ads",
+--                           "aida-deepend_json_sax_parse.adb",
+--                           "aida-deepend_json_sax_parse.ads",
+                         "aida-deepend_xml_sax_parser.ads",
+                         "aida-deepend_xml_sax_parser.adb",
+                         "aida-deepend_xml_dom_parser.ads",
+                         "aida-deepend_xml_dom_parser.adb"
+                        );
+
+   for Object_Dir use "obj";
+
+   package Compiler is
+--      for Local_Configuration_Pragmas use "aida.adc";
+      for Default_Switches ("ada") use (
+                                        "-gnat2012"--,
+ --                                       "-gnata"
+                                       );
+   end Compiler;
+
+end Aida_Deepend;

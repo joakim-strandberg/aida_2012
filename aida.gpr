@@ -1,5 +1,6 @@
-with "aida_basic_types";
-with "aida_containers";
+with "aida_basic_types.gpr";
+with "aida_containers.gpr";
+with "aida_utf8.gpr";
 
 project Aida is
 
@@ -26,14 +27,8 @@ project Aida is
                          "aida-json_sax_parse.ads",
                          "aida-sequential_stream_io.ads",
                          "aida-sequential_stream_io.adb",
-                         "aida-subprogram_call_result.ads",
-                         "aida-subprogram_call_result.adb",
                          "aida-text_io.ads",
                          "aida-text_io.adb",
-                         "aida-utf8.ads",
-                         "aida-utf8.adb",
-                         "aida-utf8_code_point.ads",
-                         "aida-utf8_code_point.adb",
                          "aida-xml_sax_parse.ads",
                          "aida-xml_sax_parse.adb",
                          "aida-xml_dom_parser.ads",

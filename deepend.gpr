@@ -1,0 +1,37 @@
+project Deepend is
+
+   type OS_T is ("Windows", "Linux", "Mac");
+
+   OS : OS_T := external ("OS", "Linux");
+
+   case OS is
+      when "Windows" =>
+         for Source_Dirs use ("src", "src/windows");
+      when "Linux"   =>
+         for Source_Dirs use ("src", "src/linux");
+      when "Mac"     =>
+         for Source_Dirs use ("src", "src/mac");
+   end case;
+
+   for Source_Files use (
+                         "basic_bounded_dynamic_pools.ads",
+                         "basic_bounded_dynamic_pools.adb",
+                         "basic_dynamic_pools.ads",
+                         "basic_dynamic_pools.adb",
+                         "bounded_dynamic_pools.ads",
+                         "bounded_dynamic_pools.adb",
+                         "dynamic_pools.ads",
+                         "dynamic_pools.adb"
+                        );
+
+   for Object_Dir use "obj";
+
+   package Compiler is
+--      for Local_Configuration_Pragmas use "deepend.adc";
+      for Default_Switches ("ada") use (
+                                        "-gnat2012"--,
+ --                                       "-gnata"
+                                       );
+   end Compiler;
+
+end Deepend;

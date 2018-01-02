@@ -47,7 +47,6 @@ private
 
    package File_IO is new Ada.Sequential_IO (Ada.Streams.Stream_Element);
 
---   type File_Type is private;
    type File_Type is record
       File : File_IO.File_Type;
    end record;

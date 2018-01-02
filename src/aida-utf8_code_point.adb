@@ -65,7 +65,6 @@
 --
 
 with Aida.UTF8;
-with Aida.Text_IO;
 
 package body Aida.UTF8_Code_Point with SPARK_Mode is
 
