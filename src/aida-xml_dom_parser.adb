@@ -155,6 +155,7 @@ package body Aida.XML_DOM_Parser is
             if
               Tag_Name'Length > 0 and
               Max_Indices.Can_Allocate_Node_Id and
+              not Current_Ids.Node_Ids.Is_Empty and
               not Current_Ids.Node_Ids.Is_Full
             then
                if
@@ -170,6 +171,17 @@ package body Aida.XML_DOM_Parser is
                      Current_Node := (Node_Id           => Id,
                                       Last_Child_Id     => Extended_Node_Id_T'First,
                                       Last_Attribute_Id => Extended_Attribute_Id_T'First);
+
+                     if Current_Ids.Node_Ids.Last_Element.Last_Child_Id = Extended_Node_Id_T'First then
+                        if This.Nodes (Current_Ids.Node_Ids.Last_Element.Node_Id).Id = XML_Tag then
+                           This.Nodes (Current_Ids.Node_Ids.Last_Element.Node_Id).Inner.My_First_Child_Node := Id;
+                        else
+                           Call_Result.Initialize (-1452921765, -1899208134);
+                        end if;
+                     else
+                        This.Nodes (Current_Ids.Node_Ids.Last_Element.Last_Child_Id).Inner.My_Next_Node := Id;
+                     end if;
+
                      Current_Ids.Node_Ids.Append (Current_Node);
 
                      This.Map.Append (Tag_Name, Key);

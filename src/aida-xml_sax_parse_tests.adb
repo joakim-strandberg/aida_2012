@@ -2004,6 +2004,7 @@ package body Aida.XML_SAX_Parse_Tests is
                            Call_Result     : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Max_Indices);
+         pragma Unmodified (Current_Ids);
       begin
          case State is
             when Expecting_Attribute =>
