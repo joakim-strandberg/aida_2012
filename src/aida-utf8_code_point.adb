@@ -1172,7 +1172,7 @@ package body Aida.UTF8_Code_Point with SPARK_Mode is
                    Found : out Boolean;
                    Index : in out Categorization_Index) is
    begin
-      pragma Assume (for all I in Mapping'Range => (for all J in I..Mapping'Last => Mapping (I).Code <= Mapping (J).Code));
+--      pragma Assume (for all I in Mapping'Range => (for all J in I..Mapping'Last => Mapping (I).Code <= Mapping (J).Code));
       -- It is very memory consuming (more than 16GB) to prove this assertion, which can shown to be true by brute-force
 
       Find (Code  => Code,

@@ -312,7 +312,12 @@ package body Aida.Deepend_XML_SAX_Parser is
                         exit;
                      end if;
                   when Expecting_G_Sign_Or_Extracting_Attributes =>
-                     if CP = Character'Pos (' ') or CP = Character'Pos (Ada.Characters.Latin_1.LF) then
+                     if
+                       CP = Character'Pos (' ') or
+                       CP = Character'Pos (Ada.Characters.Latin_1.LF) or
+                       CP = Character'Pos (Ada.Characters.Latin_1.CR) or
+                       CP = Character'Pos (Ada.Characters.Latin_1.HT)
+                     then
                         null; -- Normal
                      elsif CP = Character'Pos ('>') then
                         State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;

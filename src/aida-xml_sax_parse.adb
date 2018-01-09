@@ -207,7 +207,12 @@ is
 
                case State_Id is
                   when Expecting_NL_Sign_Or_Space_Or_Less_Sign =>
-                     if CP = Character'Pos (Ada.Characters.Latin_1.LF) or CP = Character'Pos (' ') then
+                     if
+                       CP = Character'Pos (' ') or
+                       CP = Character'Pos (Ada.Characters.Latin_1.LF) or
+                       CP = Character'Pos (Ada.Characters.Latin_1.CR) or
+                       CP = Character'Pos (Ada.Characters.Latin_1.HT)
+                     then
                         null; -- Normal
                      elsif CP = Character'Pos ('<') then
                         State_Id := Init_Found_Less_Sign;
@@ -325,7 +330,12 @@ is
                         exit;
                      end if;
                   when Expecting_G_Sign_Or_Extracting_Attributes =>
-                     if CP = Character'Pos (' ') or CP = Character'Pos (Ada.Characters.Latin_1.LF) then
+                     if
+                       CP = Character'Pos (' ') or
+                       CP = Character'Pos (Ada.Characters.Latin_1.LF) or
+                       CP = Character'Pos (Ada.Characters.Latin_1.CR) or
+                       CP = Character'Pos (Ada.Characters.Latin_1.HT)
+                     then
                         null; -- Normal
                      elsif CP = Character'Pos ('>') then
                         State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
@@ -392,7 +402,7 @@ is
                      if CP = Character'Pos ('=') then
                         Attribute_Last_Index := Prev_Prev_P;
                         State_Id := Expecting_Attribute_Value_Quotation_Mark;
-                     elsif CP = Character'Pos (Ada.Characters.Latin_1.LF) then
+                     elsif CP = Character'Pos (Ada.Characters.Latin_1.LF) or CP = Character'Pos (Ada.Characters.Latin_1.CR) then
                         Call_Result.Initialize (-0986469701, -0000005525);
                         exit;
                      elsif not Is_Special_Symbol (CP) then
@@ -444,7 +454,7 @@ is
                         if Call_Result.Has_Failed then
                            exit;
                         end if;
-                     elsif CP = Character'Pos (Ada.Characters.Latin_1.LF) then
+                     elsif CP = Character'Pos (Ada.Characters.Latin_1.LF) or CP = Character'Pos (Ada.Characters.Latin_1.CR) then
                         Call_Result.Initialize (0587945467, 1683764896);
                         exit;
                      end if;
@@ -603,7 +613,7 @@ is
                                                   else
                                                      Contents'Last);
 
-                     elsif CP = Character'Pos (Ada.Characters.Latin_1.LF) then
+                     elsif CP = Character'Pos (Ada.Characters.Latin_1.LF) or CP = Character'Pos (Ada.Characters.Latin_1.CR) then
                         Call_Result.Initialize (-1658791000, 1638125646);
                         exit;
                      elsif Is_Special_Symbol (CP) then

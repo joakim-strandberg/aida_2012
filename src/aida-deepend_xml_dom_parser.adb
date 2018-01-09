@@ -33,7 +33,14 @@ package body Aida.Deepend_XML_DOM_Parser is
                   Current_Node : not null Node_Ptr := new (This.Subpool) Node_T;
                begin
                   Current_Node.Inner.My_Tag.My_Name := new (This.Subpool) Aida.String_T'(Tag_Name);
-                  This.Current_Nodes.Append (Current_Node);
+
+                  if This.Current_Nodes.Constant_Reference (This.Current_Nodes.Last_Index).all.Id = XML_Tag then
+                     This.Current_Nodes.Constant_Reference (This.Current_Nodes.Last_Index).all.Inner.My_Tag.My_Child_Nodes.Append (Current_Node);
+
+                     This.Current_Nodes.Append (Current_Node);
+                  else
+                     Call_Result.Initialize (0638744504, -1415872799);
+                  end if;
                end;
             else
                Call_Result.Initialize (1882474635, -0124544835);

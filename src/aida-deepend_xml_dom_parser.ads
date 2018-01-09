@@ -95,20 +95,6 @@ package Aida.Deepend_XML_DOM_Parser is
 
 private
 
-   type Nullable_String_Ptr (Exists : Boolean := False) is record
-      case Exists is
-         when True  => Value : not null String_Ptr := Empty_String'Access;
-         when False => null;
-      end case;
-   end record;
-
-   type Nullable_Boolean_T (Exists : Boolean := False) is record
-      case Exists is
-         when True  => Value : Boolean;
-         when False => null;
-      end case;
-   end record;
-
    type Attribute_T is tagged limited record
       My_Name  : String_Ptr;
       My_Value : String_Ptr;
