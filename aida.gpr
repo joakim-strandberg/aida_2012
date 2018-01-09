@@ -1,6 +1,7 @@
 with "aida_basic_types.gpr";
 with "aida_containers.gpr";
 with "aida_utf8.gpr";
+with "aida_io.gpr";
 
 project Aida is
 
@@ -19,16 +20,10 @@ project Aida is
 
    for Source_Files use ("aida-bounded_string.ads",
                          "aida-bounded_string.adb",
-                         "aida-directories.ads",
-                         "aida-directories.adb",
                          "aida-json_dom_parser.adb",
                          "aida-json_dom_parser.ads",
                          "aida-json_sax_parse.adb",
                          "aida-json_sax_parse.ads",
-                         "aida-sequential_stream_io.ads",
-                         "aida-sequential_stream_io.adb",
-                         "aida-text_io.ads",
-                         "aida-text_io.adb",
                          "aida-xml_sax_parse.ads",
                          "aida-xml_sax_parse.adb",
                          "aida-xml_dom_parser.ads",

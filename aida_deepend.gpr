@@ -1,20 +1,10 @@
 with "deepend.gpr";
 with "aida_utf8.gpr";
+with "aida_io.gpr";
 
 project Aida_Deepend is
 
-   type OS_T is ("Windows", "Linux", "Mac");
-
-   OS : OS_T := external ("OS", "Linux");
-
-   case OS is
-      when "Windows" =>
-         for Source_Dirs use ("src", "src/windows");
-      when "Linux"   =>
-         for Source_Dirs use ("src", "src/linux");
-      when "Mac"     =>
-         for Source_Dirs use ("src", "src/mac");
-   end case;
+   for Source_Dirs use ("src");
 
    for Source_Files use (
 --                           "aida-deepend_json_dom_parser.adb",

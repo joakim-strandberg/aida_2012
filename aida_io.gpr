@@ -1,16 +1,16 @@
-with "aida_basic_types";
+with "aida_basic_types.gpr";
 
-project Aida_UTF8 is
+project Aida_IO is
 
    for Source_Dirs use ("src");
 
    for Source_Files use (
-                         "aida-subprogram_call_result.ads",
-                         "aida-subprogram_call_result.adb",
-                         "aida-utf8.ads",
-                         "aida-utf8.adb",
-                         "aida-utf8_code_point.ads",
-                         "aida-utf8_code_point.adb"
+                         "aida-directories.ads",
+                         "aida-directories.adb",
+                         "aida-sequential_stream_io.ads",
+                         "aida-sequential_stream_io.adb",
+                         "aida-text_io.ads",
+                         "aida-text_io.adb"
                         );
 
    for Object_Dir use "obj";
@@ -23,4 +23,4 @@ project Aida_UTF8 is
                                        );
    end Compiler;
 
-end Aida_UTF8;
+end Aida_IO;

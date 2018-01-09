@@ -43,17 +43,6 @@ package body Aida.Bounded_String is
       return Hash32 (Aida.String_T (This.Text (1..Length (This))));
    end Hash32;
 
-   procedure Act_On_Immutable_Text (This : in Bounded_String_T) is
-   begin
-      Do_Something (T (This).Text (1..T(This).Text_Length));
-   end Act_On_Immutable_Text;
-
-   function Check_Something_On_Immutable_Text (This  : Bounded_String_T;
-                                               Arg   : Arg_T) return Return_T is
-   begin
-      return Check_Something (T (This).Text (1..T (This).Text_Length), Arg);
-   end Check_Something_On_Immutable_Text;
-
    function Equals (This   : T;
                     Object : Standard.String) return Boolean
    is

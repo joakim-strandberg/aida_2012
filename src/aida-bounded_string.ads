@@ -79,24 +79,6 @@ package Aida.Bounded_String is
      Global => null,
      Pre    => Length (This) <= This.Maximum_Length;
 
-   generic
-      type Bounded_String_T (<>) is new T;
-      with procedure Do_Something (Text : Aida.String_T);
-   procedure Act_On_Immutable_Text (This : in Bounded_String_T) with
-     Global => null,
-     Pre    => Length (This) <= This.Maximum_Length;
-
-   generic
-      type Bounded_String_T (<>) is new T;
-      type Return_T is private;
-      type Arg_T is private;
-      with function Check_Something (Text : Aida.String_T;
-                                     Arg  : Arg_T) return Return_T;
-   function Check_Something_On_Immutable_Text (This  : Bounded_String_T;
-                                               Arg   : Arg_T) return Return_T with
-     Global => null,
-     Pre    => Length (This) <= This.Maximum_Length;
-
 private
 
    type T (Maximum_Length : Positive) is limited record

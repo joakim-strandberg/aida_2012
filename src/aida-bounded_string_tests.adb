@@ -17,34 +17,16 @@ package body Aida.Bounded_String_Tests is
    is
       pragma Unreferenced (T);
 
-      function Check_Expected (Text     : Aida.String_T;
-                               Expected : Aida.String_T) return Boolean with
-        Global => null;
-
-      function Check_Expected (Text     : Aida.String_T;
-                               Expected : Aida.String_T) return Boolean is
-      begin
-         return Expected = Text;
-      end Check_Expected;
-
       Expected : constant Aida.String_T := "Hej";
 
-      subtype Expected_T is Aida.String_T (Expected'First..Expected'Last);
-
       Is_Success : Boolean;
-
-      function Check_Expected is new Bounded_String.Check_Something_On_Immutable_Text (Bounded_String_T => Bounded_String_20_T,
-                                                                                       Return_T         => Boolean,
-                                                                                       Arg_T            => Expected_T,
-                                                                                       Check_Something  => Check_Expected);
 
       S : Bounded_String_20_T;
    begin
       Initialize (This => S,
                   Text => Expected);
-      Is_Success := Check_Expected (S, Expected);
+      Is_Success := To_String (S) = Expected;
       Ahven.Assert (Is_Success, "CODE A, was ", Boolean'Image (Is_Success));
-      Ahven.Assert (S = Expected, "CODE A, was ", Boolean'Image (Is_Success));
    end Test_Initialization;
 
 end Aida.Bounded_String_Tests;
