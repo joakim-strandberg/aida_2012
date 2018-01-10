@@ -246,7 +246,7 @@ package body Aida.XML_DOM_Parser is
       case State is
          when Expecting_Default =>
             if Value'Length = 0 or (Value'Length > 0 and then
-                                      (for all I in Value'Range => Value (I) = ' ' or Value (I) = Character'Val (12) or Value (I) = Character'Val (13)))
+                                      (for all I in Value'Range => Value (I) = ' ' or Value (I) = Character_T'Val (12) or Value (I) = Character_T'Val (13)))
             then
                null;
             elsif

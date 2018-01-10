@@ -32,7 +32,7 @@ package body Aida.XML_DOM_Parser_Tests is
    begin
       Parser.Parse (XML_Test_Person_With_Vehicles_0, Call_Result);
 
-      Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
+      Ahven.Assert (not Call_Result.Has_Failed, Call_Result.Message);
       Ahven.Assert (Parser.Nodes (1).Id = DOM_Parser.XML_Tag, "1");
 --        Ahven.Assert (Current_Ids.Person_Ids.Is_Non_Empty, "1f861507-695e-458b-836e-aa9fe7f131e2");
 --        Ahven.Assert (Max_Indices.Person_Id_Max = 1, "949ca5e3-1353-47e6-90fc-b0aa21d398a6");

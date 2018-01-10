@@ -90,6 +90,6 @@ private
 
    function "=" (Left, Right : T) return Boolean is (Length (Left) = Length (Right) and then (for all I in Positive range 1..Left.Text_Length => Left.Text (I) = Right.Text (I)));
 
-   function "=" (Left : T; Right : Aida.String_T) return Boolean is (Equals (Left, String (Right)));
+   function "=" (Left : T; Right : Aida.String_T) return Boolean is (Equals (Left, Right));
 
 end Aida.Bounded_String;

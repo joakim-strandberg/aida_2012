@@ -40,7 +40,7 @@ package body Aida.Bounded_String is
 
    function Hash32 (This : T) return Aida.Hash32_T is
    begin
-      return Hash32 (Aida.String_T (This.Text (1..Length (This))));
+      return Aida.String.Hash32 (This.Text (1..Length (This)));
    end Hash32;
 
    function Equals (This   : T;
@@ -50,7 +50,7 @@ package body Aida.Bounded_String is
    begin
       if Length (This) = Object'Length then
          if Object'Length > 0 then
-            Result := String (This.Text (1..This.Text_Length)) = Object (Object'Range);
+            Result := This.Text (1..This.Text_Length) = Object (Object'Range);
          end if;
       end if;
 

@@ -30,7 +30,6 @@ package body Ahven.XML_Runner is
    use Ada.Strings.Maps;
 
    use Ahven.Results;
-   use Ahven.Framework;
    use Ahven.AStrings;
 
    function Filter_String (Str : String) return String;

@@ -213,7 +213,7 @@ package body Aida.JSON_DOM_Parser is
                      Last_Index (Current_Ids.Node_Ids) < Max_Index (Current_Ids.Node_Ids)) and then
               Last_Element (Current_Ids.Node_Ids).Id = Node_Construct
             then
-               This.Map.Append (Value => String (Name),
+               This.Map.Append (Value => Name,
                                 Key   => Key);
 
                declare
@@ -239,7 +239,7 @@ package body Aida.JSON_DOM_Parser is
                      Last_Index (Current_Ids.Node_Ids) >= First_Index (Current_Ids.Node_Ids)) and then
               Last_Element (Current_Ids.Node_Ids).Id = Node_Construct
             then
-               This.Map.Append (Value => String (Name),
+               This.Map.Append (Value => Name,
                                 Key   => Key);
                This.Nodes (Last_Element (Current_Ids.Node_Ids).Node_Id).My_JSON_Key := Key;
                Current_Ids.State := Expecting_Value;
@@ -273,7 +273,7 @@ package body Aida.JSON_DOM_Parser is
               This.Map.Available_Keys > 0 and
               Last_Index (Current_Ids.Node_Ids) >= First_Index (Current_Ids.Node_Ids)
             then
-               This.Map.Append (Value => String (Value),
+               This.Map.Append (Value => Value,
                                 Key   => Key);
 
                case Last_Element (Current_Ids.Node_Ids).Id is
@@ -323,7 +323,7 @@ package body Aida.JSON_DOM_Parser is
                      Call_Result.Initialize (0050575217, 2066756199);
                   when Array_Construct =>
                      if Last_Element (Current_Ids.Node_Ids).Array_Id < Array_Index_T'Last then
-                        This.Map.Append (Value => String (Value),
+                        This.Map.Append (Value => Value,
                                          Key   => Key);
                         This.Arrays (Last_Element (Current_Ids.Node_Ids).Array_Id).My_JSON_Value := (Id  => JSON_Text,
                                                                                                      Key => Key);
@@ -363,7 +363,7 @@ package body Aida.JSON_DOM_Parser is
               This.Map.Available_Keys > 0 and
               Last_Index (Current_Ids.Node_Ids) >= First_Index (Current_Ids.Node_Ids)
             then
-               This.Map.Append (Value => String (Value),
+               This.Map.Append (Value => Value,
                                 Key   => Key);
 
                case Last_Element (Current_Ids.Node_Ids).Id is
@@ -404,7 +404,7 @@ package body Aida.JSON_DOM_Parser is
               This.Map.Available_Keys > 0 and
               Last_Index (Current_Ids.Node_Ids) >= First_Index (Current_Ids.Node_Ids)
             then
-               This.Map.Append (Value => String (Value),
+               This.Map.Append (Value => Value,
                                 Key   => Key);
 
                case Last_Element (Current_Ids.Node_Ids).Id is
@@ -448,7 +448,7 @@ package body Aida.JSON_DOM_Parser is
               This.Map.Available_Keys > 0 and
               Last_Index (Current_Ids.Node_Ids) >= First_Index (Current_Ids.Node_Ids)
             then
-               This.Map.Append (Value => String (Value),
+               This.Map.Append (Value => Value,
                                 Key   => Key);
 
                case Last_Element (Current_Ids.Node_Ids).Id is
@@ -489,7 +489,7 @@ package body Aida.JSON_DOM_Parser is
               This.Map.Available_Keys > 0 and
               Last_Index (Current_Ids.Node_Ids) >= First_Index (Current_Ids.Node_Ids)
             then
-               This.Map.Append (Value => String (Value),
+               This.Map.Append (Value => Value,
                                 Key   => Key);
 
                case Last_Element (Current_Ids.Node_Ids).Id is

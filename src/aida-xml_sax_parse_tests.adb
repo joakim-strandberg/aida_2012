@@ -332,7 +332,7 @@ package body Aida.XML_SAX_Parse_Tests is
                     XML,
                     Call_Result);
 
-         Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
+         Ahven.Assert (not Call_Result.Has_Failed, Call_Result.Message);
          Ahven.Assert (State = Final_State, "592cbd68-ef97-4fc1-934b-80111d24fd32");
          Ahven.Assert (Current_Ids.Person_Ids.Is_Non_Empty, "1f861507-695e-458b-836e-aa9fe7f131e2");
          Ahven.Assert (Max_Indices.Person_Id_Max = 1, "949ca5e3-1353-47e6-90fc-b0aa21d398a6");
@@ -578,9 +578,9 @@ package body Aida.XML_SAX_Parse_Tests is
                      I : Aida.Int32_T;
                      Has_Failed : Boolean;
                   begin
-                     To_Int32 (Attribute_Value,
-                               I,
-                               Has_Failed);
+                     Aida.String.To_Int32 (Attribute_Value,
+                                           I,
+                                           Has_Failed);
 
                      if Has_Failed then
                         Call_Result.Initialize (-1415717893, 1464395596);
@@ -666,7 +666,7 @@ package body Aida.XML_SAX_Parse_Tests is
                     XML,
                     Call_Result);
 
-         Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
+         Ahven.Assert (not Call_Result.Has_Failed, Call_Result.Message);
          Ahven.Assert (State = End_State, "397d359d-2d92-462b-8b32-2a4bbdc6ce25");
          Ahven.Assert (Current_Ids.Person_Ids.Is_Non_Empty, "810561fa-2c9f-4582-a5cf-10e5abd85113");
          Ahven.Assert (Max_Indices.Person_Id_Max = 1, "ae7399ea-3d2a-4400-a10f-34104d439978");
@@ -988,7 +988,7 @@ package body Aida.XML_SAX_Parse_Tests is
                     XML,
                     Call_Result);
 
-         Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
+         Ahven.Assert (not Call_Result.Has_Failed, Call_Result.Message);
          Ahven.Assert (State = Final_State, "592cbd68-ef97-4fc1-934b-80111d24fd32");
          Ahven.Assert (Current_Ids.Person_Ids.Is_Non_Empty, "1f861507-695e-458b-836e-aa9fe7f131e2");
          Ahven.Assert (Max_Indices.Person_Id_Max = 1, "949ca5e3-1353-47e6-90fc-b0aa21d398a6");
@@ -1256,7 +1256,7 @@ package body Aida.XML_SAX_Parse_Tests is
                     XML,
                     Call_Result);
 
-         Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
+         Ahven.Assert (not Call_Result.Has_Failed, Call_Result.Message);
          Ahven.Assert (State = Final_State, "592cbd68-ef97-4fc1-934b-80111d24fd32");
          Ahven.Assert (Current_Ids.Person_Ids.Is_Non_Empty, "1f861507-695e-458b-836e-aa9fe7f131e2");
          Ahven.Assert (Max_Indices.Person_Id_Max = 1, "949ca5e3-1353-47e6-90fc-b0aa21d398a6");
@@ -1523,7 +1523,7 @@ package body Aida.XML_SAX_Parse_Tests is
                     XML,
                     Call_Result);
 
-         Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
+         Ahven.Assert (not Call_Result.Has_Failed, Call_Result.Message);
          Ahven.Assert (State = Final_State, "592cbd68-ef97-4fc1-934b-80111d24fd32");
          Ahven.Assert (Current_Ids.Person_Ids.Is_Non_Empty, "1f861507-695e-458b-836e-aa9fe7f131e2");
          Ahven.Assert (Max_Indices.Person_Id_Max = 1, "949ca5e3-1353-47e6-90fc-b0aa21d398a6");
@@ -1809,7 +1809,7 @@ package body Aida.XML_SAX_Parse_Tests is
                     XML,
                     Call_Result);
 
-         Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
+         Ahven.Assert (not Call_Result.Has_Failed, Call_Result.Message);
          Ahven.Assert (State = Final_State, "592cbd68-ef97-4fc1-934b-80111d24fd32");
          Ahven.Assert (Current_Ids.Person_Ids.Is_Non_Empty, "1f861507-695e-458b-836e-aa9fe7f131e2");
          Ahven.Assert (Max_Indices.Person_Id_Max = 1, "949ca5e3-1353-47e6-90fc-b0aa21d398a6");
@@ -2094,11 +2094,11 @@ package body Aida.XML_SAX_Parse_Tests is
                     XML,
                     Call_Result);
 
-         Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
+         Ahven.Assert (not Call_Result.Has_Failed, Call_Result.Message);
          Ahven.Assert (State = Final_State, "1");
          Ahven.Assert (Current_Ids.Person_Ids.Is_Non_Empty, "2");
          Ahven.Assert (Max_Indices.Person_Id_Max = 1, "3");
-         Ahven.Assert (Storage.Person (Max_Indices.Person_Id_Max).Name = Expected_Attribute, "4", String (Storage.Person (Max_Indices.Person_Id_Max).Name));
+         Ahven.Assert (Storage.Person (Max_Indices.Person_Id_Max).Name = Expected_Attribute, "4", Storage.Person (Max_Indices.Person_Id_Max).Name);
       end Run_Test;
 
    end Test_Person_With_Single_Quote_Attribute_Utils;

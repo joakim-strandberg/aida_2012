@@ -19,7 +19,7 @@ package body Aida.UTF8.Tests is
    procedure Extract_UTF8_Code_Point_Hexadecimal_Case_24 (T : in out Ahven.Framework.Test_Case'Class) is
       pragma Unreferenced (T);
 
-      Source : constant String (1..1) := (1 => Character'Val (16#24#));
+      Source : constant String_T (1..1) := (1 => Character_T'Val (16#24#));
       Pointer : Integer := 1;
       Value : Aida.UTF8_Code_Point.T;
    begin
@@ -32,7 +32,7 @@ package body Aida.UTF8.Tests is
    procedure Extract_UTF8_Code_Point_Hexadecimal_Case_C2A2 (T : in out Ahven.Framework.Test_Case'Class) is
       pragma Unreferenced (T);
 
-      Source : constant String (1..2) := (1 => Character'Val (16#C2#), 2 => Character'Val (16#A2#));
+      Source : constant String_T (1..2) := (1 => Character_T'Val (16#C2#), 2 => Character_T'Val (16#A2#));
       Pointer : Integer := 1;
       Value : Aida.UTF8_Code_Point.T;
    begin
@@ -45,7 +45,7 @@ package body Aida.UTF8.Tests is
    procedure Extract_UTF8_Code_Point_Hexadecimal_Case_E282AC (T : in out Ahven.Framework.Test_Case'Class) is
       pragma Unreferenced (T);
 
-      Source : constant String (1..3) := (1 => Character'Val (16#E2#), 2 => Character'Val (16#82#), 3 => Character'Val (16#AC#));
+      Source : constant String_T (1..3) := (1 => Character_T'Val (16#E2#), 2 => Character_T'Val (16#82#), 3 => Character_T'Val (16#AC#));
       Pointer : Integer := 1;
       Value : Aida.UTF8_Code_Point.T;
    begin
@@ -58,7 +58,7 @@ package body Aida.UTF8.Tests is
    procedure Extract_UTF8_Code_Point_Hexadecimal_Case_E0AA81 (T : in out Ahven.Framework.Test_Case'Class) is
       pragma Unreferenced (T);
 
-      Source : constant String (1..3) := (1 => Character'Val (16#E0#), 2 => Character'Val (16#AA#), 3 => Character'Val (16#81#));
+      Source : constant String_T (1..3) := (1 => Character_T'Val (16#E0#), 2 => Character_T'Val (16#AA#), 3 => Character_T'Val (16#81#));
       Pointer : Integer := 1;
       Value : Aida.UTF8_Code_Point.T;
    begin
@@ -72,7 +72,7 @@ package body Aida.UTF8.Tests is
    procedure Extract_UTF8_Code_Point_Hexadecimal_Case_F0908D88 (T : in out Ahven.Framework.Test_Case'Class) is
       pragma Unreferenced (T);
 
-      Source : constant String (1..4) := (1 => Character'Val (16#F0#), 2 => Character'Val (16#90#), 3 => Character'Val (16#8D#), 4 => Character'Val (16#88#));
+      Source : constant String_T (1..4) := (1 => Character_T'Val (16#F0#), 2 => Character_T'Val (16#90#), 3 => Character_T'Val (16#8D#), 4 => Character_T'Val (16#88#));
       Pointer : Integer := 1;
       Value : Aida.UTF8_Code_Point.T;
    begin
@@ -85,7 +85,7 @@ package body Aida.UTF8.Tests is
    procedure Extract_UTF8_Code_Point_Hexadecimal_Case_F4808081 (T : in out Ahven.Framework.Test_Case'Class) is
       pragma Unreferenced (T);
 
-      Source : constant String (1..4) := (1 => Character'Val (16#F4#), 2 => Character'Val (16#80#), 3 => Character'Val (16#80#), 4 => Character'Val (16#81#));
+      Source : constant String_T (1..4) := (1 => Character_T'Val (16#F4#), 2 => Character_T'Val (16#80#), 3 => Character_T'Val (16#80#), 4 => Character_T'Val (16#81#));
       Pointer : Integer := 1;
       Value : Aida.UTF8_Code_Point.T;
    begin
@@ -98,7 +98,7 @@ package body Aida.UTF8.Tests is
    procedure Extract_UTF8_Code_Point_Hexadecimal_Case_F3B09081 (T : in out Ahven.Framework.Test_Case'Class) is
       pragma Unreferenced (T);
 
-      Source : constant String (1..4) := (1 => Character'Val (16#F3#), 2 => Character'Val (16#B0#), 3 => Character'Val (16#90#), 4 => Character'Val (16#81#));
+      Source : constant String_T (1..4) := (1 => Character_T'Val (16#F3#), 2 => Character_T'Val (16#B0#), 3 => Character_T'Val (16#90#), 4 => Character_T'Val (16#81#));
       Pointer : Integer := 1;
       Value : Aida.UTF8_Code_Point.T;
    begin

@@ -50,7 +50,7 @@ package body Aida.JSON_DOM_Parser_Tests is
       Parser.Parse (JSON_Message => JSON_Test_Person_With_Age_0,
                     Call_Result  => Call_Result);
 
-      Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
+      Ahven.Assert (not Call_Result.Has_Failed, Call_Result.Message);
 
       Ahven.Assert (Parser.Map.Value (Parser.Nodes (F).JSON_Key) = "age", "was ", Parser.Map.Value (Parser.Nodes (F).JSON_Key));
       Ahven.Assert (Parser.Nodes (F).JSON_Value.Id = DOM_Parser.JSON_Integer, "was ");--, Parser.Nodes (DOM_Parser.Node_Index_T'First).JSON_Value.Id'Image);
@@ -81,7 +81,7 @@ package body Aida.JSON_DOM_Parser_Tests is
       Parser.Parse (JSON_Message => JSON_Test_Person_With_Hand_0,
                     Call_Result  => Call_Result);
 
-      Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
+      Ahven.Assert (not Call_Result.Has_Failed, Call_Result.Message);
 
       Ahven.Assert (Parser.Map.Value (Parser.Nodes (F).JSON_Key) = "hand", "1 was ", Parser.Map.Value (Parser.Nodes (F).JSON_Key));
       Ahven.Assert (Parser.Nodes (F).JSON_Value.Id = DOM_Parser.JSON_Object, "2 was ");--, Parser.Nodes (DOM_Parser.Node_Index_T'First).JSON_Value.Id'Image);
@@ -119,7 +119,7 @@ package body Aida.JSON_DOM_Parser_Tests is
       Parser.Parse (JSON_Message => JSON_Test_Person_With_Name_Adam_0,
                     Call_Result  => Call_Result);
 
-      Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
+      Ahven.Assert (not Call_Result.Has_Failed, Call_Result.Message);
 
       Ahven.Assert (Parser.Map.Value (Parser.Nodes (F).JSON_Key) = "name", "was ", Parser.Map.Value (Parser.Nodes (F).JSON_Key));
       Ahven.Assert (Parser.Nodes (F).JSON_Value.Id = DOM_Parser.JSON_Text, "was ");--, Parser.Nodes (DOM_Parser.Node_Index_T'First).JSON_Value.Id'Image);
@@ -150,7 +150,7 @@ package body Aida.JSON_DOM_Parser_Tests is
       Parser.Parse (JSON_Message => JSON_Test_Person_With_Name_And_Age_0,
                     Call_Result  => Call_Result);
 
-      Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
+      Ahven.Assert (not Call_Result.Has_Failed, Call_Result.Message);
 
       Ahven.Assert (Parser.Map.Value (Parser.Nodes (F).JSON_Key) = "name", "1 was ", Parser.Map.Value (Parser.Nodes (F).JSON_Key));
       Ahven.Assert (Parser.Nodes (F).JSON_Value.Id = DOM_Parser.JSON_Text, "2 was ");--, Parser.Nodes (DOM_Parser.Node_Index_T'First).JSON_Value.Id'Image);
@@ -192,7 +192,7 @@ package body Aida.JSON_DOM_Parser_Tests is
       Parser.Parse (JSON_Message => JSON_Test_Person_With_Vehicles_0,
                     Call_Result  => Call_Result);
 
-      Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
+      Ahven.Assert (not Call_Result.Has_Failed, Call_Result.Message);
 
       Ahven.Assert (Parser.Map.Value (Parser.Nodes (F).JSON_Key)     = "vehicles",            "1 was ", Parser.Map.Value (Parser.Nodes (F).JSON_Key));
       Ahven.Assert (                  Parser.Nodes (F).JSON_Value.Id = DOM_Parser.JSON_Array, "2 was ", DOM_Parser.JSON_Value_Id_T'Image (Parser.Nodes (F).JSON_Value.Id));

@@ -23,6 +23,8 @@ package body Aida.Tests is
       Ahven.Framework.Add_Test_Routine (T, SHOULD_Successfully_Convert_Int32_Minus_2147483647_To_String'Access, "SHOULD_Successfully_Convert_Int32_Minus_2147483647_To_String");
    end Initialize;
 
+   use Aida.Int32;
+
    procedure SHOULD_Successfully_Convert_Int32_Minus_2147483647_To_String (T : in out Ahven.Framework.Test_Case'Class) is
       pragma Unreferenced (T);
 
@@ -100,9 +102,9 @@ package body Aida.Tests is
       Target     : Aida.Int32_T;
       Has_Failed : Boolean;
    begin
-      To_Int32 (Source     => Text,
-                Target     => Target,
-                Has_Failed => Has_Failed);
+      Aida.String.To_Int32 (Source     => Text,
+                            Target     => Target,
+                            Has_Failed => Has_Failed);
       Ahven.Assert (not Has_Failed, GNAT.Source_Info.Source_Location & ", was " & Has_Failed'Img);
       Ahven.Assert (Target = 0, GNAT.Source_Info.Source_Location & ", was " & Target'Img);
    end SHOULD_Successfully_Convert_String_0_To_Integer;
@@ -114,9 +116,9 @@ package body Aida.Tests is
       Target     : Aida.Int32_T;
       Has_Failed : Boolean;
    begin
-      To_Int32 (Source     => Text,
-                Target     => Target,
-                Has_Failed => Has_Failed);
+      Aida.String.To_Int32 (Source     => Text,
+                            Target     => Target,
+                            Has_Failed => Has_Failed);
       Ahven.Assert (not Has_Failed, GNAT.Source_Info.Source_Location & ", was " & Has_Failed'Img);
       Ahven.Assert (Target = 100, GNAT.Source_Info.Source_Location & ", was " & Target'Img);
    end SHOULD_Successfully_Convert_String_100_To_Integer;
@@ -128,9 +130,9 @@ package body Aida.Tests is
       Target     : Aida.Int32_T;
       Has_Failed : Boolean;
    begin
-      To_Int32 (Source     => Text,
-                Target     => Target,
-                Has_Failed => Has_Failed);
+      Aida.String.To_Int32 (Source     => Text,
+                            Target     => Target,
+                            Has_Failed => Has_Failed);
       Ahven.Assert (not Has_Failed, GNAT.Source_Info.Source_Location & ", was " & Has_Failed'Img);
       Ahven.Assert (Target = 2147483647, GNAT.Source_Info.Source_Location & ", was " & Target'Img);
    end SHOULD_Successfully_Convert_String_2147483647_To_Integer;
@@ -142,9 +144,9 @@ package body Aida.Tests is
       Target     : Aida.Int32_T;
       Has_Failed : Boolean;
    begin
-      To_Int32 (Source     => Text,
-                Target     => Target,
-                Has_Failed => Has_Failed);
+      Aida.String.To_Int32 (Source     => Text,
+                            Target     => Target,
+                            Has_Failed => Has_Failed);
       Ahven.Assert (Has_Failed, GNAT.Source_Info.Source_Location & ", was " & Has_Failed'Img);
    end SHOULD_Successfully_Convert_String_2147483648_To_Integer;
 
@@ -155,9 +157,9 @@ package body Aida.Tests is
       Target     : Aida.Int32_T;
       Has_Failed : Boolean;
    begin
-      To_Int32 (Source     => Text,
-                Target     => Target,
-                Has_Failed => Has_Failed);
+      Aida.String.To_Int32 (Source     => Text,
+                            Target     => Target,
+                            Has_Failed => Has_Failed);
       Ahven.Assert (not Has_Failed, GNAT.Source_Info.Source_Location & ", was " & Has_Failed'Img);
       Ahven.Assert (Target = -1, GNAT.Source_Info.Source_Location & ", was " & Target'Img);
    end SHOULD_Successfully_Convert_String_Minus_1_To_Integer;
@@ -169,9 +171,9 @@ package body Aida.Tests is
       Target     : Aida.Int32_T;
       Has_Failed : Boolean;
    begin
-      To_Int32 (Source     => Text,
-                Target     => Target,
-                Has_Failed => Has_Failed);
+      Aida.String.To_Int32 (Source     => Text,
+                            Target     => Target,
+                            Has_Failed => Has_Failed);
       Ahven.Assert (not Has_Failed, GNAT.Source_Info.Source_Location & ", was " & Has_Failed'Img);
       Ahven.Assert (Target = -100, GNAT.Source_Info.Source_Location & ", was " & Target'Img);
    end SHOULD_Successfully_Convert_String_Minus_100_To_Integer;
@@ -183,9 +185,9 @@ package body Aida.Tests is
       Target     : Aida.Int32_T;
       Has_Failed : Boolean;
    begin
-      To_Int32 (Source     => Text,
-                Target     => Target,
-                Has_Failed => Has_Failed);
+      Aida.String.To_Int32 (Source     => Text,
+                            Target     => Target,
+                            Has_Failed => Has_Failed);
       Ahven.Assert (not Has_Failed, GNAT.Source_Info.Source_Location & ", was " & Has_Failed'Img);
       Ahven.Assert (Target = -2147483648, GNAT.Source_Info.Source_Location & ", was " & Target'Img);
    end SHOULD_Successfully_Convert_String_Minus_2147483648_To_Integer;
@@ -197,9 +199,9 @@ package body Aida.Tests is
       Target     : Aida.Int32_T;
       Has_Failed : Boolean;
    begin
-      To_Int32 (Source     => Text,
-                Target     => Target,
-                Has_Failed => Has_Failed);
+      Aida.String.To_Int32 (Source     => Text,
+                            Target     => Target,
+                            Has_Failed => Has_Failed);
       Ahven.Assert (Has_Failed, GNAT.Source_Info.Source_Location & ", was " & Has_Failed'Img);
    end SHOULD_Fail_To_Convert_String_Minus_2147483649_To_Integer;
 

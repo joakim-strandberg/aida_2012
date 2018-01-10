@@ -2,17 +2,7 @@ project Aida_Basic_Types is
 
    for Source_Dirs use ("src");
 
-   for Source_Files use ("aida_z-character.ads",
-                         "aida_z-character.adb",
-                         "aida_z-hash32.ads",
-                         "aida_z-int32.ads",
-                         "aida_z-int32.adb",
-                         "aida_z-float.ads",
-                         "aida_z-float.adb",
-                         "aida_z-string.ads",
-                         "aida_z-string.adb",
-                         "aida_z.ads",
-                         "aida.ads",
+   for Source_Files use ("aida.ads",
                          "aida.adb");
 
    for Object_Dir use "obj";

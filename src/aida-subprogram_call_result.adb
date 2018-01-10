@@ -24,7 +24,7 @@ package body Aida.Subprogram_Call_Result with SPARK_Mode is
             Max := 22;
 
             declare
-               Text2 : String_T := To_String (This.My_Code_1);
+               Text2 : String_T := Aida.Int32.To_String (This.My_Code_1);
                L : Integer := 10 - Text2'Length + 1;
             begin
                pragma Assert (L <= 10);
@@ -34,7 +34,7 @@ package body Aida.Subprogram_Call_Result with SPARK_Mode is
             Text (11..12) := ", ";
 
             declare
-               Text2 : String_T := To_String (This.My_Code_2);
+               Text2 : String_T := Aida.Int32.To_String (This.My_Code_2);
                L : Integer := 22 - Text2'Length + 1;
             begin
                Text (L..22) := Text2 (Text2'First .. Text2'Last);
@@ -43,7 +43,7 @@ package body Aida.Subprogram_Call_Result with SPARK_Mode is
             Max := 23;
 
             declare
-               Text2 : String_T := To_String (This.My_Code_1);
+               Text2 : String_T := Aida.Int32.To_String (This.My_Code_1);
                L : Integer := 10 - Text2'Length + 1;
             begin
                pragma Assert (L <= 10);
@@ -53,7 +53,7 @@ package body Aida.Subprogram_Call_Result with SPARK_Mode is
             Text (11..12) := ", ";
 
             declare
-               Text2 : String_T := To_String (This.My_Code_2);
+               Text2 : String_T := Aida.Int32.To_String (This.My_Code_2);
                L : Integer := 23 - Text2'Length + 1;
             begin
                Text (13) := '-';
@@ -65,7 +65,7 @@ package body Aida.Subprogram_Call_Result with SPARK_Mode is
             Max := 23;
 
             declare
-               Text2 : String_T := To_String (This.My_Code_1);
+               Text2 : String_T := Aida.Int32.To_String (This.My_Code_1);
                L : Integer := 11 - Text2'Length + 1;
             begin
                pragma Assert (L <= 11);
@@ -76,7 +76,7 @@ package body Aida.Subprogram_Call_Result with SPARK_Mode is
             Text (12..13) := ", ";
 
             declare
-               Text2 : String_T := To_String (This.My_Code_2);
+               Text2 : String_T := Aida.Int32.To_String (This.My_Code_2);
                L : Integer := 23 - Text2'Length + 1;
             begin
                Text (L..23) := Text2 (Text2'First .. Text2'Last);
@@ -85,7 +85,7 @@ package body Aida.Subprogram_Call_Result with SPARK_Mode is
             Max := 24;
 
             declare
-               Text2 : String_T := To_String (This.My_Code_1);
+               Text2 : String_T := Aida.Int32.To_String (This.My_Code_1);
                L : Integer := 11 - Text2'Length + 1;
             begin
                pragma Assert (L <= 11);
@@ -96,7 +96,7 @@ package body Aida.Subprogram_Call_Result with SPARK_Mode is
             Text (12..13) := ", ";
 
             declare
-               Text2 : String_T := To_String (This.My_Code_2);
+               Text2 : String_T := Aida.Int32.To_String (This.My_Code_2);
                L : Integer := 24 - Text2'Length + 1;
             begin
                Text (14) := '-';

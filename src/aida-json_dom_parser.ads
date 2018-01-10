@@ -14,7 +14,7 @@ package Aida.JSON_DOM_Parser is
 
    package Int_To_String_Map is new Aida.Integer_To_String_Map (Max_Chars   => Max_Chars,
                                                                 Max_Strings => Max_Strings,
-                                                                Value_T     => String);
+                                                                Value_T     => String_T);
 
    type Node_Index_T is new Int32_T range 1..Max_Nodes;
 

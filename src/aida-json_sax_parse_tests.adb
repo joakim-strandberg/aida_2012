@@ -513,7 +513,7 @@ package body Aida.JSON_SAX_Parse_Tests is
          V : Aida.Int32_T;
          Has_Failed : Boolean;
       begin
-         To_Int32 (Value, V, Has_Failed);
+         Aida.String.To_Int32 (Value, V, Has_Failed);
 
          if Has_Failed then
             Call_Result.Initialize (-2115808473, 0706780051);
@@ -570,7 +570,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                     JSON,
                     Call_Result);
 
-         Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
+         Ahven.Assert (not Call_Result.Has_Failed, Call_Result.Message);
          Ahven.Assert (State = End_Of_Json_Object_Reached, "592cbd68-ef97-4fc1-934b-80111d24fd32");
          Ahven.Assert (Current_Ids.Person_Ids.Last_Index >= Current_Ids.Person_Ids.First_Index, "1f861507-695e-458b-836e-aa9fe7f131e2");
          Ahven.Assert (Max_Indices.Person_Id_Max = 1, "949ca5e3-1353-47e6-90fc-b0aa21d398a6");
@@ -749,7 +749,7 @@ package body Aida.JSON_SAX_Parse_Tests is
          V : Aida.Int32_T;
          Has_Failed : Boolean;
       begin
-         To_Int32 (Value, V, Has_Failed);
+         Aida.String.To_Int32 (Value, V, Has_Failed);
 
          if Has_Failed then
             Call_Result.Initialize (1220688762, 1735324821);
@@ -806,7 +806,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                     JSON,
                     Call_Result);
 
-         Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
+         Ahven.Assert (not Call_Result.Has_Failed, Call_Result.Message);
          Ahven.Assert (State = End_Of_Json_Object_Reached, "4b9650d2-c30f-401a-a060-a0e039fe413c");
          Ahven.Assert (Current_Ids.Person_Ids.Last_Index >= Current_Ids.Person_Ids.First_Index, "bb095008-4756-4392-ac77-03799c82a947");
          Ahven.Assert (Max_Indices.Person_Id_Max = 1, "e095f887-42d1-4fbf-846c-75e32af16af6");
@@ -1059,7 +1059,7 @@ package body Aida.JSON_SAX_Parse_Tests is
          V : Aida.Int32_T;
          Has_Failed : Boolean;
       begin
-         To_Int32 (Value, V, Has_Failed);
+         Aida.String.To_Int32 (Value, V, Has_Failed);
 
          if Has_Failed then
             Call_Result.Initialize (0437172259, 0138260948);
@@ -1196,7 +1196,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                     JSON,
                     Call_Result);
 
-         Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
+         Ahven.Assert (not Call_Result.Has_Failed, Call_Result.Message);
          Ahven.Assert (State = End_State, "397d359d-2d92-462b-8b32-2a4bbdc6ce25");
          Ahven.Assert (Current_Ids.Person_Ids.Last_Index >= Current_Ids.Person_Ids.First_Index, "810561fa-2c9f-4582-a5cf-10e5abd85113");
          Ahven.Assert (Max_Indices.Person_Id_Max = 1, "ae7399ea-3d2a-4400-a10f-34104d439978");
@@ -1464,7 +1464,7 @@ package body Aida.JSON_SAX_Parse_Tests is
          V : Aida.Int32_T;
          Has_Failed : Boolean;
       begin
-         To_Int32 (Value, V, Has_Failed);
+         Aida.String.To_Int32 (Value, V, Has_Failed);
 
          if Has_Failed then
             Call_Result.Initialize (1492457862, 0015598968);
@@ -1624,7 +1624,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                     JSON,
                     Call_Result);
 
-         Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
+         Ahven.Assert (not Call_Result.Has_Failed, Call_Result.Message);
          Ahven.Assert (State = End_State, "18f1a2a4-741c-4a0c-90d3-8854e8a70a6d");
          Ahven.Assert (Current_Ids.Person_Ids.Last_Index >= Current_Ids.Person_Ids.First_Index, "07c6cd3a-40ce-4b81-9681-9954e56c9670");
          Ahven.Assert (Max_Indices.Person_Id_Max = 1, "4bc9f5b1-5451-49cd-b7aa-3ebd79f0abd3");
@@ -1871,7 +1871,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                   V : Aida.Float_T;
                   Has_Failed : Boolean;
                begin
-                  To_Float (Value, V, Has_Failed);
+                  Aida.String.To_Float (Value, V, Has_Failed);
 
                   if Has_Failed then
                      Call_Result.Initialize (1713066840, 1748338706);
@@ -1957,13 +1957,13 @@ package body Aida.JSON_SAX_Parse_Tests is
          Call_Result.Initialize (1329123355, -0441958475);
       end Array_End;
 
-      function Expected_Float_Value_1_98 return Float with
+      function Expected_Float_Value_1_98 return Float_T with
         Global => null;
 
-      function Expected_Float_Value_1_98 return Float with
+      function Expected_Float_Value_1_98 return Float_T with
         SPARK_Mode => Off is
       begin
-         return (Float'Value ("1.98"));
+         return (Float_T'Value ("1.98"));
       end Expected_Float_Value_1_98;
 
       procedure Run_Test (JSON : Aida.String_T) is
@@ -2002,14 +2002,14 @@ package body Aida.JSON_SAX_Parse_Tests is
                     JSON,
                     Call_Result);
 
-         Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
+         Ahven.Assert (not Call_Result.Has_Failed, Call_Result.Message);
          Ahven.Assert (State = End_State, "192a5b94-e6da-4302-81fc-f98211cd92d7");
          Ahven.Assert (Current_Ids.Person_Ids.Last_Index >= Current_Ids.Person_Ids.First_Index, "72ac1a27-0a07-4e71-ae7f-a49252f51989");
          Ahven.Assert (Max_Indices.Person_Id_Max = 1, "bd1380ff-2a9e-486e-810b-5896bea26d07");
          if
            Max_Indices.Person_Id_Max > 0
          then
-            Ahven.Assert (Float (Storage.Person (Aida.Json_Parsing_Tests_Model.Person_Id_T'First).Length) = Expected_Float_Value_1_98, "e7f16b3a-d3f1-4b6b-b258-20fc95ce5bf4");
+            Ahven.Assert (Float_T (Storage.Person (Aida.Json_Parsing_Tests_Model.Person_Id_T'First).Length) = Expected_Float_Value_1_98, "e7f16b3a-d3f1-4b6b-b258-20fc95ce5bf4");
          end if;
       end Run_Test;
    end Test_Person_With_Length_Utils;
@@ -2385,7 +2385,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                     JSON,
                     Call_Result);
 
-         Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
+         Ahven.Assert (not Call_Result.Has_Failed, Call_Result.Message);
          Ahven.Assert (State = End_State, "3204a87f-ba9d-4564-8f7b-c94397343761");
          Ahven.Assert (Current_Ids.Person_Ids.Last_Index >= Current_Ids.Person_Ids.First_Index, "6b7aebdd-cab8-49aa-b524-cfb906e3c596");
          Ahven.Assert (Max_Indices.Person_Id_Max = 1, "07df518d-3a9e-4225-8795-27443231c29c");
@@ -2431,7 +2431,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                     JSON,
                     Call_Result);
 
-         Ahven.Assert (not Call_Result.Has_Failed, String (Call_Result.Message));
+         Ahven.Assert (not Call_Result.Has_Failed, Call_Result.Message);
          Ahven.Assert (State = End_State, "b8146e47-6f99-4567-90ef-e2297131f667");
          Ahven.Assert (Current_Ids.Person_Ids.Is_Non_Empty, "7072eb74-b0e2-47bc-9122-cdf748fb6dd8");
          Ahven.Assert (Max_Indices.Person_Id_Max = 1, "54753e3d-5985-4c67-8473-763e538e99a4");
