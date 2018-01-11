@@ -54,7 +54,7 @@ private
 
    type T is tagged limited
       record
-         My_Huge_Text  : Value_T (Positive (Char_Index_T'First)..Positive (Char_Index_T'Last)) := (others => ' ');
+         My_Huge_Text  : Value_T (Char_Index_T'First..Char_Index_T'Last) := (others => ' ');
          My_Next       : Next_T := 0;
          My_Next_Index : Next_Index_T := 0;
          My_Substrings : Substring_Indexes_T;
@@ -65,7 +65,7 @@ private
    function Available_Keys (This : T) return Available_Keys_T is (Key_T'Last - This.My_Next_Index);
 
    function Value (This  : T;
-                     Index : Key_T) return Value_T is (This.My_Huge_Text (Integer (This.My_Substrings (Index).From)..Integer (This.My_Substrings (Index).To)));
+                     Index : Key_T) return Value_T is (This.My_Huge_Text (This.My_Substrings (Index).From..This.My_Substrings (Index).To));
 
    function Make return T is (
                               My_Huge_Text  => (others => ' '),

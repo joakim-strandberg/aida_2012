@@ -1,7 +1,7 @@
 package Aida with Pure is
    pragma SPARK_Mode;
 
-   subtype Int32_T is Standard.Long_Integer range -2**31 .. (2**31 - 1);
+   subtype Int32_T is Standard.Integer range -2**31 .. (2**31 - 1);
 
    subtype Pos32_T is Int32_T range 1 .. Int32_T'Last;
 
@@ -87,15 +87,15 @@ package Aida with Pure is
         Global => null,
         Pre    => This >= 0 and This <= 9;
 
-      -- Calculates the hash of an 32-bit integer based upon the following post
+      -- Calculates the hash of an 32-bit Int32_T based upon the following post
       -- on Stackoverlow:
-      -- http://stackoverflow.com/questions/664014/what-integer-hash-function-are-good-that-accepts-an-integer-hash-key
+      -- http://stackoverflow.com/questions/664014/what-Int32_T-hash-function-are-good-that-accepts-an-Int32_T-hash-key
       --
       -- I found the following algorithm provides a very good statistical distribution.
       -- Each input bit affects each output bit with about 50% probability.
       -- There are no collisions (each input results in a different output).
       -- The algorithm is fast except if the CPU doesn't have a
-      -- built-in integer multiplication unit. C-Code:
+      -- built-in Int32_T multiplication unit. C-Code:
       --
       --  unsigned int hash(unsigned int x) {
       --      x = ((x >> 16) ^ x) * 0x45d9f3b;
@@ -127,7 +127,7 @@ package Aida with Pure is
    package String is
 
       function I (Source : String_T;
-                  Index  : Natural) return Int32_T is (Aida.Character.To_Int32 (Source (Source'First + Index))) with
+                  Index  : Nat32_T) return Int32_T is (Aida.Character.To_Int32 (Source (Source'First + Index))) with
       Pre   => Index < Source'Length and then Source'First + Index <= Source'Last and then Aida.Character.Is_Digit (Source (Source'First + Index));
 
       procedure To_Int32 (Source     : in  String_T;
@@ -144,56 +144,56 @@ package Aida with Pure is
                            Source'Length = 2 => (if (for all Index in Source'Range => Aida.Character.Is_Digit (Source (Index))) then
                                                      (Has_Failed = False and
                                                         Target = 10*I (Source, 0) + I (Source, 1))
-                                                       elsif ((Source (Source'First) = '-') and (for all Index in Integer range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
+                                                       elsif ((Source (Source'First) = '-') and (for all Index in Int32_T range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
                                                    (Has_Failed = False and Target = -I (Source, 1))
                                                      else
                                                        Has_Failed),
                            Source'Length = 3 => (if (for all Index in Source'Range => Aida.Character.Is_Digit (Source (Index))) then
                                                      (Has_Failed = False and
                                                         Target = 100*I (Source, 0) + 10*I (Source, 1) + I (Source, 2))
-                                                       elsif ((Source (Source'First) = '-') and (for all Index in Integer range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
+                                                       elsif ((Source (Source'First) = '-') and (for all Index in Int32_T range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
                                                    (Has_Failed = False and Target = -10*I (Source, 1) - I (Source, 2))
                                                      else
                                                        Has_Failed),
                            Source'Length = 4 => (if (for all Index in Source'Range => Aida.Character.Is_Digit (Source (Index))) then
                                                      (Has_Failed = False and
                                                         Target = 1_000*I (Source, 0) + 100*I (Source, 1) + 10*I (Source, 2) + I (Source, 3))
-                                                       elsif ((Source (Source'First) = '-') and (for all Index in Integer range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
+                                                       elsif ((Source (Source'First) = '-') and (for all Index in Int32_T range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
                                                    (Has_Failed = False and Target = -100*I (Source, 1) - 10*I (Source, 2) - I (Source, 3))
                                                      else
                                                        Has_Failed),
                            Source'Length = 5 => (if (for all Index in Source'Range => Aida.Character.Is_Digit (Source (Index))) then
                                                      (Has_Failed = False and
                                                         Target = 10_000*I (Source, 0) + 1_000*I (Source, 1) + 100*I (Source, 2) + 10*I (Source, 3) + I (Source, 4))
-                                                       elsif ((Source (Source'First) = '-') and (for all Index in Integer range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
+                                                       elsif ((Source (Source'First) = '-') and (for all Index in Int32_T range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
                                                    (Has_Failed = False and Target = -1_000*I (Source, 1) - 100*I (Source, 2) - 10*I (Source, 3) - I (Source, 4))
                                                      else
                                                        Has_Failed),
                            Source'Length = 6 => (if (for all Index in Source'Range => Aida.Character.Is_Digit (Source (Index))) then
                                                      (Has_Failed = False and
                                                         Target = 100_000*I (Source, 0) + 10_000*I (Source, 1) + 1_000*I (Source, 2) + 100*I (Source, 3) + 10*I (Source, 4) + I (Source, 5))
-                                                       elsif ((Source (Source'First) = '-') and (for all Index in Integer range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
+                                                       elsif ((Source (Source'First) = '-') and (for all Index in Int32_T range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
                                                    (Has_Failed = False and Target = -10_000*I (Source, 1) - 1_000*I (Source, 2) - 100*I (Source, 3) - 10*I (Source, 4) - I (Source, 5))
                                                      else
                                                        Has_Failed),
                            Source'Length = 7 => (if (for all Index in Source'Range => Aida.Character.Is_Digit (Source (Index))) then
                                                      (Has_Failed = False and
                                                         Target = 1_000_000*I (Source, 0) + 100_000*I (Source, 1) + 10_000*I (Source, 2) + 1_000*I (Source, 3) + 100*I (Source, 4) + 10*I (Source, 5) + I (Source, 6))
-                                                       elsif ((Source (Source'First) = '-') and (for all Index in Integer range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
+                                                       elsif ((Source (Source'First) = '-') and (for all Index in Int32_T range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
                                                    (Has_Failed = False and Target = -100_000*I (Source, 1) - 10_000*I (Source, 2) - 1_000*I (Source, 3) - 100*I (Source, 4) - 10*I (Source, 5) - I (Source, 6))
                                                      else
                                                        Has_Failed),
                            Source'Length = 8 => (if (for all Index in Source'Range => Aida.Character.Is_Digit (Source (Index))) then
                                                      (Has_Failed = False and
                                                         Target = 10_000_000*I (Source, 0) + 1_000_000*I (Source, 1) + 100_000*I (Source, 2) + 10_000*I (Source, 3) + 1_000*I (Source, 4) + 100*I (Source, 5) + 10*I (Source, 6) + I (Source, 7))
-                                                       elsif ((Source (Source'First) = '-') and (for all Index in Integer range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
+                                                       elsif ((Source (Source'First) = '-') and (for all Index in Int32_T range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
                                                    (Has_Failed = False and Target = -1_000_000*I (Source, 1) - 100_000*I (Source, 2) - 10_000*I (Source, 3) - 1_000*I (Source, 4) - 100*I (Source, 5) - 10*I (Source, 6) - I (Source, 7))
                                                      else
                                                        Has_Failed),
                            Source'Length = 9 => (if (for all Index in Source'Range => Aida.Character.Is_Digit (Source (Index))) then
                                                      (Has_Failed = False and
                                                         Target = 100_000_000*I (Source, 0) + 10_000_000*I (Source, 1) + 1_000_000*I (Source, 2) + 100_000*I (Source, 3) + 10_000*I (Source, 4) + 1_000*I (Source, 5) + 100*I (Source, 6) + 10*I (Source, 7) + I (Source, 8))
-                                                       elsif ((Source (Source'First) = '-') and (for all Index in Integer range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
+                                                       elsif ((Source (Source'First) = '-') and (for all Index in Int32_T range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
                                                    (Has_Failed = False and Target = -10_000_000*I (Source, 1) - 1_000_000*I (Source, 2) - 100_000*I (Source, 3) - 10_000*I (Source, 4) - 1_000*I (Source, 5) - 100*I (Source, 6) - 10*I (Source, 7) - I (Source, 8))
                                                      else
                                                        Has_Failed),
@@ -275,12 +275,12 @@ package Aida with Pure is
                                                                 Target = 1_000_000_000*I (Source, 0) + 100_000_000*I (Source, 1) + 10_000_000*I (Source, 2) + 1_000_000*I (Source, 3) + 100_000*I (Source, 4) + 10_000*I (Source, 5) + 1_000*I (Source, 6) + 100*I (Source, 7) + 10*I (Source, 8) + I (Source, 9))
                                                            else
                                                              Has_Failed)
-                                                          elsif ((Source (Source'First) = '-') and (for all Index in Integer range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
+                                                          elsif ((Source (Source'First) = '-') and (for all Index in Int32_T range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
                                                     (Has_Failed = False and
                                                        Target = -100_000_000*I (Source, 1) - 10_000_000*I (Source, 2) - 1_000_000*I (Source, 3) - 100_000*I (Source, 4) - 10_000*I (Source, 5) - 1_000*I (Source, 6) - 100*I (Source, 7) - 10*I (Source, 8) - I (Source, 9))
                                                       else
                                                         Has_Failed),
-                           Source'Length = 11 => (if ((Source (Source'First) = '-') and (for all Index in Integer range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
+                           Source'Length = 11 => (if ((Source (Source'First) = '-') and (for all Index in Int32_T range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
                                                     (if (Source(Source'First + 1) = '2' and
                                                        Source(Source'First + 2) = '1' and
                                                        Source(Source'First + 3) = '4' and
@@ -370,9 +370,9 @@ package Aida with Pure is
                       Aida.Character.Is_Digit (Source (Source'First))
                     elsif (Source'Length >= 2 and Source'Length <= 9) then
                     ((for all Index in Source'Range => Aida.Character.Is_Digit (Source (Index))) or
-                         ((Source (Source'First) = '-') and (for all Index in Integer range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))))
+                         ((Source (Source'First) = '-') and (for all Index in Int32_T range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))))
                   elsif Source'Length = 10 then
-                    (((Source (Source'First) = '-') and (for all Index in Integer range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) or
+                    (((Source (Source'First) = '-') and (for all Index in Int32_T range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) or
                        ((for all Index in Source'Range => Aida.Character.Is_Digit (Source (Index))) and then
                           ((Source(Source'First + 0) = '2' and
                                Source(Source'First + 1) = '1' and
@@ -430,7 +430,7 @@ package Aida with Pure is
                                   Source(Source'First + 1) < '1') or
                                (Source(Source'First + 0) < '2'))))
                       elsif Source'Length = 11 then
-                  (((Source (Source'First) = '-') and (for all Index in Integer range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) and then
+                  (((Source (Source'First) = '-') and (for all Index in Int32_T range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) and then
                        ((Source(Source'First + 1) = '2' and
                             Source(Source'First + 2) = '1' and
                             Source(Source'First + 3) = '4' and
@@ -489,35 +489,35 @@ package Aida with Pure is
           Contract_Cases => (Source'Length = 1 => To_Int32'Result = I (Source, 0),
                              Source'Length = 2 => (if (for all Index in Source'Range => Aida.Character.Is_Digit (Source (Index))) then
                                                      (To_Int32'Result = 10*I (Source, 0) + I (Source, 1))
-                                                       elsif ((Source (Source'First) = '-') and (for all Index in Integer range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
+                                                       elsif ((Source (Source'First) = '-') and (for all Index in Int32_T range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
                                                      (To_Int32'Result = -I (Source, 1))),
                              Source'Length = 3 => (if (for all Index in Source'Range => Aida.Character.Is_Digit (Source (Index))) then
                                                      (To_Int32'Result = 100*I (Source, 0) + 10*I (Source, 1) + I (Source, 2))
-                                                       elsif ((Source (Source'First) = '-') and (for all Index in Integer range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
+                                                       elsif ((Source (Source'First) = '-') and (for all Index in Int32_T range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
                                                      (To_Int32'Result = -10*I (Source, 1) - I (Source, 2))),
                              Source'Length = 4 => (if (for all Index in Source'Range => Aida.Character.Is_Digit (Source (Index))) then
                                                      (To_Int32'Result = 1_000*I (Source, 0) + 100*I (Source, 1) + 10*I (Source, 2) + I (Source, 3))
-                                                       elsif ((Source (Source'First) = '-') and (for all Index in Integer range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
+                                                       elsif ((Source (Source'First) = '-') and (for all Index in Int32_T range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
                                                      (To_Int32'Result = -100*I (Source, 1) - 10*I (Source, 2) - I (Source, 3))),
                              Source'Length = 5 => (if (for all Index in Source'Range => Aida.Character.Is_Digit (Source (Index))) then
                                                      (To_Int32'Result = 10_000*I (Source, 0) + 1_000*I (Source, 1) + 100*I (Source, 2) + 10*I (Source, 3) + I (Source, 4))
-                                                       elsif ((Source (Source'First) = '-') and (for all Index in Integer range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
+                                                       elsif ((Source (Source'First) = '-') and (for all Index in Int32_T range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
                                                      (To_Int32'Result = -1_000*I (Source, 1) - 100*I (Source, 2) - 10*I (Source, 3) - I (Source, 4))),
                              Source'Length = 6 => (if (for all Index in Source'Range => Aida.Character.Is_Digit (Source (Index))) then
                                                      (To_Int32'Result = 100_000*I (Source, 0) + 10_000*I (Source, 1) + 1_000*I (Source, 2) + 100*I (Source, 3) + 10*I (Source, 4) + I (Source, 5))
-                                                       elsif ((Source (Source'First) = '-') and (for all Index in Integer range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
+                                                       elsif ((Source (Source'First) = '-') and (for all Index in Int32_T range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
                                                      (To_Int32'Result = -10_000*I (Source, 1) - 1_000*I (Source, 2) - 100*I (Source, 3) - 10*I (Source, 4) - I (Source, 5))),
                              Source'Length = 7 => (if (for all Index in Source'Range => Aida.Character.Is_Digit (Source (Index))) then
                                                      (To_Int32'Result = 1_000_000*I (Source, 0) + 100_000*I (Source, 1) + 10_000*I (Source, 2) + 1_000*I (Source, 3) + 100*I (Source, 4) + 10*I (Source, 5) + I (Source, 6))
-                                                       elsif ((Source (Source'First) = '-') and (for all Index in Integer range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
+                                                       elsif ((Source (Source'First) = '-') and (for all Index in Int32_T range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
                                                      (To_Int32'Result = -100_000*I (Source, 1) - 10_000*I (Source, 2) - 1_000*I (Source, 3) - 100*I (Source, 4) - 10*I (Source, 5) - I (Source, 6))),
                              Source'Length = 8 => (if (for all Index in Source'Range => Aida.Character.Is_Digit (Source (Index))) then
                                                      (To_Int32'Result = 10_000_000*I (Source, 0) + 1_000_000*I (Source, 1) + 100_000*I (Source, 2) + 10_000*I (Source, 3) + 1_000*I (Source, 4) + 100*I (Source, 5) + 10*I (Source, 6) + I (Source, 7))
-                                                       elsif ((Source (Source'First) = '-') and (for all Index in Integer range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
+                                                       elsif ((Source (Source'First) = '-') and (for all Index in Int32_T range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
                                                      (To_Int32'Result = -1_000_000*I (Source, 1) - 100_000*I (Source, 2) - 10_000*I (Source, 3) - 1_000*I (Source, 4) - 100*I (Source, 5) - 10*I (Source, 6) - I (Source, 7))),
                              Source'Length = 9 => (if (for all Index in Source'Range => Aida.Character.Is_Digit (Source (Index))) then
                                                      (To_Int32'Result = 100_000_000*I (Source, 0) + 10_000_000*I (Source, 1) + 1_000_000*I (Source, 2) + 100_000*I (Source, 3) + 10_000*I (Source, 4) + 1_000*I (Source, 5) + 100*I (Source, 6) + 10*I (Source, 7) + I (Source, 8))
-                                                       elsif ((Source (Source'First) = '-') and (for all Index in Integer range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
+                                                       elsif ((Source (Source'First) = '-') and (for all Index in Int32_T range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
                                                      (To_Int32'Result = -10_000_000*I (Source, 1) - 1_000_000*I (Source, 2) - 100_000*I (Source, 3) - 10_000*I (Source, 4) - 1_000*I (Source, 5) - 100*I (Source, 6) - 10*I (Source, 7) - I (Source, 8))),
                              Source'Length = 10 => (if (for all Index in Source'Range => Aida.Character.Is_Digit (Source (Index))) then
                                                       (if (Source(Source'First + 0) = '2' and
@@ -585,9 +585,9 @@ package Aida with Pure is
                                                          (To_Int32'Result = 2_000_000_000 + 10_000_000*I (Source, 2) + 1_000_000*I (Source, 3) + 100_000*I (Source, 4) + 10_000*I (Source, 5) + 1_000*I (Source, 6) + 100*I (Source, 7) + 10*I (Source, 8) + I (Source, 9))
                                                            elsif (Source(Source'First + 0) < '2') then
                                                          (To_Int32'Result = 1_000_000_000*I (Source, 0) + 100_000_000*I (Source, 1) + 10_000_000*I (Source, 2) + 1_000_000*I (Source, 3) + 100_000*I (Source, 4) + 10_000*I (Source, 5) + 1_000*I (Source, 6) + 100*I (Source, 7) + 10*I (Source, 8) + I (Source, 9)))
-                                                        elsif ((Source (Source'First) = '-') and (for all Index in Integer range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
+                                                        elsif ((Source (Source'First) = '-') and (for all Index in Int32_T range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
                                                       (To_Int32'Result = -100_000_000*I (Source, 1) - 10_000_000*I (Source, 2) - 1_000_000*I (Source, 3) - 100_000*I (Source, 4) - 10_000*I (Source, 5) - 1_000*I (Source, 6) - 100*I (Source, 7) - 10*I (Source, 8) - I (Source, 9))),
-                             Source'Length = 11 => (if ((Source (Source'First) = '-') and (for all Index in Integer range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
+                             Source'Length = 11 => (if ((Source (Source'First) = '-') and (for all Index in Int32_T range (Source'First + 1) .. Source'Last => Aida.Character.Is_Digit (Source (Index)))) then
                                                       (if (Source(Source'First + 1) = '2' and
                                                          Source(Source'First + 2) = '1' and
                                                          Source(Source'First + 3) = '4' and
@@ -671,15 +671,9 @@ package Aida with Pure is
       function Hash32 (This : String_T) return Hash32_T with
         Global => null;
 
---        function Equivalent (Left : String_T; Right : String_T) return Boolean with
---          Global => null;
---
---        function Equivalent (Left : String_T; Right : String_T) return Boolean with
---          Global => null;
-
       function Concat (Left, Right : String_T) return String_T with
         Global => null,
-        Pre    => Left'Length < Positive'Last/2 and Right'Length < Positive'Last/2,
+        Pre    => Left'Length < Pos32_T'Last/2 and Right'Length < Pos32_T'Last/2,
         Post   => Concat'Result'Length = Left'Length + Right'Length;
 
    end String;

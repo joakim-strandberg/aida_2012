@@ -5,10 +5,10 @@ package body Aida.Application_Locator is
 
    use type Aida.Directories.File_Kind;
 
-   function Get_Executable_Directory (Has_Failed_To_Find_Executable_Directory : out Boolean) return String
+   function Get_Executable_Directory (Has_Failed_To_Find_Executable_Directory : out Boolean) return String_T
    is
-      Current_Directory                : constant String := Aida.Directories.Current_Directory;
-      Simple_Name_Of_Current_Directory : constant String := Aida.Directories.Simple_Name (Current_Directory);
+      Current_Directory                : constant String_T := Aida.Directories.Current_Directory;
+      Simple_Name_Of_Current_Directory : constant String_T := Aida.Directories.Simple_Name (Current_Directory);
    begin
       if Simple_Name_Of_Current_Directory = "bin" then
          Has_Failed_To_Find_Executable_Directory := False;
@@ -16,7 +16,7 @@ package body Aida.Application_Locator is
       end if;
 
       declare
-         Potential_Executable_Directory : constant String := Current_Directory & Aida.OS_Lib.Directory_Separator & "bin";
+         Potential_Executable_Directory : constant String_T := Current_Directory & Aida.OS_Lib.Directory_Separator & "bin";
       begin
          if Aida.Directories.Exists (Potential_Executable_Directory) and then Aida.Directories.Kind (Potential_Executable_Directory) = Aida.Directories.Directory then
             Has_Failed_To_Find_Executable_Directory := False;

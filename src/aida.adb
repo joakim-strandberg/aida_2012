@@ -53,7 +53,7 @@ package body Aida is
 
       function To_String (This : Int32_T) return String_T is
 
-         subtype Index_T is Integer range 1..16;
+         subtype Index_T is Int32_T range 1..16;
 
          subtype Result_T is String_T (Index_T);
 
@@ -797,7 +797,7 @@ package body Aida is
          A : Hash32_T := 31_415;
          B : constant Hash32_T := 27_183;
       begin
-         for I in Positive range This'First..This'Last loop
+         for I in Pos32_T range This'First..This'Last loop
             H := A*H + Standard.Character'Pos (This (I));
             A := A*B;
             pragma Loop_Variant (Increases => I);

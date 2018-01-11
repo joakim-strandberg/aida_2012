@@ -30,9 +30,9 @@ with Aida;
 package Aida.Bounded_String is
    pragma SPARK_Mode;
 
---     type T (Maximum_Length : Positive) is limited private with
+--     type T (Maximum_Length : Pos32_T) is limited private with
 --       Default_Initial_Condition => Length (T) = 0;
-   type T (Maximum_Length : Positive) is limited private;
+   type T (Maximum_Length : Pos32_T) is limited private;
 
    procedure Initialize (This : in out T;
                          Text : Aida.String_T) with
@@ -52,7 +52,7 @@ package Aida.Bounded_String is
      Pre    => Source'Length <= Target.Maximum_Length - Length (Target),
      Post   => Length (Target) <= Target.Maximum_Length;
 
-   function Length (This : T) return Natural with
+   function Length (This : T) return Nat32_T with
      Global => null;
    -- Compare the Length function with the Length function
    -- in Ada.Containers.Formal_Vectors. Notice the post-condition!
@@ -81,14 +81,14 @@ package Aida.Bounded_String is
 
 private
 
-   type T (Maximum_Length : Positive) is limited record
+   type T (Maximum_Length : Pos32_T) is limited record
       Text        : Aida.String_T (1..T.Maximum_Length) := (others => ' ');
-      Text_Length : Natural := 0;
+      Text_Length : Nat32_T := 0;
    end record;
 
-   function Length (This : T) return Natural is (This.Text_Length);
+   function Length (This : T) return Nat32_T is (This.Text_Length);
 
-   function "=" (Left, Right : T) return Boolean is (Length (Left) = Length (Right) and then (for all I in Positive range 1..Left.Text_Length => Left.Text (I) = Right.Text (I)));
+   function "=" (Left, Right : T) return Boolean is (Length (Left) = Length (Right) and then (for all I in Pos32_T range 1..Left.Text_Length => Left.Text (I) = Right.Text (I)));
 
    function "=" (Left : T; Right : Aida.String_T) return Boolean is (Equals (Left, Right));
 

@@ -1,6 +1,6 @@
 package body Aida.Sequential_Stream_IO is
 
-   function Calculate_Hash32 (Filename : String) return Aida.Hash32_T with
+   function Calculate_Hash32 (Filename : String_T) return Aida.Hash32_T with
      SPARK_Mode => On
    is
       File : File_Type;
@@ -31,7 +31,7 @@ package body Aida.Sequential_Stream_IO is
 
    procedure Open (File : in out File_Type;
                    Mode : File_Mode;
-                   Name : String) is
+                   Name : String_T) is
    begin
       case Mode is
          when In_File  => File_IO.Open (File => File.File,

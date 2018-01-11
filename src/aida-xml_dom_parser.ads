@@ -175,7 +175,7 @@ package Aida.XML_DOM_Parser is
                     XML_Message : String_T;
                     Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global    => null,
-     Pre'Class => not Call_Result.Has_Failed and XML_Message'Length > 0 and XML_Message'Last < Integer'Last - 4;
+     Pre'Class => not Call_Result.Has_Failed and XML_Message'Length > 0 and XML_Message'Last < Int32_T'Last - 4;
 
 private
 

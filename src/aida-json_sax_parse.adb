@@ -72,11 +72,11 @@ begin
       Call_Result.Initialize (-1522500631, -1361354891);
    else
       declare
-         subtype P_T           is Integer range Contents'First..Contents'Last + 4;
-         subtype Prev_P_T      is Integer range Contents'First..Contents'Last;
-         subtype Prev_Prev_P_T is Integer range Contents'First..Contents'Last;
+         subtype P_T           is Int32_T range Contents'First..Contents'Last + 4;
+         subtype Prev_P_T      is Int32_T range Contents'First..Contents'Last;
+         subtype Prev_Prev_P_T is Int32_T range Contents'First..Contents'Last;
 
-         subtype Contents_Index_T is Integer range Contents'First..Contents'Last;
+         subtype Contents_Index_T is Int32_T range Contents'First..Contents'Last;
 
          P           : P_T := Contents'First;
          Prev_P      : Prev_P_T := P;

@@ -111,13 +111,13 @@ is
    XML_IDENTIFIER_ERROR_1 : constant Aida.Int32_T := -1913564897;
    XML_IDENTIFIER_ERROR_2 : constant Aida.Int32_T := -0537097086;
 
-   subtype P_T      is Integer range Contents'First..Contents'Last + 4;
-   subtype Prev_P_T is Integer range Contents'First + 1..Contents'Last;
+   subtype P_T      is Int32_T range Contents'First..Contents'Last + 4;
+   subtype Prev_P_T is Int32_T range Contents'First + 1..Contents'Last;
 
    procedure Analyze_XML (P : in out P_T) with
      Global => (In_Out => (Call_Result, Arg1, Arg2, Arg3, Arg4),
                 Input  => Contents),
-     Pre    => not Call_Result.Has_Failed and P > Contents'First and P <= Contents'Last and Contents'Last < Integer'Last - 4;
+     Pre    => not Call_Result.Has_Failed and P > Contents'First and P <= Contents'Last and Contents'Last < Int32_T'Last - 4;
 
    procedure Analyze_XML (P : in out P_T)
    is
@@ -125,9 +125,9 @@ is
 
       State_Id : State_Id_Type := Expecting_NL_Sign_Or_Space_Or_Less_Sign;
 
-      subtype Prev_Prev_P_T is Integer range Contents'First + 0..Contents'Last;
+      subtype Prev_Prev_P_T is Int32_T range Contents'First + 0..Contents'Last;
 
-      subtype Contents_Index_T is Integer range Contents'First..Contents'Last;
+      subtype Contents_Index_T is Int32_T range Contents'First..Contents'Last;
 
       CP : Aida.UTF8_Code_Point.T;
 

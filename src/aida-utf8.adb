@@ -1,7 +1,7 @@
 package body Aida.UTF8 with SPARK_Mode is
 
    procedure Get (Source      : String_T;
-                  Pointer     : in out Integer;
+                  Pointer     : in out Int32_T;
                   Value       : out Aida.UTF8_Code_Point.T)
    is
       Accum : Aida.UTF8_Code_Point.T'Base;
@@ -62,12 +62,12 @@ package body Aida.UTF8 with SPARK_Mode is
       end case;
    end Get;
 
-   function Length (Source : String_T) return Natural is
-      Count : Natural := 0;
+   function Length (Source : String_T) return Nat32_T is
+      Count : Nat32_T := 0;
       Accum : Aida.UTF8_Code_Point.T;
       pragma Unreferenced (Accum);
 
-      Index : Integer := Source'First;
+      Index : Int32_T := Source'First;
    begin
       while Index <= Source'Last loop
          if Is_Valid_UTF8_Code_Point (Source, Index) then
@@ -82,7 +82,7 @@ package body Aida.UTF8 with SPARK_Mode is
    end Length;
 
    procedure Put (Destination : in out String_T;
-                  Pointer     : in out Integer;
+                  Pointer     : in out Int32_T;
                   Value       : Aida.UTF8_Code_Point.T)  is
    begin
       if Value <= 16#7F# then
@@ -108,8 +108,8 @@ package body Aida.UTF8 with SPARK_Mode is
 
    function To_Lowercase (Value : String_T) return String_T is
       Result : String_T (1..Value'Length);
-      From   : Integer := Value'First;
-      To     : Integer := 1;
+      From   : Int32_T := Value'First;
+      To     : Int32_T := 1;
       Code   : Aida.UTF8_Code_Point.T;
    begin
       while From <= Value'Last loop
@@ -122,8 +122,8 @@ package body Aida.UTF8 with SPARK_Mode is
 
    function To_Uppercase (Value : String_T) return String_T is
       Result : String_T (1..Value'Length);
-      From   : Integer := Value'First;
-      To     : Integer := 1;
+      From   : Int32_T := Value'First;
+      To     : Int32_T := 1;
       Code   : Aida.UTF8_Code_Point.T;
    begin
       while From <= Value'Last loop
