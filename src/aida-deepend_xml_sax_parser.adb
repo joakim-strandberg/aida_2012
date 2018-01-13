@@ -105,8 +105,8 @@ package body Aida.Deepend_XML_SAX_Parser is
                                                                                   else
                                                                                      False);
 
-      XML_IDENTIFIER_ERROR_1 : constant Aida.Int32_T := -1913564897;
-      XML_IDENTIFIER_ERROR_2 : constant Aida.Int32_T := -0537097086;
+      XML_IDENTIFIER_ERROR_1 : constant Aida.Int32_T := 0564906783;
+      XML_IDENTIFIER_ERROR_2 : constant Aida.Int32_T := -1253063082;
 
       subtype P_T      is Integer range Contents'First..Contents'Last + 4;
       subtype Prev_P_T is Integer range Contents'First + 1..Contents'Last;
@@ -171,7 +171,7 @@ package body Aida.Deepend_XML_SAX_Parser is
                   if not Aida.UTF8.Is_Valid_UTF8_Code_Point (Source  => Contents,
                                                              Pointer => P)
                   then
-                     Call_Result.Initialize (1434797854, -0068724898);
+                     Call_Result.Initialize (0917933704, 1893541713);
                      exit;
                   end if;
 
@@ -209,7 +209,7 @@ package body Aida.Deepend_XML_SAX_Parser is
                      elsif CP = Standard.Character'Pos ('<') then
                         State_Id := Init_Found_Less_Sign;
                      else
-                        Call_Result.Initialize (1003548980, 1714289304);
+                        Call_Result.Initialize (-0220363574, 0662000727);
                         exit;
                      end if;
                   when Init_Found_Less_Sign =>
@@ -217,12 +217,12 @@ package body Aida.Deepend_XML_SAX_Parser is
                         State_Id := Init_Found_Less_Followed_By_Exclamation_Sign;
                      elsif CP = Standard.Character'Pos ('/') then
                         if Depth = 0 then
-                           Call_Result.Initialize (-1797161339, -1801650669);
+                           Call_Result.Initialize (-1257694268, -2112592695);
                            exit;
                         end if;
 
                         if P > Contents'Last then
-                           Call_Result.Initialize (0386434633, -1112825058);
+                           Call_Result.Initialize (-0929795332, 0193766410);
                            exit;
                         end if;
 
@@ -241,14 +241,14 @@ package body Aida.Deepend_XML_SAX_Parser is
 
                         pragma Assert (Start_Tag_Name_First_Index < P);
                      else
-                        Call_Result.Initialize (1448645964, 0183871387);
+                        Call_Result.Initialize (0218310192, -1344536484);
                         exit;
                      end if;
                   when Init_Found_Less_Followed_By_Exclamation_Sign =>
                      if CP = Standard.Character'Pos ('-') then
                         State_Id := Init_Found_Less_Followed_By_Exclamation_And_Dash_Sign;
                      else
-                        Call_Result.Initialize (1915807131, 1377704704);
+                        Call_Result.Initialize (0993658621, 0982639814);
                         exit;
                      end if;
                   when Init_Found_Less_Followed_By_Exclamation_And_Dash_Sign =>
@@ -260,7 +260,7 @@ package body Aida.Deepend_XML_SAX_Parser is
                                                 else
                                                    Contents'Last);
                      else
-                        Call_Result.Initialize (-1302785225, -0551230956);
+                        Call_Result.Initialize (0473117530, -0541753044);
                         exit;
                      end if;
                   when Extracting_Start_Tag_Name =>
@@ -277,7 +277,7 @@ package body Aida.Deepend_XML_SAX_Parser is
                         if Depth < Aida.Int32_T'Last then
                            Depth := Depth + 1;
                         else
-                           Call_Result.Initialize (-0197127393, -1788002976);
+                           Call_Result.Initialize (-1181908864, -0747101082);
                            exit;
                         end if;
 
@@ -295,7 +295,7 @@ package body Aida.Deepend_XML_SAX_Parser is
                         if Depth < Aida.Int32_T'Last then
                            Depth := Depth + 1;
                         else
-                           Call_Result.Initialize (0133265230, -0905163379);
+                           Call_Result.Initialize (-1064425179, -1548059736);
                            exit;
                         end if;
 
@@ -306,7 +306,7 @@ package body Aida.Deepend_XML_SAX_Parser is
 
                         State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
                      elsif Is_Special_Symbol (CP) then
-                        Call_Result.Initialize (-0192291225, -1709997324);
+                        Call_Result.Initialize (0175636358, -0993996303);
                         exit;
                      end if;
                   when Expecting_G_Sign_Or_Extracting_Attributes =>
@@ -321,7 +321,7 @@ package body Aida.Deepend_XML_SAX_Parser is
                         State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
 
                         if P > Contents'Last then
-                           Call_Result.Initialize (-1521899768, -0725554341);
+                           Call_Result.Initialize (1631876148, 1445349781);
                            exit;
                         end if;
 
@@ -332,7 +332,7 @@ package body Aida.Deepend_XML_SAX_Parser is
                         Attribute_First_Index := Prev_P;
                         State_Id := Extracting_Attribute_Name;
                      else
-                        Call_Result.Initialize (-0429878843, 1344381718);
+                        Call_Result.Initialize (-0820728822, -1954112046);
                         exit;
                      end if;
                   when Expecting_G_Sign_Or_Extracting_Attributes_And_Found_Slash =>
@@ -356,7 +356,7 @@ package body Aida.Deepend_XML_SAX_Parser is
                         if Depth > 0 then
                            Depth := Depth - 1;
                         else
-                           Call_Result.Initialize (0766893447, -0197942014);
+                           Call_Result.Initialize (-1628495447, 2036006743);
                            exit;
                         end if;
 
@@ -365,7 +365,7 @@ package body Aida.Deepend_XML_SAX_Parser is
                                                   else
                                                      Contents'Last);
                      else
-                        Call_Result.Initialize (1180086532, 1745903660);
+                        Call_Result.Initialize (-0464941396, 0880131948);
                         exit;
                      end if;
                   when Extracting_Attribute_Name =>
@@ -373,12 +373,12 @@ package body Aida.Deepend_XML_SAX_Parser is
                         Attribute_Last_Index := Prev_Prev_P;
                         State_Id := Expecting_Attribute_Value_Quotation_Mark;
                      elsif CP = Standard.Character'Pos (Ada.Characters.Latin_1.LF) then
-                        Call_Result.Initialize (-0986469701, -0000005525);
+                        Call_Result.Initialize (-0209983264, -1729179731);
                         exit;
                      elsif not Is_Special_Symbol (CP) then
                         null; -- Normal
                      else
-                        Call_Result.Initialize (0819713752, 1428867079);
+                        Call_Result.Initialize (-1717807413, -1486938619);
                         exit;
                      end if;
                   when Expecting_Attribute_Value_Quotation_Mark =>
@@ -398,7 +398,7 @@ package body Aida.Deepend_XML_SAX_Parser is
                                                            Contents'Last);
                         State_Id := Extracting_Attribute_Value;
                      else
-                        Call_Result.Initialize (0240833721, 0455771309);
+                        Call_Result.Initialize (1311446946, 0430154116);
                         exit;
                      end if;
                   when Extracting_Attribute_Value =>
@@ -421,7 +421,7 @@ package body Aida.Deepend_XML_SAX_Parser is
                            exit;
                         end if;
                      elsif CP = Standard.Character'Pos (Ada.Characters.Latin_1.LF) then
-                        Call_Result.Initialize (0587945467, 1683764896);
+                        Call_Result.Initialize (-0846218131, 1984049987);
                         exit;
                      end if;
                   when Expecting_New_Tag_Or_Extracting_Tag_Value =>
@@ -439,7 +439,7 @@ package body Aida.Deepend_XML_SAX_Parser is
                   when Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L =>
                      if CP = Standard.Character'Pos ('/') then
                         if P > Contents'Last then
-                           Call_Result.Initialize (-1635958681, 2091153567);
+                           Call_Result.Initialize (0952221716, -1424188925);
                            exit;
                         end if;
 
@@ -449,7 +449,7 @@ package body Aida.Deepend_XML_SAX_Parser is
                      elsif CP = Standard.Character'Pos ('!') then
                         State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L_And_Exclamation;
                      elsif Is_Special_Symbol (CP) then
-                        Call_Result.Initialize (-0115323975, -1084437773);
+                        Call_Result.Initialize (1584399066, 0904407776);
                         exit;
                      else
                         -- Will start parsing child tag!
@@ -547,7 +547,7 @@ package body Aida.Deepend_XML_SAX_Parser is
                         if Depth > 0 then
                            Depth := Depth - 1;
                         else
-                           Call_Result.Initialize (-0534201701, -0614895498);
+                           Call_Result.Initialize (0732511655, -1496189046);
                            exit;
                         end if;
 
@@ -563,10 +563,10 @@ package body Aida.Deepend_XML_SAX_Parser is
                                                      Contents'Last);
 
                      elsif CP = Standard.Character'Pos (Ada.Characters.Latin_1.LF) then
-                        Call_Result.Initialize (-1658791000, 1638125646);
+                        Call_Result.Initialize (-0639636331, -0602633765);
                         exit;
                      elsif Is_Special_Symbol (CP) then
-                        Call_Result.Initialize (1726646144, -0779212513);
+                        Call_Result.Initialize (-0319834221, 0769151931);
                         exit;
                      end if;
                   when Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L_And_Exclamation_And_Dash =>
@@ -637,7 +637,7 @@ package body Aida.Deepend_XML_SAX_Parser is
                      if CP = Standard.Character'Pos (' ') or CP = 10 or CP = 13 then
                         null; -- Trailing spaces are OK
                      else
-                        Call_Result.Initialize (1777504526, -1635825641);
+                        Call_Result.Initialize (-1239181029, 1698286444);
                         exit;
                      end if;
                   end case;
@@ -647,13 +647,13 @@ package body Aida.Deepend_XML_SAX_Parser is
                not Call_Result.Has_Failed and then
                  State_Id /= Expecting_Only_Trailing_Spaces
                then
-                  Call_Result.Initialize (-1968500370, -1627762655);
+                  Call_Result.Initialize (-2068412437, -0002457258);
                end if;
             else
                Call_Result.Initialize (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
             end if;
          else
-            Call_Result.Initialize (-1672429119, -1233854200);
+            Call_Result.Initialize (-1969620808, -0689239741);
          end if;
       end Analyze_XML;
 
@@ -669,7 +669,7 @@ package body Aida.Deepend_XML_SAX_Parser is
          if not Aida.UTF8.Is_Valid_UTF8_Code_Point (Source  => Contents,
                                                     Pointer => P)
          then
-            Call_Result.Initialize (-0356399774, -0280059910);
+            Call_Result.Initialize (-0106955593, 0277648992);
             exit;
          end if;
 
@@ -1025,7 +1025,7 @@ package body Aida.Deepend_XML_SAX_Parser is
 
                   Analyze_XML (P);
                else
-                  Call_Result.Initialize (-0645831530, 1132432555);
+                  Call_Result.Initialize (0279374352, 1601495668);
                   exit;
                end if;
             else
