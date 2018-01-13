@@ -4,7 +4,7 @@ with Aida.Directories;
 
 package Aida.Sequential_Stream_IO with SPARK_Mode is
 
-   function Calculate_Hash32 (Filename : String_T) return Aida.Hash32_T with
+   function Calculate_Hash32 (Filename : Standard.String) return Aida.Hash32_T with
      Global => null,
      Pre    => Aida.Directories.Exists (Filename);
 
@@ -14,7 +14,7 @@ package Aida.Sequential_Stream_IO with SPARK_Mode is
 
    procedure Open (File : in out File_Type;
                    Mode : File_Mode;
-                   Name : String_T) with
+                   Name : Standard.String) with
      Global => null,
      Pre    => not Is_Open (File),
      Post   => Is_Open (File);

@@ -5,7 +5,7 @@ pragma Elaborate_All (Aida.Deepend_XML_SAX_Parser);
 package body Aida.Deepend_XML_DOM_Parser is
 
    procedure Start_Tag (This        : in out SAX_Parser_T;
-                        Tag_Name    : Aida.String_T;
+                        Tag_Name    : Standard.String;
                         Call_Result : in out Aida.Subprogram_Call_Result.T) is
    begin
       case This.State is
@@ -17,7 +17,7 @@ package body Aida.Deepend_XML_DOM_Parser is
                declare
                   Current_Node : not null Node_Ptr := new (This.Subpool) Node_T;
                begin
-                  Current_Node.Inner.My_Tag.My_Name := new (This.Subpool) Aida.String_T'(Tag_Name);
+                  Current_Node.Inner.My_Tag.My_Name := new (This.Subpool) Standard.String'(Tag_Name);
                   This.Current_Nodes.Append (Current_Node);
                   This.Root_Node := Current_Node;
                end;
@@ -32,7 +32,7 @@ package body Aida.Deepend_XML_DOM_Parser is
                declare
                   Current_Node : not null Node_Ptr := new (This.Subpool) Node_T;
                begin
-                  Current_Node.Inner.My_Tag.My_Name := new (This.Subpool) Aida.String_T'(Tag_Name);
+                  Current_Node.Inner.My_Tag.My_Name := new (This.Subpool) Standard.String'(Tag_Name);
 
                   if This.Current_Nodes.Constant_Reference (This.Current_Nodes.Last_Index).all.Id = XML_Tag then
                      This.Current_Nodes.Constant_Reference (This.Current_Nodes.Last_Index).all.Inner.My_Tag.My_Child_Nodes.Append (Current_Node);
@@ -51,7 +51,7 @@ package body Aida.Deepend_XML_DOM_Parser is
    end Start_Tag;
 
    procedure End_Tag (This        : in out SAX_Parser_T;
-                      Tag_Name    : Aida.String_T;
+                      Tag_Name    : Standard.String;
                       Call_Result : in out Aida.Subprogram_Call_Result.T) is
    begin
       case This.State is
@@ -77,13 +77,13 @@ package body Aida.Deepend_XML_DOM_Parser is
    end End_Tag;
 
    procedure Text (This        : in out SAX_Parser_T;
-                   Value       : Aida.String_T;
+                   Value       : Standard.String;
                    Call_Result : in out Aida.Subprogram_Call_Result.T) is
    begin
       case This.State is
          when Expecting_Default =>
             if Value'Length = 0 or (Value'Length > 0 and then
-                                      (for all I in Value'Range => Value (I) = ' ' or Value (I) = Character'Val (10) or Value (I) = Character'Val (13)))
+                                      (for all I in Value'Range => Value (I) = ' ' or Value (I) = Standard.Character'Val (10) or Value (I) = Standard.Character'Val (13)))
             then
                null;
             elsif
@@ -93,7 +93,7 @@ package body Aida.Deepend_XML_DOM_Parser is
                   Current_Node : not null Node_Ptr := new (This.Subpool) Node_T;
                begin
                   Current_Node.Inner := (My_Id   => XML_Text,
-                                         My_Text => new (This.Subpool) String_T'(Value));
+                                         My_Text => new (This.Subpool) Standard.String'(Value));
 
                   if This.Current_Nodes.Constant_Reference (This.Current_Nodes.Last_Index).all.Id = XML_Tag then
                      This.Current_Nodes.Constant_Reference (This.Current_Nodes.Last_Index).all.Inner.My_Tag.My_Child_Nodes.Append (Current_Node);
@@ -111,8 +111,8 @@ package body Aida.Deepend_XML_DOM_Parser is
    end Text;
 
    procedure Attribute (This            : in out SAX_Parser_T;
-                        Attribute_Name  : Aida.String_T;
-                        Attribute_Value : Aida.String_T;
+                        Attribute_Name  : Standard.String;
+                        Attribute_Value : Standard.String;
                         Call_Result     : in out Aida.Subprogram_Call_Result.T) is
    begin
       case This.State is
@@ -124,9 +124,9 @@ package body Aida.Deepend_XML_DOM_Parser is
                   declare
                      Attribute : not null Attribute_Ptr := new (This.Subpool) Attribute_T;
                   begin
-                     Attribute.My_Name := new (This.Subpool) String_T'(Attribute_Name);
+                     Attribute.My_Name := new (This.Subpool) Standard.String'(Attribute_Name);
 
-                     Attribute.My_Value := new (This.Subpool) String_T'(Attribute_Value);
+                     Attribute.My_Value := new (This.Subpool) Standard.String'(Attribute_Value);
 
                      if This.Current_Nodes.Constant_Reference (This.Current_Nodes.Last_Index).all.Id = XML_Tag then
                         This.Current_Nodes.Constant_Reference (This.Current_Nodes.Last_Index).all.Inner.My_Tag.My_Attributes.Append (Attribute);
@@ -147,7 +147,7 @@ package body Aida.Deepend_XML_DOM_Parser is
    end Attribute;
 
    procedure Comment (This        : in out SAX_Parser_T;
-                      Value       : Aida.String_T;
+                      Value       : Standard.String;
                       Call_Result : in out Aida.Subprogram_Call_Result.T) is
    begin
       case This.State is
@@ -162,7 +162,7 @@ package body Aida.Deepend_XML_DOM_Parser is
                      Node : Node_Ptr := new (This.Subpool) Node_T;
                   begin
                      Node.Inner := (My_Id   => XML_Comment,
-                                    My_Text => new (This.Subpool) String_T'(Value));
+                                    My_Text => new (This.Subpool) Standard.String'(Value));
 
                      if This.Current_Nodes.Constant_Reference (This.Current_Nodes.Last_Index).all.Id = XML_Tag then
                         This.Current_Nodes.Constant_Reference (This.Current_Nodes.Last_Index).all.Inner.My_Tag.My_Child_Nodes.Append (Node);
@@ -183,7 +183,7 @@ package body Aida.Deepend_XML_DOM_Parser is
    end Comment;
 
    procedure CDATA (This        : in out SAX_Parser_T;
-                    Value       : Aida.String_T;
+                    Value       : Standard.String;
                     Call_Result : in out Aida.Subprogram_Call_Result.T) is
    begin
       case This.State is
@@ -198,7 +198,7 @@ package body Aida.Deepend_XML_DOM_Parser is
                      Node : Node_Ptr := new (This.Subpool) Node_T;
                   begin
                      Node.Inner := (My_Id   => XML_CDATA,
-                                    My_Text => new (This.Subpool) String_T'(Value));
+                                    My_Text => new (This.Subpool) Standard.String'(Value));
 
                      if This.Current_Nodes.Constant_Reference (This.Current_Nodes.Last_Index).all.Id = XML_Tag then
                         This.Current_Nodes.Constant_Reference (This.Current_Nodes.Last_Index).all.Inner.My_Tag.My_Child_Nodes.Append (Node);
@@ -220,7 +220,7 @@ package body Aida.Deepend_XML_DOM_Parser is
 
    procedure Parse (This        : in out DOM_Parser_T;
                     Subpool     : in out Dynamic_Pools.Subpool_Handle;
-                    XML_Message : String_T;
+                    XML_Message : Standard.String;
                     Call_Result : in out Aida.Subprogram_Call_Result.T;
                     Root_Node   :    out Node_Ptr)
    is

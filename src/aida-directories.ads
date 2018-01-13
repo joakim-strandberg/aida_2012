@@ -8,7 +8,7 @@ package Aida.Directories with SPARK_Mode is
    -- Directory and File Operations --
    -----------------------------------
 
-   function Current_Directory return String_T with
+   function Current_Directory return Standard.String with
      Global => null,
      Post   => Exists (Current_Directory'Result);
    --  Returns the full directory name for the current default directory. The
@@ -16,45 +16,45 @@ package Aida.Directories with SPARK_Mode is
    --  The exception Use_Error is propagated if a default directory is not
    --  supported by the external environment.
 
-   procedure Set_Directory (Directory : String_T) with
+   procedure Set_Directory (Directory : Standard.String) with
      Global => null,
      Pre    => Exists (Directory);
    --  Sets the current default directory. The exception Name_Error is
-   --  propagated if the String_T given as Directory does not identify an
+   --  propagated if the Standard.String given as Directory does not identify an
    --  existing directory. The exception Use_Error is propagated if the
    --  external environment does not support making Directory (in the absence
    --  of Name_Error) a default directory.
 
    procedure Create_Directory
-     (New_Directory : String_T;
-      Form          : String_T := "") with
+     (New_Directory : Standard.String;
+      Form          : Standard.String := "") with
      Global => null,
      Post   => Exists (New_Directory);
    --  Creates a directory with name New_Directory. The Form parameter can be
    --  used to give system-dependent characteristics of the directory; the
    --  interpretation of the Form parameter is implementation-defined. A null
-   --  String_T for Form specifies the use of the default options of the
+   --  Standard.String for Form specifies the use of the default options of the
    --  implementation of the new directory. The exception Name_Error is
-   --  propagated if the String_T given as New_Directory does not allow the
+   --  propagated if the Standard.String given as New_Directory does not allow the
    --  identification of a directory. The exception Use_Error is propagated if
    --  the external environment does not support the creation of a directory
    --  with the given name (in the absence of Name_Error) and form.
    --
    --  The Form parameter is ignored
 
-   procedure Delete_Directory (Directory : String_T) with
+   procedure Delete_Directory (Directory : Standard.String) with
      Global => null,
      Pre    => Exists (Directory);
    --  Deletes an existing empty directory with name Directory. The exception
-   --  Name_Error is propagated if the String_T given as Directory does not
+   --  Name_Error is propagated if the Standard.String given as Directory does not
    --  identify an existing directory. The exception Use_Error is propagated
    --  if the external environment does not support the deletion of the
    --  directory (or some portion of its contents) with the given name (in the
    --  absence of Name_Error).
 
    procedure Create_Path
-     (New_Directory : String_T;
-      Form          : String_T := "") with
+     (New_Directory : Standard.String;
+      Form          : Standard.String := "") with
      Global => null;
    --  Creates zero or more directories with name New_Directory. Each
    --  non-existent directory named by New_Directory is created. For example,
@@ -62,9 +62,9 @@ package Aida.Directories with SPARK_Mode is
    --  directory "me" in directory "usr", then create directory "my"
    --  in directory "me". The Form can be used to give system-dependent
    --  characteristics of the directory; the interpretation of the Form
-   --  parameter is implementation-defined. A null String_T for Form specifies
+   --  parameter is implementation-defined. A null Standard.String for Form specifies
    --  the use of the default options of the implementation of the new
-   --  directory. The exception Name_Error is propagated if the String_T given
+   --  directory. The exception Name_Error is propagated if the Standard.String given
    --  as New_Directory does not allow the identification of any directory. The
    --  exception Use_Error is propagated if the external environment does not
    --  support the creation of any directories with the given name (in the
@@ -72,32 +72,32 @@ package Aida.Directories with SPARK_Mode is
    --
    --  The Form parameter is ignored
 
-   procedure Delete_Tree (Directory : String_T) with
+   procedure Delete_Tree (Directory : Standard.String) with
      Global => null,
      Pre    => Exists (Directory);
    --  Deletes an existing directory with name Directory. The directory and
    --  all of its contents (possibly including other directories) are deleted.
-   --  The exception Name_Error is propagated if the String_T given as Directory
+   --  The exception Name_Error is propagated if the Standard.String given as Directory
    --  does not identify an existing directory. The exception Use_Error is
    --  propagated if the external environment does not support the deletion
    --  of the directory or some portion of its contents with the given name
    --  (in the absence of Name_Error). If Use_Error is propagated, it is
    --  unspecified if a portion of the contents of the directory are deleted.
 
-   procedure Delete_File (Name : String_T) with
+   procedure Delete_File (Name : Standard.String) with
      Global => null,
      Pre    => Exists (Name);
    --  Deletes an existing ordinary or special file with Name. The exception
-   --  Name_Error is propagated if the String_T given as Name does not identify
+   --  Name_Error is propagated if the Standard.String given as Name does not identify
    --  an existing ordinary or special external file. The exception Use_Error
    --  is propagated if the external environment does not support the deletion
    --  of the file with the given name (in the absence of Name_Error).
 
-   procedure Rename (Old_Name, New_Name : String_T) with
+   procedure Rename (Old_Name, New_Name : Standard.String) with
      Global => null,
      Pre    => Exists (Old_Name) and not Exists (New_Name);
    --  Renames an existing external file (including directories) with Old_Name
-   --  to New_Name. The exception Name_Error is propagated if the String_T given
+   --  to New_Name. The exception Name_Error is propagated if the Standard.String given
    --  as Old_Name does not identify an existing external file. The exception
    --  Use_Error is propagated if the external environment does not support the
    --  renaming of the file with the given name (in the absence of Name_Error).
@@ -105,9 +105,9 @@ package Aida.Directories with SPARK_Mode is
    --  exists with New_Name.
 
    procedure Copy_File
-     (Source_Name   : String_T;
-      Target_Name   : String_T;
-      Form          : String_T := "") with
+     (Source_Name   : Standard.String;
+      Target_Name   : Standard.String;
+      Form          : Standard.String := "") with
      Global => null,
      Pre    => Exists (Source_Name) and not Exists (Target_Name);
    --  Copies the contents of the existing external file with Source_Name to
@@ -115,8 +115,8 @@ package Aida.Directories with SPARK_Mode is
    --  external file. The Form argument can be used to give system-dependent
    --  characteristics of the resulting external file; the interpretation of
    --  the Form parameter is implementation-defined. Exception Name_Error is
-   --  propagated if the String_T given as Source_Name does not identify an
-   --  existing external ordinary or special file or if the String_T given as
+   --  propagated if the Standard.String given as Source_Name does not identify an
+   --  existing external ordinary or special file or if the Standard.String given as
    --  Target_Name does not allow the identification of an external file. The
    --  exception Use_Error is propagated if the external environment does not
    --  support the creating of the file with the name given by Target_Name and
@@ -177,64 +177,64 @@ package Aida.Directories with SPARK_Mode is
    -- File and directory name operations --
    ----------------------------------------
 
-   function Full_Name (Name : String_T) return String_T with
+   function Full_Name (Name : Standard.String) return Standard.String with
      Global => null,
      Pre    => Exists (Name);
    --  Returns the full name corresponding to the file name specified by Name.
-   --  The exception Name_Error is propagated if the String_T given as Name does
+   --  The exception Name_Error is propagated if the Standard.String given as Name does
    --  not allow the identification of an external file (including directories
    --  and special files).
 
-   function Simple_Name (Name : String_T) return String_T with
+   function Simple_Name (Name : Standard.String) return Standard.String with
      Global => null,
      Pre    => Exists (Name);
    --  Returns the simple name portion of the file name specified by Name. The
-   --  exception Name_Error is propagated if the String_T given as Name does not
+   --  exception Name_Error is propagated if the Standard.String given as Name does not
    --  allow the identification of an external file (including directories and
    --  special files).
 
-   function Containing_Directory (Name : String_T) return String_T with
+   function Containing_Directory (Name : Standard.String) return Standard.String with
      Global => null,
      Post   => Exists (Containing_Directory'Result);
    --  Returns the name of the containing directory of the external file
    --  (including directories) identified by Name. If more than one directory
    --  can contain Name, the directory name returned is implementation-defined.
-   --  The exception Name_Error is propagated if the String_T given as Name does
+   --  The exception Name_Error is propagated if the Standard.String given as Name does
    --  not allow the identification of an external file. The exception
    --  Use_Error is propagated if the external file does not have a containing
    --  directory.
 
-   function Extension (Name : String_T) return String_T with
+   function Extension (Name : Standard.String) return Standard.String with
      Global => null,
      Pre    => Exists (Name);
    --  Returns the extension name corresponding to Name. The extension name is
    --  a portion of a simple name (not including any separator characters),
    --  typically used to identify the file class. If the external environment
-   --  does not have extension names, then the null String_T is returned.
-   --  The exception Name_Error is propagated if the String_T given as Name does
+   --  does not have extension names, then the null Standard.String is returned.
+   --  The exception Name_Error is propagated if the Standard.String given as Name does
    --  not allow the identification of an external file.
 
-   function Base_Name (Name : String_T) return String_T with
+   function Base_Name (Name : Standard.String) return Standard.String with
      Global => null,
      Pre    => Exists (Name);
    --  Returns the base name corresponding to Name. The base name is the
    --  remainder of a simple name after removing any extension and extension
-   --  separators. The exception Name_Error is propagated if the String_T given
+   --  separators. The exception Name_Error is propagated if the Standard.String given
    --  as Name does not allow the identification of an external file
    --  (including directories and special files).
 
-   function Compose (Containing_Directory : String_T := "";
-                     Name                 : String_T;
-                     Extension            : String_T := "") return String_T with
+   function Compose (Containing_Directory : Standard.String := "";
+                     Name                 : Standard.String;
+                     Extension            : Standard.String := "") return Standard.String with
      Global => null,
      Pre    => Exists (Containing_Directory);
    --  Returns the name of the external file with the specified
    --  Containing_Directory, Name, and Extension. If Extension is the null
-   --  String_T, then Name is interpreted as a simple name; otherwise Name is
+   --  Standard.String, then Name is interpreted as a simple name; otherwise Name is
    --  interpreted as a base name. The exception Name_Error is propagated if
-   --  the String_T given as Containing_Directory is not null and does not allow
-   --  the identification of a directory, or if the String_T given as Extension
-   --  is not null and is not a possible extension, or if the String_T given as
+   --  the Standard.String given as Containing_Directory is not null and does not allow
+   --  the identification of a directory, or if the Standard.String given as Extension
+   --  is not null and is not a possible extension, or if the Standard.String given as
    --  Name is not a possible simple name (if Extension is null) or base name
    --  (if Extension is non-null).
 
@@ -253,28 +253,28 @@ package Aida.Directories with SPARK_Mode is
    subtype File_Size is Ada.Directories.File_Size;
    --  The type File_Size represents the size of an external file
 
-   function Exists (Name : String_T) return Boolean with
+   function Exists (Name : Standard.String) return Boolean with
      Global => null;
    --  Returns True if external file represented by Name exists, and False
-   --  otherwise. The exception Name_Error is propagated if the String_T given as
+   --  otherwise. The exception Name_Error is propagated if the Standard.String given as
    --  Name does not allow the identification of an external file (including
    --  directories and special files).
 
-   function Exists (Simple_Filename     : Aida.String_T;
-                    Directory_To_Search : String_T) return Boolean with
+   function Exists (Simple_Filename     : Standard.String;
+                    Directory_To_Search : Standard.String) return Boolean with
      Global => null,
      Pre    => Exists (Directory_To_Search);
    --  Returns True if external file represented by Simple_Filename exists
    --  in the directory Directory, and False otherwise.
 
-   function Kind (Name : String_T) return File_Kind with
+   function Kind (Name : Standard.String) return File_Kind with
      Global => null,
      Pre    => Exists (Name);
    --  Returns the kind of external file represented by Name. The exception
-   --  Name_Error is propagated if the String_T given as Name does not allow the
+   --  Name_Error is propagated if the Standard.String given as Name does not allow the
    --  identification of an existing external file.
 
-   function Size (Name : String_T) return File_Size with
+   function Size (Name : Standard.String) return File_Size with
      Global => null,
      Pre    => Exists (Name);
    --  Returns the size of the external file represented by Name. The size of
@@ -282,18 +282,18 @@ package Aida.Directories with SPARK_Mode is
    --  If the external file is discontiguous (not all elements exist), the
    --  result is implementation-defined. If the external file is not an
    --  ordinary file, the result is implementation-defined. The exception
-   --  Name_Error is propagated if the String_T given as Name does not allow the
+   --  Name_Error is propagated if the Standard.String given as Name does not allow the
    --  identification of an existing external file. The exception
    --  Constraint_Error is propagated if the file size is not a value of type
    --  File_Size.
 
-   function Modification_Time (Name : String_T) return Ada.Calendar.Time with
+   function Modification_Time (Name : Standard.String) return Ada.Calendar.Time with
      Global => null,
      Pre    => Exists (Name);
    --  Returns the time that the external file represented by Name was most
    --  recently modified. If the external file is not an ordinary file, the
    --  result is implementation-defined. The exception Name_Error is propagated
-   --  if the String_T given as Name does not allow the identification of an
+   --  if the Standard.String given as Name does not allow the identification of an
    --  existing external file. The exception Use_Error is propagated if the
    --  external environment does not support the reading the modification time
    --  of the file with the name given by Name (in the absence of Name_Error).
@@ -324,8 +324,8 @@ package Aida.Directories with SPARK_Mode is
 
    procedure Start_Search
      (Search    : in out Search_Type;
-      Directory : String_T;
-      Pattern   : String_T;
+      Directory : Standard.String;
+      Pattern   : Standard.String;
       Filter    : Filter_Type := (others => True)) with
      Global => null,
      Pre    => Exists (Directory);
@@ -337,7 +337,7 @@ package Aida.Directories with SPARK_Mode is
    --  successful call on Start_Search, the object Search may have entries
    --  available, but it may have no entries available if no files or
    --  directories match Pattern and Filter. The exception Name_Error is
-   --  propagated if the String_T given by Directory does not identify an
+   --  propagated if the Standard.String given by Directory does not identify an
    --  existing directory, or if Pattern does not allow the identification of
    --  any possible external file or directory. The exception Use_Error is
    --  propagated if the external environment does not support the searching
@@ -370,8 +370,8 @@ package Aida.Directories with SPARK_Mode is
    --  represented by Search.
 
 --     procedure Search
---       (Directory : String_T;
---        Pattern   : String_T;
+--       (Directory : Standard.String;
+--        Pattern   : Standard.String;
 --        Filter    : Filter_Type := (others => True);
 --        Process   : not null access procedure (Directory_Entry : Directory_Entry_Type)) with
 --         SPARK_Mode => Off,
@@ -383,7 +383,7 @@ package Aida.Directories with SPARK_Mode is
    --  names. If Pattern is null, all items in the directory are matched;
    --  otherwise, the interpretation of Pattern is implementation-defined.
    --  Only items that match Filter will be returned. The exception Name_Error
-   --  is propagated if the String_T given by Directory does not identify
+   --  is propagated if the Standard.String given by Directory does not identify
    --  an existing directory, or if Pattern does not allow the identification
    --  of any possible external file or directory. The exception Use_Error is
    --  propagated if the external environment does not support the searching
@@ -393,7 +393,7 @@ package Aida.Directories with SPARK_Mode is
    -- Operations on Directory Entries --
    -------------------------------------
 
-   function Simple_Name (Directory_Entry : Directory_Entry_Type) return String_T with
+   function Simple_Name (Directory_Entry : Directory_Entry_Type) return Standard.String with
      Global => null;
    --  TODO: Can this contract be refined?
    --
@@ -402,7 +402,7 @@ package Aida.Directories with SPARK_Mode is
    --  returned is implementation-defined. The exception Status_Error is
    --  propagated if Directory_Entry is invalid.
 
-   function Full_Name (Directory_Entry : Directory_Entry_Type) return String_T with
+   function Full_Name (Directory_Entry : Directory_Entry_Type) return Standard.String with
      Global => null,
      Post   => Exists (Full_Name'Result);
    --  Returns the full external name of the external file (including
@@ -440,65 +440,65 @@ package Aida.Directories with SPARK_Mode is
 --  private
 --     pragma SPARK_Mode (Off);
 
---     function Exists (Name : String_T) return Boolean renames Ada.Directories.Exists;
+--     function Exists (Name : Standard.String) return Boolean renames Ada.Directories.Exists;
 --
---     function Current_Directory return String_T renames Ada.Directories.Current_Directory;
+--     function Current_Directory return Standard.String renames Ada.Directories.Current_Directory;
 --
---     function Compose (Containing_Directory : String_T := "";
---                       Name                 : String_T;
---                       Extension            : String_T := "") return String_T renames Ada.Directories.Compose;
+--     function Compose (Containing_Directory : Standard.String := "";
+--                       Name                 : Standard.String;
+--                       Extension            : Standard.String := "") return Standard.String renames Ada.Directories.Compose;
 --
---     function Containing_Directory (Name : String_T) return String_T renames Ada.Directories.Containing_Directory;
+--     function Containing_Directory (Name : Standard.String) return Standard.String renames Ada.Directories.Containing_Directory;
 --
---     procedure Set_Directory (Directory : String_T) renames Ada.Directories.Set_Directory;
+--     procedure Set_Directory (Directory : Standard.String) renames Ada.Directories.Set_Directory;
 --
 --     procedure Create_Directory
---       (New_Directory : String_T;
---        Form          : String_T := "") renames Ada.Directories.Create_Directory;
+--       (New_Directory : Standard.String;
+--        Form          : Standard.String := "") renames Ada.Directories.Create_Directory;
 --
---     procedure Delete_Directory (Directory : String_T) renames Ada.Directories.Delete_Directory;
+--     procedure Delete_Directory (Directory : Standard.String) renames Ada.Directories.Delete_Directory;
 --
 --     procedure Create_Path
---       (New_Directory : String_T;
---        Form          : String_T := "") renames Ada.Directories.Create_Path;
+--       (New_Directory : Standard.String;
+--        Form          : Standard.String := "") renames Ada.Directories.Create_Path;
 --
---     procedure Delete_Tree (Directory : String_T) renames Ada.Directories.Delete_Tree;
+--     procedure Delete_Tree (Directory : Standard.String) renames Ada.Directories.Delete_Tree;
 --
---     procedure Delete_File (Name : String_T) renames Ada.Directories.Delete_File;
+--     procedure Delete_File (Name : Standard.String) renames Ada.Directories.Delete_File;
 --
---     procedure Rename (Old_Name, New_Name : String_T) renames Ada.Directories.Rename;
+--     procedure Rename (Old_Name, New_Name : Standard.String) renames Ada.Directories.Rename;
 --
 --     procedure Copy_File
---       (Source_Name   : String_T;
---        Target_Name   : String_T;
---        Form          : String_T := "") renames Ada.Directories.Copy_File;
+--       (Source_Name   : Standard.String;
+--        Target_Name   : Standard.String;
+--        Form          : Standard.String := "") renames Ada.Directories.Copy_File;
 --
---     function Full_Name (Name : String_T) return String_T renames Ada.Directories.Full_Name;
+--     function Full_Name (Name : Standard.String) return Standard.String renames Ada.Directories.Full_Name;
 --
---     function Simple_Name (Name : String_T) return String_T renames Ada.Directories.Simple_Name;
+--     function Simple_Name (Name : Standard.String) return Standard.String renames Ada.Directories.Simple_Name;
 --
---     function Containing_Directory (Name : String_T) return String_T renames Ada.Directories.Containing_Directory;
+--     function Containing_Directory (Name : Standard.String) return Standard.String renames Ada.Directories.Containing_Directory;
 --
---     function Extension (Name : String_T) return String_T renames Ada.Directories.Extension;
+--     function Extension (Name : Standard.String) return Standard.String renames Ada.Directories.Extension;
 --
---     function Base_Name (Name : String_T) return String_T renames Ada.Directories.Base_Name;
+--     function Base_Name (Name : Standard.String) return Standard.String renames Ada.Directories.Base_Name;
 --
---     function Compose (Containing_Directory : String_T := "";
---                       Name                 : String_T;
---                       Extension            : String_T := "") return String_T renames Ada.Directories.Compose;
+--     function Compose (Containing_Directory : Standard.String := "";
+--                       Name                 : Standard.String;
+--                       Extension            : Standard.String := "") return Standard.String renames Ada.Directories.Compose;
 --
---     function Exists (Name : String_T) return Boolean renames Ada.Directories.Exists;
+--     function Exists (Name : Standard.String) return Boolean renames Ada.Directories.Exists;
 --
---     function Kind (Name : String_T) return File_Kind renames Ada.Directories.Kind;
+--     function Kind (Name : Standard.String) return File_Kind renames Ada.Directories.Kind;
 --
---     function Size (Name : String_T) return File_Size renames Ada.Directories.Size;
+--     function Size (Name : Standard.String) return File_Size renames Ada.Directories.Size;
 --
---     function Modification_Time (Name : String_T) return Ada.Calendar.Time renames Ada.Directories.Modification_Time;
+--     function Modification_Time (Name : Standard.String) return Ada.Calendar.Time renames Ada.Directories.Modification_Time;
 --
 --     procedure Start_Search
 --       (Search    : in out Search_Type;
---        Directory : String_T;
---        Pattern   : String_T;
+--        Directory : Standard.String;
+--        Pattern   : Standard.String;
 --        Filter    : Filter_Type := (others => True)) renames Ada.Directories.Start_Search;
 --
 --     procedure End_Search (Search : in out Search_Type) renames Ada.Directories.End_Search;
@@ -510,14 +510,14 @@ package Aida.Directories with SPARK_Mode is
 --        Directory_Entry : out Directory_Entry_Type) renames Ada.Directories.Get_Next_Entry;
 --
 --  --     procedure Search
---  --       (Directory : String_T;
---  --        Pattern   : String_T;
+--  --       (Directory : Standard.String;
+--  --        Pattern   : Standard.String;
 --  --        Filter    : Filter_Type := (others => True);
 --  --        Process   : not null access procedure (Directory_Entry : Directory_Entry_Type)) renames Ada.Directories.Search;
 --
---     function Simple_Name (Directory_Entry : Directory_Entry_Type) return String_T renames Ada.Directories.Simple_Name;
+--     function Simple_Name (Directory_Entry : Directory_Entry_Type) return Standard.String renames Ada.Directories.Simple_Name;
 --
---     function Full_Name (Directory_Entry : Directory_Entry_Type) return String_T renames Ada.Directories.Full_Name;
+--     function Full_Name (Directory_Entry : Directory_Entry_Type) return Standard.String renames Ada.Directories.Full_Name;
 --
 --     function Kind (Directory_Entry : Directory_Entry_Type) return File_Kind renames Ada.Directories.Kind;
 --

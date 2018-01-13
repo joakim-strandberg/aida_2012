@@ -1,59 +1,56 @@
 package body Aida.Directories is
 
-   use all type Aida.String_T;
-   use all type Aida.Int32_T;
+   function Exists (Name : Standard.String) return Boolean renames Ada.Directories.Exists;
 
-   function Exists (Name : String_T) return Boolean renames Ada.Directories.Exists;
+   function Current_Directory return Standard.String renames Ada.Directories.Current_Directory;
 
-   function Current_Directory return String_T renames Ada.Directories.Current_Directory;
+   function Compose (Containing_Directory : Standard.String := "";
+                     Name                 : Standard.String;
+                     Extension            : Standard.String := "") return Standard.String renames Ada.Directories.Compose;
 
-   function Compose (Containing_Directory : String_T := "";
-                     Name                 : String_T;
-                     Extension            : String_T := "") return String_T renames Ada.Directories.Compose;
+   function Containing_Directory (Name : Standard.String) return Standard.String renames Ada.Directories.Containing_Directory;
 
-   function Containing_Directory (Name : String_T) return String_T renames Ada.Directories.Containing_Directory;
-
-   procedure Set_Directory (Directory : String_T) renames Ada.Directories.Set_Directory;
+   procedure Set_Directory (Directory : Standard.String) renames Ada.Directories.Set_Directory;
 
    procedure Create_Directory
-     (New_Directory : String_T;
-      Form          : String_T := "") renames Ada.Directories.Create_Directory;
+     (New_Directory : Standard.String;
+      Form          : Standard.String := "") renames Ada.Directories.Create_Directory;
 
-   procedure Delete_Directory (Directory : String_T) renames Ada.Directories.Delete_Directory;
+   procedure Delete_Directory (Directory : Standard.String) renames Ada.Directories.Delete_Directory;
 
    procedure Create_Path
-     (New_Directory : String_T;
-      Form          : String_T := "") renames Ada.Directories.Create_Path;
+     (New_Directory : Standard.String;
+      Form          : Standard.String := "") renames Ada.Directories.Create_Path;
 
-   procedure Delete_Tree (Directory : String_T) renames Ada.Directories.Delete_Tree;
+   procedure Delete_Tree (Directory : Standard.String) renames Ada.Directories.Delete_Tree;
 
-   procedure Delete_File (Name : String_T) renames Ada.Directories.Delete_File;
+   procedure Delete_File (Name : Standard.String) renames Ada.Directories.Delete_File;
 
-   procedure Rename (Old_Name, New_Name : String_T) renames Ada.Directories.Rename;
+   procedure Rename (Old_Name, New_Name : Standard.String) renames Ada.Directories.Rename;
 
    procedure Copy_File
-     (Source_Name   : String_T;
-      Target_Name   : String_T;
-      Form          : String_T := "") renames Ada.Directories.Copy_File;
+     (Source_Name   : Standard.String;
+      Target_Name   : Standard.String;
+      Form          : Standard.String := "") renames Ada.Directories.Copy_File;
 
-   function Full_Name (Name : String_T) return String_T renames Ada.Directories.Full_Name;
+   function Full_Name (Name : Standard.String) return Standard.String renames Ada.Directories.Full_Name;
 
-   function Simple_Name (Name : String_T) return String_T renames Ada.Directories.Simple_Name;
+   function Simple_Name (Name : Standard.String) return Standard.String renames Ada.Directories.Simple_Name;
 
-   function Extension (Name : String_T) return String_T renames Ada.Directories.Extension;
+   function Extension (Name : Standard.String) return Standard.String renames Ada.Directories.Extension;
 
-   function Base_Name (Name : String_T) return String_T renames Ada.Directories.Base_Name;
+   function Base_Name (Name : Standard.String) return Standard.String renames Ada.Directories.Base_Name;
 
-   function Kind (Name : String_T) return File_Kind renames Ada.Directories.Kind;
+   function Kind (Name : Standard.String) return File_Kind renames Ada.Directories.Kind;
 
-   function Size (Name : String_T) return File_Size renames Ada.Directories.Size;
+   function Size (Name : Standard.String) return File_Size renames Ada.Directories.Size;
 
-   function Modification_Time (Name : String_T) return Ada.Calendar.Time renames Ada.Directories.Modification_Time;
+   function Modification_Time (Name : Standard.String) return Ada.Calendar.Time renames Ada.Directories.Modification_Time;
 
    procedure Start_Search
      (Search    : in out Search_Type;
-      Directory : String_T;
-      Pattern   : String_T;
+      Directory : Standard.String;
+      Pattern   : Standard.String;
       Filter    : Filter_Type := (others => True)) renames Ada.Directories.Start_Search;
 
    procedure End_Search (Search : in out Search_Type) renames Ada.Directories.End_Search;
@@ -65,14 +62,14 @@ package body Aida.Directories is
       Directory_Entry : out Directory_Entry_Type) renames Ada.Directories.Get_Next_Entry;
 
 --     procedure Search
---       (Directory : String_T;
---        Pattern   : String_T;
+--       (Directory : Standard.String;
+--        Pattern   : Standard.String;
 --        Filter    : Filter_Type := (others => True);
 --        Process   : not null access procedure (Directory_Entry : Directory_Entry_Type)) renames Ada.Directories.Search;
 
-   function Simple_Name (Directory_Entry : Directory_Entry_Type) return String_T renames Ada.Directories.Simple_Name;
+   function Simple_Name (Directory_Entry : Directory_Entry_Type) return Standard.String renames Ada.Directories.Simple_Name;
 
-   function Full_Name (Directory_Entry : Directory_Entry_Type) return String_T renames Ada.Directories.Full_Name;
+   function Full_Name (Directory_Entry : Directory_Entry_Type) return Standard.String renames Ada.Directories.Full_Name;
 
    function Kind (Directory_Entry : Directory_Entry_Type) return File_Kind renames Ada.Directories.Kind;
 
@@ -81,8 +78,8 @@ package body Aida.Directories is
    function Modification_Time
      (Directory_Entry : Directory_Entry_Type) return Ada.Calendar.Time renames Ada.Directories.Modification_Time;
 
-   function Exists (Simple_Filename     : Aida.String_T;
-                    Directory_To_Search : String_T) return Boolean with
+   function Exists (Simple_Filename     : Standard.String;
+                    Directory_To_Search : Standard.String) return Boolean with
      SPARK_Mode => On
    is
       Search : Aida.Directories.Search_Type;
@@ -104,7 +101,7 @@ package body Aida.Directories is
       while Aida.Directories.More_Entries (Search) and not Is_Success loop
          Aida.Directories.Get_Next_Entry (Search, Directory_Entry);
          declare
-            Filename : constant String_T := Aida.Directories.Simple_Name (Directory_Entry);
+            Filename : constant Standard.String := Aida.Directories.Simple_Name (Directory_Entry);
          begin
             if Simple_Filename = Filename then
                Is_Success := True;

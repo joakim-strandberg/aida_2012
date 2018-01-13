@@ -10,16 +10,16 @@ package Aida.Deepend_XML_DOM_Parser is
    Default_Subpool : Dynamic_Pools.Dynamic_Pool (0);
    -- Allocations are done in subpools, not the default subpool
 
-   type String_Ptr is access all Aida.String_T with Storage_Pool => Default_Subpool;
+   type String_Ptr is access all Standard.String with Storage_Pool => Default_Subpool;
 
-   Empty_String : aliased Aida.String_T := "";
+   Empty_String : aliased Standard.String := "";
 
    type Attribute_T is tagged limited private;
 
-   function Name (This : Attribute_T) return Aida.String_T with
+   function Name (This : Attribute_T) return Standard.String with
      Global => null;
 
-   function Value (This : Attribute_T) return Aida.String_T with
+   function Value (This : Attribute_T) return Standard.String with
      Global => null;
 
    type Attribute_Ptr is access all Attribute_T with Storage_Pool => Default_Subpool;
@@ -56,7 +56,7 @@ package Aida.Deepend_XML_DOM_Parser is
    function Child_Nodes (This : aliased XML_Tag_T) return Child_Nodes_Ref with
      Global    => null;
 
-   function Name (This : XML_Tag_T) return Aida.String_T with
+   function Name (This : XML_Tag_T) return Standard.String with
      Global    => null;
 
    type Tag_Ref (E : not null access constant XML_Tag_T) is limited null record with
@@ -71,15 +71,15 @@ package Aida.Deepend_XML_DOM_Parser is
      Global    => null,
      Pre'Class => This.Id = XML_Tag;
 
-   function Comment (This : Node_T) return Aida.String_T with
+   function Comment (This : Node_T) return Standard.String with
      Global    => null,
      Pre'Class => This.Id = XML_Comment;
 
-   function CDATA (This : Node_T) return Aida.String_T with
+   function CDATA (This : Node_T) return Standard.String with
      Global => null,
      Pre    => This.Id = XML_CDATA;
 
-   function Text (This : Node_T) return Aida.String_T with
+   function Text (This : Node_T) return Standard.String with
      Global => null,
      Pre    => This.Id = XML_Text;
 
@@ -87,7 +87,7 @@ package Aida.Deepend_XML_DOM_Parser is
 
    procedure Parse (This        : in out DOM_Parser_T;
                     Subpool     : in out Dynamic_Pools.Subpool_Handle;
-                    XML_Message : String_T;
+                    XML_Message : Standard.String;
                     Call_Result : in out Aida.Subprogram_Call_Result.T;
                     Root_Node   :    out Node_Ptr) with
      Global    => null,
@@ -100,9 +100,9 @@ private
       My_Value : String_Ptr;
    end record;
 
-   function Name (This : Attribute_T) return Aida.String_T is (This.My_Name.all);
+   function Name (This : Attribute_T) return Standard.String is (This.My_Name.all);
 
-   function Value (This : Attribute_T) return Aida.String_T is (This.My_Value.all);
+   function Value (This : Attribute_T) return Standard.String is (This.My_Value.all);
 
    type XML_Tag_T is tagged record
       My_Name        : String_Ptr;
@@ -110,7 +110,7 @@ private
       My_Attributes  : aliased Attribute_Vectors.Vector;
    end record;
 
-   function Name (This : XML_Tag_T) return Aida.String_T is (This.My_Name.all);
+   function Name (This : XML_Tag_T) return Standard.String is (This.My_Name.all);
 
    function Child_Nodes (This : aliased XML_Tag_T) return Child_Nodes_Ref is ((E => This.My_Child_Nodes'Access));
 
@@ -131,11 +131,11 @@ private
 
    function Tag (This : aliased Node_T) return Tag_Ref is ((E => This.Inner.My_Tag'Access));
 
-   function Comment (This : Node_T) return Aida.String_T is (This.Inner.My_Text.all);
+   function Comment (This : Node_T) return Standard.String is (This.Inner.My_Text.all);
 
-   function CDATA (This : Node_T) return Aida.String_T is (This.Inner.My_Text.all);
+   function CDATA (This : Node_T) return Standard.String is (This.Inner.My_Text.all);
 
-   function Text (This : Node_T) return Aida.String_T is (This.Inner.My_Text.all);
+   function Text (This : Node_T) return Standard.String is (This.Inner.My_Text.all);
 
    type State_T is (
                     Expecting_Object_Start, -- seems to only apply to the root start tag
@@ -153,43 +153,43 @@ private
 
    overriding
    procedure Start_Tag (This        : in out SAX_Parser_T;
-                        Tag_Name    : Aida.String_T;
+                        Tag_Name    : Standard.String;
                         Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
      Pre    => not Call_Result.Has_Failed;
 
    overriding
    procedure End_Tag (This        : in out SAX_Parser_T;
-                      Tag_Name    : Aida.String_T;
+                      Tag_Name    : Standard.String;
                       Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
      Pre    => not Call_Result.Has_Failed;
 
    overriding
    procedure Text (This        : in out SAX_Parser_T;
-                   Value       : Aida.String_T;
+                   Value       : Standard.String;
                    Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
      Pre    => not Call_Result.Has_Failed;
 
    overriding
    procedure Attribute (This            : in out SAX_Parser_T;
-                        Attribute_Name  : Aida.String_T;
-                        Attribute_Value : Aida.String_T;
+                        Attribute_Name  : Standard.String;
+                        Attribute_Value : Standard.String;
                         Call_Result     : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
      Pre    => not Call_Result.Has_Failed;
 
    overriding
    procedure Comment (This        : in out SAX_Parser_T;
-                      Value       : Aida.String_T;
+                      Value       : Standard.String;
                       Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
      Pre    => not Call_Result.Has_Failed;
 
    overriding
    procedure CDATA (This        : in out SAX_Parser_T;
-                    Value       : Aida.String_T;
+                    Value       : Standard.String;
                     Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
      Pre    => not Call_Result.Has_Failed;
