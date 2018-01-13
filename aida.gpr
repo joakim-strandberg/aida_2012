@@ -5,12 +5,12 @@ with "aida_io.gpr";
 
 project Aida is
 
-   type OS_T is ("Windows", "Linux", "Mac");
+   type OS_T is ("Windows_NT", "Linux", "Mac");
 
    OS : OS_T := external ("OS", "Linux");
 
    case OS is
-      when "Windows" =>
+      when "Windows_NT" =>
          for Source_Dirs use ("src", "src/windows");
       when "Linux"   =>
          for Source_Dirs use ("src", "src/linux");

@@ -2,18 +2,7 @@ with "aida_basic_types";
 
 project Aida_Containers is
 
-   type OS_T is ("Windows", "Linux", "Mac");
-
-   OS : OS_T := external ("OS", "Linux");
-
-   case OS is
-      when "Windows" =>
-         for Source_Dirs use ("src", "src/windows");
-      when "Linux"   =>
-         for Source_Dirs use ("src", "src/linux");
-      when "Mac"     =>
-         for Source_Dirs use ("src", "src/mac");
-   end case;
+   for Source_Dirs use ("src");
 
    for Source_Files use ("aida-bounded_hash_map.ads",
                          "aida-bounded_hash_map.adb",
