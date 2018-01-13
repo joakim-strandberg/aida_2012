@@ -58,7 +58,7 @@ package body Aida.Json_Parsing_Tests_Model with SPARK_Mode is
       end Make;
 
       procedure Set_Name (This  : in out T;
-                          Value : String_T) is
+                          Value : Standard.String) is
       begin
          Initialize (This.My_Name, Value);
       end Set_Name;

@@ -11,17 +11,17 @@ package body Aida.JSON_SAX_Parse_Tests is
    use type Json_Parsing_Tests_Model.Vehicle_Def.Wheels_T;
 
    -- The trailing numbers are to differentiate between the same json except different number of spaces
-   JSON_Test_Person_With_Age_0            : constant Aida.String_T := "{""age"" : 10}";
-   JSON_Test_Person_With_Age_1            : constant Aida.String_T := "{""age"" : 10 }";
-   JSON_Test_Person_With_Hand_0           : constant Aida.String_T := "{""hand"" : { ""fingers"" : 4 }}";
-   JSON_Test_Person_With_Name_Adam_0      : constant Aida.String_T := "{""name"" : ""adam""}";
-   JSON_Test_Person_With_Name_Adam_1      : constant Aida.String_T := "   {""name"" : ""adam""}";
-   JSON_Test_Person_With_Name_And_Age_0   : constant Aida.String_T := "{""name"" : ""bertil"", ""age"" : 5}";
-   JSON_Test_Person_With_Vehicles_0       : constant Aida.String_T := "{""vehicles"" : [ {""wheels"" : 4 }, {""wheels"" : 2 } ]}";
-   JSON_Test_Person_With_Length_0         : constant Aida.String_T := "{""length"" : 1.98}";
-   JSON_Test_Person_With_Is_Happy_True_0  : constant Aida.String_T := "{""isHappy"" : true}";
-   JSON_Test_Person_With_Is_Happy_False_0 : constant Aida.String_T := "{""isHappy"" : false}";
-   JSON_Test_Person_With_Is_Happy_Null_0  : constant Aida.String_T := "{""isHappy"" : null}";
+   JSON_Test_Person_With_Age_0            : constant Standard.String := "{""age"" : 10}";
+   JSON_Test_Person_With_Age_1            : constant Standard.String := "{""age"" : 10 }";
+   JSON_Test_Person_With_Hand_0           : constant Standard.String := "{""hand"" : { ""fingers"" : 4 }}";
+   JSON_Test_Person_With_Name_Adam_0      : constant Standard.String := "{""name"" : ""adam""}";
+   JSON_Test_Person_With_Name_Adam_1      : constant Standard.String := "   {""name"" : ""adam""}";
+   JSON_Test_Person_With_Name_And_Age_0   : constant Standard.String := "{""name"" : ""bertil"", ""age"" : 5}";
+   JSON_Test_Person_With_Vehicles_0       : constant Standard.String := "{""vehicles"" : [ {""wheels"" : 4 }, {""wheels"" : 2 } ]}";
+   JSON_Test_Person_With_Length_0         : constant Standard.String := "{""length"" : 1.98}";
+   JSON_Test_Person_With_Is_Happy_True_0  : constant Standard.String := "{""isHappy"" : true}";
+   JSON_Test_Person_With_Is_Happy_False_0 : constant Standard.String := "{""isHappy"" : false}";
+   JSON_Test_Person_With_Is_Happy_Null_0  : constant Standard.String := "{""isHappy"" : null}";
 
    overriding procedure Initialize (T : in out Test) is
    begin
@@ -55,7 +55,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                                   Max_Indices : in out Max_Indices_T;
                                   State       : in out Unused_State_T;
                                   Current_Ids : in out Current_Ids_T;
-                                  Value       : Aida.String_T;
+                                  Value       : Standard.String;
                                   Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null;
 
@@ -63,7 +63,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                                   Max_Indices : in out Max_Indices_T;
                                   State       : in out Unused_State_T;
                                   Current_Ids : in out Current_Ids_T;
-                                  Value       : Aida.String_T;
+                                  Value       : Standard.String;
                                   Call_Result : in out Aida.Subprogram_Call_Result.T)
    is
       pragma Unreferenced (Result);
@@ -79,7 +79,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                                    Max_Indices : in out Max_Indices_T;
                                    State       : in out Unused_State_T;
                                    Current_Ids : in out Current_Ids_T;
-                                   Value       : Aida.String_T;
+                                   Value       : Standard.String;
                                    Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null;
 
@@ -87,7 +87,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                                    Max_Indices : in out Max_Indices_T;
                                    State       : in out Unused_State_T;
                                    Current_Ids : in out Current_Ids_T;
-                                   Value       : Aida.String_T;
+                                   Value       : Standard.String;
                                    Call_Result : in out Aida.Subprogram_Call_Result.T)
    is
       pragma Unreferenced (Result);
@@ -103,7 +103,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                                 Max_Indices : in out Max_Indices_T;
                                 State       : in out Unused_State_T;
                                 Current_Ids : in out Current_Ids_T;
-                                Value       : Aida.String_T;
+                                Value       : Standard.String;
                                 Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null;
 
@@ -111,7 +111,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                                 Max_Indices : in out Max_Indices_T;
                                 State       : in out Unused_State_T;
                                 Current_Ids : in out Current_Ids_T;
-                                Value       : Aida.String_T;
+                                Value       : Standard.String;
                                 Call_Result : in out Aida.Subprogram_Call_Result.T)
    is
       pragma Unreferenced (Result);
@@ -232,7 +232,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                           Max_Indices : in out Max_Indices_T;
                           State       : in out Unused_State_T;
                           Current_Ids : in out Current_Ids_T;
-                          Name        : Aida.String_T;
+                          Name        : Standard.String;
                           Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -241,12 +241,12 @@ package body Aida.JSON_SAX_Parse_Tests is
                               Max_Indices : in out Max_Indices_T;
                               State       : in out Unused_State_T;
                               Current_Ids : in out Current_Ids_T;
-                              Value       : Aida.String_T;
+                              Value       : Standard.String;
                               Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
 
-      procedure Run_Test (JSON : Aida.String_T) with
+      procedure Run_Test (JSON : Standard.String) with
         Global => null,
         Pre    => JSON'Last < Integer'Last - 4;
 
@@ -299,7 +299,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                           Max_Indices : in out Max_Indices_T;
                           State       : in out Unused_State_T;
                           Current_Ids : in out Current_Ids_T;
-                          Name        : Aida.String_T;
+                          Name        : Standard.String;
                           Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Result);
@@ -316,7 +316,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                               Max_Indices : in out Max_Indices_T;
                               State       : in out Unused_State_T;
                               Current_Ids : in out Current_Ids_T;
-                              Value       : Aida.String_T;
+                              Value       : Standard.String;
                               Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Max_Indices);
@@ -334,7 +334,7 @@ package body Aida.JSON_SAX_Parse_Tests is
          end if;
       end Value_String;
 
-      procedure Run_Test (JSON : Aida.String_T) is
+      procedure Run_Test (JSON : Standard.String) is
 
          procedure Parse_XML is new Aida.JSON_SAX_Parse (Storage_T,
                                                          Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
@@ -418,7 +418,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                           Max_Indices : in out Max_Indices_T;
                           State       : in out Unused_State_T;
                           Current_Ids : in out Current_Ids_T;
-                          Name        : Aida.String_T;
+                          Name        : Standard.String;
                           Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -428,13 +428,13 @@ package body Aida.JSON_SAX_Parse_Tests is
                                Max_Indices : in out Max_Indices_T;
                                State       : in out Unused_State_T;
                                Current_Ids : in out Current_Ids_T;
-                               Value       : in     Aida.String_T;
+                               Value       : in     Standard.String;
                                Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
       pragma Warnings (On, """Current_Ids"" is not modified, could be IN");
 
-      procedure Run_Test (JSON : Aida.String_T) with
+      procedure Run_Test (JSON : Standard.String) with
         Global => null,
         Pre    => JSON'Last < Integer'Last - 4;
 
@@ -487,7 +487,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                           Max_Indices : in out Max_Indices_T;
                           State       : in out Unused_State_T;
                           Current_Ids : in out Current_Ids_T;
-                          Name        : Aida.String_T;
+                          Name        : Standard.String;
                           Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Result);
@@ -504,7 +504,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                                Max_Indices : in out Max_Indices_T;
                                State       : in out Unused_State_T;
                                Current_Ids : in out Current_Ids_T;
-                               Value       : in     Aida.String_T;
+                               Value       : in     Standard.String;
                                Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Max_Indices);
@@ -534,7 +534,7 @@ package body Aida.JSON_SAX_Parse_Tests is
          end if;
       end Value_Integer;
 
-      procedure Run_Test (JSON : Aida.String_T) is
+      procedure Run_Test (JSON : Standard.String) is
 
          procedure Parse_XML is new Aida.JSON_SAX_Parse (Storage_T,
                                                          Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
@@ -618,7 +618,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                           Max_Indices : in out Max_Indices_T;
                           State       : in out Unused_State_T;
                           Current_Ids : in out Current_Ids_T;
-                          Name        : Aida.String_T;
+                          Name        : Standard.String;
                           Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -628,7 +628,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                               Max_Indices : in out Max_Indices_T;
                               State       : in out Unused_State_T;
                               Current_Ids : in out Current_Ids_T;
-                              Value       : Aida.String_T;
+                              Value       : Standard.String;
                               Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -637,13 +637,13 @@ package body Aida.JSON_SAX_Parse_Tests is
                                Max_Indices : in out Max_Indices_T;
                                State       : in out Unused_State_T;
                                Current_Ids : in out Current_Ids_T;
-                               Value       : in     Aida.String_T;
+                               Value       : in     Standard.String;
                                Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
       pragma Warnings (On, """Current_Ids"" is not modified, could be IN");
 
-      procedure Run_Test (JSON : Aida.String_T) with
+      procedure Run_Test (JSON : Standard.String) with
         Global => null,
         Pre    => JSON'Last < Integer'Last - 4;
 
@@ -696,7 +696,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                           Max_Indices : in out Max_Indices_T;
                           State       : in out Unused_State_T;
                           Current_Ids : in out Current_Ids_T;
-                          Name        : Aida.String_T;
+                          Name        : Standard.String;
                           Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Result);
@@ -715,7 +715,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                               Max_Indices : in out Max_Indices_T;
                               State       : in out Unused_State_T;
                               Current_Ids : in out Current_Ids_T;
-                              Value       : Aida.String_T;
+                              Value       : Standard.String;
                               Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Max_Indices);
@@ -741,7 +741,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                                Max_Indices : in out Max_Indices_T;
                                State       : in out Unused_State_T;
                                Current_Ids : in out Current_Ids_T;
-                               Value       : in     Aida.String_T;
+                               Value       : in     Standard.String;
                                Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Max_Indices);
@@ -770,7 +770,7 @@ package body Aida.JSON_SAX_Parse_Tests is
          end if;
       end Value_Integer;
 
-      procedure Run_Test (JSON : Aida.String_T) is
+      procedure Run_Test (JSON : Standard.String) is
 
          procedure Parse_XML is new Aida.JSON_SAX_Parse (Storage_T,
                                                          Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
@@ -858,7 +858,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                           Max_Indices : in out Max_Indices_T;
                           State       : in out State_T;
                           Current_Ids : in out Current_Ids_T;
-                          Name        : Aida.String_T;
+                          Name        : Standard.String;
                           Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -868,7 +868,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                               Max_Indices : in out Max_Indices_T;
                               State       : in out State_T;
                               Current_Ids : in out Current_Ids_T;
-                              Value       : Aida.String_T;
+                              Value       : Standard.String;
                               Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -877,7 +877,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                                Max_Indices : in out Max_Indices_T;
                                State       : in out State_T;
                                Current_Ids : in out Current_Ids_T;
-                               Value       : in     Aida.String_T;
+                               Value       : in     Standard.String;
                                Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -886,7 +886,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                             Max_Indices : in out Max_Indices_T;
                             State       : in out State_T;
                             Current_Ids : in out Current_Ids_T;
-                            Value       : Aida.String_T;
+                            Value       : Standard.String;
                             Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -925,7 +925,7 @@ package body Aida.JSON_SAX_Parse_Tests is
         Global => null,
         Pre    => not Call_Result.Has_Failed;
 
-      procedure Run_Test (JSON : Aida.String_T) with
+      procedure Run_Test (JSON : Standard.String) with
         Global => null,
         Pre    => JSON'Last < Integer'Last - 4;
 
@@ -1010,7 +1010,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                           Max_Indices : in out Max_Indices_T;
                           State       : in out State_T;
                           Current_Ids : in out Current_Ids_T;
-                          Name        : Aida.String_T;
+                          Name        : Standard.String;
                           Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Result);
@@ -1036,7 +1036,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                               Max_Indices : in out Max_Indices_T;
                               State       : in out State_T;
                               Current_Ids : in out Current_Ids_T;
-                              Value       : Aida.String_T;
+                              Value       : Standard.String;
                               Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Result);
@@ -1052,7 +1052,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                                Max_Indices : in out Max_Indices_T;
                                State       : in out State_T;
                                Current_Ids : in out Current_Ids_T;
-                               Value       : in     Aida.String_T;
+                               Value       : in     Standard.String;
                                Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Max_Indices);
@@ -1090,7 +1090,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                             Max_Indices : in out Max_Indices_T;
                             State       : in out State_T;
                             Current_Ids : in out Current_Ids_T;
-                            Value       : Aida.String_T;
+                            Value       : Standard.String;
                             Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Result);
@@ -1160,7 +1160,7 @@ package body Aida.JSON_SAX_Parse_Tests is
          Call_Result.Initialize (0684008567, 0622549007);
       end Array_End;
 
-      procedure Run_Test (JSON : Aida.String_T) is
+      procedure Run_Test (JSON : Standard.String) is
 
          procedure Parse_XML is new Aida.JSON_SAX_Parse (Storage_T,
                                                          Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
@@ -1259,7 +1259,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                           Max_Indices : in out Max_Indices_T;
                           State       : in out State_T;
                           Current_Ids : in out Current_Ids_T;
-                          Name        : Aida.String_T;
+                          Name        : Standard.String;
                           Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -1269,7 +1269,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                               Max_Indices : in out Max_Indices_T;
                               State       : in out State_T;
                               Current_Ids : in out Current_Ids_T;
-                              Value       : Aida.String_T;
+                              Value       : Standard.String;
                               Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -1278,7 +1278,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                                Max_Indices : in out Max_Indices_T;
                                State       : in out State_T;
                                Current_Ids : in out Current_Ids_T;
-                               Value       : in     Aida.String_T;
+                               Value       : in     Standard.String;
                                Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -1287,7 +1287,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                             Max_Indices : in out Max_Indices_T;
                             State       : in out State_T;
                             Current_Ids : in out Current_Ids_T;
-                            Value       : Aida.String_T;
+                            Value       : Standard.String;
                             Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -1326,7 +1326,7 @@ package body Aida.JSON_SAX_Parse_Tests is
         Global => null,
         Pre    => not Call_Result.Has_Failed;
 
-      procedure Run_Test (JSON : Aida.String_T) with
+      procedure Run_Test (JSON : Standard.String) with
         Global => null,
         Pre    => JSON'Last < Integer'Last - 4;
 
@@ -1414,7 +1414,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                           Max_Indices : in out Max_Indices_T;
                           State       : in out State_T;
                           Current_Ids : in out Current_Ids_T;
-                          Name        : Aida.String_T;
+                          Name        : Standard.String;
                           Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Result);
@@ -1440,7 +1440,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                               Max_Indices : in out Max_Indices_T;
                               State       : in out State_T;
                               Current_Ids : in out Current_Ids_T;
-                              Value       : Aida.String_T;
+                              Value       : Standard.String;
                               Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Result);
@@ -1456,7 +1456,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                                Max_Indices : in out Max_Indices_T;
                                State       : in out State_T;
                                Current_Ids : in out Current_Ids_T;
-                               Value       : in     Aida.String_T;
+                               Value       : in     Standard.String;
                                Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Max_Indices);
@@ -1496,7 +1496,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                             Max_Indices : in out Max_Indices_T;
                             State       : in out State_T;
                             Current_Ids : in out Current_Ids_T;
-                            Value       : Aida.String_T;
+                            Value       : Standard.String;
                             Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Result);
@@ -1588,7 +1588,7 @@ package body Aida.JSON_SAX_Parse_Tests is
          end case;
       end Array_End;
 
-      procedure Run_Test (JSON : Aida.String_T) is
+      procedure Run_Test (JSON : Standard.String) is
 
          procedure Parse_XML is new Aida.JSON_SAX_Parse (Storage_T,
                                                          Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
@@ -1678,7 +1678,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                      Max_Indices : in out Max_Indices_T;
                      State       : in out State_T;
                      Current_Ids : in out Current_Ids_T;
-                     Name        : Aida.String_T;
+                     Name        : Standard.String;
                      Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -1688,7 +1688,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                               Max_Indices : in out Max_Indices_T;
                               State       : in out State_T;
                               Current_Ids : in out Current_Ids_T;
-                              Value       : Aida.String_T;
+                              Value       : Standard.String;
                               Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -1697,7 +1697,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                                Max_Indices : in out Max_Indices_T;
                                State       : in out State_T;
                                Current_Ids : in out Current_Ids_T;
-                               Value       : in     Aida.String_T;
+                               Value       : in     Standard.String;
                                Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -1706,7 +1706,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                             Max_Indices : in out Max_Indices_T;
                             State       : in out State_T;
                             Current_Ids : in out Current_Ids_T;
-                            Value       : in     Aida.String_T;
+                            Value       : in     Standard.String;
                             Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -1745,7 +1745,7 @@ package body Aida.JSON_SAX_Parse_Tests is
         Global => null,
         Pre    => not Call_Result.Has_Failed;
 
-      procedure Run_Test (JSON : Aida.String_T) with
+      procedure Run_Test (JSON : Standard.String) with
         Global => null,
         Pre    => JSON'Last < Integer'Last - 4;
 
@@ -1807,7 +1807,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                      Max_Indices : in out Max_Indices_T;
                      State       : in out State_T;
                      Current_Ids : in out Current_Ids_T;
-                     Name        : Aida.String_T;
+                     Name        : Standard.String;
                      Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Result);
@@ -1828,7 +1828,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                               Max_Indices : in out Max_Indices_T;
                               State       : in out State_T;
                               Current_Ids : in out Current_Ids_T;
-                              Value       : Aida.String_T;
+                              Value       : Standard.String;
                               Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Result);
@@ -1844,7 +1844,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                                Max_Indices : in out Max_Indices_T;
                                State       : in out State_T;
                                Current_Ids : in out Current_Ids_T;
-                               Value       : in     Aida.String_T;
+                               Value       : in     Standard.String;
                                Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Storage);
@@ -1860,7 +1860,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                             Max_Indices : in out Max_Indices_T;
                             State       : in out State_T;
                             Current_Ids : in out Current_Ids_T;
-                            Value       : Aida.String_T;
+                            Value       : Standard.String;
                             Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Max_Indices);
@@ -1868,7 +1868,7 @@ package body Aida.JSON_SAX_Parse_Tests is
          case State is
             when Expecting_Length_Float   =>
                declare
-                  V : Aida.Float_T;
+                  V : Standard.Float;
                   Has_Failed : Boolean;
                begin
                   Aida.String.To_Float (Value, V, Has_Failed);
@@ -1957,16 +1957,16 @@ package body Aida.JSON_SAX_Parse_Tests is
          Call_Result.Initialize (1329123355, -0441958475);
       end Array_End;
 
-      function Expected_Float_Value_1_98 return Float_T with
+      function Expected_Float_Value_1_98 return Standard.Float with
         Global => null;
 
-      function Expected_Float_Value_1_98 return Float_T with
-        SPARK_Mode => Off is
+      function Expected_Float_Value_1_98 return Standard.Float is
+         pragma SPARK_Mode (Off);
       begin
-         return (Float_T'Value ("1.98"));
+         return (Standard.Float'Value ("1.98"));
       end Expected_Float_Value_1_98;
 
-      procedure Run_Test (JSON : Aida.String_T) is
+      procedure Run_Test (JSON : Standard.String) is
 
          procedure Parse_XML is new Aida.JSON_SAX_Parse (Storage_T,
                                                          Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
@@ -2009,7 +2009,7 @@ package body Aida.JSON_SAX_Parse_Tests is
          if
            Max_Indices.Person_Id_Max > 0
          then
-            Ahven.Assert (Float_T (Storage.Person (Aida.Json_Parsing_Tests_Model.Person_Id_T'First).Length) = Expected_Float_Value_1_98, "e7f16b3a-d3f1-4b6b-b258-20fc95ce5bf4");
+            Ahven.Assert (Standard.Float (Storage.Person (Aida.Json_Parsing_Tests_Model.Person_Id_T'First).Length) = Expected_Float_Value_1_98, "e7f16b3a-d3f1-4b6b-b258-20fc95ce5bf4");
          end if;
       end Run_Test;
    end Test_Person_With_Length_Utils;
@@ -2052,7 +2052,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                      Max_Indices : in out Max_Indices_T;
                      State       : in out State_T;
                      Current_Ids : in out Current_Ids_T;
-                     Name        : Aida.String_T;
+                     Name        : Standard.String;
                      Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -2062,7 +2062,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                               Max_Indices : in out Max_Indices_T;
                               State       : in out State_T;
                               Current_Ids : in out Current_Ids_T;
-                              Value       : Aida.String_T;
+                              Value       : Standard.String;
                               Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -2071,7 +2071,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                                Max_Indices : in out Max_Indices_T;
                                State       : in out State_T;
                                Current_Ids : in out Current_Ids_T;
-                               Value       : in     Aida.String_T;
+                               Value       : in     Standard.String;
                                Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -2080,7 +2080,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                             Max_Indices : in out Max_Indices_T;
                             State       : in out State_T;
                             Current_Ids : in out Current_Ids_T;
-                            Value       : in     Aida.String_T;
+                            Value       : in     Standard.String;
                             Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -2119,12 +2119,12 @@ package body Aida.JSON_SAX_Parse_Tests is
         Global => null,
         Pre    => not Call_Result.Has_Failed;
 
-      procedure Run_Test (JSON            : Aida.String_T;
+      procedure Run_Test (JSON            : Standard.String;
                           Expected_Result : Boolean) with
         Global => null,
         Pre    => JSON'Last < Integer'Last - 4;
 
-      procedure Run_Null_Value_Test (JSON : Aida.String_T) with
+      procedure Run_Null_Value_Test (JSON : Standard.String) with
         Global => null,
         Pre    => JSON'Last < Integer'Last - 4;
 
@@ -2186,7 +2186,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                      Max_Indices : in out Max_Indices_T;
                      State       : in out State_T;
                      Current_Ids : in out Current_Ids_T;
-                     Name        : Aida.String_T;
+                     Name        : Standard.String;
                      Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Result);
@@ -2207,7 +2207,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                               Max_Indices : in out Max_Indices_T;
                               State       : in out State_T;
                               Current_Ids : in out Current_Ids_T;
-                              Value       : Aida.String_T;
+                              Value       : Standard.String;
                               Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Result);
@@ -2223,7 +2223,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                                Max_Indices : in out Max_Indices_T;
                                State       : in out State_T;
                                Current_Ids : in out Current_Ids_T;
-                               Value       : in     Aida.String_T;
+                               Value       : in     Standard.String;
                                Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Storage);
@@ -2239,7 +2239,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                             Max_Indices : in out Max_Indices_T;
                             State       : in out State_T;
                             Current_Ids : in out Current_Ids_T;
-                            Value       : Aida.String_T;
+                            Value       : Standard.String;
                             Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Storage);
@@ -2345,7 +2345,7 @@ package body Aida.JSON_SAX_Parse_Tests is
          Call_Result.Initialize (2104342945, -1018218360);
       end Array_End;
 
-      procedure Run_Test (JSON            : Aida.String_T;
+      procedure Run_Test (JSON            : Standard.String;
                           Expected_Result : Boolean) is
 
          procedure Parse_XML is new Aida.JSON_SAX_Parse (Storage_T,
@@ -2392,7 +2392,7 @@ package body Aida.JSON_SAX_Parse_Tests is
          Ahven.Assert (Storage.Person (1).Is_Happy.Exists and then Storage.Person (1).Is_Happy.Value = Expected_Result, "86a232a3-7e4e-46d4-a8ef-a106f6b313a1");
       end Run_Test;
 
-      procedure Run_Null_Value_Test (JSON : Aida.String_T) is
+      procedure Run_Null_Value_Test (JSON : Standard.String) is
 
          procedure Parse_XML is new Aida.JSON_SAX_Parse (Storage_T,
                                                          Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,

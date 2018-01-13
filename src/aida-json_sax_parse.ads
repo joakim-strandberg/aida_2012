@@ -26,7 +26,7 @@ use all type Ada.Containers.Count_Type;
 -- the JSON parsing.
 --
 -- Note that whenever an Int32_T or Real number is encountered
--- it is passed as an instance of Aida.String_T to the procedures
+-- it is passed as an instance of Standard.String to the procedures
 -- Integer_Value and Real_Value. This leaves the actual parsing of these values
 -- to the implementer. This is because unbounded Integers and Reals are part
 -- of the JSON standard. If rounding is accepted or not is up to the implementer
@@ -50,25 +50,25 @@ generic
                        Arg2        : in out Arg2_T;
                        Arg3        : in out Arg3_T;
                        Arg4        : in out Arg4_T;
-                       Name        : in     Aida.String_T;
+                       Name        : in     Standard.String;
                        Call_Result : in out Subprogram_Call_Result.T);
    with procedure String_Value (Arg1        : in out Arg1_T;
                                 Arg2        : in out Arg2_T;
                                 Arg3        : in out Arg3_T;
                                 Arg4        : in out Arg4_T;
-                                Value       : in     Aida.String_T;
+                                Value       : in     Standard.String;
                                 Call_Result : in out Subprogram_Call_Result.T);
    with procedure Integer_Value (Arg1        : in out Arg1_T;
                                  Arg2        : in out Arg2_T;
                                  Arg3        : in out Arg3_T;
                                  Arg4        : in out Arg4_T;
-                                 Value       : in     Aida.String_T;
+                                 Value       : in     Standard.String;
                                  Call_Result : in out Subprogram_Call_Result.T);
    with procedure Real_Value (Arg1        : in out Arg1_T;
                               Arg2        : in out Arg2_T;
                               Arg3        : in out Arg3_T;
                               Arg4        : in out Arg4_T;
-                              Value       : in     Aida.String_T;
+                              Value       : in     Standard.String;
                               Call_Result : in out Subprogram_Call_Result.T);
    with procedure Boolean_Value (Arg1        : in out Arg1_T;
                                  Arg2        : in out Arg2_T;
@@ -95,7 +95,7 @@ procedure Aida.JSON_SAX_Parse (Arg1        : in out Arg1_T;
                                Arg2        : in out Arg2_T;
                                Arg3        : in out Arg3_T;
                                Arg4        : in out Arg4_T;
-                               Contents    : Aida.String_T;
+                               Contents    : Standard.String;
                                Call_Result : in out Subprogram_Call_Result.T) with
   Global => null,
   Pre    => not Call_Result.Has_Failed and Contents'Last < Int32_T'Last - 4;

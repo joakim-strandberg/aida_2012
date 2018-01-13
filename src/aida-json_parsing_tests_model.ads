@@ -116,7 +116,7 @@ package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
                                                                 Element_T       => Vehicle_Id_T,
                                                                 Default_Element => Default_Vehicle_Id);
 
-      type Length_T is new Aida.Float_T;
+      type Length_T is new Standard.Float;
 
       type Is_Happy_T (Exists : Boolean := False) is record
          case Exists is
@@ -139,11 +139,11 @@ package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
 
       type T is new Public_Part.Public_Part_T with private;
 
-      function Name (This : T) return String_T with
+      function Name (This : T) return Standard.String with
         Global => null;
 
       procedure Set_Name (This  : in out T;
-                          Value : String_T) with
+                          Value : Standard.String) with
         Global    => null,
         Pre'Class => Value'Length <= This.Max_Name_Size;
 
@@ -162,7 +162,7 @@ package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
          My_Name : Name_T;
       end record;
 
-      function Name (This : T) return String_T is (To_String (This.My_Name));
+      function Name (This : T) return Standard.String is (To_String (This.My_Name));
 
       function Max_Name_Size (This  : T) return Positive is (This.My_Name.Maximum_Length);
 

@@ -16,7 +16,7 @@ package Aida.XML_DOM_Parser is
 
    package Int_To_String_Map is new Aida.Integer_To_String_Map (Max_Chars   => Max_Chars,
                                                                 Max_Strings => Max_Strings,
-                                                                Value_T     => String_T);
+                                                                Value_T     => Standard.String);
 
    type Node_Id_T is new Int32_T range 1..Max_Nodes;
 
@@ -80,11 +80,11 @@ package Aida.XML_DOM_Parser is
    type Attribute_T is tagged limited private;
 
    function Name (This : Attribute_T;
-                  Map  : Int_To_String_Map.T) return String_T with
+                  Map  : Int_To_String_Map.T) return Standard.String with
      Global    => null;
 
    function Value (This : Attribute_T;
-                   Map  : Int_To_String_Map.T) return String_T with
+                   Map  : Int_To_String_Map.T) return Standard.String with
      Global    => null;
 
    function Next_Attribute (This : Attribute_T) return Attribute_Id_T with
@@ -107,22 +107,22 @@ package Aida.XML_DOM_Parser is
      Global => null;
 
    function Name (This : Node_T;
-                  Map  : Int_To_String_Map.T) return String_T with
+                  Map  : Int_To_String_Map.T) return Standard.String with
      Global    => null,
      Pre'Class => This.Id = XML_Tag;
 
    function Comment (This : Node_T;
-                     Map  : Int_To_String_Map.T) return String_T with
+                     Map  : Int_To_String_Map.T) return Standard.String with
      Global    => null,
        Pre'Class => This.Id = XML_Comment;
 
    function CDATA (This : Node_T;
-                   Map  : Int_To_String_Map.T) return String_T with
+                   Map  : Int_To_String_Map.T) return Standard.String with
      Global    => null,
        Pre'Class => This.Id = XML_CDATA;
 
    function Text (This : Node_T;
-                  Map  : Int_To_String_Map.T) return String_T with
+                  Map  : Int_To_String_Map.T) return Standard.String with
      Global    => null,
        Pre'Class => This.Id = XML_Text;
 
@@ -172,7 +172,7 @@ package Aida.XML_DOM_Parser is
    type T is new Public_Part_Def.Public_Part_T with private;
 
    procedure Parse (This        : in out T;
-                    XML_Message : String_T;
+                    XML_Message : Standard.String;
                     Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global    => null,
      Pre'Class => not Call_Result.Has_Failed and XML_Message'Length > 0 and XML_Message'Last < Int32_T'Last - 4;
@@ -186,10 +186,10 @@ private
    end record;
 
    function Name (This : Attribute_T;
-                  Map  : Int_To_String_Map.T) return String_T is (Map.Value (This.My_Name_Key));
+                  Map  : Int_To_String_Map.T) return Standard.String is (Map.Value (This.My_Name_Key));
 
    function Value (This : Attribute_T;
-                   Map  : Int_To_String_Map.T) return String_T is (Map.Value (This.My_Value_Key));
+                   Map  : Int_To_String_Map.T) return Standard.String is (Map.Value (This.My_Value_Key));
 
    function Next_Attribute (This : Attribute_T) return Attribute_Id_T is (This.My_Next_Attribute);
 
@@ -218,16 +218,16 @@ private
    function Id (This : Node_T) return Node_Kind_Id_T is (This.Inner.My_Id);
 
    function Name (This : Node_T;
-                  Map  : Int_To_String_Map.T) return String_T is (Map.Value (This.Inner.My_JSON_Key));
+                  Map  : Int_To_String_Map.T) return Standard.String is (Map.Value (This.Inner.My_JSON_Key));
 
    function Comment (This : Node_T;
-                     Map  : Int_To_String_Map.T) return String_T is (Map.Value (This.Inner.My_Key));
+                     Map  : Int_To_String_Map.T) return Standard.String is (Map.Value (This.Inner.My_Key));
 
    function CDATA (This : Node_T;
-                   Map  : Int_To_String_Map.T) return String_T is (Map.Value (This.Inner.My_Key));
+                   Map  : Int_To_String_Map.T) return Standard.String is (Map.Value (This.Inner.My_Key));
 
    function Text (This : Node_T;
-                  Map  : Int_To_String_Map.T) return String_T is (Map.Value (This.Inner.My_Key));
+                  Map  : Int_To_String_Map.T) return Standard.String is (Map.Value (This.Inner.My_Key));
 
    function First_Attribute (This : Node_T) return Attribute_Id_T is (This.Inner.My_First_Attribute_Id);
 

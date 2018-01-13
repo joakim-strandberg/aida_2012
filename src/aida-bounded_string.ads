@@ -35,19 +35,19 @@ package Aida.Bounded_String is
    type T (Maximum_Length : Pos32_T) is limited private;
 
    procedure Initialize (This : in out T;
-                         Text : Aida.String_T) with
+                         Text : Standard.String) with
      Global => null,
      Pre    => Text'Length <= This.Maximum_Length,
      Post   => Length (This) = Text'Length;
 
    procedure Initialize2 (This : out T;
-                          Text : Aida.String_T) with
+                          Text : Standard.String) with
      Global => null,
      Pre    => Text'Length <= This.Maximum_Length,
      Post   => Length (This) = Text'Length;
 
    procedure Append (Target : in out T;
-                     Source : Aida.String_T) with
+                     Source : Standard.String) with
      Global => null,
      Pre    => Source'Length <= Target.Maximum_Length - Length (Target),
      Post   => Length (Target) <= Target.Maximum_Length;
@@ -66,7 +66,7 @@ package Aida.Bounded_String is
      Global => null,
      Pre    => Length (Left) <= Left.Maximum_Length and Length (Right) <= Right.Maximum_Length;
 
-   function "=" (Left : T; Right : Aida.String_T) return Boolean with
+   function "=" (Left : T; Right : Standard.String) return Boolean with
      Global => null,
      Pre    => Length (Left) <= Left.Maximum_Length;
    -- Although the arguments are of different types, they may still represent the same String.
@@ -75,14 +75,14 @@ package Aida.Bounded_String is
      Global => null,
      Pre    => Length (This) <= This.Maximum_Length;
 
-   function To_String (This : T) return Aida.String_T with
+   function To_String (This : T) return Standard.String with
      Global => null,
      Pre    => Length (This) <= This.Maximum_Length;
 
 private
 
    type T (Maximum_Length : Pos32_T) is limited record
-      Text        : Aida.String_T (1..T.Maximum_Length) := (others => ' ');
+      Text        : Standard.String (1..T.Maximum_Length) := (others => ' ');
       Text_Length : Nat32_T := 0;
    end record;
 
@@ -90,6 +90,6 @@ private
 
    function "=" (Left, Right : T) return Boolean is (Length (Left) = Length (Right) and then (for all I in Pos32_T range 1..Left.Text_Length => Left.Text (I) = Right.Text (I)));
 
-   function "=" (Left : T; Right : Aida.String_T) return Boolean is (Equals (Left, Right));
+   function "=" (Left : T; Right : Standard.String) return Boolean is (Equals (Left, Right));
 
 end Aida.Bounded_String;

@@ -14,7 +14,7 @@ package Aida.JSON_DOM_Parser is
 
    package Int_To_String_Map is new Aida.Integer_To_String_Map (Max_Chars   => Max_Chars,
                                                                 Max_Strings => Max_Strings,
-                                                                Value_T     => String_T);
+                                                                Value_T     => Standard.String);
 
    type Node_Index_T is new Int32_T range 1..Max_Nodes;
 
@@ -136,7 +136,7 @@ package Aida.JSON_DOM_Parser is
    type T is new Public_Part_Def.Public_Part_T with private;
 
    procedure Parse (This         : in out T;
-                    JSON_Message : String_T;
+                    JSON_Message : Standard.String;
                     Call_Result  : in out Aida.Subprogram_Call_Result.T) with
      Global    => null,
      Pre'Class => not Call_Result.Has_Failed and JSON_Message'Last < Int32_T'Last - 4;
@@ -262,7 +262,7 @@ private
                   Max_Indices : in out Max_Indices_T;
                   Arg3        : in out Arg3_T;
                   Current_Ids : in out Current_Ids_Def.Current_Ids_T;
-                  Name        : Aida.String_T;
+                  Name        : Standard.String;
                   Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
      Pre    => not Call_Result.Has_Failed and (for all I in This.Nodes'Range => not This.Nodes (I).My_JSON_Value'Constrained);
@@ -271,7 +271,7 @@ private
                            Max_Indices : in out Max_Indices_T;
                            Arg3        : in out Arg3_T;
                            Current_Ids : in out Current_Ids_Def.Current_Ids_T;
-                           Value       : Aida.String_T;
+                           Value       : Standard.String;
                            Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
      Pre    => not Call_Result.Has_Failed and (for all I in This.Nodes'Range => not This.Nodes (I).My_JSON_Value'Constrained);
@@ -280,7 +280,7 @@ private
                             Max_Indices : in out Max_Indices_T;
                             Arg3        : in out Arg3_T;
                             Current_Ids : in out Current_Ids_Def.Current_Ids_T;
-                            Value       : in     Aida.String_T;
+                            Value       : in     Standard.String;
                             Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
      Pre    => not Call_Result.Has_Failed and (for all I in This.Nodes'Range => not This.Nodes (I).My_JSON_Value'Constrained);
@@ -289,7 +289,7 @@ private
                          Max_Indices : in out Max_Indices_T;
                          Arg3        : in out Arg3_T;
                          Current_Ids : in out Current_Ids_Def.Current_Ids_T;
-                         Value       : in     Aida.String_T;
+                         Value       : in     Standard.String;
                          Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
      Pre    => not Call_Result.Has_Failed and (for all I in This.Nodes'Range => not This.Nodes (I).My_JSON_Value'Constrained);

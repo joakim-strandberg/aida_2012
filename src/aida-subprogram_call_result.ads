@@ -14,7 +14,7 @@ package Aida.Subprogram_Call_Result with SPARK_Mode is
    function Has_Failed (This : T) return Boolean with
      Global => null;
 
-   function Message (This : T) return String_T with
+   function Message (This : T) return Standard.String with
      Global => null;
 
 private

@@ -11,10 +11,10 @@ procedure Aida.JSON_SAX_Parse (Arg1        : in out Arg1_T;
                                Arg2        : in out Arg2_T;
                                Arg3        : in out Arg3_T;
                                Arg4        : in out Arg4_T;
-                               Contents    : Aida.String_T;
+                               Contents    : Standard.String;
                                Call_Result : in out Subprogram_Call_Result.T)
 is
-   use all type Aida.String_T;
+   use all type Standard.String;
    use all type Aida.Int32_T;
    use all type Aida.UTF8_Code_Point.T;
 
@@ -134,7 +134,7 @@ begin
 
             case State_Id is
                when Expecting_NL_Sign_Or_Space_Or_Left_Curly_Bracket =>
-                  if CP = Character_T'Pos ('{') then
+                  if CP = Standard.Character'Pos ('{') then
                      State_Id := Found_Left_Curly_Bracket;
 
                      Start_Object (Arg1,
@@ -157,18 +157,18 @@ begin
                      end if;
                   end if;
                when Found_Left_Curly_Bracket =>
-                  if CP = Character_T'Pos ('"') then
+                  if CP = Standard.Character'Pos ('"') then
                      State_Id := Extracting_Key_Name;
 
                      Key_Name_First_Index := P;
-                  elsif CP = Character_T'Pos (' ') then
+                  elsif CP = Standard.Character'Pos (' ') then
                      null;
                   else
                      Call_Result.Initialize (0666875904, -0130597293);
                      exit;
                   end if;
                when Extracting_Key_Name =>
-                  if CP = Character_T'Pos ('"') then
+                  if CP = Standard.Character'Pos ('"') then
                      State_Id := Expecting_Colon_Sign_After_Key_Name;
 
                      Key_Name_Last_Index := Prev_Prev_P;
@@ -185,26 +185,26 @@ begin
                      end if;
                   end if;
                when Expecting_Colon_Sign_After_Key_Name =>
-                  if CP = Character_T'Pos (':') then
+                  if CP = Standard.Character'Pos (':') then
                      State_Id := Expecting_Value;
-                  elsif CP = Character_T'Pos (' ') then
+                  elsif CP = Standard.Character'Pos (' ') then
                      null;
                   else
                      Call_Result.Initialize (2012396005, -0563874321);
                      exit;
                   end if;
                when Expecting_Value =>
-                  if CP = Character_T'Pos ('"') then
+                  if CP = Standard.Character'Pos ('"') then
                      State_Id := Extracting_Value_String;
 
                      Value_First_Index := P;
                   elsif Is_Digit (CP) then
                      State_Id := Extracting_Value_Integer;
                      Value_First_Index := Prev_P;
-                  elsif CP = Character_T'Pos ('-') then
+                  elsif CP = Standard.Character'Pos ('-') then
                      State_Id := Extracting_Value_Integer;
                      Value_First_Index := Prev_P;
-                  elsif CP = Character_T'Pos ('{') then
+                  elsif CP = Standard.Character'Pos ('{') then
                      State_Id := Found_Left_Curly_Bracket;
 
                      Start_Object (Arg1,
@@ -225,7 +225,7 @@ begin
                         Call_Result.Initialize (0511736023, -1155056733);
                         exit;
                      end if;
-                  elsif CP = Character_T'Pos ('[') then
+                  elsif CP = Standard.Character'Pos ('[') then
                      State_Id := Found_Array_Start;
 
                      if
@@ -253,20 +253,20 @@ begin
                         exit;
                      end if;
 
-                  elsif CP = Character_T'Pos (' ') then
+                  elsif CP = Standard.Character'Pos (' ') then
                      null;
-                  elsif CP = Character_T'Pos ('t') then
+                  elsif CP = Standard.Character'Pos ('t') then
                      State_Id := Found_T;
-                  elsif CP = Character_T'Pos ('f') then
+                  elsif CP = Standard.Character'Pos ('f') then
                      State_Id := Found_F;
-                  elsif CP = Character_T'Pos ('n') then
+                  elsif CP = Standard.Character'Pos ('n') then
                      State_Id := Found_N;
                   else
                      Call_Result.Initialize (0573649478, -1295009043);
                      exit;
                   end if;
                when Extracting_Value_String =>
-                  if CP = Character_T'Pos ('"') then
+                  if CP = Standard.Character'Pos ('"') then
                      State_Id := Expecting_Comma_Sign_Or_Right_Bracket;
 
                      Value_Last_Index := Prev_Prev_P;
@@ -284,7 +284,7 @@ begin
 
                   end if;
                when Expecting_Comma_Sign_Or_Right_Bracket =>
-                  if CP = Character_T'Pos ('}') then
+                  if CP = Standard.Character'Pos ('}') then
 
                      End_Object (Arg1,
                                  Arg2,
@@ -312,16 +312,16 @@ begin
                            State_Id := Found_End_Of_Object;
                         end if;
                      end if;
-                  elsif CP = Character_T'Pos (',') then
+                  elsif CP = Standard.Character'Pos (',') then
                      State_Id := Found_Left_Curly_Bracket;
-                  elsif CP = Character_T'Pos (' ') then
+                  elsif CP = Standard.Character'Pos (' ') then
                      null;
                   else
                      Call_Result.Initialize (2101566339, -1066214396);
                      exit;
                   end if;
                when Found_End_Of_The_Very_Last_Object =>
-                  if CP = Character_T'Pos (' ') then
+                  if CP = Standard.Character'Pos (' ') then
                      null;
                   else
                      Call_Result.Initialize (1630688703, 1885787424);
@@ -330,7 +330,7 @@ begin
                when Extracting_Value_Integer =>
                   if Is_Digit (CP) then
                      null;
-                  elsif CP = Character_T'Pos ('}') then
+                  elsif CP = Standard.Character'Pos ('}') then
 
                      Value_Last_Index := Prev_Prev_P;
 
@@ -381,7 +381,7 @@ begin
                            State_Id := Found_End_Of_Object;
                         end if;
                      end if;
-                  elsif CP = Character_T'Pos (',') then
+                  elsif CP = Standard.Character'Pos (',') then
                      Value_Last_Index := Prev_Prev_P;
 
                      Integer_Value (Arg1,
@@ -396,9 +396,9 @@ begin
                      end if;
 
                      State_Id := Found_Left_Curly_Bracket;
-                  elsif CP = Character_T'Pos ('.') then
+                  elsif CP = Standard.Character'Pos ('.') then
                      State_Id := Extracting_Value_Integer_And_Found_Digit;
-                  elsif CP = Character_T'Pos (' ') then
+                  elsif CP = Standard.Character'Pos (' ') then
                      Value_Last_Index := Prev_Prev_P;
 
                      Integer_Value (Arg1,
@@ -420,7 +420,7 @@ begin
                when Extracting_Value_Integer_And_Found_Digit =>
                   if Is_Digit (CP) then
                      null;
-                  elsif CP = Character_T'Pos ('}') then
+                  elsif CP = Standard.Character'Pos ('}') then
 
                      Value_Last_Index := Prev_Prev_P;
 
@@ -471,7 +471,7 @@ begin
                            State_Id := Found_End_Of_Object;
                         end if;
                      end if;
-                  elsif CP = Character_T'Pos (',') then
+                  elsif CP = Standard.Character'Pos (',') then
                      Value_Last_Index := Prev_Prev_P;
 
                      Real_Value (Arg1,
@@ -486,7 +486,7 @@ begin
                      end if;
 
                      State_Id := Found_Left_Curly_Bracket;
-                  elsif CP = Character_T'Pos (' ') then
+                  elsif CP = Standard.Character'Pos (' ') then
                      Value_Last_Index := Prev_Prev_P;
 
                      Real_Value (Arg1,
@@ -506,9 +506,9 @@ begin
                      exit;
                   end if;
                when Found_End_Of_Object =>
-                  if CP = Character_T'Pos (',') then
+                  if CP = Standard.Character'Pos (',') then
                      State_Id := Found_Left_Curly_Bracket;
-                  elsif CP = Character_T'Pos ('}') then
+                  elsif CP = Standard.Character'Pos ('}') then
                      if Tag_Ids.Last_Index = Tag_Ids.First_Index then
                         State_Id := Found_End_Of_The_Very_Last_Object;
 
@@ -545,14 +545,14 @@ begin
                            State_Id := Found_End_Of_Object;
                         end if;
                      end if;
-                  elsif CP = Character_T'Pos (' ') then
+                  elsif CP = Standard.Character'Pos (' ') then
                      null;
                   else
                      Call_Result.Initialize (0743073911, 0562296894);
                      exit;
                   end if;
                when Found_Array_Start =>
-                  if CP = Character_T'Pos ('{') then
+                  if CP = Standard.Character'Pos ('{') then
                      State_Id := Found_Left_Curly_Bracket;
 
                      Start_Object (Arg1,
@@ -573,16 +573,16 @@ begin
                         Call_Result.Initialize (1158454393, 2020449118);
                         exit;
                      end if;
-                  elsif CP = Character_T'Pos (' ') then
+                  elsif CP = Standard.Character'Pos (' ') then
                      null;
                   else
                      Call_Result.Initialize (-2083949210, -0974236942);
                      exit;
                   end if;
                when Found_End_Of_Element_In_Array =>
-                  if CP = Character_T'Pos (',') then
+                  if CP = Standard.Character'Pos (',') then
                      State_Id := Found_Array_Start;
-                  elsif CP = Character_T'Pos (']') then
+                  elsif CP = Standard.Character'Pos (']') then
                      State_Id := Expecting_Comma_Sign_Or_Right_Bracket;
 
                      if Array_Tag_Ids.Is_Non_Empty then
@@ -602,28 +602,28 @@ begin
                         exit;
                      end if;
 
-                  elsif CP = Character_T'Pos (' ') then
+                  elsif CP = Standard.Character'Pos (' ') then
                      null;
                   else
                      Call_Result.Initialize (-0942307720, -1564578584);
                      exit;
                   end if;
                when Found_T =>
-                  if CP = Character_T'Pos ('r') then
+                  if CP = Standard.Character'Pos ('r') then
                      State_Id := Found_Tr;
                   else
                      Call_Result.Initialize (-1617816769, -1590689811);
                      exit;
                   end if;
                when Found_Tr =>
-                  if CP = Character_T'Pos ('u') then
+                  if CP = Standard.Character'Pos ('u') then
                      State_Id := Found_Tru;
                   else
                      Call_Result.Initialize (-0048100488, 0487444183);
                      exit;
                   end if;
                when Found_Tru =>
-                  if CP = Character_T'Pos ('e') then
+                  if CP = Standard.Character'Pos ('e') then
                      Boolean_Value (Arg1,
                                     Arg2,
                                     Arg3,
@@ -641,28 +641,28 @@ begin
                      exit;
                   end if;
                when Found_F =>
-                  if CP = Character_T'Pos ('a') then
+                  if CP = Standard.Character'Pos ('a') then
                      State_Id := Found_Fa;
                   else
                      Call_Result.Initialize (-0405689656, 1766237800);
                      exit;
                   end if;
                when Found_Fa =>
-                  if CP = Character_T'Pos ('l') then
+                  if CP = Standard.Character'Pos ('l') then
                      State_Id := Found_Fal;
                   else
                      Call_Result.Initialize (-0832673158, 0650292100);
                      exit;
                   end if;
                when Found_Fal =>
-                  if CP = Character_T'Pos ('s') then
+                  if CP = Standard.Character'Pos ('s') then
                      State_Id := Found_Fals;
                   else
                      Call_Result.Initialize (2123299680, 0898372600);
                      exit;
                   end if;
                when Found_Fals =>
-                  if CP = Character_T'Pos ('e') then
+                  if CP = Standard.Character'Pos ('e') then
                      Boolean_Value (Arg1,
                                     Arg2,
                                     Arg3,
@@ -680,21 +680,21 @@ begin
                      exit;
                   end if;
                when Found_N =>
-                  if CP = Character_T'Pos ('u') then
+                  if CP = Standard.Character'Pos ('u') then
                      State_Id := Found_Nu;
                   else
                      Call_Result.Initialize (-0396203491, -1065957165);
                      exit;
                   end if;
                when Found_Nu =>
-                  if CP = Character_T'Pos ('l') then
+                  if CP = Standard.Character'Pos ('l') then
                      State_Id := Found_Nul;
                   else
                      Call_Result.Initialize (-1690061121, -0156509527);
                      exit;
                   end if;
                when Found_Nul =>
-                  if CP = Character_T'Pos ('l') then
+                  if CP = Standard.Character'Pos ('l') then
                      Null_Value (Arg1,
                                  Arg2,
                                  Arg3,

@@ -30,7 +30,7 @@ package body Aida.Tests is
 
       I : constant Aida.Int32_T := -2147483647;
 
-      Result : constant Aida.String_T := To_String (I);
+      Result : constant Standard.String := To_String (I);
    begin
       Ahven.Assert (Result = "-2147483647", "");
    end SHOULD_Successfully_Convert_Int32_Minus_2147483647_To_String;
@@ -40,7 +40,7 @@ package body Aida.Tests is
 
       I : constant Aida.Int32_T := -100;
 
-      Result : constant Aida.String_T := To_String (I);
+      Result : constant Standard.String := To_String (I);
    begin
       Ahven.Assert (Result = "-100", "");
    end SHOULD_Successfully_Convert_Int32_Minus_100_To_String;
@@ -50,7 +50,7 @@ package body Aida.Tests is
 
       I : constant Aida.Int32_T := -1;
 
-      Result : constant Aida.String_T := To_String (I);
+      Result : constant Standard.String := To_String (I);
    begin
       Ahven.Assert (Result = "-1", "");
    end SHOULD_Successfully_Convert_Int32_Minus_1_To_String;
@@ -60,7 +60,7 @@ package body Aida.Tests is
 
       I : constant Aida.Int32_T := 2147483647;
 
-      Result : constant Aida.String_T := To_String (I);
+      Result : constant Standard.String := To_String (I);
    begin
       Ahven.Assert (Result = "2147483647", "");
    end SHOULD_Successfully_Convert_Int32_2147483647_To_String;
@@ -70,7 +70,7 @@ package body Aida.Tests is
 
       I : constant Aida.Int32_T := 100;
 
-      Result : constant Aida.String_T := To_String (I);
+      Result : constant Standard.String := To_String (I);
    begin
       Ahven.Assert (Result = "100", "");
    end SHOULD_Successfully_Convert_Int32_100_To_String;
@@ -80,7 +80,7 @@ package body Aida.Tests is
 
       I : constant Aida.Int32_T := 7;
 
-      Result : constant Aida.String_T := To_String (I);
+      Result : constant Standard.String := To_String (I);
    begin
       Ahven.Assert (Result = "7", "");
    end SHOULD_Successfully_Convert_Int32_7_To_String;
@@ -90,7 +90,7 @@ package body Aida.Tests is
 
       I : constant Aida.Int32_T := 0;
 
-      Result : constant Aida.String_T := To_String (I);
+      Result : constant Standard.String := To_String (I);
    begin
       Ahven.Assert (Result = "0", "55cb46b2-8b59-4f5a-8e64-548b9ce67fc1");
    end SHOULD_Successfully_Convert_Int32_0_To_String;
@@ -98,7 +98,7 @@ package body Aida.Tests is
    procedure SHOULD_Successfully_Convert_String_0_To_Integer (T : in out Ahven.Framework.Test_Case'Class) is
       pragma Unreferenced (T);
 
-      Text       : constant Aida.String_T := "0";
+      Text       : constant Standard.String := "0";
       Target     : Aida.Int32_T;
       Has_Failed : Boolean;
    begin
@@ -112,7 +112,7 @@ package body Aida.Tests is
    procedure SHOULD_Successfully_Convert_String_100_To_Integer (T : in out Ahven.Framework.Test_Case'Class) is
       pragma Unreferenced (T);
 
-      Text       : constant Aida.String_T := "100";
+      Text       : constant Standard.String := "100";
       Target     : Aida.Int32_T;
       Has_Failed : Boolean;
    begin
@@ -126,7 +126,7 @@ package body Aida.Tests is
    procedure SHOULD_Successfully_Convert_String_2147483647_To_Integer (T : in out Ahven.Framework.Test_Case'Class) is
       pragma Unreferenced (T);
 
-      Text       : constant Aida.String_T := "2147483647";
+      Text       : constant Standard.String := "2147483647";
       Target     : Aida.Int32_T;
       Has_Failed : Boolean;
    begin
@@ -140,7 +140,7 @@ package body Aida.Tests is
    procedure SHOULD_Successfully_Convert_String_2147483648_To_Integer (T : in out Ahven.Framework.Test_Case'Class) is
       pragma Unreferenced (T);
 
-      Text       : constant Aida.String_T := "2147483648";
+      Text       : constant Standard.String := "2147483648";
       Target     : Aida.Int32_T;
       Has_Failed : Boolean;
    begin
@@ -153,7 +153,7 @@ package body Aida.Tests is
    procedure SHOULD_Successfully_Convert_String_Minus_1_To_Integer (T : in out Ahven.Framework.Test_Case'Class) is
       pragma Unreferenced (T);
 
-      Text       : constant Aida.String_T := "-1";
+      Text       : constant Standard.String := "-1";
       Target     : Aida.Int32_T;
       Has_Failed : Boolean;
    begin
@@ -167,7 +167,7 @@ package body Aida.Tests is
    procedure SHOULD_Successfully_Convert_String_Minus_100_To_Integer (T : in out Ahven.Framework.Test_Case'Class) is
       pragma Unreferenced (T);
 
-      Text       : constant Aida.String_T := "-100";
+      Text       : constant Standard.String := "-100";
       Target     : Aida.Int32_T;
       Has_Failed : Boolean;
    begin
@@ -181,7 +181,7 @@ package body Aida.Tests is
    procedure SHOULD_Successfully_Convert_String_Minus_2147483648_To_Integer (T : in out Ahven.Framework.Test_Case'Class) is
       pragma Unreferenced (T);
 
-      Text       : constant Aida.String_T := "-2147483648";
+      Text       : constant Standard.String := "-2147483648";
       Target     : Aida.Int32_T;
       Has_Failed : Boolean;
    begin
@@ -195,7 +195,7 @@ package body Aida.Tests is
    procedure SHOULD_Fail_To_Convert_String_Minus_2147483649_To_Integer (T : in out Ahven.Framework.Test_Case'Class) is
       pragma Unreferenced (T);
 
-      Text       : constant Aida.String_T := "-2147483649";
+      Text       : constant Standard.String := "-2147483649";
       Target     : Aida.Int32_T;
       Has_Failed : Boolean;
    begin

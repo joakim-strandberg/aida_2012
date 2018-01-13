@@ -3,7 +3,7 @@ with Aida.Subprogram_Call_Result;
 
 package body Aida.XML_DOM_Parser_Tests is
 
-   XML_Test_Person_With_Vehicles_0 : constant Aida.String_T :=
+   XML_Test_Person_With_Vehicles_0 : constant Standard.String :=
      "<?xml version=""1.0"" encoding=""UTF-8""?><person><!-- Comment --><![CDATA[ Some info ]]><vehicles><vehicle wheels='4'/><vehicle wheels='2'/></vehicles></person>";
 
    overriding procedure Initialize (T : in out Test) is

@@ -18,7 +18,7 @@ private
    subtype Max_Indices_T is Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T;
 
    type Storage_T is tagged limited record
-      Header_Comment : Aida.String_T (1..100) := (others => ' '); -- Not using Aida.Bounded_String at the moment.
+      Header_Comment : Standard.String (1..100) := (others => ' '); -- Not using Aida.Bounded_String at the moment.
       Person  : Json_Parsing_Tests_Model.People_T := (others => Json_Parsing_Tests_Model.Person_Def.Make);
       Hand    : Json_Parsing_Tests_Model.Hands_T;
       Vehicle : Json_Parsing_Tests_Model.Vehicles_T;

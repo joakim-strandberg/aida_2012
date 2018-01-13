@@ -17,7 +17,7 @@ package body Aida.Bounded_String_Tests is
    is
       pragma Unreferenced (T);
 
-      Expected : constant Aida.String_T := "Hej";
+      Expected : constant Standard.String := "Hej";
 
       Is_Success : Boolean;
 

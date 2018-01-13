@@ -195,7 +195,7 @@ package body Aida.JSON_DOM_Parser is
                   Max_Indices : in out Max_Indices_T;
                   Arg3        : in out Arg3_T;
                   Current_Ids : in out Current_Ids_Def.Current_Ids_T;
-                  Name        : Aida.String_T;
+                  Name        : Standard.String;
                   Call_Result : in out Aida.Subprogram_Call_Result.T)
    is
       pragma Unused (Arg3);
@@ -258,7 +258,7 @@ package body Aida.JSON_DOM_Parser is
                            Max_Indices : in out Max_Indices_T;
                            Arg3        : in out Arg3_T;
                            Current_Ids : in out Current_Ids_Def.Current_Ids_T;
-                           Value       : Aida.String_T;
+                           Value       : Standard.String;
                            Call_Result : in out Aida.Subprogram_Call_Result.T)
    is
       pragma Unused (Arg3);
@@ -348,7 +348,7 @@ package body Aida.JSON_DOM_Parser is
                             Max_Indices : in out Max_Indices_T;
                             Arg3        : in out Arg3_T;
                             Current_Ids : in out Current_Ids_Def.Current_Ids_T;
-                            Value       : in     Aida.String_T;
+                            Value       : in     Standard.String;
                             Call_Result : in out Aida.Subprogram_Call_Result.T)
    is
       pragma Unused (Arg3);
@@ -433,7 +433,7 @@ package body Aida.JSON_DOM_Parser is
                          Max_Indices : in out Max_Indices_T;
                          Arg3        : in out Arg3_T;
                          Current_Ids : in out Current_Ids_Def.Current_Ids_T;
-                         Value       : Aida.String_T;
+                         Value       : Standard.String;
                          Call_Result : in out Aida.Subprogram_Call_Result.T)
    is
       pragma Unused (Arg3);
@@ -740,7 +740,7 @@ package body Aida.JSON_DOM_Parser is
                                                     Array_End);
 
    procedure Parse (This         : in out T;
-                    JSON_Message : String_T;
+                    JSON_Message : Standard.String;
                     Call_Result  : in out Aida.Subprogram_Call_Result.T)
    is
       Max_Indices : Max_Indices_Def.T;

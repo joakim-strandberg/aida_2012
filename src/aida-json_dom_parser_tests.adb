@@ -4,15 +4,15 @@ with Aida.Subprogram_Call_Result;
 package body Aida.JSON_DOM_Parser_Tests is
 
    -- The trailing numbers are to differentiate between the same json except different number of spaces
-   JSON_Test_Person_With_Age_0            : constant Aida.String_T := "{""age"" : 10}";
-   JSON_Test_Person_With_Hand_0           : constant Aida.String_T := "{""hand"" : { ""fingers"" : 4 }}";
-   JSON_Test_Person_With_Name_Adam_0      : constant Aida.String_T := "{""name"" : ""adam""}";
-   JSON_Test_Person_With_Name_And_Age_0   : constant Aida.String_T := "{""name"" : ""bertil"", ""age"" : 5}";
-   JSON_Test_Person_With_Vehicles_0       : constant Aida.String_T := "{""vehicles"" : [ {""wheels"" : 4 }, {""wheels"" : 2 } ]}";
-   --     JSON_Test_Person_With_Length_0         : constant Aida.String_T := "{""length"" : 1.98}";
-   --     JSON_Test_Person_With_Is_Happy_True_0  : constant Aida.String_T := "{""isHappy"" : true}";
-   --     JSON_Test_Person_With_Is_Happy_False_0 : constant Aida.String_T := "{""isHappy"" : false}";
-   --     JSON_Test_Person_With_Is_Happy_Null_0  : constant Aida.String_T := "{""isHappy"" : null}";
+   JSON_Test_Person_With_Age_0            : constant Standard.String := "{""age"" : 10}";
+   JSON_Test_Person_With_Hand_0           : constant Standard.String := "{""hand"" : { ""fingers"" : 4 }}";
+   JSON_Test_Person_With_Name_Adam_0      : constant Standard.String := "{""name"" : ""adam""}";
+   JSON_Test_Person_With_Name_And_Age_0   : constant Standard.String := "{""name"" : ""bertil"", ""age"" : 5}";
+   JSON_Test_Person_With_Vehicles_0       : constant Standard.String := "{""vehicles"" : [ {""wheels"" : 4 }, {""wheels"" : 2 } ]}";
+   --     JSON_Test_Person_With_Length_0         : constant Standard.String := "{""length"" : 1.98}";
+   --     JSON_Test_Person_With_Is_Happy_True_0  : constant Standard.String := "{""isHappy"" : true}";
+   --     JSON_Test_Person_With_Is_Happy_False_0 : constant Standard.String := "{""isHappy"" : false}";
+   --     JSON_Test_Person_With_Is_Happy_Null_0  : constant Standard.String := "{""isHappy"" : null}";
 
    overriding procedure Initialize (T : in out Test) is
    begin

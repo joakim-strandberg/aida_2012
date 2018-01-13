@@ -1,10 +1,10 @@
 package body Aida.Bounded_String is
    pragma SPARK_Mode;
 
-   use all type Aida.String_T;
+   use all type Standard.String;
 
    procedure Initialize (This : in out T;
-                         Text : Aida.String_T) is
+                         Text : Standard.String) is
    begin
       for I in Int32_T range 1..Text'Length loop
          This.Text (I) := Text (Text'First - 1 + I);
@@ -16,7 +16,7 @@ package body Aida.Bounded_String is
    end Initialize;
 
    procedure Initialize2 (This : out T;
-                          Text : Aida.String_T)
+                          Text : Standard.String)
    is
    begin
       This.Text := (others => ' ');
@@ -30,7 +30,7 @@ package body Aida.Bounded_String is
    end Initialize2;
 
    procedure Append (Target : in out T;
-                     Source : Aida.String_T) is
+                     Source : Standard.String) is
    begin
       for I in Int32_T range Source'First..Source'Last loop
          Target.Text (Target.Text_Length + 1 + (I - Source'First)) := Source (I);
@@ -57,7 +57,7 @@ package body Aida.Bounded_String is
       return Result;
    end Equals;
 
-   function To_String (This : T) return Aida.String_T is
+   function To_String (This : T) return Standard.String is
    begin
       return This.Text (1..This.Text_Length);
    end To_String;

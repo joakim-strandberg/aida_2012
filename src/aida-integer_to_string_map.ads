@@ -2,7 +2,7 @@
 generic
    Max_Chars : Pos32_T;
    Max_Strings : Pos32_T;
-   type Value_T is new String_T;
+   type Value_T is new Standard.String;
 package Aida.Integer_To_String_Map is
 
    subtype Key_T is Pos32_T range 1..Max_Strings;

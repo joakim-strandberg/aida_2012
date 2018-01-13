@@ -8,32 +8,32 @@ package body Aida.XML_SAX_Parse_Tests is
    use type Json_Parsing_Tests_Model.Person_Def.Age_T;
    use type Json_Parsing_Tests_Model.Hand_Def.Number_Of_Fingers_T;
 
-   XML_Test_Person_With_Age_0 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person>10</person>";
-   XML_Test_Person_With_Age_1 : constant Aida.String_T := "   <?xml version=""1.0"" encoding=""UTF-8""?><person>10</person>";
-   XML_Test_Person_With_Age_2 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?>   <person>10</person>";
-   XML_Test_Person_With_Age_3 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person>10</person>   ";
-   XML_Test_Person_With_Age_4 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""utf-8""?><person>10</person>";
+   XML_Test_Person_With_Age_0 : constant Standard.String := "<?xml version=""1.0"" encoding=""UTF-8""?><person>10</person>";
+   XML_Test_Person_With_Age_1 : constant Standard.String := "   <?xml version=""1.0"" encoding=""UTF-8""?><person>10</person>";
+   XML_Test_Person_With_Age_2 : constant Standard.String := "<?xml version=""1.0"" encoding=""UTF-8""?>   <person>10</person>";
+   XML_Test_Person_With_Age_3 : constant Standard.String := "<?xml version=""1.0"" encoding=""UTF-8""?><person>10</person>   ";
+   XML_Test_Person_With_Age_4 : constant Standard.String := "<?xml version=""1.0"" encoding=""utf-8""?><person>10</person>";
 
-   XML_Test_Person_With_Hand_0 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person><hand fingers=""4""></hand></person>";
-   XML_Test_Person_With_Hand_1 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person><hand fingers=""4""   ></hand></person>";
-   XML_Test_Person_With_Hand_2 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person><hand   fingers=""4""></hand></person>";
-   XML_Test_Person_With_Hand_3 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person><hand fingers='4'></hand></person>";
-   XML_Test_Person_With_Hand_4 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person><hand fingers='4'   ></hand></person>";
-   XML_Test_Person_With_Hand_5 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person><hand   fingers='4'></hand></person>";
-   XML_Test_Person_With_Hand_6 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person><hand fingers='4'/></person>";
-   XML_Test_Person_With_Hand_7 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person><hand fingers='4' /></person>";
+   XML_Test_Person_With_Hand_0 : constant Standard.String := "<?xml version=""1.0"" encoding=""UTF-8""?><person><hand fingers=""4""></hand></person>";
+   XML_Test_Person_With_Hand_1 : constant Standard.String := "<?xml version=""1.0"" encoding=""UTF-8""?><person><hand fingers=""4""   ></hand></person>";
+   XML_Test_Person_With_Hand_2 : constant Standard.String := "<?xml version=""1.0"" encoding=""UTF-8""?><person><hand   fingers=""4""></hand></person>";
+   XML_Test_Person_With_Hand_3 : constant Standard.String := "<?xml version=""1.0"" encoding=""UTF-8""?><person><hand fingers='4'></hand></person>";
+   XML_Test_Person_With_Hand_4 : constant Standard.String := "<?xml version=""1.0"" encoding=""UTF-8""?><person><hand fingers='4'   ></hand></person>";
+   XML_Test_Person_With_Hand_5 : constant Standard.String := "<?xml version=""1.0"" encoding=""UTF-8""?><person><hand   fingers='4'></hand></person>";
+   XML_Test_Person_With_Hand_6 : constant Standard.String := "<?xml version=""1.0"" encoding=""UTF-8""?><person><hand fingers='4'/></person>";
+   XML_Test_Person_With_Hand_7 : constant Standard.String := "<?xml version=""1.0"" encoding=""UTF-8""?><person><hand fingers='4' /></person>";
 
-   XML_Test_Comment_0 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><!-- Some comment --><person>10</person>";
+   XML_Test_Comment_0 : constant Standard.String := "<?xml version=""1.0"" encoding=""UTF-8""?><!-- Some comment --><person>10</person>";
 
-   XML_Test_Person_With_Age_Pre_Comment_0 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person><!-- Comment -->10</person>";
+   XML_Test_Person_With_Age_Pre_Comment_0 : constant Standard.String := "<?xml version=""1.0"" encoding=""UTF-8""?><person><!-- Comment -->10</person>";
 
-   XML_Test_Person_With_Age_Post_Comment_0 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person>10<!-- Comment --></person>";
+   XML_Test_Person_With_Age_Post_Comment_0 : constant Standard.String := "<?xml version=""1.0"" encoding=""UTF-8""?><person>10<!-- Comment --></person>";
 
-   XML_Test_Person_With_Age_Pre_CDATA_Comment_0 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person><![CDATA[ Important comment ]]>10</person>";
+   XML_Test_Person_With_Age_Pre_CDATA_Comment_0 : constant Standard.String := "<?xml version=""1.0"" encoding=""UTF-8""?><person><![CDATA[ Important comment ]]>10</person>";
 
-   XML_Test_Person_With_Single_Quote_Attribute_0 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person name='""joe"" or ""john""'></person>";
+   XML_Test_Person_With_Single_Quote_Attribute_0 : constant Standard.String := "<?xml version=""1.0"" encoding=""UTF-8""?><person name='""joe"" or ""john""'></person>";
 
-   XML_Test_Person_With_Double_Quote_Attribute_0 : constant Aida.String_T := "<?xml version=""1.0"" encoding=""UTF-8""?><person name=""'joe' or 'john'""></person>";
+   XML_Test_Person_With_Double_Quote_Attribute_0 : constant Standard.String := "<?xml version=""1.0"" encoding=""UTF-8""?><person name=""'joe' or 'john'""></person>";
 
    overriding procedure Initialize (T : in out Test) is
    begin
@@ -86,7 +86,7 @@ package body Aida.XML_SAX_Parse_Tests is
                                    Max_Indices : in out Specific_Max_Indices_T;
                                    State       : in out Specific_State_T;
                                    Current_Ids : in out Specific_Current_Ids_T;
-                                   Value       : Aida.String_T;
+                                   Value       : Standard.String;
                                    Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
      Pre    => not Call_Result.Has_Failed;
@@ -95,7 +95,7 @@ package body Aida.XML_SAX_Parse_Tests is
                                    Max_Indices : in out Specific_Max_Indices_T;
                                    State       : in out Specific_State_T;
                                    Current_Ids : in out Specific_Current_Ids_T;
-                                   Value       : Aida.String_T;
+                                   Value       : Standard.String;
                                    Call_Result : in out Aida.Subprogram_Call_Result.T)
    is
       pragma Unreferenced (Result);
@@ -120,7 +120,7 @@ package body Aida.XML_SAX_Parse_Tests is
                            Max_Indices : in out Max_Indices_T;
                            State       : in out State_T;
                            Current_Ids : in out Current_Ids_T;
-                           Tag_Name    : Aida.String_T;
+                           Tag_Name    : Standard.String;
                            Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -129,7 +129,7 @@ package body Aida.XML_SAX_Parse_Tests is
                          Max_Indices : in out Max_Indices_T;
                          State       : in out State_T;
                          Current_Ids : in out Current_Ids_T;
-                         Tag_Name    : Aida.String_T;
+                         Tag_Name    : Standard.String;
                          Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -139,7 +139,7 @@ package body Aida.XML_SAX_Parse_Tests is
                       Max_Indices : in out Max_Indices_T;
                       State       : in out State_T;
                       Current_Ids : in out Current_Ids_T;
-                      Value       : Aida.String_T;
+                      Value       : Standard.String;
                       Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -149,8 +149,8 @@ package body Aida.XML_SAX_Parse_Tests is
                            Max_Indices     : in out Max_Indices_T;
                            State           : in out State_T;
                            Current_Ids     : in out Current_Ids_T;
-                           Attribute_Name  : Aida.String_T;
-                           Attribute_Value : Aida.String_T;
+                           Attribute_Name  : Standard.String;
+                           Attribute_Value : Standard.String;
                            Call_Result     : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -159,12 +159,12 @@ package body Aida.XML_SAX_Parse_Tests is
                          Max_Indices : in out Max_Indices_T;
                          State       : in out State_T;
                          Current_Ids : in out Current_Ids_T;
-                         Value       : Aida.String_T;
+                         Value       : Standard.String;
                          Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
 
-      procedure Run_Test (XML : Aida.String_T) with
+      procedure Run_Test (XML : Standard.String) with
         Global => null,
         Pre    => XML'Length > 0 and XML'Last < Integer'Last - 4;
 
@@ -176,7 +176,7 @@ package body Aida.XML_SAX_Parse_Tests is
                            Max_Indices : in out Max_Indices_T;
                            State       : in out State_T;
                            Current_Ids : in out Current_Ids_T;
-                           Tag_Name    : Aida.String_T;
+                           Tag_Name    : Standard.String;
                            Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Result);
@@ -209,7 +209,7 @@ package body Aida.XML_SAX_Parse_Tests is
                          Max_Indices : in out Max_Indices_T;
                          State       : in out State_T;
                          Current_Ids : in out Current_Ids_T;
-                         Tag_Name    : Aida.String_T;
+                         Tag_Name    : Standard.String;
                          Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Result);
@@ -234,7 +234,7 @@ package body Aida.XML_SAX_Parse_Tests is
                       Max_Indices : in out Max_Indices_T;
                       State       : in out State_T;
                       Current_Ids : in out Current_Ids_T;
-                      Value       : Aida.String_T;
+                      Value       : Standard.String;
                       Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Max_Indices);
@@ -262,8 +262,8 @@ package body Aida.XML_SAX_Parse_Tests is
                            Max_Indices     : in out Max_Indices_T;
                            State           : in out State_T;
                            Current_Ids     : in out Current_Ids_T;
-                           Attribute_Name  : Aida.String_T;
-                           Attribute_Value : Aida.String_T;
+                           Attribute_Name  : Standard.String;
+                           Attribute_Value : Standard.String;
                            Call_Result     : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Result);
@@ -280,7 +280,7 @@ package body Aida.XML_SAX_Parse_Tests is
                          Max_Indices : in out Max_Indices_T;
                          State       : in out State_T;
                          Current_Ids : in out Current_Ids_T;
-                         Value       : Aida.String_T;
+                         Value       : Standard.String;
                          Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Result);
@@ -299,7 +299,7 @@ package body Aida.XML_SAX_Parse_Tests is
                                                    0724097972,
                                                    -0357024737);
 
-      procedure Run_Test (XML : Aida.String_T) is
+      procedure Run_Test (XML : Standard.String) is
 
          procedure Parse_XML is new Aida.XML_SAX_Parse (Storage_T,
                                                         Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
@@ -397,7 +397,7 @@ package body Aida.XML_SAX_Parse_Tests is
                            Max_Indices : in out Max_Indices_T;
                            State       : in out State_T;
                            Current_Ids : in out Current_Ids_T;
-                           Tag_Name    : Aida.String_T;
+                           Tag_Name    : Standard.String;
                            Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -406,7 +406,7 @@ package body Aida.XML_SAX_Parse_Tests is
                          Max_Indices : in out Max_Indices_T;
                          State       : in out State_T;
                          Current_Ids : in out Current_Ids_T;
-                         Tag_Name    : Aida.String_T;
+                         Tag_Name    : Standard.String;
                          Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -415,7 +415,7 @@ package body Aida.XML_SAX_Parse_Tests is
                       Max_Indices : in out Max_Indices_T;
                       State       : in out State_T;
                       Current_Ids : in out Current_Ids_T;
-                      Value       : Aida.String_T;
+                      Value       : Standard.String;
                       Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -424,8 +424,8 @@ package body Aida.XML_SAX_Parse_Tests is
                            Max_Indices     : in out Max_Indices_T;
                            State           : in out State_T;
                            Current_Ids     : in out Current_Ids_T;
-                           Attribute_Name  : Aida.String_T;
-                           Attribute_Value : Aida.String_T;
+                           Attribute_Name  : Standard.String;
+                           Attribute_Value : Standard.String;
                            Call_Result     : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -434,12 +434,12 @@ package body Aida.XML_SAX_Parse_Tests is
                          Max_Indices : in out Max_Indices_T;
                          State       : in out State_T;
                          Current_Ids : in out Current_Ids_T;
-                         Value       : Aida.String_T;
+                         Value       : Standard.String;
                          Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
 
-      procedure Run_Test (XML : Aida.String_T) with
+      procedure Run_Test (XML : Standard.String) with
         Global => null,
         Pre    => XML'Length > 0 and XML'Last < Integer'Last - 4;
 
@@ -451,7 +451,7 @@ package body Aida.XML_SAX_Parse_Tests is
                            Max_Indices : in out Max_Indices_T;
                            State       : in out State_T;
                            Current_Ids : in out Current_Ids_T;
-                           Tag_Name    : Aida.String_T;
+                           Tag_Name    : Standard.String;
                            Call_Result : in out Aida.Subprogram_Call_Result.T) is
       begin
          case State is
@@ -503,7 +503,7 @@ package body Aida.XML_SAX_Parse_Tests is
                          Max_Indices : in out Max_Indices_T;
                          State       : in out State_T;
                          Current_Ids : in out Current_Ids_T;
-                         Tag_Name    : Aida.String_T;
+                         Tag_Name    : Standard.String;
                          Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Result);
@@ -535,7 +535,7 @@ package body Aida.XML_SAX_Parse_Tests is
                       Max_Indices : in out Max_Indices_T;
                       State       : in out State_T;
                       Current_Ids : in out Current_Ids_T;
-                      Value       : Aida.String_T;
+                      Value       : Standard.String;
                       Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Result);
@@ -563,8 +563,8 @@ package body Aida.XML_SAX_Parse_Tests is
                            Max_Indices     : in out Max_Indices_T;
                            State           : in out State_T;
                            Current_Ids     : in out Current_Ids_T;
-                           Attribute_Name  : Aida.String_T;
-                           Attribute_Value : Aida.String_T;
+                           Attribute_Name  : Standard.String;
+                           Attribute_Value : Standard.String;
                            Call_Result     : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Max_Indices);
@@ -614,7 +614,7 @@ package body Aida.XML_SAX_Parse_Tests is
                          Max_Indices : in out Max_Indices_T;
                          State       : in out State_T;
                          Current_Ids : in out Current_Ids_T;
-                         Value       : Aida.String_T;
+                         Value       : Standard.String;
                          Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Result);
@@ -633,7 +633,7 @@ package body Aida.XML_SAX_Parse_Tests is
                                                    -1905595456,
                                                    -0073330819);
 
-      procedure Run_Test (XML : Aida.String_T) is
+      procedure Run_Test (XML : Standard.String) is
 
          procedure Parse_XML is new Aida.XML_SAX_Parse (Storage_T,
                                                         Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
@@ -764,7 +764,7 @@ package body Aida.XML_SAX_Parse_Tests is
                            Max_Indices : in out Max_Indices_T;
                            State       : in out State_T;
                            Current_Ids : in out Current_Ids_T;
-                           Tag_Name    : Aida.String_T;
+                           Tag_Name    : Standard.String;
                            Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -773,7 +773,7 @@ package body Aida.XML_SAX_Parse_Tests is
                          Max_Indices : in out Max_Indices_T;
                          State       : in out State_T;
                          Current_Ids : in out Current_Ids_T;
-                         Tag_Name    : Aida.String_T;
+                         Tag_Name    : Standard.String;
                          Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -782,7 +782,7 @@ package body Aida.XML_SAX_Parse_Tests is
                       Max_Indices : in out Max_Indices_T;
                       State       : in out State_T;
                       Current_Ids : in out Current_Ids_T;
-                      Value       : Aida.String_T;
+                      Value       : Standard.String;
                       Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -791,8 +791,8 @@ package body Aida.XML_SAX_Parse_Tests is
                            Max_Indices     : in out Max_Indices_T;
                            State           : in out State_T;
                            Current_Ids     : in out Current_Ids_T;
-                           Attribute_Name  : Aida.String_T;
-                           Attribute_Value : Aida.String_T;
+                           Attribute_Name  : Standard.String;
+                           Attribute_Value : Standard.String;
                            Call_Result     : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -801,12 +801,12 @@ package body Aida.XML_SAX_Parse_Tests is
                          Max_Indices : in out Max_Indices_T;
                          State       : in out State_T;
                          Current_Ids : in out Current_Ids_T;
-                         Value       : Aida.String_T;
+                         Value       : Standard.String;
                          Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
 
-      procedure Run_Test (XML : Aida.String_T) with
+      procedure Run_Test (XML : Standard.String) with
         Global => null,
         Pre    => XML'Length > 0 and XML'Last < Integer'Last - 4;
 
@@ -818,7 +818,7 @@ package body Aida.XML_SAX_Parse_Tests is
                            Max_Indices : in out Max_Indices_T;
                            State       : in out State_T;
                            Current_Ids : in out Current_Ids_T;
-                           Tag_Name    : Aida.String_T;
+                           Tag_Name    : Standard.String;
                            Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Result);
@@ -852,7 +852,7 @@ package body Aida.XML_SAX_Parse_Tests is
                          Max_Indices : in out Max_Indices_T;
                          State       : in out State_T;
                          Current_Ids : in out Current_Ids_T;
-                         Tag_Name    : Aida.String_T;
+                         Tag_Name    : Standard.String;
                          Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Result);
@@ -878,7 +878,7 @@ package body Aida.XML_SAX_Parse_Tests is
                       Max_Indices : in out Max_Indices_T;
                       State       : in out State_T;
                       Current_Ids : in out Current_Ids_T;
-                      Value       : Aida.String_T;
+                      Value       : Standard.String;
                       Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Max_Indices);
@@ -908,8 +908,8 @@ package body Aida.XML_SAX_Parse_Tests is
                            Max_Indices     : in out Max_Indices_T;
                            State           : in out State_T;
                            Current_Ids     : in out Current_Ids_T;
-                           Attribute_Name  : Aida.String_T;
-                           Attribute_Value : Aida.String_T;
+                           Attribute_Name  : Standard.String;
+                           Attribute_Value : Standard.String;
                            Call_Result     : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Result);
@@ -926,7 +926,7 @@ package body Aida.XML_SAX_Parse_Tests is
                          Max_Indices : in out Max_Indices_T;
                          State       : in out State_T;
                          Current_Ids : in out Current_Ids_T;
-                         Value       : Aida.String_T;
+                         Value       : Standard.String;
                          Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Max_Indices);
@@ -955,7 +955,7 @@ package body Aida.XML_SAX_Parse_Tests is
                                                    -0933625590,
                                                    1250442975);
 
-      procedure Run_Test (XML : Aida.String_T) is
+      procedure Run_Test (XML : Standard.String) is
 
          procedure Parse_XML is new Aida.XML_SAX_Parse (Storage_T,
                                                         Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
@@ -1023,7 +1023,7 @@ package body Aida.XML_SAX_Parse_Tests is
                            Max_Indices : in out Max_Indices_T;
                            State       : in out State_T;
                            Current_Ids : in out Current_Ids_T;
-                           Tag_Name    : Aida.String_T;
+                           Tag_Name    : Standard.String;
                            Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -1032,7 +1032,7 @@ package body Aida.XML_SAX_Parse_Tests is
                          Max_Indices : in out Max_Indices_T;
                          State       : in out State_T;
                          Current_Ids : in out Current_Ids_T;
-                         Tag_Name    : Aida.String_T;
+                         Tag_Name    : Standard.String;
                          Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -1041,7 +1041,7 @@ package body Aida.XML_SAX_Parse_Tests is
                       Max_Indices : in out Max_Indices_T;
                       State       : in out State_T;
                       Current_Ids : in out Current_Ids_T;
-                      Value       : Aida.String_T;
+                      Value       : Standard.String;
                       Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -1050,8 +1050,8 @@ package body Aida.XML_SAX_Parse_Tests is
                            Max_Indices     : in out Max_Indices_T;
                            State           : in out State_T;
                            Current_Ids     : in out Current_Ids_T;
-                           Attribute_Name  : Aida.String_T;
-                           Attribute_Value : Aida.String_T;
+                           Attribute_Name  : Standard.String;
+                           Attribute_Value : Standard.String;
                            Call_Result     : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -1060,12 +1060,12 @@ package body Aida.XML_SAX_Parse_Tests is
                          Max_Indices : in out Max_Indices_T;
                          State       : in out State_T;
                          Current_Ids : in out Current_Ids_T;
-                         Value       : Aida.String_T;
+                         Value       : Standard.String;
                          Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
 
-      procedure Run_Test (XML : Aida.String_T) with
+      procedure Run_Test (XML : Standard.String) with
         Global => null,
         Pre    => XML'Length > 0 and XML'Last < Integer'Last - 4;
 
@@ -1077,7 +1077,7 @@ package body Aida.XML_SAX_Parse_Tests is
                            Max_Indices : in out Max_Indices_T;
                            State       : in out State_T;
                            Current_Ids : in out Current_Ids_T;
-                           Tag_Name    : Aida.String_T;
+                           Tag_Name    : Standard.String;
                            Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Result);
@@ -1112,7 +1112,7 @@ package body Aida.XML_SAX_Parse_Tests is
                          Max_Indices : in out Max_Indices_T;
                          State       : in out State_T;
                          Current_Ids : in out Current_Ids_T;
-                         Tag_Name    : Aida.String_T;
+                         Tag_Name    : Standard.String;
                          Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Result);
@@ -1139,7 +1139,7 @@ package body Aida.XML_SAX_Parse_Tests is
                       Max_Indices : in out Max_Indices_T;
                       State       : in out State_T;
                       Current_Ids : in out Current_Ids_T;
-                      Value       : Aida.String_T;
+                      Value       : Standard.String;
                       Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Max_Indices);
@@ -1175,8 +1175,8 @@ package body Aida.XML_SAX_Parse_Tests is
                            Max_Indices     : in out Max_Indices_T;
                            State           : in out State_T;
                            Current_Ids     : in out Current_Ids_T;
-                           Attribute_Name  : Aida.String_T;
-                           Attribute_Value : Aida.String_T;
+                           Attribute_Name  : Standard.String;
+                           Attribute_Value : Standard.String;
                            Call_Result     : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Result);
@@ -1193,7 +1193,7 @@ package body Aida.XML_SAX_Parse_Tests is
                          Max_Indices : in out Max_Indices_T;
                          State       : in out State_T;
                          Current_Ids : in out Current_Ids_T;
-                         Value       : Aida.String_T;
+                         Value       : Standard.String;
                          Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Max_Indices);
@@ -1223,7 +1223,7 @@ package body Aida.XML_SAX_Parse_Tests is
                                                    -0994849533,
                                                    1267702157);
 
-      procedure Run_Test (XML : Aida.String_T) is
+      procedure Run_Test (XML : Standard.String) is
 
          procedure Parse_XML is new Aida.XML_SAX_Parse (Storage_T,
                                                         Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
@@ -1291,7 +1291,7 @@ package body Aida.XML_SAX_Parse_Tests is
                            Max_Indices : in out Max_Indices_T;
                            State       : in out State_T;
                            Current_Ids : in out Current_Ids_T;
-                           Tag_Name    : Aida.String_T;
+                           Tag_Name    : Standard.String;
                            Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -1300,7 +1300,7 @@ package body Aida.XML_SAX_Parse_Tests is
                          Max_Indices : in out Max_Indices_T;
                          State       : in out State_T;
                          Current_Ids : in out Current_Ids_T;
-                         Tag_Name    : Aida.String_T;
+                         Tag_Name    : Standard.String;
                          Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -1309,7 +1309,7 @@ package body Aida.XML_SAX_Parse_Tests is
                       Max_Indices : in out Max_Indices_T;
                       State       : in out State_T;
                       Current_Ids : in out Current_Ids_T;
-                      Value       : Aida.String_T;
+                      Value       : Standard.String;
                       Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -1318,8 +1318,8 @@ package body Aida.XML_SAX_Parse_Tests is
                            Max_Indices     : in out Max_Indices_T;
                            State           : in out State_T;
                            Current_Ids     : in out Current_Ids_T;
-                           Attribute_Name  : Aida.String_T;
-                           Attribute_Value : Aida.String_T;
+                           Attribute_Name  : Standard.String;
+                           Attribute_Value : Standard.String;
                            Call_Result     : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -1328,12 +1328,12 @@ package body Aida.XML_SAX_Parse_Tests is
                          Max_Indices : in out Max_Indices_T;
                          State       : in out State_T;
                          Current_Ids : in out Current_Ids_T;
-                         Value       : Aida.String_T;
+                         Value       : Standard.String;
                          Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
 
-      procedure Run_Test (XML : Aida.String_T) with
+      procedure Run_Test (XML : Standard.String) with
         Global => null,
         Pre    => XML'Length > 0 and XML'Last < Integer'Last - 4;
 
@@ -1345,7 +1345,7 @@ package body Aida.XML_SAX_Parse_Tests is
                            Max_Indices : in out Max_Indices_T;
                            State       : in out State_T;
                            Current_Ids : in out Current_Ids_T;
-                           Tag_Name    : Aida.String_T;
+                           Tag_Name    : Standard.String;
                            Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Result);
@@ -1380,7 +1380,7 @@ package body Aida.XML_SAX_Parse_Tests is
                          Max_Indices : in out Max_Indices_T;
                          State       : in out State_T;
                          Current_Ids : in out Current_Ids_T;
-                         Tag_Name    : Aida.String_T;
+                         Tag_Name    : Standard.String;
                          Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Result);
@@ -1407,7 +1407,7 @@ package body Aida.XML_SAX_Parse_Tests is
                       Max_Indices : in out Max_Indices_T;
                       State       : in out State_T;
                       Current_Ids : in out Current_Ids_T;
-                      Value       : Aida.String_T;
+                      Value       : Standard.String;
                       Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Max_Indices);
@@ -1443,8 +1443,8 @@ package body Aida.XML_SAX_Parse_Tests is
                            Max_Indices     : in out Max_Indices_T;
                            State           : in out State_T;
                            Current_Ids     : in out Current_Ids_T;
-                           Attribute_Name  : Aida.String_T;
-                           Attribute_Value : Aida.String_T;
+                           Attribute_Name  : Standard.String;
+                           Attribute_Value : Standard.String;
                            Call_Result     : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Result);
@@ -1461,7 +1461,7 @@ package body Aida.XML_SAX_Parse_Tests is
                          Max_Indices : in out Max_Indices_T;
                          State       : in out State_T;
                          Current_Ids : in out Current_Ids_T;
-                         Value       : Aida.String_T;
+                         Value       : Standard.String;
                          Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Max_Indices);
@@ -1490,7 +1490,7 @@ package body Aida.XML_SAX_Parse_Tests is
                                                    Current_Ids_T,
                                                    -1494886622,
                                                    -1435235821);
-      procedure Run_Test (XML : Aida.String_T) is
+      procedure Run_Test (XML : Standard.String) is
 
          procedure Parse_XML is new Aida.XML_SAX_Parse (Storage_T,
                                                         Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
@@ -1558,7 +1558,7 @@ package body Aida.XML_SAX_Parse_Tests is
                            Max_Indices : in out Max_Indices_T;
                            State       : in out State_T;
                            Current_Ids : in out Current_Ids_T;
-                           Tag_Name    : Aida.String_T;
+                           Tag_Name    : Standard.String;
                            Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -1567,7 +1567,7 @@ package body Aida.XML_SAX_Parse_Tests is
                          Max_Indices : in out Max_Indices_T;
                          State       : in out State_T;
                          Current_Ids : in out Current_Ids_T;
-                         Tag_Name    : Aida.String_T;
+                         Tag_Name    : Standard.String;
                          Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -1576,7 +1576,7 @@ package body Aida.XML_SAX_Parse_Tests is
                       Max_Indices : in out Max_Indices_T;
                       State       : in out State_T;
                       Current_Ids : in out Current_Ids_T;
-                      Value       : Aida.String_T;
+                      Value       : Standard.String;
                       Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -1585,8 +1585,8 @@ package body Aida.XML_SAX_Parse_Tests is
                            Max_Indices     : in out Max_Indices_T;
                            State           : in out State_T;
                            Current_Ids     : in out Current_Ids_T;
-                           Attribute_Name  : Aida.String_T;
-                           Attribute_Value : Aida.String_T;
+                           Attribute_Name  : Standard.String;
+                           Attribute_Value : Standard.String;
                            Call_Result     : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -1595,7 +1595,7 @@ package body Aida.XML_SAX_Parse_Tests is
                          Max_Indices : in out Max_Indices_T;
                          State       : in out State_T;
                          Current_Ids : in out Current_Ids_T;
-                         Value       : Aida.String_T;
+                         Value       : Standard.String;
                          Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -1604,12 +1604,12 @@ package body Aida.XML_SAX_Parse_Tests is
                        Max_Indices : in out Max_Indices_T;
                        State       : in out State_T;
                        Current_Ids : in out Current_Ids_T;
-                       Value       : Aida.String_T;
+                       Value       : Standard.String;
                        Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
 
-      procedure Run_Test (XML : Aida.String_T) with
+      procedure Run_Test (XML : Standard.String) with
         Global => null,
         Pre    => XML'Length > 0 and XML'Last < Integer'Last - 4;
 
@@ -1621,7 +1621,7 @@ package body Aida.XML_SAX_Parse_Tests is
                            Max_Indices : in out Max_Indices_T;
                            State       : in out State_T;
                            Current_Ids : in out Current_Ids_T;
-                           Tag_Name    : Aida.String_T;
+                           Tag_Name    : Standard.String;
                            Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Result);
@@ -1656,7 +1656,7 @@ package body Aida.XML_SAX_Parse_Tests is
                          Max_Indices : in out Max_Indices_T;
                          State       : in out State_T;
                          Current_Ids : in out Current_Ids_T;
-                         Tag_Name    : Aida.String_T;
+                         Tag_Name    : Standard.String;
                          Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Result);
@@ -1683,7 +1683,7 @@ package body Aida.XML_SAX_Parse_Tests is
                       Max_Indices : in out Max_Indices_T;
                       State       : in out State_T;
                       Current_Ids : in out Current_Ids_T;
-                      Value       : Aida.String_T;
+                      Value       : Standard.String;
                       Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Max_Indices);
@@ -1719,8 +1719,8 @@ package body Aida.XML_SAX_Parse_Tests is
                            Max_Indices     : in out Max_Indices_T;
                            State           : in out State_T;
                            Current_Ids     : in out Current_Ids_T;
-                           Attribute_Name  : Aida.String_T;
-                           Attribute_Value : Aida.String_T;
+                           Attribute_Name  : Standard.String;
+                           Attribute_Value : Standard.String;
                            Call_Result     : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Result);
@@ -1737,7 +1737,7 @@ package body Aida.XML_SAX_Parse_Tests is
                          Max_Indices : in out Max_Indices_T;
                          State       : in out State_T;
                          Current_Ids : in out Current_Ids_T;
-                         Value       : Aida.String_T;
+                         Value       : Standard.String;
                          Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Result);
@@ -1753,7 +1753,7 @@ package body Aida.XML_SAX_Parse_Tests is
                        Max_Indices : in out Max_Indices_T;
                        State       : in out State_T;
                        Current_Ids : in out Current_Ids_T;
-                       Value       : Aida.String_T;
+                       Value       : Standard.String;
                        Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Max_Indices);
@@ -1776,7 +1776,7 @@ package body Aida.XML_SAX_Parse_Tests is
          end case;
       end CDATA;
 
-      procedure Run_Test (XML : Aida.String_T) is
+      procedure Run_Test (XML : Standard.String) is
 
          procedure Parse_XML is new Aida.XML_SAX_Parse (Storage_T,
                                                         Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
@@ -1844,7 +1844,7 @@ package body Aida.XML_SAX_Parse_Tests is
                            Max_Indices : in out Max_Indices_T;
                            State       : in out State_T;
                            Current_Ids : in out Current_Ids_T;
-                           Tag_Name    : Aida.String_T;
+                           Tag_Name    : Standard.String;
                            Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -1853,7 +1853,7 @@ package body Aida.XML_SAX_Parse_Tests is
                          Max_Indices : in out Max_Indices_T;
                          State       : in out State_T;
                          Current_Ids : in out Current_Ids_T;
-                         Tag_Name    : Aida.String_T;
+                         Tag_Name    : Standard.String;
                          Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -1862,7 +1862,7 @@ package body Aida.XML_SAX_Parse_Tests is
                       Max_Indices : in out Max_Indices_T;
                       State       : in out State_T;
                       Current_Ids : in out Current_Ids_T;
-                      Value       : Aida.String_T;
+                      Value       : Standard.String;
                       Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -1871,8 +1871,8 @@ package body Aida.XML_SAX_Parse_Tests is
                            Max_Indices     : in out Max_Indices_T;
                            State           : in out State_T;
                            Current_Ids     : in out Current_Ids_T;
-                           Attribute_Name  : Aida.String_T;
-                           Attribute_Value : Aida.String_T;
+                           Attribute_Name  : Standard.String;
+                           Attribute_Value : Standard.String;
                            Call_Result     : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -1881,7 +1881,7 @@ package body Aida.XML_SAX_Parse_Tests is
                          Max_Indices : in out Max_Indices_T;
                          State       : in out State_T;
                          Current_Ids : in out Current_Ids_T;
-                         Value       : Aida.String_T;
+                         Value       : Standard.String;
                          Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
@@ -1890,13 +1890,13 @@ package body Aida.XML_SAX_Parse_Tests is
                        Max_Indices : in out Max_Indices_T;
                        State       : in out State_T;
                        Current_Ids : in out Current_Ids_T;
-                       Value       : Aida.String_T;
+                       Value       : Standard.String;
                        Call_Result : in out Aida.Subprogram_Call_Result.T) with
         Global => null,
         Pre    => not Call_Result.Has_Failed;
 
-      procedure Run_Test (XML                : Aida.String_T;
-                          Expected_Attribute : Aida.String_T) with
+      procedure Run_Test (XML                : Standard.String;
+                          Expected_Attribute : Standard.String) with
         Global => null,
         Pre    => XML'Length > 0 and XML'Last < Integer'Last - 4;
 
@@ -1909,7 +1909,7 @@ package body Aida.XML_SAX_Parse_Tests is
                            Max_Indices : in out Max_Indices_T;
                            State       : in out State_T;
                            Current_Ids : in out Current_Ids_T;
-                           Tag_Name    : Aida.String_T;
+                           Tag_Name    : Standard.String;
                            Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Result);
@@ -1943,7 +1943,7 @@ package body Aida.XML_SAX_Parse_Tests is
                          Max_Indices : in out Max_Indices_T;
                          State       : in out State_T;
                          Current_Ids : in out Current_Ids_T;
-                         Tag_Name    : Aida.String_T;
+                         Tag_Name    : Standard.String;
                          Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Result);
@@ -1969,7 +1969,7 @@ package body Aida.XML_SAX_Parse_Tests is
                       Max_Indices : in out Max_Indices_T;
                       State       : in out State_T;
                       Current_Ids : in out Current_Ids_T;
-                      Value       : Aida.String_T;
+                      Value       : Standard.String;
                       Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Max_Indices);
@@ -1999,8 +1999,8 @@ package body Aida.XML_SAX_Parse_Tests is
                            Max_Indices     : in out Max_Indices_T;
                            State           : in out State_T;
                            Current_Ids     : in out Current_Ids_T;
-                           Attribute_Name  : Aida.String_T;
-                           Attribute_Value : Aida.String_T;
+                           Attribute_Name  : Standard.String;
+                           Attribute_Value : Standard.String;
                            Call_Result     : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Max_Indices);
@@ -2032,7 +2032,7 @@ package body Aida.XML_SAX_Parse_Tests is
                          Max_Indices : in out Max_Indices_T;
                          State       : in out State_T;
                          Current_Ids : in out Current_Ids_T;
-                         Value       : Aida.String_T;
+                         Value       : Standard.String;
                          Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Result);
@@ -2048,7 +2048,7 @@ package body Aida.XML_SAX_Parse_Tests is
                        Max_Indices : in out Max_Indices_T;
                        State       : in out State_T;
                        Current_Ids : in out Current_Ids_T;
-                       Value       : Aida.String_T;
+                       Value       : Standard.String;
                        Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Result);
@@ -2060,8 +2060,8 @@ package body Aida.XML_SAX_Parse_Tests is
          Call_Result.Initialize (1245600917, -0131738197);
       end CDATA;
 
-      procedure Run_Test (XML                : Aida.String_T;
-                          Expected_Attribute : Aida.String_T) is
+      procedure Run_Test (XML                : Standard.String;
+                          Expected_Attribute : Standard.String) is
 
          procedure Parse_XML is new Aida.XML_SAX_Parse (Storage_T,
                                                         Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,

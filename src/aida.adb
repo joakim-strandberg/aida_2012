@@ -8,17 +8,17 @@ package body Aida is
 
    package body Character is
 
-      function Is_Digit (C : Character_T) return Boolean is
+      function Is_Digit (C : Standard.Character) return Boolean is
       begin
          return C in '0'..'9';
       end Is_Digit;
 
-      function To_Int32 (Source : in Character_T) return Int32_T is
+      function To_Int32 (Source : in Standard.Character) return Int32_T is
       begin
          return Standard.Character'Pos (Standard.Character (Source)) - Standard.Character'Pos ('0');
       end To_Int32;
 
-      procedure To_Int32 (Source : in     Character_T;
+      procedure To_Int32 (Source : in     Standard.Character;
                           Target :    out Int32_T) is
       begin
          Target := Standard.Character'Pos (Standard.Character (Source)) - Standard.Character'Pos ('0');
@@ -30,13 +30,13 @@ package body Aida is
 
       function Hash32 (This : Int32_T) return Hash32_T is (Aida.Int32.Hash32 (This));
 
-      function Hash32 (This : String_T) return Hash32_T is (Aida.String.Hash32 (This));
+      function Hash32 (This : Standard.String) return Hash32_T is (Aida.String.Hash32 (This));
 
    end Hash32;
 
    package body Int32 is
 
-      function To_Char (This : Int32_T) return Character_T is (
+      function To_Char (This : Int32_T) return Standard.Character is (
                                                                case This is
                                                                   when 0 => '0',
                                                                   when 1 => '1',
@@ -51,11 +51,11 @@ package body Aida is
                                                                   when others => '0'
                                                               );
 
-      function To_String (This : Int32_T) return String_T is
+      function To_String (This : Int32_T) return Standard.String is
 
          subtype Index_T is Int32_T range 1..16;
 
-         subtype Result_T is String_T (Index_T);
+         subtype Result_T is Standard.String (Index_T);
 
          procedure Make_Result (Temp   : in out Int32_T;
                                 Result : in out Result_T;
@@ -218,17 +218,17 @@ package body Aida is
 
    package body Float is
 
-      function To_String (This : Float_T) return String_T is
+      function To_String (This : Standard.Float) return Standard.String is
          pragma SPARK_Mode (Off);
       begin
-         return Float_T'Image (This);
+         return Standard.Float'Image (This);
       end To_String;
 
    end Float;
 
    package body String is
 
-      procedure To_Int32 (Source     : in  String_T;
+      procedure To_Int32 (Source     : in  Standard.String;
                           Target     : out Int32_T;
                           Has_Failed : out Boolean) is
       begin
@@ -544,7 +544,7 @@ package body Aida is
          end if;
       end To_Int32;
 
-      function To_Int32 (Source : String_T) return Int32_T is
+      function To_Int32 (Source : Standard.String) return Int32_T is
          Target : Int32_T;
       begin
          if Source (Source'First) = '-' then
@@ -752,20 +752,20 @@ package body Aida is
          return Target;
       end To_Int32;
 
-      procedure To_Float (Source     : in  String_T;
-                          Target     : out Float_T;
+      procedure To_Float (Source     : in  Standard.String;
+                          Target     : out Standard.Float;
                           Has_Failed : out Boolean)
       is
          pragma SPARK_Mode (Off);
       begin
-         Target := Float_T'Value (Source);
+         Target := Standard.Float'Value (Source);
          Has_Failed := False;
       exception
          when Constraint_Error =>
             Has_Failed := True;
       end To_Float;
 
-      function Is_Latin1_Graphic_Characters (Text : String_T) return Boolean is
+      function Is_Latin1_Graphic_Characters (Text : Standard.String) return Boolean is
          Result : Boolean := True;
       begin
          for I in Text'Range loop
@@ -778,8 +778,8 @@ package body Aida is
          return Result;
       end Is_Latin1_Graphic_Characters;
 
-      function Starts_With (This         : String_T;
-                            Searched_For : String_T) return Boolean
+      function Starts_With (This         : Standard.String;
+                            Searched_For : Standard.String) return Boolean
       is
          Result : Boolean;
       begin
@@ -792,7 +792,7 @@ package body Aida is
          return Result;
       end Starts_With;
 
-      function Hash32 (This : String_T) return Hash32_T is
+      function Hash32 (This : Standard.String) return Hash32_T is
          H : Hash32_T := 0;
          A : Hash32_T := 31_415;
          B : constant Hash32_T := 27_183;
@@ -806,8 +806,8 @@ package body Aida is
          return H;
       end Hash32;
 
-      function Concat (Left, Right : String_T) return String_T is
-         S : String_T (1..Left'Length + Right'Length) := (others => ' ');
+      function Concat (Left, Right : Standard.String) return Standard.String is
+         S : Standard.String (1..Left'Length + Right'Length) := (others => ' ');
       begin
          S (1..Left'Length) := Left (Left'First..Left'Last);
          S (1 + Left'Length..Left'Length + Right'Length) := Right (Right'First..Right'Last);

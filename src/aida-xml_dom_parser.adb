@@ -56,7 +56,7 @@ package body Aida.XML_DOM_Parser is
                         Max_Indices : in out Max_Indices_T;
                         State       : in out State_T;
                         Current_Ids : in out Current_Ids_T;
-                        Tag_Name    : Aida.String_T;
+                        Tag_Name    : Standard.String;
                         Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
      Pre    => not Call_Result.Has_Failed;
@@ -65,7 +65,7 @@ package body Aida.XML_DOM_Parser is
                       Max_Indices : in out Max_Indices_T;
                       State       : in out State_T;
                       Current_Ids : in out Current_Ids_T;
-                      Tag_Name    : Aida.String_T;
+                      Tag_Name    : Standard.String;
                       Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
      Pre    => not Call_Result.Has_Failed;
@@ -74,7 +74,7 @@ package body Aida.XML_DOM_Parser is
                    Max_Indices : in out Max_Indices_T;
                    State       : in out State_T;
                    Current_Ids : in out Current_Ids_T;
-                   Value       : Aida.String_T;
+                   Value       : Standard.String;
                    Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
      Pre    => not Call_Result.Has_Failed;
@@ -83,8 +83,8 @@ package body Aida.XML_DOM_Parser is
                         Max_Indices     : in out Max_Indices_T;
                         State           : in out State_T;
                         Current_Ids     : in out Current_Ids_T;
-                        Attribute_Name  : Aida.String_T;
-                        Attribute_Value : Aida.String_T;
+                        Attribute_Name  : Standard.String;
+                        Attribute_Value : Standard.String;
                         Call_Result     : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
      Pre    => not Call_Result.Has_Failed;
@@ -93,7 +93,7 @@ package body Aida.XML_DOM_Parser is
                       Max_Indices : in out Max_Indices_T;
                       State       : in out State_T;
                       Current_Ids : in out Current_Ids_T;
-                      Value       : Aida.String_T;
+                      Value       : Standard.String;
                       Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
      Pre    => not Call_Result.Has_Failed;
@@ -102,7 +102,7 @@ package body Aida.XML_DOM_Parser is
                     Max_Indices : in out Max_Indices_T;
                     State       : in out State_T;
                     Current_Ids : in out Current_Ids_T;
-                    Value       : Aida.String_T;
+                    Value       : Standard.String;
                     Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global => null,
      Pre    => not Call_Result.Has_Failed;
@@ -111,7 +111,7 @@ package body Aida.XML_DOM_Parser is
                         Max_Indices : in out Max_Indices_T;
                         State       : in out State_T;
                         Current_Ids : in out Current_Ids_T;
-                        Tag_Name    : Aida.String_T;
+                        Tag_Name    : Standard.String;
                         Call_Result : in out Aida.Subprogram_Call_Result.T) is
    begin
       case State is
@@ -206,7 +206,7 @@ package body Aida.XML_DOM_Parser is
                       Max_Indices : in out Max_Indices_T;
                       State       : in out State_T;
                       Current_Ids : in out Current_Ids_T;
-                      Tag_Name    : Aida.String_T;
+                      Tag_Name    : Standard.String;
                       Call_Result : in out Aida.Subprogram_Call_Result.T)
    is
       pragma Unmodified (This);
@@ -238,7 +238,7 @@ package body Aida.XML_DOM_Parser is
                    Max_Indices : in out Max_Indices_T;
                    State       : in out State_T;
                    Current_Ids : in out Current_Ids_T;
-                   Value       : Aida.String_T;
+                   Value       : Standard.String;
                    Call_Result : in out Aida.Subprogram_Call_Result.T)
    is
       pragma Unmodified (State);
@@ -246,7 +246,7 @@ package body Aida.XML_DOM_Parser is
       case State is
          when Expecting_Default =>
             if Value'Length = 0 or (Value'Length > 0 and then
-                                      (for all I in Value'Range => Value (I) = ' ' or Value (I) = Character_T'Val (12) or Value (I) = Character_T'Val (13)))
+                                      (for all I in Value'Range => Value (I) = ' ' or Value (I) = Standard.Character'Val (12) or Value (I) = Standard.Character'Val (13)))
             then
                null;
             elsif
@@ -299,8 +299,8 @@ package body Aida.XML_DOM_Parser is
                         Max_Indices     : in out Max_Indices_T;
                         State           : in out State_T;
                         Current_Ids     : in out Current_Ids_T;
-                        Attribute_Name  : Aida.String_T;
-                        Attribute_Value : Aida.String_T;
+                        Attribute_Name  : Standard.String;
+                        Attribute_Value : Standard.String;
                         Call_Result     : in out Aida.Subprogram_Call_Result.T)
    is
       pragma Unmodified (State);
@@ -372,7 +372,7 @@ package body Aida.XML_DOM_Parser is
                       Max_Indices : in out Max_Indices_T;
                       State       : in out State_T;
                       Current_Ids : in out Current_Ids_T;
-                      Value       : Aida.String_T;
+                      Value       : Standard.String;
                       Call_Result : in out Aida.Subprogram_Call_Result.T)
    is
       pragma Unmodified (State);
@@ -429,7 +429,7 @@ package body Aida.XML_DOM_Parser is
                     Max_Indices : in out Max_Indices_T;
                     State       : in out State_T;
                     Current_Ids : in out Current_Ids_T;
-                    Value       : Aida.String_T;
+                    Value       : Standard.String;
                     Call_Result : in out Aida.Subprogram_Call_Result.T)
    is
       pragma Unmodified (State);
@@ -494,7 +494,7 @@ package body Aida.XML_DOM_Parser is
                                                   CDATA     => CDATA);
 
    procedure Parse (This        : in out T;
-                    XML_Message : String_T;
+                    XML_Message : Standard.String;
                     Call_Result : in out Aida.Subprogram_Call_Result.T)
    is
       Max_Indices : Max_Indices_Def.T;

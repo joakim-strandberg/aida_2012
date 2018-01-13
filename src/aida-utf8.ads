@@ -57,31 +57,23 @@
 
 with Ada.Containers;
 with Aida.UTF8_Code_Point;
---  with Aida.Generic_Subprogram_Call_Result;
 
 use type Ada.Containers.Count_Type;
 
---  pragma Elaborate_All (Aida.Generic_Subprogram_Call_Result);
-
-package Aida.UTF8 with SPARK_Mode is
-
-   use all type Aida.Character_T;
-
-   --     package Subprogram_Call_Result is new Aida.Generic_Subprogram_Call_Result (1000);
-   --
-   --     use Subprogram_Call_Result;
+package Aida.UTF8 is
+   pragma SPARK_Mode;
 
    use all type Aida.UTF8_Code_Point.T;
 
-   function Is_Valid_UTF8_Code_Point (Source      : String_T;
+   function Is_Valid_UTF8_Code_Point (Source      : Standard.String;
                                       Pointer     : Int32_T) return Boolean is ((Source'First <= Pointer and Pointer <= Source'Last) and then
-                                                                                  (if (Character_T'Pos (Source (Pointer)) in 0..16#7F#) then Pointer < Int32_T'Last
-                                                                                   else (Pointer < Source'Last and then (if Character_T'Pos (Source (Pointer)) in 16#C2#..16#DF# and Character_T'Pos (Source (Pointer + 1)) in 16#80#..16#BF# then Pointer < Int32_T'Last - 1
-                                                                                                                         else (Pointer < Source'Last - 1 and then (if (Character_T'Pos (Source (Pointer)) = 16#E0# and Character_T'Pos (Source (Pointer + 1)) in 16#A0#..16#BF# and Character_T'Pos (Source (Pointer + 2)) in 16#80#..16#BF#) then Pointer < Int32_T'Last - 2
-                                                                                                                                                                   elsif (Character_T'Pos (Source (Pointer)) in 16#E1#..16#EF# and Character_T'Pos (Source (Pointer + 1)) in 16#80#..16#BF# and Character_T'Pos (Source (Pointer + 2)) in 16#80#..16#BF#) then Pointer < Int32_T'Last - 2
-                                                                                                                                                                   else (Pointer < Source'Last - 2 and then (if (Character_T'Pos (Source (Pointer)) = 16#F0# and Character_T'Pos (Source (Pointer + 1)) in 16#90#..16#BF# and Character_T'Pos (Source (Pointer + 2)) in 16#80#..16#BF# and Character_T'Pos (Source (Pointer + 3)) in 16#80#..16#BF#) then Pointer < Int32_T'Last - 3
-                                                                                                                                                                                                             elsif (Character_T'Pos (Source (Pointer)) in 16#F1#..16#F3# and Character_T'Pos (Source (Pointer + 1)) in 16#80#..16#BF# and Character_T'Pos (Source (Pointer + 2)) in 16#80#..16#BF# and Character_T'Pos (Source (Pointer + 3)) in 16#80#..16#BF#) then Pointer < Int32_T'Last - 3
-                                                                                                                                                                                                             elsif (Character_T'Pos (Source (Pointer)) = 16#F4# and Character_T'Pos (Source (Pointer + 1)) in 16#80#..16#8F# and Character_T'Pos (Source (Pointer + 2)) in 16#80#..16#BF# and Character_T'Pos (Source (Pointer + 3)) in 16#80#..16#BF#) then Pointer < Int32_T'Last - 3 else False))))))));
+                                                                                  (if (Standard.Character'Pos (Source (Pointer)) in 0..16#7F#) then Pointer < Int32_T'Last
+                                                                                   else (Pointer < Source'Last and then (if Standard.Character'Pos (Source (Pointer)) in 16#C2#..16#DF# and Standard.Character'Pos (Source (Pointer + 1)) in 16#80#..16#BF# then Pointer < Int32_T'Last - 1
+                                                                                                                         else (Pointer < Source'Last - 1 and then (if (Standard.Character'Pos (Source (Pointer)) = 16#E0# and Standard.Character'Pos (Source (Pointer + 1)) in 16#A0#..16#BF# and Standard.Character'Pos (Source (Pointer + 2)) in 16#80#..16#BF#) then Pointer < Int32_T'Last - 2
+                                                                                                                                                                   elsif (Standard.Character'Pos (Source (Pointer)) in 16#E1#..16#EF# and Standard.Character'Pos (Source (Pointer + 1)) in 16#80#..16#BF# and Standard.Character'Pos (Source (Pointer + 2)) in 16#80#..16#BF#) then Pointer < Int32_T'Last - 2
+                                                                                                                                                                   else (Pointer < Source'Last - 2 and then (if (Standard.Character'Pos (Source (Pointer)) = 16#F0# and Standard.Character'Pos (Source (Pointer + 1)) in 16#90#..16#BF# and Standard.Character'Pos (Source (Pointer + 2)) in 16#80#..16#BF# and Standard.Character'Pos (Source (Pointer + 3)) in 16#80#..16#BF#) then Pointer < Int32_T'Last - 3
+                                                                                                                                                                                                             elsif (Standard.Character'Pos (Source (Pointer)) in 16#F1#..16#F3# and Standard.Character'Pos (Source (Pointer + 1)) in 16#80#..16#BF# and Standard.Character'Pos (Source (Pointer + 2)) in 16#80#..16#BF# and Standard.Character'Pos (Source (Pointer + 3)) in 16#80#..16#BF#) then Pointer < Int32_T'Last - 3
+                                                                                                                                                                                                             elsif (Standard.Character'Pos (Source (Pointer)) = 16#F4# and Standard.Character'Pos (Source (Pointer + 1)) in 16#80#..16#8F# and Standard.Character'Pos (Source (Pointer + 2)) in 16#80#..16#BF# and Standard.Character'Pos (Source (Pointer + 3)) in 16#80#..16#BF#) then Pointer < Int32_T'Last - 3 else False))))))));
 
    --
    -- Get -- Get one UTF-8 code point
@@ -95,18 +87,18 @@ package Aida.UTF8 with SPARK_Mode is
    -- advanced to the first character following the input.  The  result  is
    -- returned through the parameter Value.
    --
-   procedure Get (Source      : String_T;
+   procedure Get (Source      : Standard.String;
                   Pointer     : in out Int32_T;
                   Value       : out Aida.UTF8_Code_Point.T) with
      Global => null,
      Pre    => Is_Valid_UTF8_Code_Point (Source, Pointer),
-     Post   => Pointer <= Pointer'Old + 4 and (if (Character_T'Pos (Source (Pointer'Old)) in 0..16#7F#) then Character_T'Pos (Source (Pointer'Old)) = Value and Pointer = Pointer'Old + 1
-                    elsif (Pointer'Old < Source'Last and then (Character_T'Pos (Source (Pointer'Old)) in 16#C2#..16#DF# and Character_T'Pos (Source (Pointer'Old + 1)) in 16#80#..16#BF#)) then Pointer = Pointer'Old + 2
-                  elsif (Pointer'Old < Source'Last - 1 and then ((Character_T'Pos (Source (Pointer'Old)) = 16#E0# and Character_T'Pos (Source (Pointer'Old + 1)) in 16#A0#..16#BF# and Character_T'Pos (Source (Pointer'Old + 2)) in 16#80#..16#BF#) or
-                        (Character_T'Pos (Source (Pointer'Old)) in 16#E1#..16#EF# and Character_T'Pos (Source (Pointer'Old + 1)) in 16#80#..16#BF# and Character_T'Pos (Source (Pointer'Old + 2)) in 16#80#..16#BF#))) then Pointer = Pointer'Old + 3
-                    elsif (Pointer < Source'Last - 2 and then ((Character_T'Pos (Source (Pointer'Old)) = 16#F0# and Character_T'Pos (Source (Pointer'Old + 1)) in 16#90#..16#BF# and Character_T'Pos (Source (Pointer'Old + 2)) in 16#80#..16#BF# and Character_T'Pos (Source (Pointer'Old + 3)) in 16#80#..16#BF#) or
-                      (Character_T'Pos (Source (Pointer'Old)) in 16#F1#..16#F3# and Character_T'Pos (Source (Pointer'Old + 1)) in 16#80#..16#BF# and Character_T'Pos (Source (Pointer'Old + 2)) in 16#80#..16#BF# and Character_T'Pos (Source (Pointer'Old + 3)) in 16#80#..16#BF#) or
-                      (Character_T'Pos (Source (Pointer'Old)) = 16#F4# and Character_T'Pos (Source (Pointer'Old + 1)) in 16#80#..16#8F# and Character_T'Pos (Source (Pointer'Old + 2)) in 16#80#..16#BF# and Character_T'Pos (Source (Pointer'Old + 3)) in 16#80#..16#BF#))) then Pointer = Pointer'Old + 4
+     Post   => Pointer <= Pointer'Old + 4 and (if (Standard.Character'Pos (Source (Pointer'Old)) in 0..16#7F#) then Standard.Character'Pos (Source (Pointer'Old)) = Value and Pointer = Pointer'Old + 1
+                    elsif (Pointer'Old < Source'Last and then (Standard.Character'Pos (Source (Pointer'Old)) in 16#C2#..16#DF# and Standard.Character'Pos (Source (Pointer'Old + 1)) in 16#80#..16#BF#)) then Pointer = Pointer'Old + 2
+                  elsif (Pointer'Old < Source'Last - 1 and then ((Standard.Character'Pos (Source (Pointer'Old)) = 16#E0# and Standard.Character'Pos (Source (Pointer'Old + 1)) in 16#A0#..16#BF# and Standard.Character'Pos (Source (Pointer'Old + 2)) in 16#80#..16#BF#) or
+                        (Standard.Character'Pos (Source (Pointer'Old)) in 16#E1#..16#EF# and Standard.Character'Pos (Source (Pointer'Old + 1)) in 16#80#..16#BF# and Standard.Character'Pos (Source (Pointer'Old + 2)) in 16#80#..16#BF#))) then Pointer = Pointer'Old + 3
+                    elsif (Pointer < Source'Last - 2 and then ((Standard.Character'Pos (Source (Pointer'Old)) = 16#F0# and Standard.Character'Pos (Source (Pointer'Old + 1)) in 16#90#..16#BF# and Standard.Character'Pos (Source (Pointer'Old + 2)) in 16#80#..16#BF# and Standard.Character'Pos (Source (Pointer'Old + 3)) in 16#80#..16#BF#) or
+                      (Standard.Character'Pos (Source (Pointer'Old)) in 16#F1#..16#F3# and Standard.Character'Pos (Source (Pointer'Old + 1)) in 16#80#..16#BF# and Standard.Character'Pos (Source (Pointer'Old + 2)) in 16#80#..16#BF# and Standard.Character'Pos (Source (Pointer'Old + 3)) in 16#80#..16#BF#) or
+                      (Standard.Character'Pos (Source (Pointer'Old)) = 16#F4# and Standard.Character'Pos (Source (Pointer'Old + 1)) in 16#80#..16#8F# and Standard.Character'Pos (Source (Pointer'Old + 2)) in 16#80#..16#BF# and Standard.Character'Pos (Source (Pointer'Old + 3)) in 16#80#..16#BF#))) then Pointer = Pointer'Old + 4
                );
 
    --function Is_Valid_UTF8 (Source : String) return Boolean;
@@ -120,7 +112,7 @@ package Aida.UTF8 with SPARK_Mode is
    --
    --    The number of UTF-8 encoded code points in Source
    --
-   function Length (Source : String_T) return Nat32_T with
+   function Length (Source : Standard.String) return Nat32_T with
      Global => null,
      Post   => Length'Result <= Source'Length or ((for all I in Source'Range => (Aida.Character.Is_One_Byte_UTF8 (Source (I)))) and then (Length'Result = Source'Length));
 
@@ -135,7 +127,7 @@ package Aida.UTF8 with SPARK_Mode is
    -- starting from the position Source (Pointer). Pointer is then advanced
    -- to the first character following the output.
    --
-   procedure Put (Destination : in out String_T;
+   procedure Put (Destination : in out Standard.String;
                   Pointer     : in out Int32_T;
                   Value       : Aida.UTF8_Code_Point.T) with
      Global => null,
@@ -145,10 +137,10 @@ package Aida.UTF8 with SPARK_Mode is
                                                                                               else Pointer < Int32_T'Last - 3 and then (Pointer + 1 in Destination'Range and Pointer + 2 in Destination'Range and Pointer + 3 in Destination'Range)),
      Post   => Pointer /= Pointer'Old and (Pointer in Destination'Range or Pointer = Destination'Last + 1);
 
-   function To_Lowercase (Value : String_T) return String_T with
+   function To_Lowercase (Value : Standard.String) return Standard.String with
      Global => null;
 
-   function To_Uppercase (Value : String_T) return String_T with
+   function To_Uppercase (Value : Standard.String) return Standard.String with
      Global => null;
 
 end Aida.UTF8;

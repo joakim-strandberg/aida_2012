@@ -7,17 +7,11 @@ package Aida with Pure is
 
    subtype Nat32_T is Int32_T range 0 .. Int32_T'Last;
 
-   subtype Character_T is Standard.Character;
-
-   subtype String_T is Standard.String;
-
    type Hash32_T is mod 2**32;
-
-   subtype Float_T is Standard.Float;
 
    package Character is
 
-      function Is_Digit (C : Character_T) return Boolean with
+      function Is_Digit (C : Standard.Character) return Boolean with
         Contract_Cases => (C = '0' => Is_Digit'Result,
                            C = '1' => Is_Digit'Result,
                            C = '2' => Is_Digit'Result,
@@ -31,7 +25,7 @@ package Aida with Pure is
                            C > '9' => Is_Digit'Result = False,
                            C < '0' => Is_Digit'Result = False);
 
-      function To_Int32 (Source : in Character_T) return Int32_T with
+      function To_Int32 (Source : in Standard.Character) return Int32_T with
         Pre  => Is_Digit (Source),
         Post => To_Int32'Result in 0..9,
         Contract_Cases => (Source = '0' => To_Int32'Result = 0,
@@ -45,7 +39,7 @@ package Aida with Pure is
                            Source = '8' => To_Int32'Result = 8,
                            Source = '9' => To_Int32'Result = 9);
 
-      procedure To_Int32 (Source : in     Character_T;
+      procedure To_Int32 (Source : in     Standard.Character;
                           Target :    out Int32_T) with
         Pre  => Is_Digit (Source),
         Post => Target in 0 .. 9 and Target = To_Int32 (Source),
@@ -60,7 +54,7 @@ package Aida with Pure is
                            Source = '8' => Target = 8,
                            Source = '9' => Target = 9);
 
-      function Is_One_Byte_UTF8 (C : Character_T) return Boolean is (Standard.Character'Pos (Standard.Character (C)) <= 127);
+      function Is_One_Byte_UTF8 (C : Standard.Character) return Boolean is (Standard.Character'Pos (Standard.Character (C)) <= 127);
       -- A UTF8 code point can be represented by 1-4 characters. The first 128 characters (US-ASCII) need only one byte.
 
    end Character;
@@ -70,20 +64,20 @@ package Aida with Pure is
       function Hash32 (This : Int32_T) return Hash32_T with
         Global => null;
 
-      function Hash32 (This : String_T) return Hash32_T with
+      function Hash32 (This : Standard.String) return Hash32_T with
         Global => null;
 
    end Hash32;
 
    package Int32 is
 
-      function To_String (This : Int32_T) return String_T with
+      function To_String (This : Int32_T) return Standard.String with
         Global => null,
         Post   => (if This < 0 then
                      To_String'Result'Length >= 2 and To_String'Result'Length <= 11 else
                        To_String'Result'Length >= 1 and To_String'Result'Length <= 10);
 
-      function To_Char (This : Int32_T) return Character_T with
+      function To_Char (This : Int32_T) return Standard.Character with
         Global => null,
         Pre    => This >= 0 and This <= 9;
 
@@ -118,7 +112,7 @@ package Aida with Pure is
 
    package Float is
 
-      function To_String (This : Float_T) return String_T with
+      function To_String (This : Standard.Float) return Standard.String with
         Global => null,
         Post   => To_String'Result'Length >= 1 and To_String'Result'Length <= 11;
 
@@ -126,11 +120,11 @@ package Aida with Pure is
 
    package String is
 
-      function I (Source : String_T;
+      function I (Source : Standard.String;
                   Index  : Nat32_T) return Int32_T is (Aida.Character.To_Int32 (Source (Source'First + Index))) with
       Pre   => Index < Source'Length and then Source'First + Index <= Source'Last and then Aida.Character.Is_Digit (Source (Source'First + Index));
 
-      procedure To_Int32 (Source     : in  String_T;
+      procedure To_Int32 (Source     : in  Standard.String;
                           Target     : out Int32_T;
                           Has_Failed : out Boolean) with
         Global         => null,
@@ -363,7 +357,7 @@ package Aida with Pure is
                                                             Has_Failed),
                            Source'Length >= 12 => Has_Failed);
 
-      function To_Int32 (Source : String_T) return Int32_T with
+      function To_Int32 (Source : Standard.String) return Int32_T with
         Global => null,
         Pre => ((Source'Length >= 1 and Source'Length <= 11) and then (
                     if Source'Length = 1 then
@@ -655,23 +649,23 @@ package Aida with Pure is
                                                            elsif (Source(Source'First + 1) < '2') then
                                                          (To_Int32'Result = -1_000_000_000*I (Source, 1) - 100_000_000*I (Source, 2) - 10_000_000*I (Source, 3) - 1_000_000*I (Source, 4) - 100_000*I (Source, 5) - 10_000*I (Source, 6) - 1_000*I (Source, 7) - 100*I (Source, 8) - 10*I (Source, 9) - I (Source, 10)))));
 
-      procedure To_Float (Source     : in  String_T;
-                          Target     : out Float_T;
+      procedure To_Float (Source     : in  Standard.String;
+                          Target     : out Standard.Float;
                           Has_Failed : out Boolean) with
         Global => null;
 
-      function Is_Latin1_Graphic_Characters (Text : String_T) return Boolean with
+      function Is_Latin1_Graphic_Characters (Text : Standard.String) return Boolean with
         Global => null;
 
-      function Starts_With (This         : String_T;
-                            Searched_For : String_T) return Boolean with
+      function Starts_With (This         : Standard.String;
+                            Searched_For : Standard.String) return Boolean with
         Global => null,
         Pre    => Searched_For'Length > 0;
 
-      function Hash32 (This : String_T) return Hash32_T with
+      function Hash32 (This : Standard.String) return Hash32_T with
         Global => null;
 
-      function Concat (Left, Right : String_T) return String_T with
+      function Concat (Left, Right : Standard.String) return Standard.String with
         Global => null,
         Pre    => Left'Length < Pos32_T'Last/2 and Right'Length < Pos32_T'Last/2,
         Post   => Concat'Result'Length = Left'Length + Right'Length;
