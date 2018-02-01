@@ -7,27 +7,26 @@ The goal of the Aida library is to lower the cost of mission-critical and securi
 applications by providing common functionality implemented in formally verified software.
 
 The Aida library consists of (mostly) formally verified SPARK and conforms to the Ada 2012 standard.
-It has successfully been compiled using GNAT GPL 2016 on both Ubuntu 16.04 and Windows 10.
+It has successfully been compiled using GNAT Community Edition 2016 and 2017 on both Ubuntu 16.04 and Windows 10.
 
 Design goals:
 
  - Minimize external dependencies. If you have an Ada 2012 compiler you are good to go.
  - Use SPARK whenever possible.
+ - The standard Integer type must at least be 32-bits, which is true for both the 32- and 64-bit versions of the GNAT compiler.
+ - Make the Aida library suitable for both 32- and 64-bit desktop applications and 32-bit embedded systems.
 
-The Aida library provides for example basic types (integers, strings,...) for use in projects.
+The Aida library provides for example conversion routines for basic types.
 Consider:
 ```
 with Aida.Text_IO;
 
 procedure Main is
-   use all type Aida.Int32_T;
-   use all type Aida.String_T;
+   User_Input : constant String := "123";
 
-   User_Input : constant Aida.String_T := "123";
+   I : constant Aida.Int32_T := Aida.String.To_Int32 (User_Input);
 
-   I : constant Aida.Int32_T := To_Int32 (User_Input);
-
-   Result : constant Aida.String_T := To_String (I);
+   Result : constant String := Aida.Int32.To_String (I);
 begin
    Aida.Text_IO.Put_Line ("User entered: ", Result);
 end Main;
@@ -36,73 +35,59 @@ The output of the application is:
 ```
 User entered: 123
 ```
-If one would like to formally verify the above code using the SPARK tools (GNAT GPL 2016)
-one would need to adjust the source code:
+If one would like to formally verify the above code using the SPARK tools (SPARK Discovery 2017)
+one would need to add the SPARK_Mode aspect to the Main procedure:
 ```
 with Aida.Text_IO;
 
 procedure Main with SPARK_Mode is
-   use all type Aida.Int32_T;
-   use all type Aida.String_T;
-   use all type Aida.Character_T;
+   
+   User_Input : constant String := "123";
 
-   function Get_User_Input return Aida.String_T with
-     Post => Get_User_Input'Result'Length = 3 and (for all I in Get_User_Input'Result'Range =>
-                                                     Is_Digit (Aida.Character_T (Get_User_Input'Result (I))));
-   
-   function Get_User_Input return Aida.String_T is (1 => '1',
-                                                    2 => '2',
-                                                    3 => '3');
-   
-   User_Input : constant Aida.String_T := Get_User_Input;
-   
-   I : constant Aida.Int32_T := To_Int32 (User_Input);
+   I : constant Aida.Int32_T := Aida.String.To_Int32 (User_Input);
 
-   Result : constant Aida.String_T := To_String (I);
+   Result : constant String := Aida.Int32.To_String (I);
 begin
    Aida.Text_IO.Put_Line ("User entered: ", Result);
 end Main;
 ```
-The adjustments to the code is to allow the SPARK tools to verify that the
-preconditions of the To_Int32 (..) function are satisfied i.e.
-it is not enough to know that the User_Input variable is of type Aida.String_T, the SPARK tools
-need to verify that all characters are indeed integers and the length of User_Input is within acceptable range.
-
 The traditional way of converting an integer to a string is to use the Integer'Image (..)
 function and to use the Integer'Value (..) function to convert in the other direction.
 These functions lack the pre- and post-conditions that the SPARK tools need
-for static code analysis. The functions To_String (..) and
-To_Int32 (..) in the Aida library have all the pre- and post-conditions needed.
+for static code analysis. The functions Aida.Int32.To_String (..) and
+Aida.String.To_Int32 (..) in the Aida library have all the pre- and post-conditions needed.
 
-Important! When using the basic types, use the types defined in the Aida package.
-Do not use the types starting with Zzz_ defined in the Aida_Z package nor its child packages.
-These types in Aida_Z are defined in order to define the types in the Aida package.
-The reason these "auxiliary" types have been defined
-is to avoid using "limited with" to be able to formally verify the software using
-the SPARK tools.
-
-Tip! If one is curious about the subprograms available by using "use all type"
-for the type Aida.Int32_T, take a look at the subprograms defined in
-the package Aida_Z.Int32, but as explained above, do not use the type Aida_Z.Int32.T type directly.
+Pure SPARK packages:
 
 | Package                                 | Description                                                            |
 |-----------------------------------------|------------------------------------------------------------------------|
-| Aida                                    | Contains the definitions of the basic types.                           |
-| Aida.Bounded_String                     | Bounded string implementation in pure SPARK                            |
-| Aida.Containers.Bounded_Hash_Map        | Bounded hash map implementation in pure SPARK                          |
-| Aida.Containers.Bounded_Vector          | Bounded vector implementation in pure SPARK                            |
-| Aida.Containers.Integer_To_String_Map   | Integer to String map in pure SPARK (no usage of bounded strings)      |
+| Aida                                    | Contains conversion subprograms for Standard value types.              |
+| Aida.Bounded_String                     | Bounded string implementation                                          |
+| Aida.Containers.Bounded_Hash_Map        | Bounded hash map implementation                                        |
+| Aida.Containers.Bounded_Vector          | Bounded vector implementation                                          |
+| Aida.Containers.Tagged_Bounded_Vector   | Bounded vector implementation                                          |
+| Aida.Containers.Integer_To_String_Map   | Integer to String map (no usage of Aida.Bounded_String)                |
+| Aida.Utf8                               | Subprograms providing UTF8 support implementation                      |
+| Aida.Utf8_Code_Point                    | UTF8 code point definition and subprograms implemented in pure SPARK   |
+| Aida.XML_SAX_Parse                      | Suitable for XML SAX parsing in pure SPARK                             |
+| Aida.XML_DOM_Parser                     | XML DOM parser in pure SPARK                                           |
+| Aida.JSON_SAX_Parse                     | Suitable for JSON SAX parsing in pure SPARK                            |
+| Aida.JSON_DOM_Parser                    | JSON DOM parser in pure SPARK                                          |
+
+Wrapper packages for use in SPARK analysable code:
+
+| Package                                 | Description                                                            |
+|-----------------------------------------|------------------------------------------------------------------------|
 | Aida.Directories                        | Think Ada.Directories but suitable for SPARK analysable code           |
 | Aida.Sequential_Stream_IO               | Think Ada.Sequential_IO but suitable for SPARK analysable code         |
 | Aida.Text_IO                            | Think Ada.Text_IO but suitable for SPARK analysable code               |
-| Aida.Utf8                               | Subprograms providing UTF8 support implementation in pure SPARK        |
-| Aida.Utf8_Code_Point                    | UTF8 code point definition and subprograms implemented in pure SPARK   |
-| Aida_Z                                  | Do not use this package directly, nor any of its child packages        |
-| Aida_Z.Character                        | Do not use this package directly, use the type Aida.Character_T        |
-| Aida_Z.String                           | Do not use this package directly, use the type Aida.String_T           |
-| Aida_Z.Int32                            | Do not use this package directly, use the type Aida.Int32_T            |
-| Aida_Z.Hash32                           | Do not use this package directly, use the type Aida.Hash32_T           |
-| Aida_Z.Float                            | Do not use this package directly, use the type Aida.Float_T            |
+
+Full Ada 2012 packages:
+
+| Package                                 | Description                                                              |
+|-----------------------------------------|--------------------------------------------------------------------------|
+| Aida.Deepend_XML_SAX_Parse              | Suitable for XML SAX parsing. Uses Brad Moore's Deepend for convenience. |
+| Aida.Deepend_XML_DOM_Parser             | XML DOM parser. Uses Brad Moore's Deepend for convenience.               |
 
 Installation using the GNAT compiler
 ------------------------------------
@@ -131,9 +116,11 @@ Description of the directory structure
  |    |
  |    |-- windows (windows specific source code)
  |
- |-- aida.gpr (with this file in your project to use the Aida library)
+ |-- aida.gpr (with this file in your project to use the Aida library for developing SPARK applications)
  |
- |-- aida_basic_types.gpr (with this file in your project to only use the basic types Aida.Int32_T, Aida.String_T, Aida.Float_T,...)
+ |-- deepend.gpr (contains Brad Moore's Deepend)
+ |
+ |-- aida_deepend.gpr (contains the parts of the Aida library that depends upon Brad Moore's Deepend i.e. XML DOM Parser)
  |
  |-- ahven.gpr (with this file in your project to use the ahven test framework by Tero Koskinen)
  |

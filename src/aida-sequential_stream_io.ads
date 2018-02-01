@@ -4,6 +4,8 @@ with Aida.Directories;
 
 package Aida.Sequential_Stream_IO with SPARK_Mode is
 
+   subtype Stream_Element is Ada.Streams.Stream_Element;
+
    function Calculate_Hash32 (Filename : Standard.String) return Aida.Hash32_T with
      Global => null,
      Pre    => Aida.Directories.Exists (Filename);
