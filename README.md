@@ -39,7 +39,6 @@ one would need to add the SPARK_Mode aspect to the Main procedure:
 with Aida.Text_IO;
 
 procedure Main with SPARK_Mode is
-   
    User_Input : constant String := "123";
 
    I : constant Aida.Int32_T := Aida.String.To_Int32 (User_Input);
