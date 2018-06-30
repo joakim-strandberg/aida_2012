@@ -13,8 +13,6 @@ Design goals:
 
  - Minimize external dependencies. If you have an Ada 2012 compiler you are good to go.
  - Use SPARK whenever possible.
- - The standard Integer type must at least be 32-bits, which is true for both the 32- and 64-bit versions of the GNAT compiler.
- - Make the Aida library suitable for both 32- and 64-bit desktop applications and 32-bit embedded systems.
 
 The Aida library provides for example conversion routines for basic types.
 Consider:
@@ -41,7 +39,6 @@ one would need to add the SPARK_Mode aspect to the Main procedure:
 with Aida.Text_IO;
 
 procedure Main with SPARK_Mode is
-   
    User_Input : constant String := "123";
 
    I : constant Aida.Int32_T := Aida.String.To_Int32 (User_Input);
@@ -68,19 +65,19 @@ Pure SPARK packages:
 | Aida.Containers.Tagged_Bounded_Vector   | Bounded vector implementation                                          |
 | Aida.Containers.Integer_To_String_Map   | Integer to String map (no usage of Aida.Bounded_String)                |
 | Aida.Utf8                               | Subprograms providing UTF8 support implementation                      |
-| Aida.Utf8_Code_Point                    | UTF8 code point definition and subprograms implemented in pure SPARK   |
-| Aida.XML_SAX_Parse                      | Suitable for XML SAX parsing in pure SPARK                             |
+| Aida.Utf8_Code_Point                    | UTF8 code point definition and subprograms                             |
+| Aida.XML_SAX_Parse                      | Suitable for XML SAX parsing                                           |
 | Aida.XML_DOM_Parser                     | XML DOM parser in pure SPARK                                           |
-| Aida.JSON_SAX_Parse                     | Suitable for JSON SAX parsing in pure SPARK                            |
-| Aida.JSON_DOM_Parser                    | JSON DOM parser in pure SPARK                                          |
+| Aida.JSON_SAX_Parse                     | Suitable for JSON SAX parsing                                          |
+| Aida.JSON_DOM_Parser                    | JSON DOM parser                                                        |
 
 Wrapper packages for use in SPARK analysable code:
 
 | Package                                 | Description                                                            |
 |-----------------------------------------|------------------------------------------------------------------------|
-| Aida.Directories                        | Think Ada.Directories but suitable for SPARK analysable code           |
-| Aida.Sequential_Stream_IO               | Think Ada.Sequential_IO but suitable for SPARK analysable code         |
-| Aida.Text_IO                            | Think Ada.Text_IO but suitable for SPARK analysable code               |
+| Aida.Directories                        | Think Ada.Directories but suitable for SPARK analysis                  |
+| Aida.Sequential_Stream_IO               | Think Ada.Sequential_IO but suitable for SPARK analysis                |
+| Aida.Text_IO                            | Think Ada.Text_IO but suitable for SPARK analysis                      |
 
 Full Ada 2012 packages:
 
