@@ -11,7 +11,6 @@ package body Aida.Bounded_String_Tests is
       Ahven.Framework.Add_Test_Routine (T, Test_Initialization'Access, "Test_Initialization");
    end Initialize;
 
-
    procedure Test_Initialization (T : in out Ahven.Framework.Test_Case'Class) with
      SPARK_Mode => On
    is

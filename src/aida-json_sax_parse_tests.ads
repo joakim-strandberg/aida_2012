@@ -6,6 +6,7 @@ pragma Elaborate_All (Aida.Json_Parsing_Tests_Model);
 pragma Elaborate_All (Aida.Tagged_Bounded_Vector);
 
 package Aida.JSON_SAX_Parse_Tests with SPARK_Mode is
+   pragma Elaborate_Body;
 
    type Test is new Ahven.Framework.Test_Case with null record;
 

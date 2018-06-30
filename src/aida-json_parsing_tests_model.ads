@@ -20,7 +20,9 @@ package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
 
    package Max_Indices_Def is
 
-      type T is tagged limited private;
+      type T is tagged limited private with
+        Default_Initial_Condition =>
+          Person_Id_Max (T) = 0 and Hand_Id_Max (T) = 0 and Vehicle_Id_Max (T) = 0;
 
       function Person_Id_Max (This : T) return Extended_Person_Id_T;
 

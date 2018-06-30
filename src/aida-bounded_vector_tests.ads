@@ -1,11 +1,13 @@
 with Ahven.Framework;
 
 package Aida.Bounded_Vector_Tests with SPARK_Mode is
+   pragma Elaborate_Body;
 
    type Test is new Ahven.Framework.Test_Case with null record;
 
    overriding
-   procedure Initialize (T : in out Test);
+   procedure Initialize (T : in out Test) with
+     SPARK_Mode => Off;
 
 private
 

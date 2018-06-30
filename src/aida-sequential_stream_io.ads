@@ -14,6 +14,14 @@ package Aida.Sequential_Stream_IO with SPARK_Mode is
 
    type File_Mode is (In_File, Out_File, Append_File);
 
+   procedure Create (File : in out File_Type;
+                     Mode : File_Mode := Out_File;
+                     Name : Standard.String;
+                     Form : Standard.String := "") with
+     Global => null,
+     Pre    => not Is_Open (File),
+     Post   => Is_Open (File);
+
    procedure Open (File : in out File_Type;
                    Mode : File_Mode;
                    Name : Standard.String) with

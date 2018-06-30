@@ -2,6 +2,7 @@ with Ahven.Framework;
 
 package Aida.XML_DOM_Parser_Tests is
    pragma SPARK_Mode (On);
+   pragma Elaborate_Body;
 
    type Test is new Ahven.Framework.Test_Case with null record;
 

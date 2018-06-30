@@ -15,13 +15,13 @@ package body Aida is
 
       function To_Int32 (Source : in Standard.Character) return Int32_T is
       begin
-         return Standard.Character'Pos (Standard.Character (Source)) - Standard.Character'Pos ('0');
+         return Standard.Character'Pos (Source) - Standard.Character'Pos ('0');
       end To_Int32;
 
       procedure To_Int32 (Source : in     Standard.Character;
                           Target :    out Int32_T) is
       begin
-         Target := Standard.Character'Pos (Standard.Character (Source)) - Standard.Character'Pos ('0');
+         Target := Standard.Character'Pos (Source) - Standard.Character'Pos ('0');
       end To_Int32;
 
    end Character;
@@ -37,19 +37,18 @@ package body Aida is
    package body Int32 is
 
       function To_Char (This : Int32_T) return Standard.Character is (
-                                                               case This is
-                                                                  when 0 => '0',
-                                                                  when 1 => '1',
-                                                                  when 2 => '2',
-                                                                  when 3 => '3',
-                                                                  when 4 => '4',
-                                                                  when 5 => '5',
-                                                                  when 6 => '6',
-                                                                  when 7 => '7',
-                                                                  when 8 => '8',
-                                                                  when 9 => '9',
-                                                                  when others => '0'
-                                                              );
+                                                                      case This is
+                                                                         when Int32_T'First..0 => '0',
+                                                                         when 1 => '1',
+                                                                         when 2 => '2',
+                                                                         when 3 => '3',
+                                                                         when 4 => '4',
+                                                                         when 5 => '5',
+                                                                         when 6 => '6',
+                                                                         when 7 => '7',
+                                                                         when 8 => '8',
+                                                                         when 9..Int32_T'Last => '9'
+                                                                     );
 
       function To_String (This : Int32_T) return Standard.String is
 

@@ -4,6 +4,8 @@ package body Aida.Bounded_Hash_Map is
 
    use all type Collision_Vector.T;
 
+   function Default_Node return Node_T is (Key => Default_Key, Element => Default_Element);
+
    -- It is possible for a more detailed analysis by the SPARK tools
    -- if the usage of Aida.Bounded_Vector was dropped and
    -- a custom implementation would be used. It would then be possible

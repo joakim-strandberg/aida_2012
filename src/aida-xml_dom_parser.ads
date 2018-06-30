@@ -28,7 +28,9 @@ package Aida.XML_DOM_Parser is
 
    package Max_Indices_Def is
 
-      type T is tagged limited private;
+      type T is tagged limited private with
+        Default_Initial_Condition =>
+          Node_Id_Max (T) = 0 and Attribute_Id_Max (T) = 0;
 
       function Node_Id_Max (This : T) return Extended_Node_Id_T with
         Global => null;
@@ -195,10 +197,6 @@ private
 
    function Has_Next_Attribute (This : Attribute_T) return Boolean is (This.My_Next_Attribute > Extended_Attribute_Id_T'First);
 
-   function Default_Attribute return Attribute_T is ((My_Name_Key       => Int_To_String_Map.Key_T'First,
-                                                      My_Value_Key      => Int_To_String_Map.Key_T'First,
-                                                      My_Next_Attribute => Extended_Attribute_Id_T'First));
-
    type Inner_Node_T (My_Id : Node_Kind_Id_T := Node_Kind_Id_T'First) is record
       My_Next_Node : Extended_Node_Id_T := Extended_Node_Id_T'First;
       case My_Id is
@@ -240,12 +238,6 @@ private
    function Next_Node (This : Node_T) return Node_Id_T is (This.Inner.My_Next_Node);
 
    function Has_Next_Node (This : Node_T) return Boolean is (This.Inner.My_Next_Node > Extended_Node_Id_T'First);
-
-   function Default_Node return Node_T is ((Inner => (My_Id                 => XML_Tag,
-                                                      My_JSON_Key           => Int_To_String_Map.Key_T'First,
-                                                      My_First_Child_Node   => Extended_Node_Id_T'First,
-                                                      My_First_Attribute_Id => Extended_Attribute_Id_T'First,
-                                                      My_Next_Node          => Extended_Node_Id_T'First)));
 
    type T is new Public_Part_Def.Public_Part_T with record
       Max_Indices : Max_Indices_Def.T;

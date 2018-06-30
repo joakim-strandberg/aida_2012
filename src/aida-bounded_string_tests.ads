@@ -1,6 +1,7 @@
 with Ahven.Framework;
 
 package Aida.Bounded_String_Tests with SPARK_Mode is
+   pragma Elaborate_Body;
 
    type Test is new Ahven.Framework.Test_Case with null record;
 

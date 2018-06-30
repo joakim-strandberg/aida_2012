@@ -52,6 +52,18 @@ package body Aida.XML_DOM_Parser is
 
    end Max_Indices_Def;
 
+   function Default_Node return Node_T is
+     ((Inner => (My_Id                 => XML_Tag,
+                 My_JSON_Key           => Int_To_String_Map.Key_T'First,
+                 My_First_Child_Node   => Extended_Node_Id_T'First,
+                 My_First_Attribute_Id => Extended_Attribute_Id_T'First,
+                 My_Next_Node          => Extended_Node_Id_T'First)));
+
+   function Default_Attribute return Attribute_T is
+     ((My_Name_Key       => Int_To_String_Map.Key_T'First,
+       My_Value_Key      => Int_To_String_Map.Key_T'First,
+       My_Next_Attribute => Extended_Attribute_Id_T'First));
+
    procedure Start_Tag (This        : in out Public_Part_Def.Public_Part_T;
                         Max_Indices : in out Max_Indices_T;
                         State       : in out State_T;

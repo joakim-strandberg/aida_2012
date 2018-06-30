@@ -122,13 +122,4 @@ private
          Last_Index  : Extended_Index_T := Extended_Index_T'First;
       end record;
 
-   function Last_Index (This : T) return Extended_Index_T is (This.Last_Index);
-
-   function Is_Empty (This : T) return Boolean is (This.Last_Index = Extended_Index_T'First);
-
-   function Is_Full (This : T) return Boolean is (This.Last_Index = Extended_Index_T'Last);
-
-   function "=" (L, R : T) return Boolean is (Last_Index (L) = Last_Index (R) and then
-                                                (for all I in Index_T range Index_T'First..Last_Index (L) => L.Items (I) = R.Items (I)));
-
 end Aida.Bounded_Vector;

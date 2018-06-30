@@ -55,9 +55,10 @@ is
 
    type Tag_Id_Index_T is new Aida.Pos32_T range 1..MAX_DEPTH;
 
-   package Tag_Id_Vector is new Aida.Tagged_Bounded_Vector (Max_Last_Index  => Int32_T'First + MAX_DEPTH,
-                                                            Element_T       => Tag_Id_T,
-                                                            Default_Element => Default_Tag_Id);
+   package Tag_Id_Vector is new Aida.Tagged_Bounded_Vector
+     (Max_Last_Index  => Int32_T'First + MAX_DEPTH,
+      Element_T       => Tag_Id_T,
+      Default_Element => Default_Tag_Id);
 
 
    Tag_Ids : Tag_Id_Vector.T;

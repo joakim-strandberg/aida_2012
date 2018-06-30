@@ -6,7 +6,10 @@ package body Aida.Tests is
    begin
       Set_Name (T, "Aida.Conversion package tests");
 
-      Ahven.Framework.Add_Test_Routine (T, SHOULD_Successfully_Convert_String_0_To_Integer'Access, "SHOULD_Successfully_Convert_String_0_To_Integer");
+      Ahven.Framework.Add_Test_Routine
+        (T,
+         SHOULD_Successfully_Convert_String_0_To_Integer'Access,
+         "SHOULD_Successfully_Convert_String_0_To_Integer");
       Ahven.Framework.Add_Test_Routine (T, SHOULD_Successfully_Convert_String_100_To_Integer'Access, "SHOULD_Successfully_Convert_String_100_To_Integer");
       Ahven.Framework.Add_Test_Routine (T, SHOULD_Successfully_Convert_String_2147483647_To_Integer'Access, "SHOULD_Successfully_Convert_String_2147483647_To_Integer");
       Ahven.Framework.Add_Test_Routine (T, SHOULD_Successfully_Convert_String_2147483648_To_Integer'Access, "SHOULD_Successfully_Convert_String_2147483648_To_Integer");
@@ -25,7 +28,8 @@ package body Aida.Tests is
 
    use Aida.Int32;
 
-   procedure SHOULD_Successfully_Convert_Int32_Minus_2147483647_To_String (T : in out Ahven.Framework.Test_Case'Class) is
+   procedure SHOULD_Successfully_Convert_Int32_Minus_2147483647_To_String
+     (T : in out Ahven.Framework.Test_Case'Class) is
       pragma Unreferenced (T);
 
       I : constant Aida.Int32_T := -2147483647;

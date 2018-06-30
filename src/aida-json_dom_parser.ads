@@ -148,36 +148,11 @@ private
       My_Next       : Extended_Array_Id_T := Extended_Array_Id_T'First;
    end record;
 
-   function Next (This : Array_Component_T) return Array_Index_T is (Array_Index_T (This.My_Next));
-
-   function Has_Next (This : Array_Component_T) return Boolean is (This.My_Next /= Extended_Array_Id_T'First);
-
-   function JSON_Value (This : Array_Component_T) return JSON_Value_T is (This.My_JSON_Value);
-
-   function Default_Array_Component return Array_Component_T is (
-                                                                 My_JSON_Value => (Id => JSON_Text, Key => Int_To_String_Map.Key_T'First),
-                                                                 My_Next       => Extended_Array_Id_T'First
-                                                                );
-
    type Node_T is tagged limited record
       My_JSON_Key   : Int_To_String_Map.Key_T := Int_To_String_Map.Key_T'First;
       My_JSON_Value : JSON_Value_T := (Id => JSON_No_Value);
       My_Next_Node  : Extended_Node_Id_T := Extended_Node_Id_T'First;
    end record;
-
-   function Default_Node return Node_T is (
-                                           My_JSON_Key   => Int_To_String_Map.Key_T'First,
-                                           My_JSON_Value => (Id => JSON_No_Value),
-                                           My_Next_Node  => Extended_Node_Id_T'First
-                                          );
-
-   function JSON_Key (This : Node_T) return Int_To_String_Map.Key_T is (This.My_JSON_Key);
-
-   function JSON_Value (This : Node_T) return JSON_Value_T is (This.My_JSON_Value);
-
-   function Next_Node (This : Node_T) return Extended_Node_Id_T is (This.My_Next_Node);
-
-   function Has_Next_Node (This : Node_T) return Boolean is (This.My_Next_Node /= Extended_Node_Id_T'First);
 
    type T is new Public_Part_Def.Public_Part_T with record
       Max_Indices : Max_Indices_Def.T;

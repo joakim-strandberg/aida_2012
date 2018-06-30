@@ -54,7 +54,7 @@ package Aida with Pure is
                            Source = '8' => Target = 8,
                            Source = '9' => Target = 9);
 
-      function Is_One_Byte_UTF8 (C : Standard.Character) return Boolean is (Standard.Character'Pos (Standard.Character (C)) <= 127);
+      function Is_One_Byte_UTF8 (C : Standard.Character) return Boolean is (Standard.Character'Pos (C) <= 127);
       -- A UTF8 code point can be represented by 1-4 characters. The first 128 characters (US-ASCII) need only one byte.
 
    end Character;

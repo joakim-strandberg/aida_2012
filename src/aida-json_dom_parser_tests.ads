@@ -3,6 +3,7 @@ with Ahven.Framework;
 --  with Aida.Bounded_Vector;
 
 package Aida.JSON_DOM_Parser_Tests with SPARK_Mode is
+   pragma Elaborate_Body;
 
    type Test is new Ahven.Framework.Test_Case with null record;
 

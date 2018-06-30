@@ -29,6 +29,27 @@ package body Aida.Sequential_Stream_IO is
       return H;
    end Calculate_Hash32;
 
+   procedure Create (File : in out File_Type;
+                     Mode : File_Mode := Out_File;
+                     Name : Standard.String;
+                     Form : Standard.String := "") is
+   begin
+      case Mode is
+         when In_File  => File_IO.Create (File => File.File,
+                                          Mode => File_IO.In_File,
+                                          Name => Name,
+                                          Form => Form);
+         when Out_File  => File_IO.Create (File => File.File,
+                                           Mode => File_IO.Out_File,
+                                           Name => Name,
+                                           Form => Form);
+         when Append_File => File_IO.Create (File => File.File,
+                                             Mode => File_IO.Append_File,
+                                             Name => Name,
+                                             Form => Form);
+      end case;
+   end Create;
+
    procedure Open (File : in out File_Type;
                    Mode : File_Mode;
                    Name : Standard.String) is

@@ -2,8 +2,6 @@ with Aida.Bounded_Vector;
 
 package body Aida.Bounded_Vector_Tests is
 
-   use all type Aida.String_T;
-
 --   type Bounded_String_20_T is new Aida.Bounded_String.T (20);
 
    --   use all type Bounded_String_20_T;
@@ -24,11 +22,12 @@ package body Aida.Bounded_Vector_Tests is
       function Default_Int return Integer is (0);
       pragma Annotate (GNATprove, Terminating, Default_Int);
 
-      package Vector is new Aida.Bounded_Vector (Index_T         => Positive,
-                                                 Element_T       => Integer,
-                                                 Default_Element => Default_Int);
+      package Vector is new Aida.Bounded_Vector
+        (Max_Last_Index  => 10,
+         Element_T       => Integer,
+         Default_Element => Default_Int);
 
-      V : Vector.T (10);
+      V : Vector.T;
 
       pragma Unreferenced (V);
 

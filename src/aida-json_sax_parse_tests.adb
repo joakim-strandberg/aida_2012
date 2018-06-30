@@ -336,20 +336,21 @@ package body Aida.JSON_SAX_Parse_Tests is
 
       procedure Run_Test (JSON : Standard.String) is
 
-         procedure Parse_XML is new Aida.JSON_SAX_Parse (Storage_T,
-                                                         Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
-                                                         Unused_State_T,
-                                                         Current_Ids_T,
-                                                         Test_Person_With_Name_Adam_Utils.Root_Start_Tag,
-                                                         Test_Person_With_Name_Adam_Utils.Root_End_Tag,
-                                                         Test_Person_With_Name_Adam_Utils.Key_Name,
-                                                         Test_Person_With_Name_Adam_Utils.Value_String,
-                                                         Unused_Value_Integer,
-                                                         Unused_Real_Value,
-                                                         Unused_Boolean_Value,
-                                                         Unused_Null_Value,
-                                                         Unused_Array_Start,
-                                                         Unused_Array_End);
+         procedure Parse_XML is new Aida.JSON_SAX_Parse
+           (Storage_T,
+            Aida.Json_Parsing_Tests_Model.Max_Indices_Def.T,
+            Unused_State_T,
+            Current_Ids_T,
+            Test_Person_With_Name_Adam_Utils.Root_Start_Tag,
+            Test_Person_With_Name_Adam_Utils.Root_End_Tag,
+            Test_Person_With_Name_Adam_Utils.Key_Name,
+            Test_Person_With_Name_Adam_Utils.Value_String,
+            Unused_Value_Integer,
+            Unused_Real_Value,
+            Unused_Boolean_Value,
+            Unused_Null_Value,
+            Unused_Array_Start,
+            Unused_Array_End);
 
          Call_Result : Aida.Subprogram_Call_Result.T;
 

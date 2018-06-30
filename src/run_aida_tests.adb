@@ -49,7 +49,6 @@ begin
 --                              Source => Exe_Dir_Temp);
 --     end;
 
---   Ahven.Framework.Add_Static_Test (S, Std_Integer_Test);
    Ahven.Framework.Add_Static_Test (S, Bounded_String_Test);
    Ahven.Framework.Add_Static_Test (S, Bounded_Hash_Map_Test);
    Ahven.Framework.Add_Static_Test (S, Converstion_Test);

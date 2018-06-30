@@ -32,7 +32,8 @@ package Aida.Bounded_String is
 
 --     type T (Maximum_Length : Pos32_T) is limited private with
 --       Default_Initial_Condition => Length (T) = 0;
-   type T (Maximum_Length : Pos32_T) is limited private;
+   type T (Maximum_Length : Pos32_T) is limited private with
+     Default_Initial_Condition => Length (T) = 0;
 
    procedure Initialize (This : in out T;
                          Text : Standard.String) with

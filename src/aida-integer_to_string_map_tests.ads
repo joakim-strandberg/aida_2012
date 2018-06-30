@@ -1,6 +1,7 @@
 with Ahven.Framework;
 
 package Aida.Integer_To_String_Map_Tests with SPARK_Mode is
+   pragma Elaborate_Body;
 
    type Test is new Ahven.Framework.Test_Case with null record;
 
