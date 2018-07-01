@@ -15,7 +15,7 @@ procedure Aida.JSON_SAX_Parse (Arg1        : in out Arg1_T;
                                Call_Result : in out Subprogram_Call_Result.T)
 is
    use all type Standard.String;
-   use all type Aida.Int32_T;
+   use all type Aida.Int32;
    use all type Aida.UTF8_Code_Point.T;
 
    type State_Id_Type is (
@@ -44,7 +44,7 @@ is
                           Found_Nul
                          );
 
-   type Tag_Id_T is new Aida.Int32_T;
+   type Tag_Id_T is new Aida.Int32;
 
    MAX_DEPTH : constant := 50;
 
@@ -53,10 +53,10 @@ is
 
    function Default_Tag_Id return Tag_Id_T is (0);
 
-   type Tag_Id_Index_T is new Aida.Pos32_T range 1..MAX_DEPTH;
+   type Tag_Id_Index_T is new Aida.Pos32 range 1..MAX_DEPTH;
 
    package Tag_Id_Vector is new Aida.Tagged_Bounded_Vector
-     (Max_Last_Index  => Int32_T'First + MAX_DEPTH,
+     (Max_Last_Index  => Int32'First + MAX_DEPTH,
       Element_T       => Tag_Id_T,
       Default_Element => Default_Tag_Id);
 
@@ -73,11 +73,11 @@ begin
       Call_Result.Initialize (-1522500631, -1361354891);
    else
       declare
-         subtype P_T           is Int32_T range Contents'First..Contents'Last + 4;
-         subtype Prev_P_T      is Int32_T range Contents'First..Contents'Last;
-         subtype Prev_Prev_P_T is Int32_T range Contents'First..Contents'Last;
+         subtype P_T           is Int32 range Contents'First..Contents'Last + 4;
+         subtype Prev_P_T      is Int32 range Contents'First..Contents'Last;
+         subtype Prev_Prev_P_T is Int32 range Contents'First..Contents'Last;
 
-         subtype Contents_Index_T is Int32_T range Contents'First..Contents'Last;
+         subtype Contents_Index_T is Int32 range Contents'First..Contents'Last;
 
          P           : P_T := Contents'First;
          Prev_P      : Prev_P_T := P;

@@ -6,9 +6,9 @@ package body Aida.Bounded_String is
    procedure Initialize (This : in out T;
                          Text : Standard.String) is
    begin
-      for I in Int32_T range 1..Text'Length loop
+      for I in Int32 range 1..Text'Length loop
          This.Text (I) := Text (Text'First - 1 + I);
-         pragma Loop_Invariant (for all J in Int32_T range 1..I => This.Text (J) = Text (Text'First - 1 + J));
+         pragma Loop_Invariant (for all J in Int32 range 1..I => This.Text (J) = Text (Text'First - 1 + J));
          pragma Loop_Variant (Increases => I);
       end loop;
 
@@ -20,9 +20,9 @@ package body Aida.Bounded_String is
    is
    begin
       This.Text := (others => ' ');
-      for I in Int32_T range 1..Text'Length loop
+      for I in Int32 range 1..Text'Length loop
          This.Text (I) := Text (Text'First - 1 + I);
-         pragma Loop_Invariant (for all J in Int32_T range 1..I => This.Text (J) = Text (Text'First - 1 + J));
+         pragma Loop_Invariant (for all J in Int32 range 1..I => This.Text (J) = Text (Text'First - 1 + J));
          pragma Loop_Variant (Increases => I);
       end loop;
 
@@ -32,7 +32,7 @@ package body Aida.Bounded_String is
    procedure Append (Target : in out T;
                      Source : Standard.String) is
    begin
-      for I in Int32_T range Source'First..Source'Last loop
+      for I in Int32 range Source'First..Source'Last loop
          Target.Text (Target.Text_Length + 1 + (I - Source'First)) := Source (I);
       end loop;
       Target.Text_Length := Target.Text_Length + Source'Length;
@@ -40,7 +40,7 @@ package body Aida.Bounded_String is
 
    function Hash32 (This : T) return Aida.Hash32_T is
    begin
-      return Aida.String.Hash32 (This.Text (1..Length (This)));
+      return Aida.Hash32 (This.Text (1..Length (This)));
    end Hash32;
 
    function Equals (This   : T;

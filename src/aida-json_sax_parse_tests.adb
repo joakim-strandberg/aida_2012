@@ -511,17 +511,17 @@ package body Aida.JSON_SAX_Parse_Tests is
          pragma Unreferenced (Max_Indices);
          pragma Unreferenced (State);
 
-         V : Aida.Int32_T;
+         V : Aida.Int32;
          Has_Failed : Boolean;
       begin
-         Aida.String.To_Int32 (Value, V, Has_Failed);
+         Aida.To_Int32 (Value, V, Has_Failed);
 
          if Has_Failed then
             Call_Result.Initialize (-2115808473, 0706780051);
          else
             if
               Person_Id_Vector.Is_Empty (Current_Ids.Person_Ids) or
-              V not in Aida.Int32_T (Json_Parsing_Tests_Model.Person_Def.Age_T'First)..Aida.Int32_T (Json_Parsing_Tests_Model.Person_Def.Age_T'Last)
+              V not in Aida.Int32 (Json_Parsing_Tests_Model.Person_Def.Age_T'First)..Aida.Int32 (Json_Parsing_Tests_Model.Person_Def.Age_T'Last)
             then
                Call_Result.Initialize (0846449148, -1192649274);
             else
@@ -747,17 +747,17 @@ package body Aida.JSON_SAX_Parse_Tests is
       is
          pragma Unreferenced (Max_Indices);
          pragma Unreferenced (State);
-         V : Aida.Int32_T;
+         V : Aida.Int32;
          Has_Failed : Boolean;
       begin
-         Aida.String.To_Int32 (Value, V, Has_Failed);
+         Aida.To_Int32 (Value, V, Has_Failed);
 
          if Has_Failed then
             Call_Result.Initialize (1220688762, 1735324821);
          else
             if
               Person_Id_Vector.Is_Empty (Current_Ids.Person_Ids) or
-              V not in Aida.Int32_T (Json_Parsing_Tests_Model.Person_Def.Age_T'First)..Aida.Int32_T (Json_Parsing_Tests_Model.Person_Def.Age_T'Last)
+              V not in Aida.Int32 (Json_Parsing_Tests_Model.Person_Def.Age_T'First)..Aida.Int32 (Json_Parsing_Tests_Model.Person_Def.Age_T'Last)
             then
                Call_Result.Initialize (2126631415, 1712278471);
             else
@@ -1057,10 +1057,10 @@ package body Aida.JSON_SAX_Parse_Tests is
                                Call_Result : in out Aida.Subprogram_Call_Result.T)
       is
          pragma Unreferenced (Max_Indices);
-         V : Aida.Int32_T;
+         V : Aida.Int32;
          Has_Failed : Boolean;
       begin
-         Aida.String.To_Int32 (Value, V, Has_Failed);
+         Aida.To_Int32 (Value, V, Has_Failed);
 
          if Has_Failed then
             Call_Result.Initialize (0437172259, 0138260948);
@@ -1068,7 +1068,7 @@ package body Aida.JSON_SAX_Parse_Tests is
             if State = Expecting_Fingers_Value then
                if
                  Hand_Id_Vector.Is_Empty (Current_Ids.Hand_Ids) or
-                 V not in Aida.Int32_T (Json_Parsing_Tests_Model.Hand_Def.Number_Of_Fingers_T'First)..Aida.Int32_T (Json_Parsing_Tests_Model.Hand_Def.Number_Of_Fingers_T'Last)
+                 V not in Aida.Int32 (Json_Parsing_Tests_Model.Hand_Def.Number_Of_Fingers_T'First)..Aida.Int32 (Json_Parsing_Tests_Model.Hand_Def.Number_Of_Fingers_T'Last)
                then
                   Call_Result.Initialize (1043954405, 0619872171);
                else
@@ -1462,10 +1462,10 @@ package body Aida.JSON_SAX_Parse_Tests is
       is
          pragma Unreferenced (Max_Indices);
 
-         V : Aida.Int32_T;
+         V : Aida.Int32;
          Has_Failed : Boolean;
       begin
-         Aida.String.To_Int32 (Value, V, Has_Failed);
+         Aida.To_Int32 (Value, V, Has_Failed);
 
          if Has_Failed then
             Call_Result.Initialize (1492457862, 0015598968);
@@ -1474,7 +1474,7 @@ package body Aida.JSON_SAX_Parse_Tests is
             if State = Expecting_Wheels_Integer then
                if
                  Current_Ids.Vehicle_Ids.Is_Empty or
-                 V not in Aida.Int32_T (Json_Parsing_Tests_Model.Vehicle_Def.Wheels_T'First)..Aida.Int32_T (Json_Parsing_Tests_Model.Vehicle_Def.Wheels_T'Last)
+                 V not in Aida.Int32 (Json_Parsing_Tests_Model.Vehicle_Def.Wheels_T'First)..Aida.Int32 (Json_Parsing_Tests_Model.Vehicle_Def.Wheels_T'Last)
                then
                   Call_Result.Initialize (1062490083, -1931193623);
                else
@@ -1872,7 +1872,7 @@ package body Aida.JSON_SAX_Parse_Tests is
                   V : Standard.Float;
                   Has_Failed : Boolean;
                begin
-                  Aida.String.To_Float (Value, V, Has_Failed);
+                  Aida.To_Float (Value, V, Has_Failed);
 
                   if Has_Failed then
                      Call_Result.Initialize (1713066840, 1748338706);

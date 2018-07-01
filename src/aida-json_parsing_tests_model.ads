@@ -108,13 +108,13 @@ package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
 
       function Default_Hand_Id return Hand_Id_T is (5);
 
-      package Hand_Vector is new Aida.Tagged_Bounded_Vector (Max_Last_Index  => Aida.Int32_T'First + HANDS_MAX,
+      package Hand_Vector is new Aida.Tagged_Bounded_Vector (Max_Last_Index  => Aida.Int32'First + HANDS_MAX,
                                                              Element_T       => Hand_Id_T,
                                                              Default_Element => Default_Hand_Id);
 
       function Default_Vehicle_Id return Vehicle_Id_T is (1);
 
-      package Vehicle_Vector is new Aida.Tagged_Bounded_Vector (Max_Last_Index  => Aida.Int32_T'First + VEHICLES_MAX,
+      package Vehicle_Vector is new Aida.Tagged_Bounded_Vector (Max_Last_Index  => Aida.Int32'First + VEHICLES_MAX,
                                                                 Element_T       => Vehicle_Id_T,
                                                                 Default_Element => Default_Vehicle_Id);
 

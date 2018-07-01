@@ -6,27 +6,29 @@ pragma Elaborate_All (Aida.Integer_To_String_Map);
 pragma Elaborate_All (Aida.Bounded_Vector);
 
 generic
-   Max_Chars        : Pos32_T;
-   Max_Strings      : Pos32_T;
-   Max_Nodes        : Pos32_T;
-   Max_Array_Values : Pos32_T;
+   Max_Chars        : Pos32;
+   Max_Strings      : Pos32;
+   Max_Nodes        : Pos32;
+   Max_Array_Values : Pos32;
 package Aida.JSON_DOM_Parser is
 
    package Int_To_String_Map is new Aida.Integer_To_String_Map (Max_Chars   => Max_Chars,
                                                                 Max_Strings => Max_Strings,
                                                                 Value_T     => Standard.String);
 
-   type Node_Index_T is new Int32_T range 1..Max_Nodes;
+   type Node_Index_T is new Int32 range 1..Max_Nodes;
 
    subtype Extended_Node_Id_T is Node_Index_T'Base range 0..Node_Index_T'Last;
 
-   type Array_Index_T is new Int32_T range 1..Max_Array_Values;
+   type Array_Index_T is new Int32 range 1..Max_Array_Values;
 
    subtype Extended_Array_Id_T is Array_Index_T'Base range 0..Array_Index_T'Last;
 
    package Max_Indices_Def is
 
-      type T is tagged limited private;
+      type T is tagged limited private with
+        Default_Initial_Condition =>
+          Node_Id_Max (T) = 0 and Array_Id_Max (T) = 0;
 
       function Node_Id_Max (This : T) return Extended_Node_Id_T with
         Global => null;
@@ -139,7 +141,7 @@ package Aida.JSON_DOM_Parser is
                     JSON_Message : Standard.String;
                     Call_Result  : in out Aida.Subprogram_Call_Result.T) with
      Global    => null,
-     Pre'Class => not Call_Result.Has_Failed and JSON_Message'Last < Int32_T'Last - 4;
+     Pre'Class => not Call_Result.Has_Failed and JSON_Message'Last < Int32'Last - 4;
 
 private
 
@@ -175,7 +177,7 @@ private
 
    MAX_IDS : constant := 10;
 
-   package Node_Id_Vector is new Aida.Bounded_Vector (Max_Last_Index  => Int32_T'First + MAX_IDS,
+   package Node_Id_Vector is new Aida.Bounded_Vector (Max_Last_Index  => Int32'First + MAX_IDS,
                                                       Element_T       => Inside_Construct,
                                                       Default_Element => Default_Inside_Construct);
 

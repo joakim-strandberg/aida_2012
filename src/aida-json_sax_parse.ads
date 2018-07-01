@@ -25,7 +25,7 @@ use all type Ada.Containers.Count_Type;
 -- reasons Dynamic dispatch has been avoided by using a generic procedure for
 -- the JSON parsing.
 --
--- Note that whenever an Int32_T or Real number is encountered
+-- Note that whenever an Int32 or Real number is encountered
 -- it is passed as an instance of Standard.String to the procedures
 -- Integer_Value and Real_Value. This leaves the actual parsing of these values
 -- to the implementer. This is because unbounded Integers and Reals are part
@@ -98,4 +98,4 @@ procedure Aida.JSON_SAX_Parse (Arg1        : in out Arg1_T;
                                Contents    : Standard.String;
                                Call_Result : in out Subprogram_Call_Result.T) with
   Global => null,
-  Pre    => not Call_Result.Has_Failed and Contents'Last < Int32_T'Last - 4;
+  Pre    => not Call_Result.Has_Failed and Contents'Last < Int32'Last - 4;

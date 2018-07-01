@@ -5,8 +5,8 @@ package Aida.Subprogram_Call_Result with SPARK_Mode is
    type T is tagged limited private with Default_Initial_Condition => T.Has_Failed = False;
 
    procedure Initialize (This   : in out T;
-                         Code_1 : Int32_T;
-                         Code_2 : Int32_T) with
+                         Code_1 : Int32;
+                         Code_2 : Int32) with
      Global     => null,
      Pre'Class  => not Has_Failed (This),
      Post'Class => This.Has_Failed = True;
@@ -21,8 +21,8 @@ private
 
    type T is tagged limited
       record
-         My_Code_1 : Int32_T := 0;
-         My_Code_2 : Int32_T := 0;
+         My_Code_1 : Int32 := 0;
+         My_Code_2 : Int32 := 0;
          My_Has_Failed : Boolean := False;
       end record;
 

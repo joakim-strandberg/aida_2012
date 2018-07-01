@@ -2,27 +2,27 @@
 --
 -- 32-bit vector implementation designed to be able to hold around 4 billion number of items.
 --
--- For the Max_Last_Index parameter write Aida.Int32_T + (max size of the vector).
+-- For the Max_Last_Index parameter write Aida.Int32 + (max size of the vector).
 -- Example of a vector of integers with a maximum of 10 elements:
 --
---     function Get return Aida.Int32_T is (0);
+--     function Get return Aida.Int32 is (0);
 --     pragma Annotate (GNATprove, Terminating, Get);
 --
---     package BV is new Aida.Bounded_Vector2 (Max_Last_Index  => Aida.Int32_T'First + 10,
---                                             Element_T       => Aida.Int32_T,
+--     package BV is new Aida.Bounded_Vector2 (Max_Last_Index  => Aida.Int32'First + 10,
+--                                             Element_T       => Aida.Int32,
 --                                             Default_Element => Get);
 --
 generic
-   Max_Last_Index : Int32_T;
+   Max_Last_Index : Int32;
    type Element_T is private;
    with function Default_Element return Element_T;
 package Aida.Tagged_Bounded_Vector is
 
-   pragma Assert (Max_Last_Index > Int32_T'First);
+   pragma Assert (Max_Last_Index > Int32'First);
 
-   subtype Extended_Index_T is Int32_T range Int32_T'First..Max_Last_Index;
+   subtype Extended_Index_T is Int32 range Int32'First..Max_Last_Index;
 
-   subtype Index_T is Extended_Index_T range Int32_T'First + 1..Extended_Index_T'Last;
+   subtype Index_T is Extended_Index_T range Int32'First + 1..Extended_Index_T'Last;
 
    type Elements_Array_T is array (Index_T range <>) of aliased Element_T;
 
@@ -30,7 +30,7 @@ package Aida.Tagged_Bounded_Vector is
      Default_Initial_Condition => Is_Empty (T);
    -- The vector type is limited to avoid unnecessary copies
 
-   function Max_Index (This : T) return Int32_T with
+   function Max_Index (This : T) return Int32 with
      Global => null,
      Post'Class   => Max_Index'Result = Max_Last_Index;
    pragma Annotate (GNATprove, Terminating, Max_Index);

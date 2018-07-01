@@ -32,15 +32,15 @@ private
 
    MAX_IDS : constant := 10;
 
-   package Person_Id_Vector is new Aida.Tagged_Bounded_Vector (Max_Last_Index  => Int32_T'First + MAX_IDS,
+   package Person_Id_Vector is new Aida.Tagged_Bounded_Vector (Max_Last_Index  => Int32'First + MAX_IDS,
                                                                Element_T       => Json_Parsing_Tests_Model.Person_Id_T,
                                                                Default_Element => Default_Person_Id);
 
-   package Hand_Id_Vector is new Aida.Tagged_Bounded_Vector (Max_Last_Index  => Int32_T'First + MAX_IDS,
+   package Hand_Id_Vector is new Aida.Tagged_Bounded_Vector (Max_Last_Index  => Int32'First + MAX_IDS,
                                                              Element_T       => Json_Parsing_Tests_Model.Hand_Id_T,
                                                              Default_Element => Json_Parsing_Tests_Model.Person_Def.Default_Hand_Id);
 
-   package Vehicle_Id_Vector is new Aida.Tagged_Bounded_Vector (Max_Last_Index  => Int32_T'First + MAX_IDS,
+   package Vehicle_Id_Vector is new Aida.Tagged_Bounded_Vector (Max_Last_Index  => Int32'First + MAX_IDS,
                                                                 Element_T       => Json_Parsing_Tests_Model.Vehicle_Id_T,
                                                                 Default_Element => Json_Parsing_Tests_Model.Person_Def.Default_Vehicle_Id);
 

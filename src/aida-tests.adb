@@ -26,13 +26,11 @@ package body Aida.Tests is
       Ahven.Framework.Add_Test_Routine (T, SHOULD_Successfully_Convert_Int32_Minus_2147483647_To_String'Access, "SHOULD_Successfully_Convert_Int32_Minus_2147483647_To_String");
    end Initialize;
 
-   use Aida.Int32;
-
    procedure SHOULD_Successfully_Convert_Int32_Minus_2147483647_To_String
      (T : in out Ahven.Framework.Test_Case'Class) is
       pragma Unreferenced (T);
 
-      I : constant Aida.Int32_T := -2147483647;
+      I : constant Aida.Int32 := -2147483647;
 
       Result : constant Standard.String := To_String (I);
    begin
@@ -42,7 +40,7 @@ package body Aida.Tests is
    procedure SHOULD_Successfully_Convert_Int32_Minus_100_To_String (T : in out Ahven.Framework.Test_Case'Class) is
       pragma Unreferenced (T);
 
-      I : constant Aida.Int32_T := -100;
+      I : constant Aida.Int32 := -100;
 
       Result : constant Standard.String := To_String (I);
    begin
@@ -52,7 +50,7 @@ package body Aida.Tests is
    procedure SHOULD_Successfully_Convert_Int32_Minus_1_To_String (T : in out Ahven.Framework.Test_Case'Class) is
       pragma Unreferenced (T);
 
-      I : constant Aida.Int32_T := -1;
+      I : constant Aida.Int32 := -1;
 
       Result : constant Standard.String := To_String (I);
    begin
@@ -62,7 +60,7 @@ package body Aida.Tests is
    procedure SHOULD_Successfully_Convert_Int32_2147483647_To_String (T : in out Ahven.Framework.Test_Case'Class) is
       pragma Unreferenced (T);
 
-      I : constant Aida.Int32_T := 2147483647;
+      I : constant Aida.Int32 := 2147483647;
 
       Result : constant Standard.String := To_String (I);
    begin
@@ -72,7 +70,7 @@ package body Aida.Tests is
    procedure SHOULD_Successfully_Convert_Int32_100_To_String (T : in out Ahven.Framework.Test_Case'Class) is
       pragma Unreferenced (T);
 
-      I : constant Aida.Int32_T := 100;
+      I : constant Aida.Int32 := 100;
 
       Result : constant Standard.String := To_String (I);
    begin
@@ -82,7 +80,7 @@ package body Aida.Tests is
    procedure SHOULD_Successfully_Convert_Int32_7_To_String (T : in out Ahven.Framework.Test_Case'Class) is
       pragma Unreferenced (T);
 
-      I : constant Aida.Int32_T := 7;
+      I : constant Aida.Int32 := 7;
 
       Result : constant Standard.String := To_String (I);
    begin
@@ -92,7 +90,7 @@ package body Aida.Tests is
    procedure SHOULD_Successfully_Convert_Int32_0_To_String (T : in out Ahven.Framework.Test_Case'Class) is
       pragma Unreferenced (T);
 
-      I : constant Aida.Int32_T := 0;
+      I : constant Aida.Int32 := 0;
 
       Result : constant Standard.String := To_String (I);
    begin
@@ -103,12 +101,12 @@ package body Aida.Tests is
       pragma Unreferenced (T);
 
       Text       : constant Standard.String := "0";
-      Target     : Aida.Int32_T;
+      Target     : Aida.Int32;
       Has_Failed : Boolean;
    begin
-      Aida.String.To_Int32 (Source     => Text,
-                            Target     => Target,
-                            Has_Failed => Has_Failed);
+      Aida.To_Int32 (Source     => Text,
+                     Target     => Target,
+                     Has_Failed => Has_Failed);
       Ahven.Assert (not Has_Failed, GNAT.Source_Info.Source_Location & ", was " & Has_Failed'Img);
       Ahven.Assert (Target = 0, GNAT.Source_Info.Source_Location & ", was " & Target'Img);
    end SHOULD_Successfully_Convert_String_0_To_Integer;
@@ -117,12 +115,12 @@ package body Aida.Tests is
       pragma Unreferenced (T);
 
       Text       : constant Standard.String := "100";
-      Target     : Aida.Int32_T;
+      Target     : Aida.Int32;
       Has_Failed : Boolean;
    begin
-      Aida.String.To_Int32 (Source     => Text,
-                            Target     => Target,
-                            Has_Failed => Has_Failed);
+      Aida.To_Int32 (Source     => Text,
+                     Target     => Target,
+                     Has_Failed => Has_Failed);
       Ahven.Assert (not Has_Failed, GNAT.Source_Info.Source_Location & ", was " & Has_Failed'Img);
       Ahven.Assert (Target = 100, GNAT.Source_Info.Source_Location & ", was " & Target'Img);
    end SHOULD_Successfully_Convert_String_100_To_Integer;
@@ -131,12 +129,12 @@ package body Aida.Tests is
       pragma Unreferenced (T);
 
       Text       : constant Standard.String := "2147483647";
-      Target     : Aida.Int32_T;
+      Target     : Aida.Int32;
       Has_Failed : Boolean;
    begin
-      Aida.String.To_Int32 (Source     => Text,
-                            Target     => Target,
-                            Has_Failed => Has_Failed);
+      Aida.To_Int32 (Source     => Text,
+                     Target     => Target,
+                     Has_Failed => Has_Failed);
       Ahven.Assert (not Has_Failed, GNAT.Source_Info.Source_Location & ", was " & Has_Failed'Img);
       Ahven.Assert (Target = 2147483647, GNAT.Source_Info.Source_Location & ", was " & Target'Img);
    end SHOULD_Successfully_Convert_String_2147483647_To_Integer;
@@ -145,12 +143,12 @@ package body Aida.Tests is
       pragma Unreferenced (T);
 
       Text       : constant Standard.String := "2147483648";
-      Target     : Aida.Int32_T;
+      Target     : Aida.Int32;
       Has_Failed : Boolean;
    begin
-      Aida.String.To_Int32 (Source     => Text,
-                            Target     => Target,
-                            Has_Failed => Has_Failed);
+      Aida.To_Int32 (Source     => Text,
+                     Target     => Target,
+                     Has_Failed => Has_Failed);
       Ahven.Assert (Has_Failed, GNAT.Source_Info.Source_Location & ", was " & Has_Failed'Img);
    end SHOULD_Successfully_Convert_String_2147483648_To_Integer;
 
@@ -158,12 +156,12 @@ package body Aida.Tests is
       pragma Unreferenced (T);
 
       Text       : constant Standard.String := "-1";
-      Target     : Aida.Int32_T;
+      Target     : Aida.Int32;
       Has_Failed : Boolean;
    begin
-      Aida.String.To_Int32 (Source     => Text,
-                            Target     => Target,
-                            Has_Failed => Has_Failed);
+      Aida.To_Int32 (Source     => Text,
+                     Target     => Target,
+                     Has_Failed => Has_Failed);
       Ahven.Assert (not Has_Failed, GNAT.Source_Info.Source_Location & ", was " & Has_Failed'Img);
       Ahven.Assert (Target = -1, GNAT.Source_Info.Source_Location & ", was " & Target'Img);
    end SHOULD_Successfully_Convert_String_Minus_1_To_Integer;
@@ -172,12 +170,12 @@ package body Aida.Tests is
       pragma Unreferenced (T);
 
       Text       : constant Standard.String := "-100";
-      Target     : Aida.Int32_T;
+      Target     : Aida.Int32;
       Has_Failed : Boolean;
    begin
-      Aida.String.To_Int32 (Source     => Text,
-                            Target     => Target,
-                            Has_Failed => Has_Failed);
+      Aida.To_Int32 (Source     => Text,
+                     Target     => Target,
+                     Has_Failed => Has_Failed);
       Ahven.Assert (not Has_Failed, GNAT.Source_Info.Source_Location & ", was " & Has_Failed'Img);
       Ahven.Assert (Target = -100, GNAT.Source_Info.Source_Location & ", was " & Target'Img);
    end SHOULD_Successfully_Convert_String_Minus_100_To_Integer;
@@ -186,12 +184,12 @@ package body Aida.Tests is
       pragma Unreferenced (T);
 
       Text       : constant Standard.String := "-2147483648";
-      Target     : Aida.Int32_T;
+      Target     : Aida.Int32;
       Has_Failed : Boolean;
    begin
-      Aida.String.To_Int32 (Source     => Text,
-                            Target     => Target,
-                            Has_Failed => Has_Failed);
+      Aida.To_Int32 (Source     => Text,
+                     Target     => Target,
+                     Has_Failed => Has_Failed);
       Ahven.Assert (not Has_Failed, GNAT.Source_Info.Source_Location & ", was " & Has_Failed'Img);
       Ahven.Assert (Target = -2147483648, GNAT.Source_Info.Source_Location & ", was " & Target'Img);
    end SHOULD_Successfully_Convert_String_Minus_2147483648_To_Integer;
@@ -200,12 +198,12 @@ package body Aida.Tests is
       pragma Unreferenced (T);
 
       Text       : constant Standard.String := "-2147483649";
-      Target     : Aida.Int32_T;
+      Target     : Aida.Int32;
       Has_Failed : Boolean;
    begin
-      Aida.String.To_Int32 (Source     => Text,
-                            Target     => Target,
-                            Has_Failed => Has_Failed);
+      Aida.To_Int32 (Source     => Text,
+                     Target     => Target,
+                     Has_Failed => Has_Failed);
       Ahven.Assert (Has_Failed, GNAT.Source_Info.Source_Location & ", was " & Has_Failed'Img);
    end SHOULD_Fail_To_Convert_String_Minus_2147483649_To_Integer;
 

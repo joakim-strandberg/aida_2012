@@ -8,21 +8,21 @@ pragma Elaborate_All (Aida.Bounded_Vector);
 pragma Elaborate_All (Aida.Tagged_Bounded_Vector);
 
 generic
-   Max_Chars        : Pos32_T;
-   Max_Strings      : Pos32_T;
-   Max_Nodes        : Pos32_T;
-   Max_Attributes   : Pos32_T;
+   Max_Chars        : Pos32;
+   Max_Strings      : Pos32;
+   Max_Nodes        : Pos32;
+   Max_Attributes   : Pos32;
 package Aida.XML_DOM_Parser is
 
    package Int_To_String_Map is new Aida.Integer_To_String_Map (Max_Chars   => Max_Chars,
                                                                 Max_Strings => Max_Strings,
                                                                 Value_T     => Standard.String);
 
-   type Node_Id_T is new Int32_T range 1..Max_Nodes;
+   type Node_Id_T is new Int32 range 1..Max_Nodes;
 
    subtype Extended_Node_Id_T is Node_Id_T'Base range 0..Node_Id_T'Last;
 
-   type Attribute_Id_T is new Int32_T range 1..Max_Attributes;
+   type Attribute_Id_T is new Int32 range 1..Max_Attributes;
 
    subtype Extended_Attribute_Id_T is Attribute_Id_T'Base range 0..Attribute_Id_T'Last;
 
@@ -177,7 +177,7 @@ package Aida.XML_DOM_Parser is
                     XML_Message : Standard.String;
                     Call_Result : in out Aida.Subprogram_Call_Result.T) with
      Global    => null,
-     Pre'Class => not Call_Result.Has_Failed and XML_Message'Length > 0 and XML_Message'Last < Int32_T'Last - 4;
+     Pre'Class => not Call_Result.Has_Failed and XML_Message'Length > 0 and XML_Message'Last < Int32'Last - 4;
 
 private
 
@@ -256,7 +256,7 @@ private
                                                             Last_Child_Id     => Extended_Node_Id_T'First,
                                                             Last_Attribute_Id => Extended_Attribute_Id_T'First));
 
-   package Node_Vector is new Aida.Tagged_Bounded_Vector (Max_Last_Index  => Int32_T'First + MAX_IDS,
+   package Node_Vector is new Aida.Tagged_Bounded_Vector (Max_Last_Index  => Int32'First + MAX_IDS,
                                                           Element_T       => Current_Node_T,
                                                           Default_Element => Default_Current_Node);
 

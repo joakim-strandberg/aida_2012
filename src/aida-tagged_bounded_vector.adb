@@ -11,7 +11,7 @@ package body Aida.Tagged_Bounded_Vector is
    function "=" (L, R : T) return Boolean is (Last_Index (L) = Last_Index (R) and then
                                                 (for all I in Index_T range Index_T'First..Last_Index (L) => L.My_Items (I) = R.My_Items (I)));
 
-   function Max_Index (This : T) return Int32_T is
+   function Max_Index (This : T) return Int32 is
       pragma Unreferenced (This);
    begin
       return Max_Last_Index;

@@ -22,8 +22,8 @@ package body Aida.Integer_To_String_Map_Tests is
 
       I : Int_To_String_Map.Key_T;
    begin
-      Ahven.Assert (Map.Available_Chars = 100,  "was ", Aida.Int32.To_String (Map.Available_Chars));
-      Ahven.Assert (Map.Available_Keys = 10, "was ", Aida.Int32.To_String (Map.Available_Keys));
+      Ahven.Assert (Map.Available_Chars = 100,  "was ", Aida.To_String (Map.Available_Chars));
+      Ahven.Assert (Map.Available_Keys = 10, "was ", Aida.To_String (Map.Available_Keys));
       for J in Int_To_String_Map.Key_T'Range loop
          Ahven.Assert (Map.Value (J) = "", "was ", Map.Value (J));
          pragma Loop_Variant (Increases => J);

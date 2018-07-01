@@ -14,7 +14,7 @@ procedure Aida.XML_SAX_Parse (Arg1        : in out Arg1_T;
                               Call_Result : in out Subprogram_Call_Result.T)
 is
    use all type Standard.String;
-   use all type Aida.Int32_T;
+   use all type Aida.Int32;
    use all type Aida.UTF8_Code_Point.T;
 
    type Initial_State_Id_T is (Initial_State_Expecting_Less_Sign,
@@ -108,26 +108,26 @@ is
                                                                                else
                                                                                   False);
 
-   XML_IDENTIFIER_ERROR_1 : constant Aida.Int32_T := -1913564897;
-   XML_IDENTIFIER_ERROR_2 : constant Aida.Int32_T := -0537097086;
+   XML_IDENTIFIER_ERROR_1 : constant Aida.Int32 := -1913564897;
+   XML_IDENTIFIER_ERROR_2 : constant Aida.Int32 := -0537097086;
 
-   subtype P_T      is Int32_T range Contents'First..Contents'Last + 4;
-   subtype Prev_P_T is Int32_T range Contents'First + 1..Contents'Last;
+   subtype P_T      is Int32 range Contents'First..Contents'Last + 4;
+   subtype Prev_P_T is Int32 range Contents'First + 1..Contents'Last;
 
    procedure Analyze_XML (P : in out P_T) with
      Global => (In_Out => (Call_Result, Arg1, Arg2, Arg3, Arg4),
                 Input  => Contents),
-     Pre    => not Call_Result.Has_Failed and P > Contents'First and P <= Contents'Last and Contents'Last < Int32_T'Last - 4;
+     Pre    => not Call_Result.Has_Failed and P > Contents'First and P <= Contents'Last and Contents'Last < Int32'Last - 4;
 
    procedure Analyze_XML (P : in out P_T)
    is
-      Depth : Aida.Nat32_T := 0;
+      Depth : Aida.Nat32 := 0;
 
       State_Id : State_Id_Type := Expecting_NL_Sign_Or_Space_Or_Less_Sign;
 
-      subtype Prev_Prev_P_T is Int32_T range Contents'First + 0..Contents'Last;
+      subtype Prev_Prev_P_T is Int32 range Contents'First + 0..Contents'Last;
 
-      subtype Contents_Index_T is Int32_T range Contents'First..Contents'Last;
+      subtype Contents_Index_T is Int32 range Contents'First..Contents'Last;
 
       CP : Aida.UTF8_Code_Point.T;
 
@@ -290,7 +290,7 @@ is
                            exit;
                         end if;
 
-                        if Depth < Aida.Int32_T'Last then
+                        if Depth < Aida.Int32'Last then
                            Depth := Depth + 1;
                         else
                            Call_Result.Initialize (-0197127393, -1788002976);
@@ -312,7 +312,7 @@ is
                            exit;
                         end if;
 
-                        if Depth < Aida.Int32_T'Last then
+                        if Depth < Aida.Int32'Last then
                            Depth := Depth + 1;
                         else
                            Call_Result.Initialize (0133265230, -0905163379);
