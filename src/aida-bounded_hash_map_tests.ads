@@ -20,7 +20,7 @@ private
       Element_T               => Aida.Int32,
       Default_Key             => Default_Key,
       Default_Element         => Default_Element,
-      Hash                    => Aida.Hash32,
+      Hash                    => Aida.To_Hash32,
       Equivalent_Keys         => "=",
       Max_Hash_Map_Size       => 10,
       Max_Collision_List_Size => 10);

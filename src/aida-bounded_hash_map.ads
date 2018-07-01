@@ -9,7 +9,7 @@ generic
    with function Default_Key return Key_T;
    with function Default_Element return Element_T;
 
-   with function Hash (Key : Key_T) return Aida.Hash32_T;
+   with function Hash (Key : Key_T) return Aida.Hash32;
    with function Equivalent_Keys (Left, Right : Key_T) return Boolean;
 
    Max_Hash_Map_Size : Max_Hash_Map_Size_T;
@@ -18,7 +18,7 @@ generic
 package Aida.Bounded_Hash_Map is
 
    use all type Aida.Int32;
-   use all type Aida.Hash32_T;
+   use all type Aida.Hash32;
 
    type T is limited private with
      Default_Initial_Condition => Used_Capacity (T) = 0;
@@ -75,7 +75,7 @@ private
       end case;
    end record;
 
-   subtype Bucket_Index_T is Aida.Hash32_T range Aida.Hash32_T'(0)..Aida.Hash32_T (Max_Hash_Map_Size - 1);
+   subtype Bucket_Index_T is Aida.Hash32 range Aida.Hash32'(0)..Aida.Hash32 (Max_Hash_Map_Size - 1);
 
    type Bucket_Array_T is array (Bucket_Index_T) of Nullable_Node_T;
 
@@ -98,10 +98,10 @@ private
      (Aida.Nat32 ((Collision_Vector.Last_Index (This.Collision_List) + 1)
                     - Collision_Vector.First_Index (This.Collision_List)));
 
-   function Normalize_Index (H : Aida.Hash32_T) return Bucket_Index_T is (if H < Aida.Hash32_T (Max_Hash_Map_Size) then
+   function Normalize_Index (H : Aida.Hash32) return Bucket_Index_T is (if H < Aida.Hash32 (Max_Hash_Map_Size) then
                                                                   Bucket_Index_T (H)
                                                                else
-                                                                  Bucket_Index_T (H - ((H/Aida.Hash32_T (Max_Hash_Map_Size)))*Aida.Hash32_T (Max_Hash_Map_Size)));
+                                                                  Bucket_Index_T (H - ((H/Aida.Hash32 (Max_Hash_Map_Size)))*Aida.Hash32 (Max_Hash_Map_Size)));
 
    function Exists (This : T;
                     Key  : Key_T) return Boolean is (This.Buckets (Normalize_Index (Hash (Key))).Exists);

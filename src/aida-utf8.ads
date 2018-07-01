@@ -114,7 +114,7 @@ package Aida.UTF8 is
    --
    function Length (Source : Standard.String) return Nat32 with
      Global => null,
-     Post   => Length'Result <= Source'Length or ((for all I in Source'Range => (Aida.Character.Is_One_Byte_UTF8 (Source (I)))) and then (Length'Result = Source'Length));
+     Post   => Length'Result <= Source'Length or ((for all I in Source'Range => (Aida.Is_One_Byte_UTF8 (Source (I)))) and then (Length'Result = Source'Length));
 
    --
    -- Put -- Put one UTF-8 code point

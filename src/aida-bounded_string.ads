@@ -72,7 +72,7 @@ package Aida.Bounded_String is
      Pre    => Length (Left) <= Left.Maximum_Length;
    -- Although the arguments are of different types, they may still represent the same String.
 
-   function Hash32 (This : T) return Aida.Hash32_T with
+   function Hash32 (This : T) return Aida.Hash32 with
      Global => null,
      Pre    => Length (This) <= This.Maximum_Length;
 

@@ -6,43 +6,40 @@ package body Aida is
 
    use type Interfaces.Unsigned_32;
 
-   package body Character is
+   function Is_Digit (C : Standard.Character) return Boolean is
+   begin
+      return C in '0' .. '9';
+   end Is_Digit;
 
-      function Is_Digit (C : Standard.Character) return Boolean is
-      begin
-         return C in '0'..'9';
-      end Is_Digit;
+   function To_Int32 (Source : in Standard.Character) return Int32 is
+   begin
+      return Standard.Character'Pos (Source) - Standard.Character'Pos ('0');
+   end To_Int32;
 
-      function To_Int32 (Source : in Standard.Character) return Int32 is
-      begin
-         return Standard.Character'Pos (Source) - Standard.Character'Pos ('0');
-      end To_Int32;
+   procedure To_Int32 (Source : in     Standard.Character;
+                       Target :    out Int32) is
+   begin
+      Target := Standard.Character'Pos (Source) - Standard.Character'Pos ('0');
+   end To_Int32;
 
-      procedure To_Int32 (Source : in     Standard.Character;
-                          Target :    out Int32) is
-      begin
-         Target := Standard.Character'Pos (Source) - Standard.Character'Pos ('0');
-      end To_Int32;
-
-   end Character;
-
-   function To_Char (This : Int32) return Standard.Character is (
-                                                                 case This is
-                                                                    when Int32'First..0 => '0',
-                                                                    when 1 => '1',
-                                                                    when 2 => '2',
-                                                                    when 3 => '3',
-                                                                    when 4 => '4',
-                                                                    when 5 => '5',
-                                                                    when 6 => '6',
-                                                                    when 7 => '7',
-                                                                    when 8 => '8',
-                                                                    when 9..Int32'Last => '9'
-                                                                );
+   function To_Char (This : Int32) return Standard.Character is
+     (
+      case This is
+         when Int32'First .. 0 => '0',
+         when 1 => '1',
+         when 2 => '2',
+         when 3 => '3',
+         when 4 => '4',
+         when 5 => '5',
+         when 6 => '6',
+         when 7 => '7',
+         when 8 => '8',
+         when 9 .. Int32'Last => '9'
+     );
 
    function To_String (This : Int32) return Standard.String is
 
-      subtype Index_T is Int32 range 1..16;
+      subtype Index_T is Int32 range 1 .. 16;
 
       subtype Result_T is Standard.String (Index_T);
 
@@ -59,63 +56,63 @@ package body Aida is
       is
          Digit : Int32;
       begin
-         -- 1
+         --  1
          if Temp /= 0 then
             Digit := Temp mod 10;
             Result (P) := To_Char (Digit);
             Temp := Temp / 10;
             P := P - 1;
 
-            -- 2
+            --  2
             if Temp /= 0 then
                Digit := Temp mod 10;
                Result (P) := To_Char (Digit);
                Temp := Temp / 10;
                P := P - 1;
 
-               -- 3
+               --  3
                if Temp /= 0 then
                   Digit := Temp mod 10;
                   Result (P) := To_Char (Digit);
                   Temp := Temp / 10;
                   P := P - 1;
 
-                  -- 4
+                  --  4
                   if Temp /= 0 then
                      Digit := Temp mod 10;
                      Result (P) := To_Char (Digit);
                      Temp := Temp / 10;
                      P := P - 1;
 
-                     -- 5
+                     --  5
                      if Temp /= 0 then
                         Digit := Temp mod 10;
                         Result (P) := To_Char (Digit);
                         Temp := Temp / 10;
                         P := P - 1;
 
-                        -- 6
+                        --  6
                         if Temp /= 0 then
                            Digit := Temp mod 10;
                            Result (P) := To_Char (Digit);
                            Temp := Temp / 10;
                            P := P - 1;
 
-                           -- 7
+                           --  7
                            if Temp /= 0 then
                               Digit := Temp mod 10;
                               Result (P) := To_Char (Digit);
                               Temp := Temp / 10;
                               P := P - 1;
 
-                              -- 8
+                              --  8
                               if Temp /= 0 then
                                  Digit := Temp mod 10;
                                  Result (P) := To_Char (Digit);
                                  Temp := Temp / 10;
                                  P := P - 1;
 
-                                 -- 9
+                                 --  9
                                  if Temp /= 0 then
                                     Digit := Temp mod 10;
                                     Result (P) := To_Char (Digit);
@@ -140,7 +137,7 @@ package body Aida is
    begin
       if Temp <= 0 then
          if Temp = -2_147_483_648 then
-            Result (Index_T'Last - 10..Index_T'Last) := "-2147483648";
+            Result (Index_T'Last - 10 .. Index_T'Last) := "-2147483648";
             P := 6;
          else
             Temp := -Temp;
@@ -185,10 +182,10 @@ package body Aida is
          P := P - 1;
       end if;
 
-      return Result (P+1..Index_T'Last);
+      return Result (P + 1 .. Index_T'Last);
    end To_String;
 
-   function Hash32 (This : Int32) return Hash32_T is
+   function To_Hash32 (This : Int32) return Hash32 is
       X : Interfaces.Unsigned_32 := (if This >= 0 then
                                         Interfaces.Unsigned_32 (This)
                                      elsif This = Int32'First then
@@ -200,18 +197,14 @@ package body Aida is
       X := (Interfaces.Shift_Right (X, 16) xor X) * 16#45d9f3b#;
       X := (Interfaces.Shift_Right (X, 16) xor X);
 
-      return Hash32_T (X);
-   end Hash32;
+      return Hash32 (X);
+   end To_Hash32;
 
-   package body Float is
-
-      function To_String (This : Standard.Float) return Standard.String is
-         pragma SPARK_Mode (Off);
-      begin
-         return Standard.Float'Image (This);
-      end To_String;
-
-   end Float;
+   function To_String (This : Standard.Float) return Standard.String is
+      pragma SPARK_Mode (Off);
+   begin
+      return Standard.Float'Image (This);
+   end To_String;
 
    procedure To_Int32 (Source     : in  Standard.String;
                        Target     : out Int32;
@@ -230,84 +223,104 @@ package body Aida is
          else
             Target := 0;
 
-            if (for all J in (Source'First + 1)..Source'Last => Aida.Character.Is_Digit (Source(J))) then
+            if
+              (for all J in (Source'First + 1) .. Source'Last =>
+                   Aida.Is_Digit (Source (J)))
+            then
                if Source'Length = 11 then
                   if Source (Source'First + 1) > '2' then
                      Has_Failed := True;
                   elsif Source (Source'First + 1) < '2' then
-                     Target := -1_000_000_000*I (Source, 1) - 100_000_000*I (Source, 2) -
-                       10_000_000*I (Source, 3) -
-                       1_000_000*I (Source, 4) -
-                       100_000*I (Source, 5) - 10_000*I (Source, 6) -
-                       1_000*I (Source, 7) - 100*I (Source, 8) -
-                       10*I (Source, 9) - I (Source, 10);
+                     Target := -1_000_000_000 * I (Source, 1)
+                       - 100_000_000 * I (Source, 2)
+                       - 10_000_000 * I (Source, 3)
+                       - 1_000_000 * I (Source, 4)
+                       - 100_000 * I (Source, 5)
+                       - 10_000 * I (Source, 6)
+                       - 1_000 * I (Source, 7)
+                       - 100 * I (Source, 8)
+                       - 10 * I (Source, 9)
+                       - I (Source, 10);
                      Has_Failed := False;
                   elsif Source (Source'First + 2) > '1' then
                      Has_Failed := True;
                   elsif Source (Source'First + 2) < '1' then
                      Target := -2_000_000_000 -
-                       10_000_000*I (Source, 3) -
-                       1_000_000*I (Source, 4) -
-                       100_000*I (Source, 5) - 10_000*I (Source, 6) -
-                       1_000*I (Source, 7) - 100*I (Source, 8) -
-                       10*I (Source, 9) - I (Source, 10);
+                       10_000_000 * I (Source, 3)
+                       - 1_000_000 * I (Source, 4)
+                       - 100_000 * I (Source, 5)
+                       - 10_000 * I (Source, 6)
+                       - 1_000 * I (Source, 7)
+                       - 100 * I (Source, 8)
+                       - 10 * I (Source, 9)
+                       - I (Source, 10);
                      Has_Failed := False;
                   elsif Source (Source'First + 3) > '4' then
                      Has_Failed := True;
                   elsif Source (Source'First + 3) < '4' then
                      Target := -2_100_000_000
-                       - 10_000_000*I (Source, 3)
-                       - 1_000_000*I (Source, 4)
-                       - 100_000*I (Source, 5)
-                       - 10_000*I (Source, 6)
-                       - 1_000*I (Source, 7)
-                       - 100*I (Source, 8)
-                       - 10*I (Source, 9)
+                       - 10_000_000 * I (Source, 3)
+                       - 1_000_000 * I (Source, 4)
+                       - 100_000 * I (Source, 5)
+                       - 10_000 * I (Source, 6)
+                       - 1_000 * I (Source, 7)
+                       - 100 * I (Source, 8)
+                       - 10 * I (Source, 9)
                        - I (Source, 10);
                      Has_Failed := False;
                   elsif Source (Source'First + 4) > '7' then
                      Has_Failed := True;
                   elsif Source (Source'First + 4) < '7' then
-                     Target := -2_140_000_000 - 1_000_000*I (Source, 4) -
-                       100_000*I (Source, 5) - 10_000*I (Source, 6) -
-                       1_000*I (Source, 7) - 100*I (Source, 8) -
-                       10*I (Source, 9) - I (Source, 10);
+                     Target := -2_140_000_000
+                       - 1_000_000 * I (Source, 4)
+                       - 100_000 * I (Source, 5)
+                       - 10_000 * I (Source, 6)
+                       - 1_000 * I (Source, 7)
+                       - 100 * I (Source, 8)
+                       - 10 * I (Source, 9)
+                       - I (Source, 10);
                      Has_Failed := False;
                   elsif Source (Source'First + 5) > '4' then
                      Has_Failed := True;
                   elsif Source (Source'First + 5) < '4' then
-                     Target := -2_147_000_000 - 100_000*I (Source, 5) -
-                       10_000*I (Source, 6) -
-                       1_000*I (Source, 7) - 100*I (Source, 8) -
-                       10*I (Source, 9) - I (Source, 10);
+                     Target := -2_147_000_000
+                       - 100_000 * I (Source, 5)
+                       - 10_000 * I (Source, 6)
+                       - 1_000 * I (Source, 7)
+                       - 100 * I (Source, 8)
+                       - 10 * I (Source, 9)
+                       - I (Source, 10);
                      Has_Failed := False;
                   elsif Source (Source'First + 6) > '8' then
                      Has_Failed := True;
                   elsif Source (Source'First + 6) < '8' then
                      Target := -2_147_400_000
-                       - 10_000*I (Source, 6)
-                       - 1_000*I (Source, 7)
-                       - 100*I (Source, 8)
-                       - 10*I (Source, 9)
+                       - 10_000 * I (Source, 6)
+                       - 1_000 * I (Source, 7)
+                       - 100 * I (Source, 8)
+                       - 10 * I (Source, 9)
                        - I (Source, 10);
                      Has_Failed := False;
                   elsif Source (Source'First + 7) > '3' then
                      Has_Failed := True;
                   elsif Source (Source'First + 7) < '3' then
-                     Target := -2_147_480_000 - 1_000*I (Source, 7) -
-                       100*I (Source, 8) -
-                       10*I (Source, 9) - I (Source, 10);
+                     Target := -2_147_480_000 - 1_000 * I (Source, 7)
+                       - 100 * I (Source, 8)
+                       - 10 * I (Source, 9)
+                       - I (Source, 10);
                      Has_Failed := False;
                   elsif Source (Source'First + 8) > '6' then
                      Has_Failed := True;
                   elsif Source (Source'First + 8) < '6' then
-                     Target := -2_147_483_000 - 100*I (Source, 8) -
-                       10*I (Source, 9) - I (Source, 10);
+                     Target := -2_147_483_000 - 100 * I (Source, 8)
+                       - 10 * I (Source, 9)
+                       - I (Source, 10);
                      Has_Failed := False;
                   elsif Source (Source'First + 9) > '4' then
                      Has_Failed := True;
                   elsif Source (Source'First + 9) < '4' then
-                     Target := -2_147_483_600 - 10*I (Source, 9) - I (Source, 10);
+                     Target := -2_147_483_600 - 10 * I (Source, 9)
+                       - I (Source, 10);
                      Has_Failed := False;
                   elsif Source (Source'First + 10) > '8' then
                      Has_Failed := True;
@@ -318,65 +331,65 @@ package body Aida is
                else
                   case Source'Length is
                      when 2 =>
-                        Target := - I (Source, 1);
+                        Target := -I (Source, 1);
                         Has_Failed := False;
                      when 3 =>
-                        Target := -10*I (Source, 1) - I (Source, 2);
+                        Target := -10 * I (Source, 1) - I (Source, 2);
                         Has_Failed := False;
                      when 4 =>
-                        Target := -100*I (Source, 1)
-                          - 10*I (Source, 2)
+                        Target := -100 * I (Source, 1)
+                          - 10 * I (Source, 2)
                           - I (Source, 3);
                         Has_Failed := False;
                      when 5 =>
-                        Target := -1_000*I (Source, 1)
-                          - 100*I (Source, 2)
-                          - 10*I (Source, 3)
+                        Target := -1_000 * I (Source, 1)
+                          - 100 * I (Source, 2)
+                          - 10 * I (Source, 3)
                           - I (Source, 4);
                         Has_Failed := False;
                      when 6 =>
-                        Target := -10_000*I (Source, 1)
-                          - 1_000*I (Source, 2)
-                          - 100*I (Source, 3)
-                          - 10*I (Source, 4)
+                        Target := -10_000 * I (Source, 1)
+                          - 1_000 * I (Source, 2)
+                          - 100 * I (Source, 3)
+                          - 10 * I (Source, 4)
                           - I (Source, 5);
                         Has_Failed := False;
                      when 7 =>
-                        Target := -100_000*I (Source, 1)
-                          - 10_000*I (Source, 2)
-                          - 1_000*I (Source, 3)
-                          - 100*I (Source, 4)
-                          - 10*I (Source, 5)
+                        Target := -100_000 * I (Source, 1)
+                          - 10_000 * I (Source, 2)
+                          - 1_000 * I (Source, 3)
+                          - 100 * I (Source, 4)
+                          - 10 * I (Source, 5)
                           - I (Source, 6);
                         Has_Failed := False;
                      when 8 =>
-                        Target := -1_000_000*I (Source, 1)
-                          - 100_000*I (Source, 2)
-                          - 10_000*I (Source, 3)
-                          - 1_000*I (Source, 4)
-                          - 100*I (Source, 5)
-                          - 10*I (Source, 6)
+                        Target := -1_000_000 * I (Source, 1)
+                          - 100_000 * I (Source, 2)
+                          - 10_000 * I (Source, 3)
+                          - 1_000 * I (Source, 4)
+                          - 100 * I (Source, 5)
+                          - 10 * I (Source, 6)
                           - I (Source, 7);
                         Has_Failed := False;
                      when 9 =>
-                        Target := -10_000_000*I (Source, 1)
-                          - 1000_000*I (Source, 2)
-                          - 100_000*I (Source, 3)
-                          - 10_000*I (Source, 4)
-                          - 1_000*I (Source, 5)
-                          - 100*I (Source, 6)
-                          - 10*I (Source, 7)
+                        Target := -10_000_000 * I (Source, 1)
+                          - 1000_000 * I (Source, 2)
+                          - 100_000 * I (Source, 3)
+                          - 10_000 * I (Source, 4)
+                          - 1_000 * I (Source, 5)
+                          - 100 * I (Source, 6)
+                          - 10 * I (Source, 7)
                           - I (Source, 8);
                         Has_Failed := False;
                      when 10 =>
-                        Target := -100_000_000*I (Source, 1)
-                          - 10_000_000*I (Source, 2)
-                          - 1_000_000*I (Source, 3)
-                          - 100_000*I (Source, 4)
-                          - 10_000*I (Source, 5)
-                          - 1_000*I (Source, 6)
-                          - 100*I (Source, 7)
-                          - 10*I (Source, 8)
+                        Target := -100_000_000 * I (Source, 1)
+                          - 10_000_000 * I (Source, 2)
+                          - 1_000_000 * I (Source, 3)
+                          - 100_000 * I (Source, 4)
+                          - 10_000 * I (Source, 5)
+                          - 1_000 * I (Source, 6)
+                          - 100 * I (Source, 7)
+                          - 10 * I (Source, 8)
                           - I (Source, 9);
                         Has_Failed := False;
                      when others =>
@@ -392,54 +405,105 @@ package body Aida is
          if Source'Length > 10 then
             Target := 0;
             Has_Failed := True;
-         elsif (for all I in Source'Range => Aida.Character.Is_Digit (Source(I))) then
+         elsif (for all I in Source'Range => Aida.Is_Digit (Source (I))) then
             Target := 0;
 
             if Source'Length = 10 then
                if Source (Source'First) > '2' then
                   Has_Failed := True;
                elsif Source (Source'First) < '2' then
-                  Target := 1_000_000_000*I (Source, 0) + 100_000_000*I (Source, 1) + 10_000_000*I (Source, 2) + 1_000_000*I (Source, 3) + 100_000*I (Source, 4) + 10_000*I (Source, 5) + 1_000*I (Source, 6) + 100*I (Source, 7) + 10*I (Source, 8) + I (Source, 9);
+                  Target := 1_000_000_000 * I (Source, 0)
+                    + 100_000_000 * I (Source, 1)
+                    + 10_000_000 * I (Source, 2)
+                    + 1_000_000 * I (Source, 3)
+                    + 100_000 * I (Source, 4)
+                    + 10_000 * I (Source, 5)
+                    + 1_000 * I (Source, 6)
+                    + 100 * I (Source, 7)
+                    + 10 * I (Source, 8)
+                    + I (Source, 9);
                   Has_Failed := False;
                elsif Source (Source'First + 1) > '1' then
                   Has_Failed := True;
                elsif Source (Source'First + 1) < '1' then
-                  Target := 2_000_000_000 + 10_000_000*I (Source, 2) + 1_000_000*I (Source, 3) + 100_000*I (Source, 4) + 10_000*I (Source, 5) + 1_000*I (Source, 6) + 100*I (Source, 7) + 10*I (Source, 8) + I (Source, 9);
+                  Target := 2_000_000_000
+                    + 10_000_000 * I (Source, 2)
+                    + 1_000_000 * I (Source, 3)
+                    + 100_000 * I (Source, 4)
+                    + 10_000 * I (Source, 5)
+                    + 1_000 * I (Source, 6)
+                    + 100 * I (Source, 7)
+                    + 10 * I (Source, 8)
+                    + I (Source, 9);
                   Has_Failed := False;
                elsif Source (Source'First + 2) > '4' then
                   Has_Failed := True;
                elsif Source (Source'First + 2) < '4' then
-                  Target := 2_100_000_000 + 10_000_000*I (Source, 2) + 1_000_000*I (Source, 3) + 100_000*I (Source, 4) + 10_000*I (Source, 5) + 1_000*I (Source, 6) + 100*I (Source, 7) + 10*I (Source, 8) + I (Source, 9);
+                  Target := 2_100_000_000 + 10_000_000 * I (Source, 2)
+                    + 1_000_000 * I (Source, 3)
+                    + 100_000 * I (Source, 4)
+                    + 10_000 * I (Source, 5)
+                    + 1_000 * I (Source, 6)
+                    + 100 * I (Source, 7)
+                    + 10 * I (Source, 8)
+                    + I (Source, 9);
                   Has_Failed := False;
                elsif Source (Source'First + 3) > '7' then
                   Has_Failed := True;
                elsif Source (Source'First + 3) < '7' then
-                  Target := 2_140_000_000 + 1_000_000*I (Source, 3) + 100_000*I (Source, 4) + 10_000*I (Source, 5) + 1_000*I (Source, 6) + 100*I (Source, 7) + 10*I (Source, 8) + I (Source, 9);
+                  Target := 2_140_000_000
+                    + 1_000_000 * I (Source, 3)
+                    + 100_000 * I (Source, 4)
+                    + 10_000 * I (Source, 5)
+                    + 1_000 * I (Source, 6)
+                    + 100 * I (Source, 7)
+                    + 10 * I (Source, 8)
+                    + I (Source, 9);
                   Has_Failed := False;
                elsif Source (Source'First + 4) > '4' then
                   Has_Failed := True;
                elsif Source (Source'First + 4) < '4' then
-                  Target := 2_147_000_000 + 100_000*I (Source, 4) + 10_000*I (Source, 5) + 1_000*I (Source, 6) + 100*I (Source, 7) + 10*I (Source, 8) + I (Source, 9);
+                  Target := 2_147_000_000
+                    + 100_000 * I (Source, 4)
+                    + 10_000 * I (Source, 5)
+                    + 1_000 * I (Source, 6)
+                    + 100 * I (Source, 7)
+                    + 10 * I (Source, 8)
+                    + I (Source, 9);
                   Has_Failed := False;
                elsif Source (Source'First + 5) > '8' then
                   Has_Failed := True;
                elsif Source (Source'First + 5) < '8' then
-                  Target := 2_147_400_000 + 10_000*I (Source, 5) + 1_000*I (Source, 6) + 100*I (Source, 7) + 10*I (Source, 8) + I (Source, 9);
+                  Target := 2_147_400_000
+                    + 10_000 * I (Source, 5)
+                    + 1_000 * I (Source, 6)
+                    + 100 * I (Source, 7)
+                    + 10 * I (Source, 8)
+                    + I (Source, 9);
                   Has_Failed := False;
                elsif Source (Source'First + 6) > '3' then
                   Has_Failed := True;
                elsif Source (Source'First + 6) < '3' then
-                  Target := 2_147_480_000 + 1_000*I (Source, 6) + 100*I (Source, 7) + 10*I (Source, 8) + I (Source, 9);
+                  Target := 2_147_480_000
+                    + 1_000 * I (Source, 6)
+                    + 100 * I (Source, 7)
+                    + 10 * I (Source, 8)
+                    + I (Source, 9);
                   Has_Failed := False;
                elsif Source (Source'First + 7) > '6' then
                   Has_Failed := True;
                elsif Source (Source'First + 7) < '6' then
-                  Target := 2_147_483_000 + 100*I (Source, 7) + 10*I (Source, 8) + I (Source, 9);
+                  Target := 2_147_483_000
+                    + 100 * I (Source, 7)
+                    + 10 * I (Source, 8)
+                    + I (Source, 9);
                   Has_Failed := False;
                elsif Source (Source'First + 8) > '4' then
                   Has_Failed := True;
                elsif Source (Source'First + 8) < '4' then
-                  Target := 2_147_483_600 + 10*I (Source, 8) + I (Source, 9);
+                  Target := 2_147_483_600
+                    + 10 * I (Source, 8)
+                    + I (Source, 9);
                   Has_Failed := False;
                elsif Source (Source'First + 9) > '7' then
                   Has_Failed := True;
@@ -536,109 +600,132 @@ package body Aida is
 
          if Source'Length = 11 then
             if Source (Source'First + 1) < '2' then
-               Target := -1_000_000_000*I (Source, 1) - 100_000_000*I (Source, 2) -
-                 10_000_000*I (Source, 3) -
-                 1_000_000*I (Source, 4) -
-                 100_000*I (Source, 5) - 10_000*I (Source, 6) -
-                 1_000*I (Source, 7) - 100*I (Source, 8) -
-                 10*I (Source, 9) - I (Source, 10);
+               Target := -1_000_000_000 * I (Source, 1)
+                 - 100_000_000 * I (Source, 2)
+                 - 10_000_000 * I (Source, 3)
+                 - 1_000_000 * I (Source, 4)
+                 - 100_000 * I (Source, 5)
+                 - 10_000 * I (Source, 6)
+                 - 1_000 * I (Source, 7)
+                 - 100 * I (Source, 8)
+                 - 10 * I (Source, 9)
+                 - I (Source, 10);
             elsif Source (Source'First + 2) < '1' then
                Target := -2_000_000_000 -
-                 10_000_000*I (Source, 3) -
-                 1_000_000*I (Source, 4) -
-                 100_000*I (Source, 5) - 10_000*I (Source, 6) -
-                 1_000*I (Source, 7) - 100*I (Source, 8) -
-                 10*I (Source, 9) - I (Source, 10);
+                 10_000_000 * I (Source, 3)
+                 - 1_000_000 * I (Source, 4)
+                 - 100_000 * I (Source, 5)
+                 - 10_000 * I (Source, 6)
+                 - 1_000 * I (Source, 7)
+                 - 100 * I (Source, 8)
+                 - 10 * I (Source, 9)
+                 - I (Source, 10);
             elsif Source (Source'First + 3) < '4' then
                Target := -2_100_000_000
-                 - 10_000_000*I (Source, 3)
-                 - 1_000_000*I (Source, 4)
-                 - 100_000*I (Source, 5)
-                 - 10_000*I (Source, 6)
-                 - 1_000*I (Source, 7)
-                 - 100*I (Source, 8)
-                 - 10*I (Source, 9)
+                 - 10_000_000 * I (Source, 3)
+                 - 1_000_000 * I (Source, 4)
+                 - 100_000 * I (Source, 5)
+                 - 10_000 * I (Source, 6)
+                 - 1_000 * I (Source, 7)
+                 - 100 * I (Source, 8)
+                 - 10 * I (Source, 9)
                  - I (Source, 10);
             elsif Source (Source'First + 4) < '7' then
-               Target := -2_140_000_000 - 1_000_000*I (Source, 4) -
-                 100_000*I (Source, 5) - 10_000*I (Source, 6) -
-                 1_000*I (Source, 7) - 100*I (Source, 8) -
-                 10*I (Source, 9) - I (Source, 10);
+               Target := -2_140_000_000
+                 - 1_000_000 * I (Source, 4)
+                 - 100_000 * I (Source, 5)
+                 - 10_000 * I (Source, 6)
+                 - 1_000 * I (Source, 7)
+                 - 100 * I (Source, 8)
+                 - 10 * I (Source, 9)
+                 - I (Source, 10);
             elsif Source (Source'First + 5) < '4' then
-               Target := -2_147_000_000 - 100_000*I (Source, 5) -
-                 10_000*I (Source, 6) -
-                 1_000*I (Source, 7) - 100*I (Source, 8) -
-                 10*I (Source, 9) - I (Source, 10);
+               Target := -2_147_000_000
+                 - 100_000 * I (Source, 5)
+                 - 10_000 * I (Source, 6)
+                 - 1_000 * I (Source, 7)
+                 - 100 * I (Source, 8)
+                 - 10 * I (Source, 9)
+                 - I (Source, 10);
             elsif Source (Source'First + 6) < '8' then
                Target := -2_147_400_000
-                 - 10_000*I (Source, 6)
-                 - 1_000*I (Source, 7)
-                 - 100*I (Source, 8)
-                 - 10*I (Source, 9)
+                 - 10_000 * I (Source, 6)
+                 - 1_000 * I (Source, 7)
+                 - 100 * I (Source, 8)
+                 - 10 * I (Source, 9)
                  - I (Source, 10);
             elsif Source (Source'First + 7) < '3' then
-               Target := -2_147_480_000 - 1_000*I (Source, 7) - 100*I (Source, 8) - 10*I (Source, 9) - I (Source, 10);
+               Target := -2_147_480_000
+                 - 1_000 * I (Source, 7)
+                 - 100 * I (Source, 8)
+                 - 10 * I (Source, 9)
+                 - I (Source, 10);
             elsif Source (Source'First + 8) < '6' then
-               Target := -2_147_483_000 - 100*I (Source, 8) - 10*I (Source, 9) - I (Source, 10);
+               Target := -2_147_483_000
+                 - 100 * I (Source, 8)
+                 - 10 * I (Source, 9)
+                 - I (Source, 10);
             elsif Source (Source'First + 9) < '4' then
-               Target := -2_147_483_600 - 10*I (Source, 9) - I (Source, 10);
+               Target := -2_147_483_600
+                 - 10 * I (Source, 9)
+                 - I (Source, 10);
             else
                Target := -2_147_483_640 - I (Source, 10);
             end if;
          else
             case Source'Length is
                when 2 =>
-                  Target := - I (Source, 1);
+                  Target := -I (Source, 1);
                when 3 =>
-                  Target := -10*I (Source, 1) - I (Source, 2);
+                  Target := -10 * I (Source, 1) - I (Source, 2);
                when 4 =>
-                  Target := -100*I (Source, 1)
-                    - 10*I (Source, 2)
+                  Target := -100 * I (Source, 1)
+                    - 10 * I (Source, 2)
                     - I (Source, 3);
                when 5 =>
-                  Target := -1_000*I (Source, 1)
-                    - 100*I (Source, 2)
-                    - 10*I (Source, 3)
+                  Target := -1_000 * I (Source, 1)
+                    - 100 * I (Source, 2)
+                    - 10 * I (Source, 3)
                     - I (Source, 4);
                when 6 =>
-                  Target := -10_000*I (Source, 1)
-                    - 1_000*I (Source, 2)
-                    - 100*I (Source, 3)
-                    - 10*I (Source, 4)
+                  Target := -10_000 * I (Source, 1)
+                    - 1_000 * I (Source, 2)
+                    - 100 * I (Source, 3)
+                    - 10 * I (Source, 4)
                     - I (Source, 5);
                when 7 =>
-                  Target := -100_000*I (Source, 1)
-                    - 10_000*I (Source, 2)
-                    - 1_000*I (Source, 3)
-                    - 100*I (Source, 4)
-                    - 10*I (Source, 5)
+                  Target := -100_000 * I (Source, 1)
+                    - 10_000 * I (Source, 2)
+                    - 1_000 * I (Source, 3)
+                    - 100 * I (Source, 4)
+                    - 10 * I (Source, 5)
                     - I (Source, 6);
                when 8 =>
-                  Target := -1_000_000*I (Source, 1)
-                    - 100_000*I (Source, 2)
-                    - 10_000*I (Source, 3)
-                    - 1_000*I (Source, 4)
-                    - 100*I (Source, 5)
-                    - 10*I (Source, 6)
+                  Target := -1_000_000 * I (Source, 1)
+                    - 100_000 * I (Source, 2)
+                    - 10_000 * I (Source, 3)
+                    - 1_000 * I (Source, 4)
+                    - 100 * I (Source, 5)
+                    - 10 * I (Source, 6)
                     - I (Source, 7);
                when 9 =>
-                  Target := -10_000_000*I (Source, 1)
-                    - 1000_000*I (Source, 2)
-                    - 100_000*I (Source, 3)
-                    - 10_000*I (Source, 4)
-                    - 1_000*I (Source, 5)
-                    - 100*I (Source, 6)
-                    - 10*I (Source, 7)
+                  Target := -10_000_000 * I (Source, 1)
+                    - 1000_000 * I (Source, 2)
+                    - 100_000 * I (Source, 3)
+                    - 10_000 * I (Source, 4)
+                    - 1_000 * I (Source, 5)
+                    - 100 * I (Source, 6)
+                    - 10 * I (Source, 7)
                     - I (Source, 8);
                when 10 =>
-                  Target := -100_000_000*I (Source, 1)
-                    - 10_000_000*I (Source, 2)
-                    - 1_000_000*I (Source, 3)
-                    - 100_000*I (Source, 4)
-                    - 10_000*I (Source, 5)
-                    - 1_000*I (Source, 6)
-                    - 100*I (Source, 7)
-                    - 10*I (Source, 8)
+                  Target := -100_000_000 * I (Source, 1)
+                    - 10_000_000 * I (Source, 2)
+                    - 1_000_000 * I (Source, 3)
+                    - 100_000 * I (Source, 4)
+                    - 10_000 * I (Source, 5)
+                    - 1_000 * I (Source, 6)
+                    - 100 * I (Source, 7)
+                    - 10 * I (Source, 8)
                     - I (Source, 9);
                when others =>
                   Target := 0;
@@ -647,24 +734,75 @@ package body Aida is
       else
          if Source'Length = 10 then
             if Source (Source'First) < '2' then
-               Target := 1_000_000_000*I (Source, 0) + 100_000_000*I (Source, 1) + 10_000_000*I (Source, 2) + 1_000_000*I (Source, 3)
-                 + 100_000*I (Source, 4) + 10_000*I (Source, 5) + 1_000*I (Source, 6) + 100*I (Source, 7) + 10*I (Source, 8) + I (Source, 9);
+               Target := 1_000_000_000 * I (Source, 0)
+                 + 100_000_000 * I (Source, 1)
+                 + 10_000_000 * I (Source, 2)
+                 + 1_000_000 * I (Source, 3)
+                 + 100_000 * I (Source, 4)
+                 + 10_000 * I (Source, 5)
+                 + 1_000 * I (Source, 6)
+                 + 100 * I (Source, 7)
+                 + 10 * I (Source, 8)
+                 + I (Source, 9);
             elsif Source (Source'First + 1) < '1' then
-               Target := 2_000_000_000 + 10_000_000*I (Source, 2) + 1_000_000*I (Source, 3) + 100_000*I (Source, 4) + 10_000*I (Source, 5) + 1_000*I (Source, 6) + 100*I (Source, 7) + 10*I (Source, 8) + I (Source, 9);
+               Target := 2_000_000_000
+                 + 10_000_000 * I (Source, 2)
+                 + 1_000_000 * I (Source, 3)
+                 + 100_000 * I (Source, 4)
+                 + 10_000 * I (Source, 5)
+                 + 1_000 * I (Source, 6)
+                 + 100 * I (Source, 7)
+                 + 10 * I (Source, 8)
+                 + I (Source, 9);
             elsif Source (Source'First + 2) < '4' then
-               Target := 2_100_000_000 + 10_000_000*I (Source, 2) + 1_000_000*I (Source, 3) + 100_000*I (Source, 4) + 10_000*I (Source, 5) + 1_000*I (Source, 6) + 100*I (Source, 7) + 10*I (Source, 8) + I (Source, 9);
+               Target := 2_100_000_000
+                 + 10_000_000 * I (Source, 2)
+                 + 1_000_000 * I (Source, 3)
+                 + 100_000 * I (Source, 4)
+                 + 10_000 * I (Source, 5)
+                 + 1_000 * I (Source, 6)
+                 + 100 * I (Source, 7)
+                 + 10 * I (Source, 8)
+                 + I (Source, 9);
             elsif Source (Source'First + 3) < '7' then
-               Target := 2_140_000_000 + 1_000_000*I (Source, 3) + 100_000*I (Source, 4) + 10_000*I (Source, 5) + 1_000*I (Source, 6) + 100*I (Source, 7) + 10*I (Source, 8) + I (Source, 9);
+               Target := 2_140_000_000
+                 + 1_000_000 * I (Source, 3)
+                 + 100_000 * I (Source, 4)
+                 + 10_000 * I (Source, 5)
+                 + 1_000 * I (Source, 6)
+                 + 100 * I (Source, 7)
+                 + 10 * I (Source, 8)
+                 + I (Source, 9);
             elsif Source (Source'First + 4) < '4' then
-               Target := 2_147_000_000 + 100_000*I (Source, 4) + 10_000*I (Source, 5) + 1_000*I (Source, 6) + 100*I (Source, 7) + 10*I (Source, 8) + I (Source, 9);
+               Target := 2_147_000_000
+                 + 100_000 * I (Source, 4)
+                 + 10_000 * I (Source, 5)
+                 + 1_000 * I (Source, 6)
+                 + 100 * I (Source, 7)
+                 + 10 * I (Source, 8)
+                 + I (Source, 9);
             elsif Source (Source'First + 5) < '8' then
-               Target := 2_147_400_000 + 10_000*I (Source, 5) + 1_000*I (Source, 6) + 100*I (Source, 7) + 10*I (Source, 8) + I (Source, 9);
+               Target := 2_147_400_000
+                 + 10_000 * I (Source, 5)
+                 + 1_000 * I (Source, 6)
+                 + 100 * I (Source, 7)
+                 + 10 * I (Source, 8)
+                 + I (Source, 9);
             elsif Source (Source'First + 6) < '3' then
-               Target := 2_147_480_000 + 1_000*I (Source, 6) + 100*I (Source, 7) + 10*I (Source, 8) + I (Source, 9);
+               Target := 2_147_480_000
+                 + 1_000 * I (Source, 6)
+                 + 100 * I (Source, 7)
+                 + 10 * I (Source, 8)
+                 + I (Source, 9);
             elsif Source (Source'First + 7) < '6' then
-               Target := 2_147_483_000 + 100*I (Source, 7) + 10*I (Source, 8) + I (Source, 9);
+               Target := 2_147_483_000
+                 + 100 * I (Source, 7)
+                 + 10 * I (Source, 8)
+                 + I (Source, 9);
             elsif Source (Source'First + 8) < '4' then
-               Target := 2_147_483_600 + 10*I (Source, 8) + I (Source, 9);
+               Target := 2_147_483_600
+                 + 10 * I (Source, 8)
+                 + I (Source, 9);
             else
                Target := 2_147_483_640 + I (Source, 9);
             end if;
@@ -750,7 +888,7 @@ package body Aida is
          Has_Failed := True;
    end To_Float;
 
-   function Is_Latin1_Graphic_Characters (Text : Standard.String) return Boolean is
+   function Is_Latin1_Graphic_Characters (Text : String) return Boolean is
       Result : Boolean := True;
    begin
       for I in Text'Range loop
@@ -763,39 +901,43 @@ package body Aida is
       return Result;
    end Is_Latin1_Graphic_Characters;
 
-   function Starts_With (This         : Standard.String;
-                         Searched_For : Standard.String) return Boolean
+   function Starts_With (This         : String;
+                         Searched_For : String) return Boolean
    is
       Result : Boolean;
    begin
       if Searched_For'Length > This'Length then
          Result := False;
       else
-         Result := (for all Index in Searched_For'Range => This (Index - Searched_For'First + This'First) = Searched_For (Index));
+         Result :=
+           (for all Index in Searched_For'Range =>
+              This (Index - Searched_For'First + This'First) =
+                Searched_For (Index));
       end if;
 
       return Result;
    end Starts_With;
 
-   function Hash32 (This : Standard.String) return Hash32_T is
-      H : Hash32_T := 0;
-      A : Hash32_T := 31_415;
-      B : constant Hash32_T := 27_183;
+   function To_Hash32 (This : String) return Hash32 is
+      H : Hash32 := 0;
+      A : Hash32 := 31_415;
+      B : constant Hash32 := 27_183;
    begin
-      for I in Pos32 range This'First..This'Last loop
-         H := A*H + Standard.Character'Pos (This (I));
-         A := A*B;
+      for I in Pos32 range This'First .. This'Last loop
+         H := A * H + Character'Pos (This (I));
+         A := A * B;
          pragma Loop_Variant (Increases => I);
       end loop;
 
       return H;
-   end Hash32;
+   end To_Hash32;
 
-   function Concat (Left, Right : Standard.String) return Standard.String is
-      S : Standard.String (1..Left'Length + Right'Length) := (others => ' ');
+   function Concat (Left, Right : String) return String is
+      S : String (1 .. Left'Length + Right'Length) := (others => ' ');
    begin
-      S (1..Left'Length) := Left (Left'First..Left'Last);
-      S (1 + Left'Length..Left'Length + Right'Length) := Right (Right'First..Right'Last);
+      S (1 .. Left'Length) := Left (Left'First .. Left'Last);
+      S (1 + Left'Length .. Left'Length + Right'Length)
+        := Right (Right'First .. Right'Last);
       return S;
    end Concat;
 

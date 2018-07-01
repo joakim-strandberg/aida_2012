@@ -38,9 +38,9 @@ package body Aida.Bounded_String is
       Target.Text_Length := Target.Text_Length + Source'Length;
    end Append;
 
-   function Hash32 (This : T) return Aida.Hash32_T is
+   function Hash32 (This : T) return Aida.Hash32 is
    begin
-      return Aida.Hash32 (This.Text (1..Length (This)));
+      return Aida.To_Hash32 (This.Text (1..Length (This)));
    end Hash32;
 
    function Equals (This   : T;
