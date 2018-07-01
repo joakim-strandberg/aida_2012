@@ -6,23 +6,23 @@ package body Aida is
 
    use type Interfaces.Unsigned_32;
 
-   function Is_Digit (C : Standard.Character) return Boolean is
+   function Is_Digit (C : Character) return Boolean is
    begin
       return C in '0' .. '9';
    end Is_Digit;
 
-   function To_Int32 (Source : in Standard.Character) return Int32 is
+   function To_Int32 (Source : in Character) return Int32 is
    begin
-      return Standard.Character'Pos (Source) - Standard.Character'Pos ('0');
+      return Character'Pos (Source) - Character'Pos ('0');
    end To_Int32;
 
-   procedure To_Int32 (Source : in     Standard.Character;
+   procedure To_Int32 (Source : in     Character;
                        Target :    out Int32) is
    begin
-      Target := Standard.Character'Pos (Source) - Standard.Character'Pos ('0');
+      Target := Character'Pos (Source) - Character'Pos ('0');
    end To_Int32;
 
-   function To_Char (This : Int32) return Standard.Character is
+   function To_Char (This : Int32) return Character is
      (
       case This is
          when Int32'First .. 0 => '0',
@@ -37,11 +37,11 @@ package body Aida is
          when 9 .. Int32'Last => '9'
      );
 
-   function To_String (This : Int32) return Standard.String is
+   function To_String (This : Int32) return String is
 
       subtype Index_T is Int32 range 1 .. 16;
 
-      subtype Result_T is Standard.String (Index_T);
+      subtype Result_T is String (Index_T);
 
       procedure Make_Result (Temp   : in out Int32;
                              Result : in out Result_T;
@@ -200,13 +200,13 @@ package body Aida is
       return Hash32 (X);
    end To_Hash32;
 
-   function To_String (This : Standard.Float) return Standard.String is
+   function To_String (This : Float) return String is
       pragma SPARK_Mode (Off);
    begin
-      return Standard.Float'Image (This);
+      return Float'Image (This);
    end To_String;
 
-   procedure To_Int32 (Source     : in  Standard.String;
+   procedure To_Int32 (Source     : in  String;
                        Target     : out Int32;
                        Has_Failed : out Boolean) is
    begin
@@ -593,7 +593,7 @@ package body Aida is
       end if;
    end To_Int32;
 
-   function To_Int32 (Source : Standard.String) return Int32 is
+   function To_Int32 (Source : String) return Int32 is
       Target : Int32;
    begin
       if Source (Source'First) = '-' then
@@ -875,13 +875,13 @@ package body Aida is
       return Target;
    end To_Int32;
 
-   procedure To_Float (Source     : in  Standard.String;
-                       Target     : out Standard.Float;
+   procedure To_Float (Source     : in  String;
+                       Target     : out Float;
                        Has_Failed : out Boolean)
    is
       pragma SPARK_Mode (Off);
    begin
-      Target := Standard.Float'Value (Source);
+      Target := Float'Value (Source);
       Has_Failed := False;
    exception
       when Constraint_Error =>

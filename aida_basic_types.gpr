@@ -11,7 +11,8 @@ project Aida_Basic_Types is
 --      for Local_Configuration_Pragmas use "aida.adc";
       for Default_Switches ("ada") use (
                                         "-gnat2012",
-                                        "-gnata"
+                                        "-gnata",
+                                        "-gnaty"
                                        );
    end Compiler;
 
