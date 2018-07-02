@@ -19,6 +19,7 @@ generic
    type Element_T is private;
    with function Default_Element return Element_T;
 package Aida.Bounded_Vector is
+   pragma Pure;
 
    pragma Assert (Max_Last_Index > Int32'First);
 
@@ -114,12 +115,18 @@ package Aida.Bounded_Vector is
 --        with procedure Do_Something (Elements : in out Elements_Array_T);
 --     procedure Act_On_Mutable_Elements (This : in out T);
 
+   function Empty_Vector return T with
+     Global => null,
+     Post   => Is_Empty (Empty_Vector'Result);
+
 private
 
    type T is limited
       record
-         Items       : aliased Elements_Array_T (Index_T) := (others => Default_Element);
-         Last_Index  : Extended_Index_T := Extended_Index_T'First;
+         Items : aliased Elements_Array_T (Index_T)
+           := (others => Default_Element);
+
+         Last_Index : Extended_Index_T := Extended_Index_T'First;
       end record;
 
 end Aida.Bounded_Vector;

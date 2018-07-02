@@ -29,6 +29,7 @@ with Aida;
 
 package Aida.Bounded_String is
    pragma SPARK_Mode;
+   pragma Pure;
 
 --     type T (Maximum_Length : Pos32) is limited private with
 --       Default_Initial_Condition => Length (T) = 0;

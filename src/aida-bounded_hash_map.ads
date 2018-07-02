@@ -88,27 +88,37 @@ private
       Element_T       => Node_T,
       Default_Element => Default_Node);
 
+   use all type Collision_Vector.T;
+
    type T is
       record
          Buckets        : Bucket_Array_T := (others => (Exists => False));
-         Collision_List : Collision_Vector.T;
+         Collision_List : Collision_Vector.T := Collision_Vector.Empty_Vector;
       end record;
 
    function Used_Capacity (This : T) return Aida.Nat32 is
      (Aida.Nat32 ((Collision_Vector.Last_Index (This.Collision_List) + 1)
                     - Collision_Vector.First_Index (This.Collision_List)));
 
-   function Normalize_Index (H : Aida.Hash32) return Bucket_Index_T is (if H < Aida.Hash32 (Max_Hash_Map_Size) then
-                                                                  Bucket_Index_T (H)
-                                                               else
-                                                                  Bucket_Index_T (H - ((H/Aida.Hash32 (Max_Hash_Map_Size)))*Aida.Hash32 (Max_Hash_Map_Size)));
-
-   function Exists (This : T;
-                    Key  : Key_T) return Boolean is (This.Buckets (Normalize_Index (Hash (Key))).Exists);
+   function Normalize_Index (H : Aida.Hash32) return Bucket_Index_T is
+     (if H < Aida.Hash32 (Max_Hash_Map_Size) then
+           Bucket_Index_T (H)
+      else
+         Bucket_Index_T
+        (H - ((H / Hash32 (Max_Hash_Map_Size))) * Hash32 (Max_Hash_Map_Size)));
 
 --     function Exists (This : T;
---                      Key  : Key_T) return Boolean is ((This.Buckets (Normalize_Index (Hash (Key))).Exists) and
---                                                         (for some I in Collision_Index_T range Collision_Vector.First_Index (This.Collision_List)..Collision_Vector.Last_Index (This.Collision_List) =>
---                                                               Collision_Vector.Element (This.Collision_List, I).Key = Key));
+--                      Key  : Key_T) return Boolean is
+--       (This.Buckets (Normalize_Index (Hash (Key))).Exists and then
+--       (This.Buckets (Normalize_Index (Hash (Key))).Value.Key = Key));
+
+   function Exists (This : T;
+                    Key  : Key_T) return Boolean is
+     ((This.Buckets (Normalize_Index (Hash (Key))).Exists) and then
+      (This.Buckets (Normalize_Index (Hash (Key))).Value.Key = Key or
+        (for some I in Collision_Vector.Index_T range
+             First_Index (This.Collision_List) ..
+             Last_Index (This.Collision_List) =>
+              Element (This.Collision_List, I).Key = Key)));
 
 end Aida.Bounded_Hash_Map;

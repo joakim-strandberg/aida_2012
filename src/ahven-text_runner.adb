@@ -27,7 +27,6 @@ use Ada.Strings.Fixed;
 
 package body Ahven.Text_Runner is
    use Ahven.Results;
-   use Ahven.Framework;
    use Ahven.AStrings;
 
    -- Local procedures

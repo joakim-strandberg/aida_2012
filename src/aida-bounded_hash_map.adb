@@ -57,7 +57,9 @@ package body Aida.Bounded_Hash_Map is
    is
       BI : constant Bucket_Index_T := Normalize_Index (Hash (Key));
    begin
-      if This.Buckets (BI).Value.Key = Key then
+      if
+        This.Buckets (BI).Value.Key = Key
+      then
          if Is_Empty (This.Collision_List) then
             This.Buckets (BI) := (Exists => False);
          else
@@ -67,7 +69,8 @@ package body Aida.Bounded_Hash_Map is
          end if;
       else
          declare
-            I : Collision_Vector.Extended_Index_T := Collision_Vector.Extended_Index_T'First;
+            I : Collision_Vector.Extended_Index_T
+              := Collision_Vector.Extended_Index_T'First;
          begin
 --              pragma Assert (for some I in Collision_Index_T range Collision_Vector.First_Index (This.Collision_List)..Collision_Vector.Last_Index (This.Collision_List) =>
 --                               Collision_Vector.Element (This.Collision_List, I).Key = Key);
@@ -83,7 +86,9 @@ package body Aida.Bounded_Hash_Map is
                pragma Loop_Invariant (for all J in Collision_Vector.Index_T range Collision_Vector.Index_T'First..I => Element (This.Collision_List, J).Key /= Key);
             end loop;
 
-            Collision_Vector.Replace_Element (This.Collision_List, I, Last_Element (This.Collision_List));
+            Collision_Vector.Replace_Element
+              (This.Collision_List, I, Last_Element (This.Collision_List));
+
             Delete_Last (This.Collision_List);
          end;
       end if;

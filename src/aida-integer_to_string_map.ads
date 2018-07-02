@@ -11,7 +11,9 @@ package Aida.Integer_To_String_Map is
 
    subtype Available_Keys_T is Nat32 range 0..Max_Strings;
 
-   type T is tagged limited private;
+   type T is tagged limited private with
+     Default_Initial_Condition =>
+       Available_Chars (T) = Max_Chars and Available_Keys (T) = Max_Strings;
 
    function Available_Chars (This : T) return Available_Chars_T with
      Global => null;
@@ -59,10 +61,6 @@ private
          My_Next_Index : Next_Index_T := 0;
          My_Substrings : Substring_Indexes_T;
       end record;
-
-   function Available_Chars (This : T) return Available_Chars_T is (Char_Index_T'Last - This.My_Next);
-
-   function Available_Keys (This : T) return Available_Keys_T is (Key_T'Last - This.My_Next_Index);
 
    function Value (This  : T;
                      Index : Key_T) return Value_T is (This.My_Huge_Text (This.My_Substrings (Index).From..This.My_Substrings (Index).To));

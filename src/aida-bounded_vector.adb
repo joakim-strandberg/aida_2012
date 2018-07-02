@@ -100,4 +100,12 @@ package body Aida.Bounded_Vector is
       This.Items (Last_Index (This)) := New_Element;
    end Replace_Last_Element;
 
+   function Empty_Vector return T is
+   begin
+      return V : T do
+         V.Items := (others => Default_Element);
+         V.Last_Index := Extended_Index_T'First;
+      end return;
+   end Empty_Vector;
+
 end Aida.Bounded_Vector;

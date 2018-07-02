@@ -58,22 +58,50 @@
 with Ada.Containers;
 with Aida.UTF8_Code_Point;
 
-use type Ada.Containers.Count_Type;
-
 package Aida.UTF8 is
    pragma SPARK_Mode;
 
+   use type Ada.Containers.Count_Type;
+
    use all type Aida.UTF8_Code_Point.T;
 
-   function Is_Valid_UTF8_Code_Point (Source      : Standard.String;
-                                      Pointer     : Int32) return Boolean is ((Source'First <= Pointer and Pointer <= Source'Last) and then
-                                                                                  (if (Standard.Character'Pos (Source (Pointer)) in 0..16#7F#) then Pointer < Int32'Last
-                                                                                   else (Pointer < Source'Last and then (if Standard.Character'Pos (Source (Pointer)) in 16#C2#..16#DF# and Standard.Character'Pos (Source (Pointer + 1)) in 16#80#..16#BF# then Pointer < Int32'Last - 1
-                                                                                                                         else (Pointer < Source'Last - 1 and then (if (Standard.Character'Pos (Source (Pointer)) = 16#E0# and Standard.Character'Pos (Source (Pointer + 1)) in 16#A0#..16#BF# and Standard.Character'Pos (Source (Pointer + 2)) in 16#80#..16#BF#) then Pointer < Int32'Last - 2
-                                                                                                                                                                   elsif (Standard.Character'Pos (Source (Pointer)) in 16#E1#..16#EF# and Standard.Character'Pos (Source (Pointer + 1)) in 16#80#..16#BF# and Standard.Character'Pos (Source (Pointer + 2)) in 16#80#..16#BF#) then Pointer < Int32'Last - 2
-                                                                                                                                                                   else (Pointer < Source'Last - 2 and then (if (Standard.Character'Pos (Source (Pointer)) = 16#F0# and Standard.Character'Pos (Source (Pointer + 1)) in 16#90#..16#BF# and Standard.Character'Pos (Source (Pointer + 2)) in 16#80#..16#BF# and Standard.Character'Pos (Source (Pointer + 3)) in 16#80#..16#BF#) then Pointer < Int32'Last - 3
-                                                                                                                                                                                                             elsif (Standard.Character'Pos (Source (Pointer)) in 16#F1#..16#F3# and Standard.Character'Pos (Source (Pointer + 1)) in 16#80#..16#BF# and Standard.Character'Pos (Source (Pointer + 2)) in 16#80#..16#BF# and Standard.Character'Pos (Source (Pointer + 3)) in 16#80#..16#BF#) then Pointer < Int32'Last - 3
-                                                                                                                                                                                                             elsif (Standard.Character'Pos (Source (Pointer)) = 16#F4# and Standard.Character'Pos (Source (Pointer + 1)) in 16#80#..16#8F# and Standard.Character'Pos (Source (Pointer + 2)) in 16#80#..16#BF# and Standard.Character'Pos (Source (Pointer + 3)) in 16#80#..16#BF#) then Pointer < Int32'Last - 3 else False))))))));
+   function Is_Valid_UTF8_Code_Point (Source      : String;
+                                      Pointer     : Int32) return Boolean is
+     ((Source'First <= Pointer and Pointer <= Source'Last) and then
+          (if Character'Pos (Source (Pointer)) in 0..16#7F# then
+                Pointer < Int32'Last
+           else (Pointer < Source'Last and then
+                   (if Character'Pos (Source (Pointer)) in 16#C2#..16#DF# and
+                      Character'Pos (Source (Pointer + 1)) in 16#80#..16#BF#
+                    then
+                       Pointer < Int32'Last - 1
+                    else (Pointer < Source'Last - 1 and then
+                              (if (Character'Pos (Source (Pointer)) = 16#E0# and
+                                     Character'Pos (Source (Pointer + 1)) in 16#A0#..16#BF# and
+                                       Character'Pos (Source (Pointer + 2)) in 16#80#..16#BF#) then
+                                  Pointer < Int32'Last - 2
+                               elsif (Character'Pos (Source (Pointer)) in 16#E1#..16#EF# and
+                                        Character'Pos (Source (Pointer + 1)) in 16#80#..16#BF# and
+                                          Character'Pos (Source (Pointer + 2)) in 16#80#..16#BF#) then
+                                  Pointer < Int32'Last - 2
+                               else (Pointer < Source'Last - 2 and then
+                                       (if (Character'Pos (Source (Pointer)) = 16#F0# and
+                                                Character'Pos (Source (Pointer + 1)) in 16#90#..16#BF# and
+                                              Character'Pos (Source (Pointer + 2)) in 16#80#..16#BF# and
+                                                Character'Pos (Source (Pointer + 3)) in 16#80#..16#BF#) then
+                                           Pointer < Int32'Last - 3
+                                        elsif (Character'Pos (Source (Pointer)) in 16#F1#..16#F3# and
+                                                   Character'Pos (Source (Pointer + 1)) in 16#80#..16#BF# and
+                                                 Character'Pos (Source (Pointer + 2)) in 16#80#..16#BF# and
+                                                   Character'Pos (Source (Pointer + 3)) in 16#80#..16#BF#) then
+                                           Pointer < Int32'Last - 3
+                                        elsif (Character'Pos (Source (Pointer)) = 16#F4# and
+                                                   Character'Pos (Source (Pointer + 1)) in 16#80#..16#8F# and
+                                                 Character'Pos (Source (Pointer + 2)) in 16#80#..16#BF# and
+                                                   Character'Pos (Source (Pointer + 3)) in 16#80#..16#BF#) then
+                                           Pointer < Int32'Last - 3
+                                        else
+                                           False))))))));
 
    --
    -- Get -- Get one UTF-8 code point
@@ -87,19 +115,46 @@ package Aida.UTF8 is
    -- advanced to the first character following the input.  The  result  is
    -- returned through the parameter Value.
    --
-   procedure Get (Source      : Standard.String;
+   procedure Get (Source      : String;
                   Pointer     : in out Int32;
                   Value       : out Aida.UTF8_Code_Point.T) with
      Global => null,
-     Pre    => Is_Valid_UTF8_Code_Point (Source, Pointer),
-     Post   => Pointer <= Pointer'Old + 4 and (if (Standard.Character'Pos (Source (Pointer'Old)) in 0..16#7F#) then Standard.Character'Pos (Source (Pointer'Old)) = Value and Pointer = Pointer'Old + 1
-                    elsif (Pointer'Old < Source'Last and then (Standard.Character'Pos (Source (Pointer'Old)) in 16#C2#..16#DF# and Standard.Character'Pos (Source (Pointer'Old + 1)) in 16#80#..16#BF#)) then Pointer = Pointer'Old + 2
-                  elsif (Pointer'Old < Source'Last - 1 and then ((Standard.Character'Pos (Source (Pointer'Old)) = 16#E0# and Standard.Character'Pos (Source (Pointer'Old + 1)) in 16#A0#..16#BF# and Standard.Character'Pos (Source (Pointer'Old + 2)) in 16#80#..16#BF#) or
-                        (Standard.Character'Pos (Source (Pointer'Old)) in 16#E1#..16#EF# and Standard.Character'Pos (Source (Pointer'Old + 1)) in 16#80#..16#BF# and Standard.Character'Pos (Source (Pointer'Old + 2)) in 16#80#..16#BF#))) then Pointer = Pointer'Old + 3
-                    elsif (Pointer < Source'Last - 2 and then ((Standard.Character'Pos (Source (Pointer'Old)) = 16#F0# and Standard.Character'Pos (Source (Pointer'Old + 1)) in 16#90#..16#BF# and Standard.Character'Pos (Source (Pointer'Old + 2)) in 16#80#..16#BF# and Standard.Character'Pos (Source (Pointer'Old + 3)) in 16#80#..16#BF#) or
-                      (Standard.Character'Pos (Source (Pointer'Old)) in 16#F1#..16#F3# and Standard.Character'Pos (Source (Pointer'Old + 1)) in 16#80#..16#BF# and Standard.Character'Pos (Source (Pointer'Old + 2)) in 16#80#..16#BF# and Standard.Character'Pos (Source (Pointer'Old + 3)) in 16#80#..16#BF#) or
-                      (Standard.Character'Pos (Source (Pointer'Old)) = 16#F4# and Standard.Character'Pos (Source (Pointer'Old + 1)) in 16#80#..16#8F# and Standard.Character'Pos (Source (Pointer'Old + 2)) in 16#80#..16#BF# and Standard.Character'Pos (Source (Pointer'Old + 3)) in 16#80#..16#BF#))) then Pointer = Pointer'Old + 4
-               );
+     Pre    =>
+       Is_Valid_UTF8_Code_Point (Source, Pointer) and Pointer < Int32'Last - 4,
+     Post   =>
+       Pointer <= Pointer'Old + 4 and
+       (if Character'Pos (Source (Pointer'Old)) in 0..16#7F# then
+          Character'Pos (Source (Pointer'Old)) = Value and
+            Pointer = Pointer'Old + 1
+              elsif (Pointer'Old < Source'Last and then
+                       (Character'Pos (Source (Pointer'Old)) in 16#C2#..16#DF# and
+                          Character'Pos (Source (Pointer'Old + 1)) in 16#80#..16#BF#)
+                    ) then
+          Pointer = Pointer'Old + 2
+            elsif (Pointer'Old < Source'Last - 1 and then
+                     ((Character'Pos (Source (Pointer'Old)) = 16#E0# and
+                           Character'Pos (Source (Pointer'Old + 1)) in 16#A0#..16#BF# and
+                         Character'Pos (Source (Pointer'Old + 2)) in 16#80#..16#BF#) or
+                          (Character'Pos (Source (Pointer'Old)) in 16#E1#..16#EF# and
+                               Character'Pos (Source (Pointer'Old + 1)) in 16#80#..16#BF# and
+                             Character'Pos (Source (Pointer'Old + 2)) in 16#80#..16#BF#))
+                  ) then
+          Pointer = Pointer'Old + 3
+            elsif (Pointer < Source'Last - 2 and then
+                     ((Character'Pos (Source (Pointer'Old)) = 16#F0# and
+                           Character'Pos (Source (Pointer'Old + 1)) in 16#90#..16#BF# and
+                         Character'Pos (Source (Pointer'Old + 2)) in 16#80#..16#BF# and
+                           Character'Pos (Source (Pointer'Old + 3)) in 16#80#..16#BF#) or
+                        (Character'Pos (Source (Pointer'Old)) in 16#F1#..16#F3# and
+                             Character'Pos (Source (Pointer'Old + 1)) in 16#80#..16#BF# and
+                           Character'Pos (Source (Pointer'Old + 2)) in 16#80#..16#BF# and
+                             Character'Pos (Source (Pointer'Old + 3)) in 16#80#..16#BF#) or
+                        (Character'Pos (Source (Pointer'Old)) = 16#F4# and
+                             Character'Pos (Source (Pointer'Old + 1)) in 16#80#..16#8F# and
+                           Character'Pos (Source (Pointer'Old + 2)) in 16#80#..16#BF# and
+                             Character'Pos (Source (Pointer'Old + 3)) in 16#80#..16#BF#))) then
+          Pointer = Pointer'Old + 4
+       );
 
    --function Is_Valid_UTF8 (Source : String) return Boolean;
 
@@ -112,9 +167,12 @@ package Aida.UTF8 is
    --
    --    The number of UTF-8 encoded code points in Source
    --
-   function Length (Source : Standard.String) return Nat32 with
+   function Length (Source : String) return Nat32 with
      Global => null,
-     Post   => Length'Result <= Source'Length or ((for all I in Source'Range => (Aida.Is_One_Byte_UTF8 (Source (I)))) and then (Length'Result = Source'Length));
+     Pre    => Source'Last < Int32'Last - 4,
+     Post   => Length'Result < Source'Length or
+     ((for all I in Source'Range => Is_One_Byte_UTF8 (Source (I))) and then
+        (Length'Result = Source'Length));
 
    --
    -- Put -- Put one UTF-8 code point
@@ -127,20 +185,37 @@ package Aida.UTF8 is
    -- starting from the position Source (Pointer). Pointer is then advanced
    -- to the first character following the output.
    --
-   procedure Put (Destination : in out Standard.String;
+   procedure Put (Destination : in out String;
                   Pointer     : in out Int32;
                   Value       : Aida.UTF8_Code_Point.T) with
      Global => null,
-     Pre    => (Pointer in Destination'Range and Destination'Last < Int32'Last) and then (if Value <= 16#7F# then Pointer < Int32'Last
-                                                                                              elsif Value <= 16#7FF# then Pointer < Int32'Last - 1 and Pointer + 1 in Destination'Range
-                                                                                                elsif Value <= 16#FFFF# then (Pointer < Int32'Last - 2 and then (Pointer + 1 in Destination'Range and Pointer + 2 in Destination'Range))
-                                                                                              else Pointer < Int32'Last - 3 and then (Pointer + 1 in Destination'Range and Pointer + 2 in Destination'Range and Pointer + 3 in Destination'Range)),
-     Post   => Pointer /= Pointer'Old and (Pointer in Destination'Range or Pointer = Destination'Last + 1);
+     Pre    => (
+                (Pointer in Destination'Range and
+                    Destination'Last < Int32'Last - 4) and then
+                  (if Value <= 16#7F# then
+                       Pointer < Int32'Last
+                         elsif Value <= 16#7FF# then
+                           Pointer < Int32'Last - 1 and
+                             Pointer + 1 in Destination'Range
+                               elsif Value <= 16#FFFF# then
+                     (Pointer < Int32'Last - 2 and then
+                          (Pointer + 1 in Destination'Range and
+                               Pointer + 2 in Destination'Range))
+                         else Pointer < Int32'Last - 3 and then
+                     (Pointer + 1 in Destination'Range and
+                          Pointer + 2 in Destination'Range and
+                            Pointer + 3 in Destination'Range))
+               ),
+     Post   =>
+       (Pointer /= Pointer'Old and
+          (Pointer in Destination'Range or Pointer = Destination'Last + 1));
 
-   function To_Lowercase (Value : Standard.String) return Standard.String with
-     Global => null;
+   function To_Lowercase (Value : String) return String with
+     Global => null,
+     Pre    => Value'Last < Int32'Last - 4;
 
-   function To_Uppercase (Value : Standard.String) return Standard.String with
-     Global => null;
+   function To_Uppercase (Value : String) return String with
+     Global => null,
+     Pre    => Value'Last < Int32'Last - 4;
 
 end Aida.UTF8;
