@@ -88,66 +88,65 @@
 
 package Aida.UTF8_Code_Point with SPARK_Mode is
 
-   package Fs with SPARK_Mode is
+   --
+   -- General_Category of a code point according to the  Unicode  character
+   -- database. The names of the enumeration correspond to the names in the
+   -- database.
+   --
+   type General_Category is
+     (  Lu, -- Letter, Uppercase
+        Ll, --         Lowercase
+        Lt, --         Titlecase
+        Lm, --         Modifier
+        Lo, --         Other
 
-      --
-      -- General_Category of a code point according to the  Unicode  character
-      -- database. The names of the enumeration correspond to the names in the
-      -- database.
-      --
-      type General_Category is
-        (  Lu, -- Letter, Uppercase
-           Ll, --         Lowercase
-           Lt, --         Titlecase
-           Lm, --         Modifier
-           Lo, --         Other
+        Mn, -- Mark, Nonspacing
+        Mc, --       Spacing Combining
+        Me, --       Enclosing
 
-           Mn, -- Mark, Nonspacing
-           Mc, --       Spacing Combining
-           Me, --       Enclosing
+        Nd, -- Number, Decimal Digit
+        Nl, --         Letter
+        No, --         Other
 
-           Nd, -- Number, Decimal Digit
-           Nl, --         Letter
-           No, --         Other
+        Pc, -- Punctuation, Connector
+        Pd, --              Dash
+        Ps, --              Open
+        Pe, --              Close
+        Pi, --              Initial quote
+        Pf, --              Final quote
+        Po, --              Other
 
-           Pc, -- Punctuation, Connector
-           Pd, --              Dash
-           Ps, --              Open
-           Pe, --              Close
-           Pi, --              Initial quote
-           Pf, --              Final quote
-           Po, --              Other
+        Sm, -- Symbol, Math
+        Sc, --         Currency
+        Sk, --         Modifier
+        So, --         Other
 
-           Sm, -- Symbol, Math
-           Sc, --         Currency
-           Sk, --         Modifier
-           So, --         Other
+        Zs, -- Separator, Space
+        Zl, --            Line
+        Zp, --            Paragraph
 
-           Zs, -- Separator, Space
-           Zl, --            Line
-           Zp, --            Paragraph
-
-           Cc, -- Other, Control
-           Cf, --        Format
-           Cs, --        Surrogate
-           Co, --        Private Use
-           Cn  --        Not Assigned
-          );
-      --
-      -- Classes of categories
-      --
-      subtype Letter      is General_Category range Lu..Lo;
-      subtype Mark        is General_Category range Mn..Me;
-      subtype Mumber      is General_Category range Nd..No;
-      subtype Punctuation is General_Category range Pc..Po;
-      subtype Symbol      is General_Category range Sm..So;
-      subtype Separator   is General_Category range Zs..Zp;
-      subtype Other       is General_Category range Cc..Cn;
-
-   end Fs;
+        Cc, -- Other, Control
+        Cf, --        Format
+        Cs, --        Surrogate
+        Co, --        Private Use
+        Cn  --        Not Assigned
+       );
+   --
+   -- Classes of categories
+   --
+   subtype Letter      is General_Category range Lu..Lo;
+   subtype Mark        is General_Category range Mn..Me;
+   subtype Mumber      is General_Category range Nd..No;
+   subtype Punctuation is General_Category range Pc..Po;
+   subtype Symbol      is General_Category range Sm..So;
+   subtype Separator   is General_Category range Zs..Zp;
+   subtype Other       is General_Category range Cc..Cn;
 
    type Code_Point is mod 2**32;
    subtype T is Code_Point range 0..16#10FFFF#;
+
+   subtype Code_Point_String_Length is Pos32 range 1..4;
+   -- Length of a String corresponding to a specific code point.
 
    --
    -- Image -- Of an UTF-8 code point
@@ -158,8 +157,9 @@ package Aida.UTF8_Code_Point with SPARK_Mode is
    --
    --    UTF-8 encoded equivalent
    --
-   function Image (Value : T) return Standard.String with
-     Global => null;
+   function Image (Value : T) return String with
+     Global => null,
+     Post   => Image'Result'Length in Code_Point_String_Length;
 
    --
    -- Has_Case -- Case test
@@ -208,7 +208,8 @@ package Aida.UTF8_Code_Point with SPARK_Mode is
    --    The lower case eqivalent or else Value itself
    --
    function To_Lowercase (Value : T) return T with
-     Global => null;
+     Global => null,
+     Post   => Image (To_Lowercase'Result)'Length = Image (Value)'Length;
 
    --
    -- To_Uppercase -- Convert to upper case
@@ -220,7 +221,8 @@ package Aida.UTF8_Code_Point with SPARK_Mode is
    --    The upper case eqivalent or else Value itself
    --
    function To_Uppercase (Value : T) return T with
-     Global => null;
+     Global => null,
+     Post   => Image (To_Uppercase'Result)'Length = Image (Value)'Length;
 
    --
    -- Category -- Get category of a code point
@@ -231,7 +233,7 @@ package Aida.UTF8_Code_Point with SPARK_Mode is
    --
    --    The category of value
    --
-   function Category (Value : T) return Fs.General_Category with
+   function Category (Value : T) return General_Category with
      Global => null;
 
    --

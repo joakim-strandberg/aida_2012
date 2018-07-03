@@ -1,7 +1,5 @@
 with Aida.Bounded_Vector;
 
--- DO NOT USE. Uncommenting the Exists function below triggers a GNAT compiler bug.
--- Will continue developing this package sometime in the future... during 2017 or later???
 generic
    type Key_T is private;
    type Element_T is private;
@@ -16,6 +14,7 @@ generic
 
    Max_Collision_List_Size : Aida.Int32 := 0;
 package Aida.Bounded_Hash_Map is
+   pragma Pure;
 
    use all type Aida.Int32;
    use all type Aida.Hash32;

@@ -4,6 +4,7 @@ generic
    Max_Strings : Pos32;
    type Value_T is new Standard.String;
 package Aida.Integer_To_String_Map is
+   pragma Pure;
 
    subtype Key_T is Pos32 range 1..Max_Strings;
 

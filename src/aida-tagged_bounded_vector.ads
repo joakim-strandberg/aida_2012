@@ -17,6 +17,7 @@ generic
    type Element_T is private;
    with function Default_Element return Element_T;
 package Aida.Tagged_Bounded_Vector is
+   pragma Pure;
 
    pragma Assert (Max_Last_Index > Int32'First);
 

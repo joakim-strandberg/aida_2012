@@ -15,7 +15,7 @@ package body Aida.UTF8 with SPARK_Mode is
             Pointer := Pointer + 1;
          when 16#C2#..16#DF# => -- 2 bytes
             Accum := (Code and 16#1F#) * 2**6;
-            Code := Aida.UTF8_Code_Point.T (Character'Pos (Source (Pointer + 1)));
+            Code := UTF8_Code_Point.T (Character'Pos (Source (Pointer + 1)));
             Value   := Accum or (Code and 16#3F#);
             Pointer := Pointer + 2;
          when 16#E0# => -- 3 bytes
@@ -58,9 +58,27 @@ package body Aida.UTF8 with SPARK_Mode is
             Value   := Accum or (Code and 16#3F#);
             Pointer := Pointer + 4;
          when others =>
-            raise Constraint_Error; -- This exception will never be raised if pre-conditions are met.
+            raise Constraint_Error;
+            -- This exception will never be raised if pre-conditions are met.
       end case;
    end Get;
+
+   function Is_Valid_UTF8 (Source : String) return Boolean is
+      Accum : Aida.UTF8_Code_Point.T;
+      pragma Unreferenced (Accum);
+
+      Index : Int32 := Source'First;
+   begin
+      while Index <= Source'Last loop
+         if Is_Valid_UTF8_Code_Point (Source, Index) then
+            Get (Source, Index, Accum);
+         else
+            exit;
+         end if;
+         pragma Loop_Variant (Increases => Index);
+      end loop;
+      return Index = Source'Last + 1;
+   end Is_Valid_UTF8;
 
    function Length (Source : String) return Nat32 is
       Count : Nat32 := 0;
@@ -113,6 +131,8 @@ package body Aida.UTF8 with SPARK_Mode is
       Code   : Aida.UTF8_Code_Point.T;
    begin
       while From <= Value'Last loop
+         pragma Assume (Is_Valid_UTF8_Code_Point (Value, From));
+
          Aida.UTF8.Get (Value, From, Code);
          Code := To_Lowercase (Code);
          Aida.UTF8.Put (Result, To, Code);
@@ -127,6 +147,8 @@ package body Aida.UTF8 with SPARK_Mode is
       Code   : Aida.UTF8_Code_Point.T;
    begin
       while From <= Value'Last loop
+         pragma Assume (Is_Valid_UTF8_Code_Point (Value, From));
+
          Aida.UTF8.Get (Value, From, Code);
          Code := To_Uppercase (Code);
          Aida.UTF8.Put (Result, To, Code);

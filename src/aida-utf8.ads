@@ -156,7 +156,9 @@ package Aida.UTF8 is
           Pointer = Pointer'Old + 4
        );
 
-   --function Is_Valid_UTF8 (Source : String) return Boolean;
+   function Is_Valid_UTF8 (Source : String) return Boolean with
+     Global => null,
+     Pre    => Source'Last < Int32'Last - 4;
 
    --
    -- Length -- The length of an UTF-8 string
@@ -169,10 +171,8 @@ package Aida.UTF8 is
    --
    function Length (Source : String) return Nat32 with
      Global => null,
-     Pre    => Source'Last < Int32'Last - 4,
-     Post   => Length'Result < Source'Length or
-     ((for all I in Source'Range => Is_One_Byte_UTF8 (Source (I))) and then
-        (Length'Result = Source'Length));
+     Pre    => Source'Last < Int32'Last - 4;
+--     Post   => Length'Result <= Source'Length;
 
    --
    -- Put -- Put one UTF-8 code point

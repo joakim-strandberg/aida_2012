@@ -1,5 +1,3 @@
-with Ada.Exceptions;
-
 package body Aida.Bounded_Hash_Map is
 
    use all type Collision_Vector.T;
