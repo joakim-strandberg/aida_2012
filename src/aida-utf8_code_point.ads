@@ -1,10 +1,10 @@
--- The code in this package originates from the work of Dmitry A. Kazakov,
--- the Simple Components library. The changes can be summarized:
+--  The code in this package originates from the work of Dmitry A. Kazakov,
+--  the Simple Components library. The changes can be summarized:
 --
 --  - Conversion from Ada95 to SPARK (Ada2012)
 --  - The subprograms have been grouped differently.
 --
--- The code is shared under the following license:
+--  The code is shared under the following license:
 --
 --  This  library  is  free software; you can redistribute it and/or  --
 --  modify it under the terms of the GNU General Public  License  as  --
@@ -80,7 +80,7 @@
 --  executable to be covered by the GNU General Public License. This  --
 --  exception  does not however invalidate any other reasons why the  --
 --  executable file might be covered by the GNU Public License.       --
---____________________________________________________________________--
+--  ________________________________________________________________  --
 --
 --  This  package  provides  categorization of code points as defined by
 --  UnicodeData file.
@@ -89,71 +89,71 @@
 package Aida.UTF8_Code_Point with SPARK_Mode is
 
    --
-   -- General_Category of a code point according to the  Unicode  character
-   -- database. The names of the enumeration correspond to the names in the
-   -- database.
+   --  General_Category of a code point according to the  Unicode  character
+   --  database. The names of the enumeration correspond to the names in the
+   --  database.
    --
    type General_Category is
-     (  Lu, -- Letter, Uppercase
-        Ll, --         Lowercase
-        Lt, --         Titlecase
-        Lm, --         Modifier
-        Lo, --         Other
+     (Lu, --  Letter, Uppercase
+      Ll, --         Lowercase
+      Lt, --         Titlecase
+      Lm, --         Modifier
+      Lo, --         Other
 
-        Mn, -- Mark, Nonspacing
-        Mc, --       Spacing Combining
-        Me, --       Enclosing
+      Mn, -- Mark, Nonspacing
+      Mc, --       Spacing Combining
+      Me, --       Enclosing
 
-        Nd, -- Number, Decimal Digit
-        Nl, --         Letter
-        No, --         Other
+      Nd, -- Number, Decimal Digit
+      Nl, --         Letter
+      No, --         Other
 
-        Pc, -- Punctuation, Connector
-        Pd, --              Dash
-        Ps, --              Open
-        Pe, --              Close
-        Pi, --              Initial quote
-        Pf, --              Final quote
-        Po, --              Other
+      Pc, -- Punctuation, Connector
+      Pd, --              Dash
+      Ps, --              Open
+      Pe, --              Close
+      Pi, --              Initial quote
+      Pf, --              Final quote
+      Po, --              Other
 
-        Sm, -- Symbol, Math
-        Sc, --         Currency
-        Sk, --         Modifier
-        So, --         Other
+      Sm, -- Symbol, Math
+      Sc, --         Currency
+      Sk, --         Modifier
+      So, --         Other
 
-        Zs, -- Separator, Space
-        Zl, --            Line
-        Zp, --            Paragraph
+      Zs, -- Separator, Space
+      Zl, --            Line
+      Zp, --            Paragraph
 
-        Cc, -- Other, Control
-        Cf, --        Format
-        Cs, --        Surrogate
-        Co, --        Private Use
-        Cn  --        Not Assigned
-       );
+      Cc, -- Other, Control
+      Cf, --        Format
+      Cs, --        Surrogate
+      Co, --        Private Use
+      Cn  --        Not Assigned
+     );
    --
-   -- Classes of categories
+   --  Classes of categories
    --
-   subtype Letter      is General_Category range Lu..Lo;
-   subtype Mark        is General_Category range Mn..Me;
-   subtype Mumber      is General_Category range Nd..No;
-   subtype Punctuation is General_Category range Pc..Po;
-   subtype Symbol      is General_Category range Sm..So;
-   subtype Separator   is General_Category range Zs..Zp;
-   subtype Other       is General_Category range Cc..Cn;
+   subtype Letter      is General_Category range Lu .. Lo;
+   subtype Mark        is General_Category range Mn .. Me;
+   subtype Mumber      is General_Category range Nd .. No;
+   subtype Punctuation is General_Category range Pc .. Po;
+   subtype Symbol      is General_Category range Sm .. So;
+   subtype Separator   is General_Category range Zs .. Zp;
+   subtype Other       is General_Category range Cc .. Cn;
 
    type Code_Point is mod 2**32;
-   subtype T is Code_Point range 0..16#10FFFF#;
+   subtype T is Code_Point range 0  .. 16#10FFFF#;
 
-   subtype Code_Point_String_Length is Pos32 range 1..4;
-   -- Length of a String corresponding to a specific code point.
+   subtype Code_Point_String_Length is Pos32 range 1 .. 4;
+   --  Length of a String corresponding to a specific code point.
 
    --
-   -- Image -- Of an UTF-8 code point
+   --  Image -- Of an UTF-8 code point
    --
    --    Value - The code point
    --
-   -- Returns :
+   --  Returns :
    --
    --    UTF-8 encoded equivalent
    --
@@ -162,11 +162,11 @@ package Aida.UTF8_Code_Point with SPARK_Mode is
      Post   => Image'Result'Length in Code_Point_String_Length;
 
    --
-   -- Has_Case -- Case test
+   --  Has_Case -- Case test
    --
    --    Value - Code point
    --
-   -- Returns :
+   --  Returns :
    --
    --    True if Value has either an  upper  or  a  lower  case  equivalent
    --    different from Code.
@@ -175,11 +175,11 @@ package Aida.UTF8_Code_Point with SPARK_Mode is
      Global => null;
 
    --
-   -- Is_Lowercase -- Case test
+   --  Is_Lowercase -- Case test
    --
    --    Value - Code point
    --
-   -- Returns :
+   --  Returns :
    --
    --    True if Value is a lower case point
    --
@@ -187,11 +187,11 @@ package Aida.UTF8_Code_Point with SPARK_Mode is
      Global => null;
 
    --
-   -- Is_Uppercase -- Case test
+   --  Is_Uppercase -- Case test
    --
    --    Value - Code point
    --
-   -- Returns :
+   --  Returns :
    --
    --    True if Value is a lower case point
    --
@@ -199,11 +199,11 @@ package Aida.UTF8_Code_Point with SPARK_Mode is
      Global => null;
 
    --
-   -- To_Lowercase -- Convert to lower case
+   --  To_Lowercase -- Convert to lower case
    --
    --    Value - Code point or UTF-8 encoded string
    --
-   -- Returns :
+   --  Returns :
    --
    --    The lower case eqivalent or else Value itself
    --
@@ -212,11 +212,11 @@ package Aida.UTF8_Code_Point with SPARK_Mode is
      Post   => Image (To_Lowercase'Result)'Length = Image (Value)'Length;
 
    --
-   -- To_Uppercase -- Convert to upper case
+   --  To_Uppercase -- Convert to upper case
    --
    --    Value - Code point or UTF-8 encoded string
    --
-   -- Returns :
+   --  Returns :
    --
    --    The upper case eqivalent or else Value itself
    --
@@ -225,11 +225,11 @@ package Aida.UTF8_Code_Point with SPARK_Mode is
      Post   => Image (To_Uppercase'Result)'Length = Image (Value)'Length;
 
    --
-   -- Category -- Get category of a code point
+   --  Category -- Get category of a code point
    --
    --    Value - Code point
    --
-   -- Returns :
+   --  Returns :
    --
    --    The category of value
    --
@@ -237,7 +237,7 @@ package Aida.UTF8_Code_Point with SPARK_Mode is
      Global => null;
 
    --
-   -- Is_* -- Category tests
+   --  Is_* -- Category tests
    --
    function Is_Alphanumeric (Value : in T) return Boolean with
      Global => null;
@@ -270,7 +270,7 @@ package Aida.UTF8_Code_Point with SPARK_Mode is
      Global => null;
 
    --
-   -- Special digits
+   --  Special digits
    --
    function Is_Subscript_Digit (Value : in T) return Boolean with
      Global => null;
@@ -278,7 +278,7 @@ package Aida.UTF8_Code_Point with SPARK_Mode is
    function Is_Superscript_Digit (Value : in T) return Boolean with
      Global => null;
    --
-   -- Ada 2005 identifier sets
+   --  Ada 2005 identifier sets
    --
    --    identifier_start,  see ARM 2.3(3/2)
    --    identifier_extend, see ARM 2.3(3.1/2)
@@ -291,7 +291,7 @@ package Aida.UTF8_Code_Point with SPARK_Mode is
 
 private
    pragma Inline
-     (  Is_Alphanumeric, Is_Control, Is_Digit, Is_ISO_646,
+     (Is_Alphanumeric, Is_Control, Is_Digit, Is_ISO_646,
         Is_Letter,       Is_Lower,   Is_Title, Is_Upper,
         Is_Subscript_Digit,  Is_Superscript_Digit,
         Is_Identifier_Start, Is_Identifier_Extend
