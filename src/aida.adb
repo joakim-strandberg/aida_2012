@@ -941,4 +941,168 @@ package body Aida is
       return S;
    end Concat;
 
+   procedure Initialize (This : in out Bounded_String; Text : String) is
+   begin
+      for I in Int32 range 1 .. Text'Length loop
+         This.Text (I) := Text (Text'First - 1 + I);
+         pragma Loop_Invariant
+           (for all J in Int32 range 1 .. I =>
+              This.Text (J) = Text (Text'First - 1 + J));
+         pragma Loop_Variant (Increases => I);
+      end loop;
+
+      This.Text_Length := Text'Length;
+   end Initialize;
+
+   procedure Initialize2 (This : out Bounded_String; Text : String) is
+   begin
+      This.Text := (others => ' ');
+      for I in Int32 range 1 .. Text'Length loop
+         This.Text (I) := Text (Text'First - 1 + I);
+         pragma Loop_Invariant
+           (for all J in Int32 range 1 .. I =>
+              This.Text (J) = Text (Text'First - 1 + J));
+         pragma Loop_Variant (Increases => I);
+      end loop;
+
+      This.Text_Length := Text'Length;
+   end Initialize2;
+
+   procedure Append (Target : in out Bounded_String; Source : String) is
+   begin
+      for I in Int32 range Source'First .. Source'Last loop
+         Target.Text (Target.Text_Length + 1 + (I - Source'First)) :=
+           Source (I);
+      end loop;
+      Target.Text_Length := Target.Text_Length + Source'Length;
+   end Append;
+
+   function To_Hash32 (This : Bounded_String) return Hash32 is
+   begin
+      return Aida.To_Hash32 (This.Text (1 .. Length (This)));
+   end To_Hash32;
+
+   function Equals (This : Bounded_String; Object : String) return Boolean is
+      Result : Boolean := True;
+   begin
+      if Length (This) = Object'Length then
+         if Object'Length > 0 then
+            Result :=
+              This.Text (1 .. This.Text_Length) = Object (Object'Range);
+         end if;
+      end if;
+
+      return Result;
+   end Equals;
+
+   function To_String (This : Bounded_String) return String is
+   begin
+      return This.Text (1 .. This.Text_Length);
+   end To_String;
+
+   procedure Initialize (This    : in out Call_Result;
+                         Code_1 : Int32;
+                         Code_2 : Int32) is
+   begin
+      This.My_Code_1 := Code_1;
+      This.My_Code_2 := Code_2;
+      This.My_Has_Failed := True;
+   end Initialize;
+
+   function Message (This : Call_Result) return String is
+      subtype Index_T is Pos32 range 1 .. 24;
+
+      Text : String (Index_T'Range) := (others => '0');
+
+      Max : Index_T;
+   begin
+      if This.My_Code_1 >= 0 then
+         if This.My_Code_2 >= 0 then
+            Max := 22;
+
+            declare
+               Text2 : String := Aida.To_String (This.My_Code_1);
+               L : Int32 := 10 - Text2'Length + 1;
+            begin
+               pragma Assert (L <= 10);
+               Text (L .. 10) := Text2 (Text2'First .. Text2'Last);
+            end;
+
+            Text (11 .. 12) := ", ";
+
+            declare
+               Text2 : String := Aida.To_String (This.My_Code_2);
+               L : Int32 := 22 - Text2'Length + 1;
+            begin
+               Text (L .. 22) := Text2 (Text2'First .. Text2'Last);
+            end;
+         else
+            Max := 23;
+
+            declare
+               Text2 : String := Aida.To_String (This.My_Code_1);
+               L : Int32 := 10 - Text2'Length + 1;
+            begin
+               pragma Assert (L <= 10);
+               Text (L .. 10) := Text2 (Text2'First .. Text2'Last);
+            end;
+
+            Text (11 .. 12) := ", ";
+
+            declare
+               Text2 : String := Aida.To_String (This.My_Code_2);
+               L : Int32 := 23 - Text2'Length + 1;
+            begin
+               Text (13) := '-';
+               Text (L + 1 .. 23) := Text2 (Text2'First + 1 .. Text2'Last);
+            end;
+         end if;
+      else
+         if This.My_Code_2 >= 0 then
+            Max := 23;
+
+            declare
+               Text2 : String := Aida.To_String (This.My_Code_1);
+               L : Int32 := 11 - Text2'Length + 1;
+            begin
+               pragma Assert (L <= 11);
+               Text (1) := '-';
+               Text (L + 1 .. 11) := Text2 (Text2'First + 1 .. Text2'Last);
+            end;
+
+            Text (12 .. 13) := ", ";
+
+            declare
+               Text2 : String := Aida.To_String (This.My_Code_2);
+               L : Int32 := 23 - Text2'Length + 1;
+            begin
+               Text (L .. 23) := Text2 (Text2'First .. Text2'Last);
+            end;
+         else
+            Max := 24;
+
+            declare
+               Text2 : String := Aida.To_String (This.My_Code_1);
+               L : Int32 := 11 - Text2'Length + 1;
+            begin
+               pragma Assert (L <= 11);
+               Text (1) := '-';
+               Text (L + 1 .. 11) := Text2 (Text2'First + 1 .. Text2'Last);
+            end;
+
+            Text (12 .. 13) := ", ";
+
+            declare
+               Text2 : String := Aida.To_String (This.My_Code_2);
+               L : Int32 := 24 - Text2'Length + 1;
+            begin
+               Text (14) := '-';
+               Text (L + 1 .. 24) := Text2 (Text2'First + 1 .. Text2'Last);
+            end;
+         end if;
+      end if;
+
+      return Text (1 .. Max);
+   end Message;
+
 end Aida;

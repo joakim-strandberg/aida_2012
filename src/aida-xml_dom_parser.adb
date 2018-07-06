@@ -68,8 +68,8 @@ package body Aida.XML_DOM_Parser is
                         Max_Indices : in out Max_Indices_T;
                         State       : in out State_T;
                         Current_Ids : in out Current_Ids_T;
-                        Tag_Name    : Standard.String;
-                        Call_Result : in out Aida.Subprogram_Call_Result.T) with
+                        Tag_Name    : String;
+                        Call_Result : in out Aida.Call_Result) with
      Global => null,
      Pre    => not Call_Result.Has_Failed;
 
@@ -77,8 +77,8 @@ package body Aida.XML_DOM_Parser is
                       Max_Indices : in out Max_Indices_T;
                       State       : in out State_T;
                       Current_Ids : in out Current_Ids_T;
-                      Tag_Name    : Standard.String;
-                      Call_Result : in out Aida.Subprogram_Call_Result.T) with
+                      Tag_Name    : String;
+                      Call_Result : in out Aida.Call_Result) with
      Global => null,
      Pre    => not Call_Result.Has_Failed;
 
@@ -86,8 +86,8 @@ package body Aida.XML_DOM_Parser is
                    Max_Indices : in out Max_Indices_T;
                    State       : in out State_T;
                    Current_Ids : in out Current_Ids_T;
-                   Value       : Standard.String;
-                   Call_Result : in out Aida.Subprogram_Call_Result.T) with
+                   Value       : String;
+                   Call_Result : in out Aida.Call_Result) with
      Global => null,
      Pre    => not Call_Result.Has_Failed;
 
@@ -95,9 +95,9 @@ package body Aida.XML_DOM_Parser is
                         Max_Indices     : in out Max_Indices_T;
                         State           : in out State_T;
                         Current_Ids     : in out Current_Ids_T;
-                        Attribute_Name  : Standard.String;
-                        Attribute_Value : Standard.String;
-                        Call_Result     : in out Aida.Subprogram_Call_Result.T) with
+                        Attribute_Name  : String;
+                        Attribute_Value : String;
+                        Call_Result     : in out Aida.Call_Result) with
      Global => null,
      Pre    => not Call_Result.Has_Failed;
 
@@ -105,8 +105,8 @@ package body Aida.XML_DOM_Parser is
                       Max_Indices : in out Max_Indices_T;
                       State       : in out State_T;
                       Current_Ids : in out Current_Ids_T;
-                      Value       : Standard.String;
-                      Call_Result : in out Aida.Subprogram_Call_Result.T) with
+                      Value       : String;
+                      Call_Result : in out Aida.Call_Result) with
      Global => null,
      Pre    => not Call_Result.Has_Failed;
 
@@ -114,8 +114,8 @@ package body Aida.XML_DOM_Parser is
                     Max_Indices : in out Max_Indices_T;
                     State       : in out State_T;
                     Current_Ids : in out Current_Ids_T;
-                    Value       : Standard.String;
-                    Call_Result : in out Aida.Subprogram_Call_Result.T) with
+                    Value       : String;
+                    Call_Result : in out Aida.Call_Result) with
      Global => null,
      Pre    => not Call_Result.Has_Failed;
 
@@ -123,8 +123,8 @@ package body Aida.XML_DOM_Parser is
                         Max_Indices : in out Max_Indices_T;
                         State       : in out State_T;
                         Current_Ids : in out Current_Ids_T;
-                        Tag_Name    : Standard.String;
-                        Call_Result : in out Aida.Subprogram_Call_Result.T) is
+                        Tag_Name    : String;
+                        Call_Result : in out Aida.Call_Result) is
    begin
       case State is
          when Expecting_Object_Start =>
@@ -144,17 +144,20 @@ package body Aida.XML_DOM_Parser is
                      Key : Int_To_String_Map.Key_T;
                   begin
                      Max_Indices.Allocate_Node_Id (Id);
-                     Current_Node := (Node_Id           => Id,
-                                      Last_Child_Id     => Extended_Node_Id_T'First,
-                                      Last_Attribute_Id => Extended_Attribute_Id_T'First);
+                     Current_Node
+                       := (Node_Id           => Id,
+                           Last_Child_Id     => Extended_Node_Id_T'First,
+                           Last_Attribute_Id => Extended_Attribute_Id_T'First);
                      Current_Ids.Node_Ids.Append (Current_Node);
 
                      This.Map.Append (Tag_Name, Key);
-                     This.Nodes (Id).Inner := (My_Id        => XML_Tag,
-                                               My_Next_Node => Extended_Node_Id_T'First,
-                                               My_JSON_Key  => Key,
-                                               My_First_Child_Node   => Extended_Node_Id_T'First,
-                                               My_First_Attribute_Id => Extended_Attribute_Id_T'First);
+                     This.Nodes (Id).Inner
+                       := (My_Id        => XML_Tag,
+                           My_Next_Node => Extended_Node_Id_T'First,
+                           My_JSON_Key  => Key,
+                           My_First_Child_Node   => Extended_Node_Id_T'First,
+                           My_First_Attribute_Id =>
+                             Extended_Attribute_Id_T'First);
                   end;
                   State := Expecting_Default;
                else
@@ -180,28 +183,40 @@ package body Aida.XML_DOM_Parser is
                      Key : Int_To_String_Map.Key_T;
                   begin
                      Max_Indices.Allocate_Node_Id (Id);
-                     Current_Node := (Node_Id           => Id,
-                                      Last_Child_Id     => Extended_Node_Id_T'First,
-                                      Last_Attribute_Id => Extended_Attribute_Id_T'First);
+                     Current_Node
+                       := (Node_Id           => Id,
+                           Last_Child_Id     => Extended_Node_Id_T'First,
+                           Last_Attribute_Id => Extended_Attribute_Id_T'First);
 
-                     if Current_Ids.Node_Ids.Last_Element.Last_Child_Id = Extended_Node_Id_T'First then
-                        if This.Nodes (Current_Ids.Node_Ids.Last_Element.Node_Id).Id = XML_Tag then
-                           This.Nodes (Current_Ids.Node_Ids.Last_Element.Node_Id).Inner.My_First_Child_Node := Id;
+                     if Current_Ids.Node_Ids.Last_Element.Last_Child_Id =
+                       Extended_Node_Id_T'First
+                     then
+                        if This.Nodes
+                          (Current_Ids.Node_Ids.Last_Element.Node_Id).Id =
+                          XML_Tag
+                        then
+                           This.Nodes
+                             (Current_Ids.Node_Ids.Last_Element.Node_Id).
+                             Inner.My_First_Child_Node := Id;
                         else
                            Call_Result.Initialize (-1452921765, -1899208134);
                         end if;
                      else
-                        This.Nodes (Current_Ids.Node_Ids.Last_Element.Last_Child_Id).Inner.My_Next_Node := Id;
+                        This.Nodes
+                          (Current_Ids.Node_Ids.Last_Element.Last_Child_Id).
+                          Inner.My_Next_Node := Id;
                      end if;
 
                      Current_Ids.Node_Ids.Append (Current_Node);
 
                      This.Map.Append (Tag_Name, Key);
-                     This.Nodes (Id).Inner := (My_Id        => XML_Tag,
-                                               My_Next_Node => Extended_Node_Id_T'First,
-                                               My_JSON_Key  => Key,
-                                               My_First_Child_Node   => Extended_Node_Id_T'First,
-                                               My_First_Attribute_Id => Extended_Attribute_Id_T'First);
+                     This.Nodes (Id).Inner
+                       := (My_Id        => XML_Tag,
+                           My_Next_Node => Extended_Node_Id_T'First,
+                           My_JSON_Key  => Key,
+                           My_First_Child_Node   => Extended_Node_Id_T'First,
+                           My_First_Attribute_Id =>
+                             Extended_Attribute_Id_T'First);
                   end;
                else
                   Call_Result.Initialize (1664667095, -0647795774);
@@ -218,8 +233,8 @@ package body Aida.XML_DOM_Parser is
                       Max_Indices : in out Max_Indices_T;
                       State       : in out State_T;
                       Current_Ids : in out Current_Ids_T;
-                      Tag_Name    : Standard.String;
-                      Call_Result : in out Aida.Subprogram_Call_Result.T)
+                      Tag_Name    : String;
+                      Call_Result : in out Aida.Call_Result)
    is
       pragma Unmodified (This);
       pragma Unmodified (Max_Indices);
@@ -227,9 +242,13 @@ package body Aida.XML_DOM_Parser is
       case State is
          when Expecting_Default =>
             if not Current_Ids.Node_Ids.Is_Empty and then
-              (This.Nodes (Current_Ids.Node_Ids.Last_Element.Node_Id).Id = XML_Tag)
+              (This.Nodes (Current_Ids.Node_Ids.Last_Element.Node_Id).Id =
+                   XML_Tag)
             then
-               if This.Nodes (Current_Ids.Node_Ids.Last_Element.Node_Id).Name (This.Map) = Tag_Name then
+               if This.Nodes
+                 (Current_Ids.Node_Ids.Last_Element.Node_Id).Name (This.Map) =
+                 Tag_Name
+               then
                   Current_Ids.Node_Ids.Delete_Last;
                   if Current_Ids.Node_Ids.Is_Empty then
                      State := End_State;
@@ -250,15 +269,18 @@ package body Aida.XML_DOM_Parser is
                    Max_Indices : in out Max_Indices_T;
                    State       : in out State_T;
                    Current_Ids : in out Current_Ids_T;
-                   Value       : Standard.String;
-                   Call_Result : in out Aida.Subprogram_Call_Result.T)
+                   Value       : String;
+                   Call_Result : in out Aida.Call_Result)
    is
       pragma Unmodified (State);
    begin
       case State is
          when Expecting_Default =>
-            if Value'Length = 0 or (Value'Length > 0 and then
-                                      (for all I in Value'Range => Value (I) = ' ' or Value (I) = Standard.Character'Val (12) or Value (I) = Standard.Character'Val (13)))
+            if Value'Length = 0 or
+              (Value'Length > 0 and then
+                 (for all I in Value'Range =>
+                      Value (I) = ' ' or Value (I) = Character'Val (12) or
+                      Value (I) = Character'Val (13)))
             then
                null;
             elsif
@@ -266,7 +288,8 @@ package body Aida.XML_DOM_Parser is
               not Current_Ids.Node_Ids.Is_Empty
             then
                if
-                 This.Map.Available_Keys > 0 and This.Map.Available_Chars >= Value'Length
+                 This.Map.Available_Keys > 0 and
+                 This.Map.Available_Chars >= Value'Length
                then
                   declare
                      Id  : Node_Id_T;
@@ -277,18 +300,28 @@ package body Aida.XML_DOM_Parser is
                      Max_Indices.Allocate_Node_Id (Id);
                      This.Map.Append (Value, Key);
 
-                     This.Nodes (Id).Inner := (My_Id        => XML_Text,
-                                               My_Next_Node => Extended_Node_Id_T'First,
-                                               My_Key       => Key);
+                     This.Nodes (Id).Inner
+                       := (My_Id        => XML_Text,
+                           My_Next_Node => Extended_Node_Id_T'First,
+                           My_Key       => Key);
 
-                     if Current_Ids.Node_Ids.Last_Element.Last_Child_Id = Extended_Node_Id_T'First then
-                        if This.Nodes (Current_Ids.Node_Ids.Last_Element.Node_Id).Id = XML_Tag then
-                           This.Nodes (Current_Ids.Node_Ids.Last_Element.Node_Id).Inner.My_First_Child_Node := Id;
+                     if Current_Ids.Node_Ids.Last_Element.Last_Child_Id =
+                       Extended_Node_Id_T'First
+                     then
+                        if This.Nodes
+                          (Current_Ids.Node_Ids.Last_Element.Node_Id).Id =
+                          XML_Tag
+                        then
+                           This.Nodes
+                             (Current_Ids.Node_Ids.Last_Element.Node_Id).
+                             Inner.My_First_Child_Node := Id;
                         else
                            Call_Result.Initialize (0638744504, -1415872799);
                         end if;
                      else
-                        This.Nodes (Current_Ids.Node_Ids.Last_Element.Last_Child_Id).Inner.My_Next_Node := Id;
+                        This.Nodes
+                          (Current_Ids.Node_Ids.Last_Element.Last_Child_Id).
+                          Inner.My_Next_Node := Id;
                      end if;
 
                      Current_Node := Current_Ids.Node_Ids.Last_Element;
@@ -311,9 +344,9 @@ package body Aida.XML_DOM_Parser is
                         Max_Indices     : in out Max_Indices_T;
                         State           : in out State_T;
                         Current_Ids     : in out Current_Ids_T;
-                        Attribute_Name  : Standard.String;
-                        Attribute_Value : Standard.String;
-                        Call_Result     : in out Aida.Subprogram_Call_Result.T)
+                        Attribute_Name  : String;
+                        Attribute_Value : String;
+                        Call_Result     : in out Aida.Call_Result)
    is
       pragma Unmodified (State);
    begin
@@ -348,20 +381,30 @@ package body Aida.XML_DOM_Parser is
                         This.Attributes (Id).My_Name_Key  := Name_Key;
                         This.Attributes (Id).My_Value_Key := Value_Key;
 
-                        if Current_Ids.Node_Ids.Last_Element.Last_Attribute_Id = Extended_Attribute_Id_T'First then
-                           if This.Nodes (Current_Ids.Node_Ids.Last_Element.Node_Id).Id = XML_Tag then
-                              This.Nodes (Current_Ids.Node_Ids.Last_Element.Node_Id).Inner.My_First_Attribute_Id := Id;
+                        if Current_Ids.Node_Ids.Last_Element.Last_Attribute_Id
+                          = Extended_Attribute_Id_T'First
+                        then
+                           if This.Nodes
+                             (Current_Ids.Node_Ids.Last_Element.Node_Id).Id =
+                             XML_Tag
+                           then
+                              This.Nodes
+                                (Current_Ids.Node_Ids.Last_Element.Node_Id).
+                                Inner.My_First_Attribute_Id := Id;
 
-                              Current_Node := Current_Ids.Node_Ids.Last_Element;
+                              Current_Node
+                                := Current_Ids.Node_Ids.Last_Element;
                               Current_Node.Last_Attribute_Id := Id;
-                              Current_Ids.Node_Ids.Replace_Last_Element (Current_Node);
+                              Current_Ids.Node_Ids.Replace_Last_Element
+                                (Current_Node);
                            else
                               Call_Result.Initialize (1957291889, -1734827804);
                            end if;
                         else
-                           This.Attributes (Current_Ids.Node_Ids.Last_Element.Last_Attribute_Id).My_Next_Attribute := Id;
+                           This.Attributes
+                         (Current_Ids.Node_Ids.Last_Element.Last_Attribute_Id).
+                             My_Next_Attribute := Id;
                         end if;
-
                      else
                         Call_Result.Initialize (0420479066, 0527456968);
                      end if;
@@ -384,8 +427,8 @@ package body Aida.XML_DOM_Parser is
                       Max_Indices : in out Max_Indices_T;
                       State       : in out State_T;
                       Current_Ids : in out Current_Ids_T;
-                      Value       : Standard.String;
-                      Call_Result : in out Aida.Subprogram_Call_Result.T)
+                      Value       : String;
+                      Call_Result : in out Aida.Call_Result)
    is
       pragma Unmodified (State);
    begin
@@ -396,7 +439,8 @@ package body Aida.XML_DOM_Parser is
               not Current_Ids.Node_Ids.Is_Empty
             then
                if
-                 This.Map.Available_Keys > 0 and This.Map.Available_Chars >= Value'Length and Value'Length > 0
+                 This.Map.Available_Keys > 0 and
+                 This.Map.Available_Chars >= Value'Length and Value'Length > 0
                then
                   declare
                      Id  : Node_Id_T;
@@ -407,18 +451,28 @@ package body Aida.XML_DOM_Parser is
                      Max_Indices.Allocate_Node_Id (Id);
                      This.Map.Append (Value, Key);
 
-                     This.Nodes (Id).Inner := (My_Id        => XML_Comment,
-                                               My_Next_Node => Extended_Node_Id_T'First,
-                                               My_Key       => Key);
+                     This.Nodes (Id).Inner
+                       := (My_Id        => XML_Comment,
+                           My_Next_Node => Extended_Node_Id_T'First,
+                           My_Key       => Key);
 
-                     if Current_Ids.Node_Ids.Last_Element.Last_Child_Id = Extended_Node_Id_T'First then
-                        if This.Nodes (Current_Ids.Node_Ids.Last_Element.Node_Id).Id = XML_Tag then
-                           This.Nodes (Current_Ids.Node_Ids.Last_Element.Node_Id).Inner.My_First_Child_Node := Id;
+                     if Current_Ids.Node_Ids.Last_Element.Last_Child_Id =
+                       Extended_Node_Id_T'First
+                     then
+                        if This.Nodes
+                          (Current_Ids.Node_Ids.Last_Element.Node_Id).Id =
+                          XML_Tag
+                        then
+                           This.Nodes
+                             (Current_Ids.Node_Ids.Last_Element.Node_Id).
+                             Inner.My_First_Child_Node := Id;
                         else
                            Call_Result.Initialize (-0324889388, -1600913185);
                         end if;
                      else
-                        This.Nodes (Current_Ids.Node_Ids.Last_Element.Last_Child_Id).Inner.My_Next_Node := Id;
+                        This.Nodes
+                          (Current_Ids.Node_Ids.Last_Element.Last_Child_Id).
+                          Inner.My_Next_Node := Id;
                      end if;
 
                      Current_Node := Current_Ids.Node_Ids.Last_Element;
@@ -441,8 +495,8 @@ package body Aida.XML_DOM_Parser is
                     Max_Indices : in out Max_Indices_T;
                     State       : in out State_T;
                     Current_Ids : in out Current_Ids_T;
-                    Value       : Standard.String;
-                    Call_Result : in out Aida.Subprogram_Call_Result.T)
+                    Value       : String;
+                    Call_Result : in out Aida.Call_Result)
    is
       pragma Unmodified (State);
    begin
@@ -453,7 +507,8 @@ package body Aida.XML_DOM_Parser is
               not Current_Ids.Node_Ids.Is_Empty
             then
                if
-                 This.Map.Available_Keys > 0 and This.Map.Available_Chars >= Value'Length and Value'Length > 0
+                 This.Map.Available_Keys > 0 and
+                 This.Map.Available_Chars >= Value'Length and Value'Length > 0
                then
                   declare
                      Id  : Node_Id_T;
@@ -464,18 +519,28 @@ package body Aida.XML_DOM_Parser is
                      Max_Indices.Allocate_Node_Id (Id);
                      This.Map.Append (Value, Key);
 
-                     This.Nodes (Id).Inner := (My_Id        => XML_CDATA,
-                                               My_Next_Node => Extended_Node_Id_T'First,
-                                               My_Key       => Key);
+                     This.Nodes (Id).Inner
+                       := (My_Id        => XML_CDATA,
+                           My_Next_Node => Extended_Node_Id_T'First,
+                           My_Key       => Key);
 
-                     if Current_Ids.Node_Ids.Last_Element.Last_Child_Id = Extended_Node_Id_T'First then
-                        if This.Nodes (Current_Ids.Node_Ids.Last_Element.Node_Id).Id = XML_Tag then
-                           This.Nodes (Current_Ids.Node_Ids.Last_Element.Node_Id).Inner.My_First_Child_Node := Id;
+                     if Current_Ids.Node_Ids.Last_Element.Last_Child_Id =
+                       Extended_Node_Id_T'First
+                     then
+                        if This.Nodes
+                          (Current_Ids.Node_Ids.Last_Element.Node_Id).Id =
+                          XML_Tag
+                        then
+                           This.Nodes
+                             (Current_Ids.Node_Ids.Last_Element.Node_Id).
+                             Inner.My_First_Child_Node := Id;
                         else
                            Call_Result.Initialize (-0012453674, 1793720627);
                         end if;
                      else
-                        This.Nodes (Current_Ids.Node_Ids.Last_Element.Last_Child_Id).Inner.My_Next_Node := Id;
+                        This.Nodes
+                          (Current_Ids.Node_Ids.Last_Element.Last_Child_Id).
+                          Inner.My_Next_Node := Id;
                      end if;
 
                      Current_Node := Current_Ids.Node_Ids.Last_Element;
@@ -494,20 +559,21 @@ package body Aida.XML_DOM_Parser is
       end case;
    end CDATA;
 
-   procedure Parse_XML is new Aida.XML_SAX_Parse (Arg1_T    => Public_Part_Def.Public_Part_T,
-                                                  Arg2_T    => Max_Indices_Def.T,
-                                                  Arg3_T    => State_T,
-                                                  Arg4_T    => Current_Ids_Def.Current_Ids_T,
-                                                  Start_Tag => Start_Tag,
-                                                  End_Tag   => End_Tag,
-                                                  Text      => Text,
-                                                  Attribute => Attribute,
-                                                  Comment   => Comment,
-                                                  CDATA     => CDATA);
+   procedure Parse_XML is new Aida.XML_SAX_Parse
+     (Arg1_T    => Public_Part_Def.Public_Part_T,
+      Arg2_T    => Max_Indices_Def.T,
+      Arg3_T    => State_T,
+      Arg4_T    => Current_Ids_Def.Current_Ids_T,
+      Start_Tag => Start_Tag,
+      End_Tag   => End_Tag,
+      Text      => Text,
+      Attribute => Attribute,
+      Comment   => Comment,
+      CDATA     => CDATA);
 
    procedure Parse (This        : in out T;
-                    XML_Message : Standard.String;
-                    Call_Result : in out Aida.Subprogram_Call_Result.T)
+                    XML_Message : String;
+                    Call_Result : in out Aida.Call_Result)
    is
       Max_Indices : Max_Indices_Def.T;
 

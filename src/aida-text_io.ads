@@ -1,43 +1,43 @@
 package Aida.Text_IO with SPARK_Mode is
 
-   procedure Put_Line (Item : Standard.String) with
+   procedure Put_Line (Item : String) with
      Global => null;
 
-   procedure Put_Line (S1 : Standard.String;
-                       S2 : Standard.String) with
+   procedure Put_Line (S1 : String;
+                       S2 : String) with
      Global => null;
 
-   procedure Put_Line (S1 : Standard.String;
-                       S2 : Standard.String;
-                       S3 : Standard.String) with
+   procedure Put_Line (S1 : String;
+                       S2 : String;
+                       S3 : String) with
      Global => null;
 
-   procedure Put_Line (S1 : Standard.String;
-                       S2 : Standard.String;
-                       S3 : Standard.String;
-                       S4 : Standard.String) with
+   procedure Put_Line (S1 : String;
+                       S2 : String;
+                       S3 : String;
+                       S4 : String) with
      Global => null;
 
-   procedure Put_Line (S1 : Standard.String;
-                       S2 : Standard.String;
-                       S3 : Standard.String;
-                       S4 : Standard.String;
-                       S5 : Standard.String) with
+   procedure Put_Line (S1 : String;
+                       S2 : String;
+                       S3 : String;
+                       S4 : String;
+                       S5 : String) with
      Global => null;
 
-   procedure Put (Item : Standard.String) with
+   procedure Put (Item : String) with
      Global => null;
 
-   procedure Put (S1 : Standard.String;
-                  S2 : Standard.String) with
+   procedure Put (S1 : String;
+                  S2 : String) with
      Global => null;
 
-   procedure Put (S1 : Standard.String;
-                  S2 : Standard.String;
-                  S3 : Standard.String) with
+   procedure Put (S1 : String;
+                  S2 : String;
+                  S3 : String) with
      Global => null;
 
-   function Get_Line return Standard.String with
+   function Get_Line return String with
      Global => null;
 
 end Aida.Text_IO;

@@ -1,5 +1,4 @@
 with Aida.JSON_DOM_Parser;
-with Aida.Subprogram_Call_Result;
 
 package body Aida.JSON_DOM_Parser_Tests is
 
@@ -45,7 +44,7 @@ package body Aida.JSON_DOM_Parser_Tests is
 
       Parser : DOM_Parser.T;
 
-      Call_Result : Aida.Subprogram_Call_Result.T;
+      Call_Result : Aida.Call_Result;
    begin
       Parser.Parse (JSON_Message => JSON_Test_Person_With_Age_0,
                     Call_Result  => Call_Result);
@@ -76,7 +75,7 @@ package body Aida.JSON_DOM_Parser_Tests is
 
       Parser : DOM_Parser.T;
 
-      Call_Result : Aida.Subprogram_Call_Result.T;
+      Call_Result : Aida.Call_Result;
    begin
       Parser.Parse (JSON_Message => JSON_Test_Person_With_Hand_0,
                     Call_Result  => Call_Result);
@@ -114,7 +113,7 @@ package body Aida.JSON_DOM_Parser_Tests is
 
       Parser : DOM_Parser.T;
 
-      Call_Result : Aida.Subprogram_Call_Result.T;
+      Call_Result : Aida.Call_Result;
    begin
       Parser.Parse (JSON_Message => JSON_Test_Person_With_Name_Adam_0,
                     Call_Result  => Call_Result);
@@ -145,7 +144,7 @@ package body Aida.JSON_DOM_Parser_Tests is
 
       Parser : DOM_Parser.T;
 
-      Call_Result : Aida.Subprogram_Call_Result.T;
+      Call_Result : Aida.Call_Result;
    begin
       Parser.Parse (JSON_Message => JSON_Test_Person_With_Name_And_Age_0,
                     Call_Result  => Call_Result);
@@ -179,15 +178,15 @@ package body Aida.JSON_DOM_Parser_Tests is
                                                       Max_Array_Values => 10);
 
       use all type DOM_Parser.JSON_Value_Id_T;
-      use all type DOM_Parser.Array_Index_T;
+      use all type DOM_Parser.Array_Index;
       use all type DOM_Parser.Node_Index_T;
 
       F  : constant DOM_Parser.Node_Index_T := DOM_Parser.Node_Index_T'First;
-      AF : constant DOM_Parser.Array_Index_T := DOM_Parser.Array_Index_T'First;
+      AF : constant DOM_Parser.Array_Index := DOM_Parser.Array_Index'First;
 
       Parser : DOM_Parser.T;
 
-      Call_Result : Aida.Subprogram_Call_Result.T;
+      Call_Result : Aida.Call_Result;
    begin
       Parser.Parse (JSON_Message => JSON_Test_Person_With_Vehicles_0,
                     Call_Result  => Call_Result);
@@ -197,7 +196,7 @@ package body Aida.JSON_DOM_Parser_Tests is
       Ahven.Assert (Parser.Map.Value (Parser.Nodes (F).JSON_Key)     = "vehicles",            "1 was ", Parser.Map.Value (Parser.Nodes (F).JSON_Key));
       Ahven.Assert (                  Parser.Nodes (F).JSON_Value.Id = DOM_Parser.JSON_Array, "2 was ", DOM_Parser.JSON_Value_Id_T'Image (Parser.Nodes (F).JSON_Value.Id));
       Ahven.Assert (not Parser.Nodes (F).Has_Next_Node, "3 was ");
-      Ahven.Assert (Parser.Nodes (F).JSON_Value.Array_Id = AF, "4 was ", DOM_Parser.Array_Index_T'Image (Parser.Nodes (F).JSON_Value.Array_Id));
+      Ahven.Assert (Parser.Nodes (F).JSON_Value.Array_Id = AF, "4 was ", DOM_Parser.Array_Index'Image (Parser.Nodes (F).JSON_Value.Array_Id));
 
       Ahven.Assert (Parser.Arrays (AF).JSON_Value.Id      = DOM_Parser.JSON_Object, "5 was ",  DOM_Parser.JSON_Value_Id_T'Image (Parser.Arrays (AF).JSON_Value.Id));
       Ahven.Assert (Parser.Arrays (AF).JSON_Value.Node_Id = F + 1,                  "6 was ",  DOM_Parser.Node_Index_T'Image (Parser.Arrays (AF).JSON_Value.Node_Id));

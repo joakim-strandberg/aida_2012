@@ -41,7 +41,7 @@ package body Aida.Json_Parsing_Tests_Model with SPARK_Mode is
       function Make return Name_T is
       begin
          return This : Name_T do
-            Initialize2 (This, "");
+            Initialize2 (Bounded_String (This), "");
          end return;
       end Make;
 
@@ -60,7 +60,7 @@ package body Aida.Json_Parsing_Tests_Model with SPARK_Mode is
       procedure Set_Name (This  : in out T;
                           Value : Standard.String) is
       begin
-         Initialize (This.My_Name, Value);
+         Initialize (Bounded_String (This.My_Name), Value);
       end Set_Name;
 
 

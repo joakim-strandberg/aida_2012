@@ -6,25 +6,26 @@ package Aida.Sequential_Stream_IO with SPARK_Mode is
 
    subtype Stream_Element is Ada.Streams.Stream_Element;
 
-   function Calculate_Hash32 (Filename : Standard.String) return Aida.Hash32 with
+   function Calculate_Hash32 (Filename : String) return Aida.Hash32 with
      Global => null,
      Pre    => Aida.Directories.Exists (Filename);
 
-   type File_Type is limited private with Default_Initial_Condition => not Is_Open (File_Type);
+   type File_Type is limited private with
+     Default_Initial_Condition => not Is_Open (File_Type);
 
    type File_Mode is (In_File, Out_File, Append_File);
 
    procedure Create (File : in out File_Type;
                      Mode : File_Mode := Out_File;
-                     Name : Standard.String;
-                     Form : Standard.String := "") with
+                     Name : String;
+                     Form : String := "") with
      Global => null,
      Pre    => not Is_Open (File),
      Post   => Is_Open (File);
 
    procedure Open (File : in out File_Type;
                    Mode : File_Mode;
-                   Name : Standard.String) with
+                   Name : String) with
      Global => null,
      Pre    => not Is_Open (File),
      Post   => Is_Open (File);

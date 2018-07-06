@@ -1122,4 +1122,94 @@ package Aida with Pure is
 
    type Max_Hash_Map_Size_T is range 3 .. 2**31;
 
+   type Bounded_String (Maximum_Length : Pos32) is limited private with
+      Default_Initial_Condition => Length (Bounded_String) = 0;
+
+   procedure Initialize (This : in out Bounded_String; Text : String) with
+      Global => null,
+      Pre    => Text'Length <= This.Maximum_Length,
+      Post   => Length (This) = Text'Length;
+
+   procedure Initialize2 (This : out Bounded_String; Text : String) with
+      Global => null,
+      Pre    => Text'Length <= This.Maximum_Length,
+      Post   => Length (This) = Text'Length;
+
+   procedure Append (Target : in out Bounded_String; Source : String) with
+      Global => null,
+      Pre    => Source'Length <= Target.Maximum_Length - Length (Target),
+      Post   => Length (Target) <= Target.Maximum_Length;
+
+   function Length (This : Bounded_String) return Nat32 with
+      Global => null;
+   --  Compare the Length function with the Length function
+   --  in Ada.Containers.Formal_Vectors. Notice the post-condition!
+
+   function Equals (This : Bounded_String; Object : String) return Boolean with
+      Global => null,
+      Pre    => Length (This) <= This.Maximum_Length;
+
+   function "=" (Left, Right : Bounded_String) return Boolean with
+      Global => null,
+      Pre    => Length (Left) <= Left.Maximum_Length and
+      Length (Right) <= Right.Maximum_Length;
+
+   function "=" (Left : Bounded_String; Right : String) return Boolean with
+      Global => null,
+      Pre    => Length (Left) <= Left.Maximum_Length;
+      --  Although the arguments are of different types,
+      --  they may still represent the same String.
+
+   function To_Hash32 (This : Bounded_String) return Hash32 with
+      Global => null,
+      Pre    => Length (This) <= This.Maximum_Length;
+
+   function To_String (This : Bounded_String) return String with
+      Global => null,
+      Pre    => Length (This) <= This.Maximum_Length;
+
+   type Call_Result is tagged limited private with
+     Default_Initial_Condition => Call_Result.Has_Failed = False;
+
+   procedure Initialize (This   : in out Call_Result;
+                         Code_1 : Int32;
+                         Code_2 : Int32) with
+     Global     => null,
+     Pre'Class  => not Has_Failed (This),
+     Post'Class => This.Has_Failed = True;
+
+   function Has_Failed (This : Call_Result) return Boolean with
+     Global => null;
+
+   function Message (This : Call_Result) return String with
+     Global => null;
+
+private
+
+   type Bounded_String (Maximum_Length : Pos32) is limited record
+      Text        : String (1 .. Maximum_Length) := (others => ' ');
+      Text_Length : Nat32                          := 0;
+   end record;
+
+   function Length (This : Bounded_String) return Nat32 is (This.Text_Length);
+
+   function "=" (Left, Right : Bounded_String) return Boolean is
+     (Length (Left) = Length (Right)
+      and then
+      (for all I in Pos32 range 1 .. Left.Text_Length =>
+         Left.Text (I) = Right.Text (I)));
+
+   function "=" (Left : Bounded_String; Right : String) return Boolean is
+     (Equals (Left, Right));
+
+   type Call_Result is tagged limited
+      record
+         My_Code_1 : Int32 := 0;
+         My_Code_2 : Int32 := 0;
+         My_Has_Failed : Boolean := False;
+      end record;
+
+   function Has_Failed (This : Call_Result) return Boolean is
+     (This.My_Has_Failed);
+
 end Aida;

@@ -1,12 +1,10 @@
-with Aida.Bounded_String;
-
 package body Aida.Bounded_String_Tests is
 
-   type Bounded_String_20_T is new Aida.Bounded_String.T (20);
+   type Bounded_String_20_T is new Bounded_String (20);
 
    overriding procedure Initialize (T : in out Test) is
    begin
-      Set_Name (T, "Aida.Bounded_String package tests");
+      Set_Name (T, "Aida.Bounded_String tests");
 
       Ahven.Framework.Add_Test_Routine (T, Test_Initialization'Access, "Test_Initialization");
    end Initialize;

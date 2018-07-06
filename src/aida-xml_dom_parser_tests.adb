@@ -1,5 +1,4 @@
 with Aida.XML_DOM_Parser;
-with Aida.Subprogram_Call_Result;
 
 package body Aida.XML_DOM_Parser_Tests is
 
@@ -28,7 +27,7 @@ package body Aida.XML_DOM_Parser_Tests is
 
       Parser : DOM_Parser.T;
 
-      Call_Result : Aida.Subprogram_Call_Result.T;
+      Call_Result : Aida.Call_Result;
    begin
       Parser.Parse (XML_Test_Person_With_Vehicles_0, Call_Result);
 

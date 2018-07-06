@@ -1,7 +1,5 @@
-with Aida.Bounded_String;
 with Aida.Tagged_Bounded_Vector;
 
-pragma Elaborate_All (Aida.Bounded_String);
 pragma Elaborate_All (Aida.Tagged_Bounded_Vector);
 
 package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
@@ -118,7 +116,7 @@ package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
                                                                 Element_T       => Vehicle_Id_T,
                                                                 Default_Element => Default_Vehicle_Id);
 
-      type Length_T is new Standard.Float;
+      type Length_T is new Float;
 
       type Is_Happy_T (Exists : Boolean := False) is record
          case Exists is
@@ -141,11 +139,11 @@ package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
 
       type T is new Public_Part.Public_Part_T with private;
 
-      function Name (This : T) return Standard.String with
+      function Name (This : T) return String with
         Global => null;
 
       procedure Set_Name (This  : in out T;
-                          Value : Standard.String) with
+                          Value : String) with
         Global    => null,
         Pre'Class => Value'Length <= This.Max_Name_Size;
 
@@ -158,13 +156,13 @@ package Aida.Json_Parsing_Tests_Model with SPARK_Mode is
 
    private
 
-      type Name_T is new Aida.Bounded_String.T (NAME_MAX);
+      type Name_T is new Bounded_String (NAME_MAX);
 
       type T is new Public_Part.Public_Part_T with record
          My_Name : Name_T;
       end record;
 
-      function Name (This : T) return Standard.String is (To_String (This.My_Name));
+      function Name (This : T) return String is (To_String (This.My_Name));
 
       function Max_Name_Size (This  : T) return Positive is (This.My_Name.Maximum_Length);
 
