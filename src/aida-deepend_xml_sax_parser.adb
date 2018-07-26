@@ -10,7 +10,7 @@ package body Aida.Deepend_XML_SAX_Parser is
    -- It should not be an issue in general.
    procedure Parse (This        : in out SAX_Parser_T;
                     Contents    : Standard.String;
-                    Call_Result : in out Subprogram_Call_Result.T)
+                    Call_Result : in out Aida.Call_Result)
    is
       use all type Aida.UTF8_Code_Point.T;
 
@@ -105,8 +105,8 @@ package body Aida.Deepend_XML_SAX_Parser is
                                                                                   else
                                                                                      False);
 
-      XML_IDENTIFIER_ERROR_1 : constant Aida.Int32_T := 0564906783;
-      XML_IDENTIFIER_ERROR_2 : constant Aida.Int32_T := -1253063082;
+      XML_IDENTIFIER_ERROR_1 : constant Aida.Int32 := 0564906783;
+      XML_IDENTIFIER_ERROR_2 : constant Aida.Int32 := -1253063082;
 
       subtype P_T      is Integer range Contents'First..Contents'Last + 4;
       subtype Prev_P_T is Integer range Contents'First + 1..Contents'Last;
@@ -118,7 +118,7 @@ package body Aida.Deepend_XML_SAX_Parser is
 
       procedure Analyze_XML (P : in out P_T)
       is
-         Depth : Aida.Nat32_T := 0;
+         Depth : Aida.Nat32 := 0;
 
          State_Id : State_Id_Type := Expecting_NL_Sign_Or_Space_Or_Less_Sign;
 
@@ -274,7 +274,7 @@ package body Aida.Deepend_XML_SAX_Parser is
                            exit;
                         end if;
 
-                        if Depth < Aida.Int32_T'Last then
+                        if Depth < Aida.Int32'Last then
                            Depth := Depth + 1;
                         else
                            Call_Result.Initialize (-1181908864, -0747101082);
@@ -292,7 +292,7 @@ package body Aida.Deepend_XML_SAX_Parser is
                            exit;
                         end if;
 
-                        if Depth < Aida.Int32_T'Last then
+                        if Depth < Aida.Int32'Last then
                            Depth := Depth + 1;
                         else
                            Call_Result.Initialize (-1064425179, -1548059736);

@@ -1,4 +1,3 @@
-with Aida.Subprogram_Call_Result;
 with Dynamic_Pools;
 with Ada.Containers.Vectors;
 with Aida.Deepend_XML_SAX_Parser;
@@ -88,7 +87,7 @@ package Aida.Deepend_XML_DOM_Parser is
    procedure Parse (This        : in out DOM_Parser_T;
                     Subpool     : in out Dynamic_Pools.Subpool_Handle;
                     XML_Message : Standard.String;
-                    Call_Result : in out Aida.Subprogram_Call_Result.T;
+                    Call_Result : in out Aida.Call_Result;
                     Root_Node   :    out Node_Ptr) with
      Global    => null,
      Pre'Class => not Call_Result.Has_Failed and XML_Message'Length > 0 and XML_Message'Last < Integer'Last - 4;
@@ -154,21 +153,21 @@ private
    overriding
    procedure Start_Tag (This        : in out SAX_Parser_T;
                         Tag_Name    : Standard.String;
-                        Call_Result : in out Aida.Subprogram_Call_Result.T) with
+                        Call_Result : in out Aida.Call_Result) with
      Global => null,
      Pre    => not Call_Result.Has_Failed;
 
    overriding
    procedure End_Tag (This        : in out SAX_Parser_T;
                       Tag_Name    : Standard.String;
-                      Call_Result : in out Aida.Subprogram_Call_Result.T) with
+                      Call_Result : in out Aida.Call_Result) with
      Global => null,
      Pre    => not Call_Result.Has_Failed;
 
    overriding
    procedure Text (This        : in out SAX_Parser_T;
                    Value       : Standard.String;
-                   Call_Result : in out Aida.Subprogram_Call_Result.T) with
+                   Call_Result : in out Aida.Call_Result) with
      Global => null,
      Pre    => not Call_Result.Has_Failed;
 
@@ -176,21 +175,21 @@ private
    procedure Attribute (This            : in out SAX_Parser_T;
                         Attribute_Name  : Standard.String;
                         Attribute_Value : Standard.String;
-                        Call_Result     : in out Aida.Subprogram_Call_Result.T) with
+                        Call_Result     : in out Aida.Call_Result) with
      Global => null,
      Pre    => not Call_Result.Has_Failed;
 
    overriding
    procedure Comment (This        : in out SAX_Parser_T;
                       Value       : Standard.String;
-                      Call_Result : in out Aida.Subprogram_Call_Result.T) with
+                      Call_Result : in out Aida.Call_Result) with
      Global => null,
      Pre    => not Call_Result.Has_Failed;
 
    overriding
    procedure CDATA (This        : in out SAX_Parser_T;
                     Value       : Standard.String;
-                    Call_Result : in out Aida.Subprogram_Call_Result.T) with
+                    Call_Result : in out Aida.Call_Result) with
      Global => null,
      Pre    => not Call_Result.Has_Failed;
 

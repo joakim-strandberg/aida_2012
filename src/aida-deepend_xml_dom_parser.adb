@@ -6,7 +6,7 @@ package body Aida.Deepend_XML_DOM_Parser is
 
    procedure Start_Tag (This        : in out SAX_Parser_T;
                         Tag_Name    : Standard.String;
-                        Call_Result : in out Aida.Subprogram_Call_Result.T) is
+                        Call_Result : in out Aida.Call_Result) is
    begin
       case This.State is
          when Expecting_Object_Start =>
@@ -52,7 +52,7 @@ package body Aida.Deepend_XML_DOM_Parser is
 
    procedure End_Tag (This        : in out SAX_Parser_T;
                       Tag_Name    : Standard.String;
-                      Call_Result : in out Aida.Subprogram_Call_Result.T) is
+                      Call_Result : in out Aida.Call_Result) is
    begin
       case This.State is
          when Expecting_Default =>
@@ -78,7 +78,7 @@ package body Aida.Deepend_XML_DOM_Parser is
 
    procedure Text (This        : in out SAX_Parser_T;
                    Value       : Standard.String;
-                   Call_Result : in out Aida.Subprogram_Call_Result.T) is
+                   Call_Result : in out Aida.Call_Result) is
    begin
       case This.State is
          when Expecting_Default =>
@@ -113,7 +113,7 @@ package body Aida.Deepend_XML_DOM_Parser is
    procedure Attribute (This            : in out SAX_Parser_T;
                         Attribute_Name  : Standard.String;
                         Attribute_Value : Standard.String;
-                        Call_Result     : in out Aida.Subprogram_Call_Result.T) is
+                        Call_Result     : in out Aida.Call_Result) is
    begin
       case This.State is
          when Expecting_Default =>
@@ -148,7 +148,7 @@ package body Aida.Deepend_XML_DOM_Parser is
 
    procedure Comment (This        : in out SAX_Parser_T;
                       Value       : Standard.String;
-                      Call_Result : in out Aida.Subprogram_Call_Result.T) is
+                      Call_Result : in out Aida.Call_Result) is
    begin
       case This.State is
          when Expecting_Default =>
@@ -184,7 +184,7 @@ package body Aida.Deepend_XML_DOM_Parser is
 
    procedure CDATA (This        : in out SAX_Parser_T;
                     Value       : Standard.String;
-                    Call_Result : in out Aida.Subprogram_Call_Result.T) is
+                    Call_Result : in out Aida.Call_Result) is
    begin
       case This.State is
          when Expecting_Default =>
@@ -221,7 +221,7 @@ package body Aida.Deepend_XML_DOM_Parser is
    procedure Parse (This        : in out DOM_Parser_T;
                     Subpool     : in out Dynamic_Pools.Subpool_Handle;
                     XML_Message : Standard.String;
-                    Call_Result : in out Aida.Subprogram_Call_Result.T;
+                    Call_Result : in out Aida.Call_Result;
                     Root_Node   :    out Node_Ptr)
    is
       SAX_Parser : SAX_Parser_T;
