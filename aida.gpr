@@ -18,9 +18,7 @@ project Aida is
          for Source_Dirs use ("src", "src/mac");
    end case;
 
-   for Source_Files use ("aida-bounded_string.ads",
-                         "aida-bounded_string.adb",
-                         "aida-json_dom_parser.adb",
+   for Source_Files use ("aida-json_dom_parser.adb",
                          "aida-json_dom_parser.ads",
                          "aida-json_sax_parse.adb",
                          "aida-json_sax_parse.ads",
@@ -38,6 +36,7 @@ project Aida is
    package Compiler is
 --      for Local_Configuration_Pragmas use "aida.adc";
       for Default_Switches ("ada") use (
+--                                        "-gnaty",
                                         "-gnat2012"--,
  --                                       "-gnata"
                                        );
