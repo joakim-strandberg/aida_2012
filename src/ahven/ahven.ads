@@ -1,18 +1,18 @@
--- Ahven Unit Test Library
+--  Ahven Unit Test Library
 --
--- Copyright (c) 2007-2009 Tero Koskinen <tero.koskinen@iki.fi>
+--  Copyright (c) 2007-2009 Tero Koskinen <tero.koskinen@iki.fi>
 --
--- Permission to use, copy, modify, and distribute this software for any
--- purpose with or without fee is hereby granted, provided that the above
--- copyright notice and this permission notice appear in all copies.
+--  Permission to use, copy, modify, and distribute this software for any
+--  purpose with or without fee is hereby granted, provided that the above
+--  copyright notice and this permission notice appear in all copies.
 --
--- THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
--- WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
--- MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
--- ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
--- WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
--- ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
--- OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+--  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+--  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+--  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+--  ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+--  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+--  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+--  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 --
 
 package Ahven is
@@ -20,24 +20,26 @@ package Ahven is
    Max_Long_String_Len : constant := 1024;
 
    Assertion_Error : exception;
-   -- Exception, raised when Assert fails.
+   --  Exception, raised when Assert fails.
 
    Test_Skipped_Error : exception;
-   -- Exception, raised when test is skipped
+   --  Exception, raised when test is skipped
 
-   pragma Warnings (Off, "postcondition does not check the outcome of calling ""Assert""");
+   pragma Warnings
+     (Off, "postcondition does not check the outcome of calling ""Assert""");
    procedure Assert (Condition : Boolean; Message : String) with
      Global =>  null,
      Post   => Condition;
-   -- If Condition is false, Assert raises Assertion_Error
-   -- with given Message.
+   --  If Condition is false, Assert raises Assertion_Error
+   --  with given Message.
 
    procedure Assert (Condition : Boolean;
                      M1        : String;
                      M2        : String) with
      Global => null,
      Post   => Condition;
-   pragma Warnings (On, "postcondition does not check the outcome of calling ""Assert""");
+   pragma Warnings
+     (On, "postcondition does not check the outcome of calling ""Assert""");
 
    procedure Assert (Condition : Boolean;
                      M1        : String;
@@ -51,12 +53,12 @@ package Ahven is
    procedure Assert_Equal (Actual   : Data_Type;
                            Expected : Data_Type;
                            Message  : String);
-   -- If Expected /= Actual, Assert raises Assertion_Error
-   -- with given Message + represenation of expected and acutal values
+   --  If Expected /= Actual, Assert raises Assertion_Error
+   --  with given Message + represenation of expected and acutal values
 
    procedure Fail (Message : String);
-   -- Fail always raises Assertion_Error with given Message.
+   --  Fail always raises Assertion_Error with given Message.
 
    procedure Skip (Message : String);
-   -- Skip always raises Test_Skipped_Error with given Message.
+   --  Skip always raises Test_Skipped_Error with given Message.
 end Ahven;

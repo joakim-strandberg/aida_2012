@@ -11,7 +11,8 @@ project Ahven is
    end Builder;
 
    package Compiler is
-      for Default_Switches ("ada") use ("-gnat12",
+      for Default_Switches ("ada") use (--"-gnaty",
+                                        "-gnat12",
                                         "-g",
                                         "-gnatf",                      --  Full, verbose error messages
                                         "-gnatwa",                     --  All optional warnings

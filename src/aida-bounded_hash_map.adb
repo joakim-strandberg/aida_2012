@@ -2,13 +2,15 @@ package body Aida.Bounded_Hash_Map is
 
    use all type Collision_Vector.T;
 
-   function Default_Node return Node_T is (Key => Default_Key, Element => Default_Element);
+   function Default_Node return Node_T is
+     (Key => Default_Key, Element => Default_Element);
 
-   -- It is possible for a more detailed analysis by the SPARK tools
-   -- if the usage of Aida.Bounded_Vector was dropped and
-   -- a custom implementation would be used. It would then be possible
-   -- to express that the length of the collision list would increase if
-   -- the key would not already be present in the hash map. This is on the TODO list.
+   --  It is possible for a more detailed analysis by the SPARK tools
+   --  if the usage of Aida.Bounded_Vector was dropped and
+   --  a custom implementation would be used. It would then be possible
+   --  to express that the length of the collision list would increase if
+   --  the key would not already be present in the hash map.
+   --  This is on the TODO list.
    procedure Insert (This        : in out T;
                      Key         : Key_T;
                      New_Element : Element_T)
@@ -25,11 +27,15 @@ package body Aida.Bounded_Hash_Map is
          else
             declare
                Is_Found : Boolean := False;
-               I : Collision_Vector.Index_T := First_Index (This.Collision_List);
+               I : Collision_Vector.Index_T
+                 := First_Index (This.Collision_List);
             begin
-               while not Is_Found and I <= Last_Index (This.Collision_List) loop
+               while
+                 (not Is_Found and I <= Last_Index (This.Collision_List))
+               loop
                   pragma Loop_Variant (Increases => I);
-                  pragma Loop_Invariant (I <= Last_Index (This.Collision_List));
+                  pragma Loop_Invariant
+                    (I <= Last_Index (This.Collision_List));
                   if Element (This.Collision_List, I).Key = Key then
                      Is_Found := True;
                   else
@@ -61,8 +67,9 @@ package body Aida.Bounded_Hash_Map is
          if Is_Empty (This.Collision_List) then
             This.Buckets (BI) := (Exists => False);
          else
-            This.Buckets (BI) := (Exists => True,
-                                  Value  => Last_Element (This.Collision_List));
+            This.Buckets (BI)
+              := (Exists => True,
+                  Value  => Last_Element (This.Collision_List));
             Delete_Last (This.Collision_List);
          end if;
       else
@@ -70,8 +77,6 @@ package body Aida.Bounded_Hash_Map is
             I : Collision_Vector.Extended_Index_T
               := Collision_Vector.Extended_Index_T'First;
          begin
---              pragma Assert (for some I in Collision_Index_T range Collision_Vector.First_Index (This.Collision_List)..Collision_Vector.Last_Index (This.Collision_List) =>
---                               Collision_Vector.Element (This.Collision_List, I).Key = Key);
             while I < Last_Index (This.Collision_List) loop
                I := I + 1;
 
@@ -81,7 +86,10 @@ package body Aida.Bounded_Hash_Map is
 
                pragma Loop_Variant (Increases => I);
                pragma Loop_Invariant (I <= Last_Index (This.Collision_List));
-               pragma Loop_Invariant (for all J in Collision_Vector.Index_T range Collision_Vector.Index_T'First..I => Element (This.Collision_List, J).Key /= Key);
+               pragma Loop_Invariant
+                 (for all J in Collision_Vector.Index_T range
+                    Collision_Vector.Index_T'First .. I =>
+                      Element (This.Collision_List, J).Key /= Key);
             end loop;
 
             Collision_Vector.Replace_Element
@@ -103,10 +111,9 @@ package body Aida.Bounded_Hash_Map is
          Result := This.Buckets (BI).Value.Element;
       else
          declare
-            I : Collision_Vector.Extended_Index_T := Collision_Vector.Extended_Index_T'First;
+            I : Collision_Vector.Extended_Index_T
+              := Collision_Vector.Extended_Index_T'First;
          begin
---              pragma Assert (for some I in Collision_Index_T range Collision_Vector.First_Index (This.Collision_List)..Collision_Vector.Last_Index (This.Collision_List) =>
---                               Collision_Vector.Element (This.Collision_List, I).Key = Key);
             while I < Last_Index (This.Collision_List) loop
                I := I + 1;
 
@@ -116,10 +123,14 @@ package body Aida.Bounded_Hash_Map is
 
                pragma Loop_Variant (Increases => I);
                pragma Loop_Invariant (I <= Last_Index (This.Collision_List));
-               pragma Loop_Invariant (for all J in Collision_Vector.Index_T range Collision_Vector.Index_T'First..I => Element (This.Collision_List, J).Key /= Key);
+               pragma Loop_Invariant
+                 (for all J in Collision_Vector.Index_T range
+                    Collision_Vector.Index_T'First .. I =>
+                      Element (This.Collision_List, J).Key /= Key);
             end loop;
 
-            Result := Collision_Vector.Element (This.Collision_List, I).Element;
+            Result
+              := Collision_Vector.Element (This.Collision_List, I).Element;
          end;
       end if;
 
@@ -131,7 +142,8 @@ package body Aida.Bounded_Hash_Map is
    is
       BI : constant Bucket_Index_T := Normalize_Index (Hash (Key));
 
-      I : Collision_Vector.Extended_Index_T := Collision_Vector.Extended_Index_T'First;
+      I : Collision_Vector.Extended_Index_T
+        := Collision_Vector.Extended_Index_T'First;
       Is_Found : Boolean := False;
    begin
       if This.Buckets (BI).Exists then
@@ -149,17 +161,22 @@ package body Aida.Bounded_Hash_Map is
 
                pragma Loop_Variant (Increases => I);
                pragma Loop_Invariant (I <= Last_Index (This.Collision_List));
-               pragma Loop_Invariant (for all J in Collision_Vector.Index_T range Collision_Vector.Index_T'First..I => Element (This.Collision_List, J).Key /= Key);
+               pragma Loop_Invariant
+                 (for all J in Collision_Vector.Index_T range
+                    Collision_Vector.Index_T'First .. I =>
+                      Element (This.Collision_List, J).Key /= Key);
             end loop;
          end if;
       end if;
 
       declare
-         FR : constant Find_Element_Result_T := (if Is_Found then
-                                                   (Exists  => True,
-                                                    Element => Collision_Vector.Element (This.Collision_List, I).Element)
-                                                 else
-                                                   (Exists => False));
+         FR : constant Find_Element_Result_T
+           := (if Is_Found then
+                 (Exists  => True,
+                  Element =>
+                    Collision_Vector.Element (This.Collision_List, I).Element)
+               else
+                 (Exists => False));
       begin
          return FR;
       end;

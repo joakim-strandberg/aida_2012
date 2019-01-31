@@ -187,7 +187,8 @@ private
       Text_Length : Natural                          := 0;
    end record;
 
-   function Length (This : Bounded_String) return Natural is (This.Text_Length);
+   function Length (This : Bounded_String) return Natural is
+     (This.Text_Length);
 
    function "=" (Left, Right : Bounded_String) return Boolean is
      (Length (Left) = Length (Right)

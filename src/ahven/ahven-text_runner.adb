@@ -1,17 +1,17 @@
 --
--- Copyright (c) 2007-2009 Tero Koskinen <tero.koskinen@iki.fi>
+--  Copyright (c) 2007-2009 Tero Koskinen <tero.koskinen@iki.fi>
 --
--- Permission to use, copy, modify, and distribute this software for any
--- purpose with or without fee is hereby granted, provided that the above
--- copyright notice and this permission notice appear in all copies.
+--  Permission to use, copy, modify, and distribute this software for any
+--  purpose with or without fee is hereby granted, provided that the above
+--  copyright notice and this permission notice appear in all copies.
 --
--- THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
--- WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
--- MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
--- ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
--- WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
--- ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
--- OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+--  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+--  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+--  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+--  ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+--  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+--  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+--  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 --
 
 with Ada.Text_IO;
@@ -29,7 +29,7 @@ package body Ahven.Text_Runner is
    use Ahven.Results;
    use Ahven.AStrings;
 
-   -- Local procedures
+   --  Local procedures
    procedure Pad (Level : Natural);
 
    procedure Print_Test (Info   : Result_Info;
@@ -116,8 +116,8 @@ package body Ahven.Text_Runner is
          Pad (Max_Output_Width - Total_Text, Total_Text);
       end if;
 
-      -- If we know the name of the routine, we print it,
-      -- the result, and the execution time.
+      --  If we know the name of the routine, we print it,
+      --  the result, and the execution time.
       if Get_Routine_Name (Info)'Length > 0 then
          Move (Source  => Result,
                Target  => Result_Out,
@@ -176,7 +176,7 @@ package body Ahven.Text_Runner is
          Put_Line (To_String (Get_Test_Name (Result)) & ":");
       end if;
 
-      Test_Loop:
+      Test_Loop :
       loop
          exit Test_Loop when not Is_Valid (Position);
          Print_Test (Data (Position), Level, Status);
@@ -193,8 +193,8 @@ package body Ahven.Text_Runner is
    end Print_Statuses;
 
    --
-   -- Print all failures from the result collection
-   -- and then recurse into child collections.
+   --  Print all failures from the result collection
+   --  and then recurse into child collections.
    --
    procedure Print_Failures (Result : Result_Collection;
                              Level  : Natural) is
@@ -210,8 +210,8 @@ package body Ahven.Text_Runner is
    end Print_Failures;
 
    --
-   -- Print all skips from the result collection
-   -- and then recurse into child collections.
+   --  Print all skips from the result collection
+   --  and then recurse into child collections.
    --
    procedure Print_Skips (Result : Result_Collection;
                           Level  : Natural) is
@@ -227,8 +227,8 @@ package body Ahven.Text_Runner is
    end Print_Skips;
 
    --
-   -- Print all errors from the result collection
-   -- and then recurse into child collections.
+   --  Print all errors from the result collection
+   --  and then recurse into child collections.
    --
    procedure Print_Errors (Result : Result_Collection;
                            Level  : Natural) is
@@ -244,8 +244,8 @@ package body Ahven.Text_Runner is
    end Print_Errors;
 
    --
-   -- Print all passes from the result collection
-   -- and then recurse into child collections.
+   --  Print all passes from the result collection
+   --  and then recurse into child collections.
    --
    procedure Print_Passes (Result : Result_Collection;
                            Level  : Natural) is
@@ -261,7 +261,7 @@ package body Ahven.Text_Runner is
    end Print_Passes;
 
    --
-   -- Report passes, skips, failures, and errors from the result collection.
+   --  Report passes, skips, failures, and errors from the result collection.
    procedure Report_Results (Result  : Result_Collection;
                              Verbose : Boolean := False) is
    begin

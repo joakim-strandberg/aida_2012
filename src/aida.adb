@@ -414,7 +414,9 @@ package body Aida with SPARK_Mode is
          if Source'Length > 10 then
             Target := 0;
             Has_Failed := True;
-         elsif (for all I in Source'Range => Source (I) in Digit_Character) then
+         elsif
+           (for all I in Source'Range => Source (I) in Digit_Character)
+         then
             Target := 0;
 
             if Source'Length = 10 then

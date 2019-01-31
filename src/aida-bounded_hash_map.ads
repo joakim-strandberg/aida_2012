@@ -14,8 +14,7 @@ generic
    Max_Hash_Map_Size : Max_Hash_Map_Size_T;
 
    Max_Collision_List_Size : Integer := 0;
-package Aida.Bounded_Hash_Map is
-   pragma Pure;
+package Aida.Bounded_Hash_Map with Pure is
 
    use all type Integer;
    use all type Ada.Containers.Hash_Type;
@@ -28,7 +27,9 @@ package Aida.Bounded_Hash_Map is
                      New_Element : Element_T) with
      Global => null,
      Pre    => Used_Capacity (This) < Max_Collision_List_Size,
-     Post   => (Used_Capacity (This)'Old = Used_Capacity (This) or Used_Capacity (This) = Used_Capacity (This)'Old + 1);
+     Post   =>
+       (Used_Capacity (This)'Old = Used_Capacity (This) or
+              Used_Capacity (This) = Used_Capacity (This)'Old + 1);
 
    function Element (This : T;
                      Key  : Key_T) return Element_T with
@@ -75,7 +76,9 @@ private
       end case;
    end record;
 
-   subtype Bucket_Index_T is Ada.Containers.Hash_Type range Ada.Containers.Hash_Type'(0)..Ada.Containers.Hash_Type (Max_Hash_Map_Size - 1);
+   subtype Bucket_Index_T is Ada.Containers.Hash_Type range
+     Ada.Containers.Hash_Type'(0) ..
+     Ada.Containers.Hash_Type (Max_Hash_Map_Size - 1);
 
    type Bucket_Array_T is array (Bucket_Index_T) of Nullable_Node_T;
 
@@ -100,7 +103,9 @@ private
      (Natural ((Collision_Vector.Last_Index (This.Collision_List) + 1)
                     - Collision_Vector.First_Index (This.Collision_List)));
 
-   function Normalize_Index (H : Ada.Containers.Hash_Type) return Bucket_Index_T is
+   function Normalize_Index
+     (H : Ada.Containers.Hash_Type) return Bucket_Index_T
+   is
      (if H < Ada.Containers.Hash_Type (Max_Hash_Map_Size) then
            Bucket_Index_T (H)
       else
