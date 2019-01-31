@@ -1,7 +1,4 @@
 with Ada.Containers;
-with System.Storage_Pools.Subpools;
-
-pragma Elaborate_All (System.Storage_Pools.Subpools);
 
 package Aida.Deepend_XML_SAX_Parser is
 
@@ -18,8 +15,8 @@ package Aida.Deepend_XML_SAX_Parser is
      (This        : in out SAX_Parser;
       Tag_Name    : in     Standard.String;
       Call_Result : in out Aida.Call_Result) is null;
-   -- It is the responsibility of the implementor of End_Tag to verify
-   -- that the tag name corresponds to the expected tag name.
+   --  It is the responsibility of the implementor of End_Tag to verify
+   --  that the tag name corresponds to the expected tag name.
 
    procedure Handle_Text
      (This        : in out SAX_Parser;

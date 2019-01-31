@@ -23,7 +23,7 @@ project Aida is
    package Compiler is
 --      for Local_Configuration_Pragmas use "aida.adc";
       for Default_Switches ("ada") use (
-                                        "-gnaty",
+                                        --"-gnaty",
                                         "-gnat2012"--,
  --                                       "-gnata"
                                        );

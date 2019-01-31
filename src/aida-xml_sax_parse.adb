@@ -1,51 +1,58 @@
 with Aida.UTF8;
-with Aida.UTF8_Code_Point;
 with Ada.Characters.Latin_1;
 with Aida.Text_IO;
 
 --  Known unsupported issues: Escaping of text (for example &amp;)
 --  The stack roof may be hit if the comments and texts in the XML are HUGE.
 --  It should not be an issue in general.
-procedure Aida.XML_SAX_Parse (Arg1 : in out Arg1_T; Arg2 : in out Arg2_T;
-                              Arg3 : in out Arg3_T; Arg4 : in out Arg4_T; Contents : String;
-                              Call_Result                     : in out Aida.Call_Result)
+procedure Aida.XML_SAX_Parse
+  (Arg1        : in out Arg1_T;
+   Arg2        : in out Arg2_T;
+   Arg3        : in out Arg3_T;
+   Arg4        : in out Arg4_T;
+   Contents    : String;
+   Call_Result : in out Aida.Call_Result)
 is
-   use all type String;
-   use all type Aida.UTF8_Code_Point.T;
+   use all type Aida.UTF8.Code_Point;
 
    type Initial_State_Id_T is
-     (Initial_State_Expecting_Less_Sign, Initial_State_Expecting_Question_Mark,
-      Initial_State_Expecting_X, Initial_State_Expecting_XM,
-      Initial_State_Expecting_XML, Initial_State_Expecting_XML_S,
-      Initial_State_Expecting_XML_S_V, Initial_State_Expecting_XML_S_VE,
-      Initial_State_Expecting_XML_S_VER, Initial_State_Expecting_XML_S_VERS,
-      Initial_State_Expecting_XML_S_VERSI,
-      Initial_State_Expecting_XML_S_VERSIO,
-      Initial_State_Expecting_XML_S_VERSION,
-      Initial_State_Expecting_XML_S_VERSION_E,
-      Initial_State_Expecting_XML_S_VERSION_E_Q,
-      Initial_State_Expecting_XML_S_VERSION_E_Q_1,
-      Initial_State_Expecting_XML_S_VERSION_E_Q_1_P,
-      Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0,
-      Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q,
-      Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S,
-      Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_E,
-      Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_EN,
-      Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENC,
-      Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCO,
-      Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCOD,
-      Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODI,
-      Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODIN,
-      Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING,
-      Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E,
-      Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q,
-      Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_U,
-      Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UT,
-      Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF,
-      Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D,
-      Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D_8,
-      Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D_8_Q,
-      Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D_8_Q_QM,
+     (Less_Sign,
+      Question_Mark,
+      X,
+      XM,
+      XML,
+      XML_S,
+      XML_S_V,
+      XML_S_VE,
+      XML_S_VER,
+      XML_S_VERS,
+      XML_S_VERSI,
+      XML_S_VERSIO,
+      XML_S_VERSION,
+      XML_S_VERSION_E,
+      XML_S_VERSION_E_Q,
+      XML_S_VERSION_E_Q_1,
+      XML_S_VERSION_E_Q_1_P,
+      XML_S_VERSION_E_Q_1_P_0,
+      XML_S_VERSION_E_Q_1_P_0_Q,
+      XML_S_VERSION_E_Q_1_P_0_Q_S,
+      XML_S_VERSION_E_Q_1_P_0_Q_S_E,
+      XML_S_VERSION_E_Q_1_P_0_Q_S_EN,
+      XML_S_VERSION_E_Q_1_P_0_Q_S_ENC,
+      XML_S_VERSION_E_Q_1_P_0_Q_S_ENCO,
+      XML_S_VERSION_E_Q_1_P_0_Q_S_ENCOD,
+      XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODI,
+      XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODIN,
+      XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING,
+      XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E,
+      XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q,
+      XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_U,
+      XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UT,
+      XML_S_VERSION_E_Q_1_P_0_Q_S_ENC_E_Q_UTF,
+      XML_S_VERSION_E_Q_1_P_0_Q_S_ENC_E_Q_UTF_D,
+      XML_S_VERSION_E_Q_1_P_0_Q_S_ENC_E_Q_UTF_D_8,
+      XML_S_VERSION_E_Q_1_P_0_Q_S_ENC_E_Q_UTF_D_8_Q,
+      XML_S_VERSION_E_Q_1_P_0_Q_S_ENC_E_Q_UTF_D_8_Q_QM,
       --  QM is short for Question Mark
 
       End_State);
@@ -61,26 +68,29 @@ is
       Init_Found_Less_Followed_By_Exclamation_And_Dash_Sign,
       --  First start tag has not yet been found
 
-      Extracting_Start_Tag_Name, Expecting_G_Sign_Or_Extracting_Attributes,
-      Expecting_G_Sign_Or_Extracting_Attributes_And_Found_Slash,
-      Extracting_Attribute_Name, Expecting_Attribute_Value_Quotation_Mark,
-      Extracting_Attribute_Value, Expecting_New_Tag_Or_Extracting_Tag_Value,
+      Extracting_Start_Tag_Name,
+      Expecting_G_Sign_Or_Attributes,
+      Expecting_G_Sign_Or_Attributes_And_Found_Slash,
+      Extracting_Attribute_Name,
+      Expecting_Attribute_Value_Quotation_Mark,
+      Extracting_Attribute_Value,
+      Expecting_New_Tag_Or_Extracting_Tag_Value,
       --  Or start of comment or start- tag or end-tag
 
-      Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L,
+      Expecting_New_Tag_Or_Tag_Value_And_Found_L,
       Expecting_Only_Trailing_Spaces, Extracting_End_Tag_Name,
-      Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L_And_ED,
+      New_Tag_Or_Tag_Value_And_L_And_Excl_And_Dash,
       --  ED is short for Exclamation and Dash
       --
       --  Enumeration values introduced to handle <!CDATA[--]]>
 
-      Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L_And_Exclamation,
-      Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_C,
-      Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CD,
-      Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CDA,
-      Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CDAT,
-      Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CDATA,
-      Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CDATA_And_SB,
+      New_Tag_Or_Tag_Value_And_Found_L_And_Exclamation,
+      New_Tag_Or_Tag_Value_But_Expecting_C,
+      New_Tag_Or_Tag_Value_But_Expecting_CD,
+      New_Tag_Or_Tag_Value_But_Expecting_CDA,
+      New_Tag_Or_Tag_Value_But_Expecting_CDAT,
+      New_Tag_Or_Tag_Value_But_Expecting_CDATA,
+      New_Tag_Or_Tag_Value_But_Expecting_CDATA_And_SB,
       --  SB is short for Square bracket
 
       Extracting_CDATA, Extracting_CDATA_Found_Square_Bracket,
@@ -102,7 +112,7 @@ is
       Double_Quotes  -- Example: "hello"
      );
 
-   function Is_Special_Symbol (CP : Aida.UTF8_Code_Point.T) return Boolean is
+   function Is_Special_Symbol (CP : Aida.UTF8.Code_Point) return Boolean is
      (if CP = Character'Pos ('<') then True
       elsif CP = Character'Pos ('>') then True
       elsif CP = Character'Pos ('/') then True
@@ -126,11 +136,13 @@ is
 
       State_Id : State_Id_Type := Expecting_NL_Sign_Or_Space_Or_Less_Sign;
 
-      subtype Prev_Prev_P_T is Integer range Contents'First + 0 .. Contents'Last;
+      subtype Prev_Prev_P_T is Integer range
+        Contents'First + 0 .. Contents'Last;
 
-      subtype Contents_Index_T is Integer range Contents'First .. Contents'Last;
+      subtype Contents_Index_T is Integer range
+        Contents'First .. Contents'Last;
 
-      CP : Aida.UTF8_Code_Point.T;
+      CP : Aida.UTF8.Code_Point;
 
       Prev_P      : Prev_P_T := P;
       Prev_Prev_P : Prev_Prev_P_T; -- := Prev_P;
@@ -187,11 +199,12 @@ is
                     (State_Id = Extracting_Attribute_Name
                      and then (Attribute_First_Index < P)));
 
-               --           Aida.Text_IO.Put ("Extracted:");
-               --           Aida.Text_IO.Put (Image (CP));
-               --           Aida.Text_IO.Put (", state ");
-               --           Aida.Text_IO.Put_Line (String_T (State_Id_Type'Image (State_Id)));
-               --           Aida.Text_IO.Put (Image (CP));
+               --  Aida.Text_IO.Put ("Extracted:");
+               --  Aida.Text_IO.Put (Image (CP));
+               --  Aida.Text_IO.Put (", state ");
+               --  Aida.Text_IO.Put_Line
+               --     (String_T (State_Id_Type'Image (State_Id)));
+               --  Aida.Text_IO.Put (Image (CP));
 
                case State_Id is
                   when Expecting_NL_Sign_Or_Space_Or_Less_Sign =>
@@ -242,7 +255,7 @@ is
                   when Init_Found_Less_Followed_By_Exclamation_Sign =>
                      if CP = Character'Pos ('-') then
                         State_Id :=
-                          Init_Found_Less_Followed_By_Exclamation_And_Dash_Sign;
+                         Init_Found_Less_Followed_By_Exclamation_And_Dash_Sign;
                      else
                         Call_Result.Initialize (1915807131, 1377704704);
                         exit;
@@ -279,7 +292,7 @@ is
                            exit;
                         end if;
 
-                        State_Id := Expecting_G_Sign_Or_Extracting_Attributes;
+                        State_Id := Expecting_G_Sign_Or_Attributes;
                      elsif CP = Character'Pos ('>') then
                         Start_Tag_Name_Last_Index := Prev_Prev_P;
 
@@ -309,7 +322,7 @@ is
                         Call_Result.Initialize (-0192291225, -1709997324);
                         exit;
                      end if;
-                  when Expecting_G_Sign_Or_Extracting_Attributes =>
+                  when Expecting_G_Sign_Or_Attributes =>
                      if CP = Character'Pos (' ') or
                        CP = Character'Pos (Ada.Characters.Latin_1.LF) or
                        CP = Character'Pos (Ada.Characters.Latin_1.CR) or
@@ -327,7 +340,7 @@ is
                         Tag_Value_First_Index := P;
                      elsif CP = Character'Pos ('/') then
                         State_Id :=
-                          Expecting_G_Sign_Or_Extracting_Attributes_And_Found_Slash;
+                    Expecting_G_Sign_Or_Attributes_And_Found_Slash;
                      elsif not Is_Special_Symbol (CP) then
                         Attribute_First_Index := Prev_P;
                         State_Id              := Extracting_Attribute_Name;
@@ -335,7 +348,7 @@ is
                         Call_Result.Initialize (-0429878843, 1344381718);
                         exit;
                      end if;
-                  when Expecting_G_Sign_Or_Extracting_Attributes_And_Found_Slash =>
+                  when Expecting_G_Sign_Or_Attributes_And_Found_Slash =>
                      if CP = Character'Pos ('>') then
                         State_Id := Expecting_NL_Sign_Or_Space_Or_Less_Sign;
 
@@ -345,7 +358,7 @@ is
                            exit;
                         end if;
 
-                        --                              End_Tag_Name_Last_Index := Prev_Prev_P;
+                        --  End_Tag_Name_Last_Index := Prev_Prev_P;
 
                         End_Tag
                           (Arg1, Arg2, Arg3, Arg4,
@@ -410,7 +423,7 @@ is
                                 Expected_Quotation_Symbol = Single_Quotes)
                      then
                         Attribute_Value_Last_Index := Prev_Prev_P;
-                        State_Id := Expecting_G_Sign_Or_Extracting_Attributes;
+                        State_Id := Expecting_G_Sign_Or_Attributes;
                         declare
                            Name : String :=
                              Contents
@@ -439,9 +452,9 @@ is
                      --     Shall_Ignore_Until_Next_Quotation_Mark :=
                      --         not Shall_Ignore_Until_Next_Quotation_Mark;
                      if CP = Character'Pos ('<') then
-                        --                     if not Shall_Ignore_Until_Next_Quotation_Mark then
+                        --   if not Shall_Ignore_Until_Next_Quotation_Mark then
                         State_Id :=
-                          Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L;
+                          Expecting_New_Tag_Or_Tag_Value_And_Found_L;
                         Tag_Value_Last_Index := Prev_Prev_P;
 
                         Text
@@ -456,7 +469,7 @@ is
 
                         --                     end if;
                      end if;
-                  when Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L =>
+                  when Expecting_New_Tag_Or_Tag_Value_And_Found_L =>
                      if CP = Character'Pos ('/') then
                         if P > Contents'Last then
                            Call_Result.Initialize (-1635958681, 2091153567);
@@ -468,7 +481,7 @@ is
                         End_Tag_Name_First_Index := P;
                      elsif CP = Character'Pos ('!') then
                         State_Id :=
-                          Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L_And_Exclamation;
+                          New_Tag_Or_Tag_Value_And_Found_L_And_Exclamation;
                      elsif Is_Special_Symbol (CP) then
                         Call_Result.Initialize (-0115323975, -1084437773);
                         exit;
@@ -477,52 +490,52 @@ is
                         State_Id := Extracting_Start_Tag_Name;
                         Start_Tag_Name_First_Index := Prev_P;
                      end if;
-                  when Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L_And_Exclamation =>
+                  when New_Tag_Or_Tag_Value_And_Found_L_And_Exclamation =>
                      if CP = Character'Pos ('[') then
                         State_Id :=
-                          Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_C;
+                          New_Tag_Or_Tag_Value_But_Expecting_C;
                      elsif CP = Character'Pos ('-') then
                         State_Id :=
-                          Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L_And_ED;
+                          New_Tag_Or_Tag_Value_And_L_And_Excl_And_Dash;
                      else
                         State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
                      end if;
-                  when Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_C =>
+                  when New_Tag_Or_Tag_Value_But_Expecting_C =>
                      if CP = Character'Pos ('C') then
                         State_Id :=
-                          Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CD;
+                          New_Tag_Or_Tag_Value_But_Expecting_CD;
                      else
                         State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
                      end if;
-                  when Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CD =>
+                  when New_Tag_Or_Tag_Value_But_Expecting_CD =>
                      if CP = Character'Pos ('D') then
                         State_Id :=
-                          Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CDA;
+                          New_Tag_Or_Tag_Value_But_Expecting_CDA;
                      else
                         State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
                      end if;
-                  when Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CDA =>
+                  when New_Tag_Or_Tag_Value_But_Expecting_CDA =>
                      if CP = Character'Pos ('A') then
                         State_Id :=
-                          Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CDAT;
+                          New_Tag_Or_Tag_Value_But_Expecting_CDAT;
                      else
                         State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
                      end if;
-                  when Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CDAT =>
+                  when New_Tag_Or_Tag_Value_But_Expecting_CDAT =>
                      if CP = Character'Pos ('T') then
                         State_Id :=
-                          Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CDATA;
+                          New_Tag_Or_Tag_Value_But_Expecting_CDATA;
                      else
                         State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
                      end if;
-                  when Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CDATA =>
+                  when New_Tag_Or_Tag_Value_But_Expecting_CDATA =>
                      if CP = Character'Pos ('A') then
                         State_Id :=
-                          Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CDATA_And_SB;
+                          New_Tag_Or_Tag_Value_But_Expecting_CDATA_And_SB;
                      else
                         State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value;
                      end if;
-                  when Expecting_New_Tag_Or_Extracting_Tag_Value_But_Expecting_CDATA_And_SB =>
+                  when New_Tag_Or_Tag_Value_But_Expecting_CDATA_And_SB =>
                      if CP = Character'Pos ('[') then
                         State_Id              := Extracting_CDATA;
                         Tag_Value_First_Index :=
@@ -601,7 +614,7 @@ is
                         Call_Result.Initialize (1726646144, -0779212513);
                         exit;
                      end if;
-                  when Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L_And_ED =>
+                  when New_Tag_Or_Tag_Value_And_L_And_Excl_And_Dash =>
                      if CP = Character'Pos ('-') then
                         Comment_First_Index :=
                           (if P <= Contents'Last then P else Contents'Last);
@@ -688,11 +701,11 @@ is
       end if;
    end Analyze_XML;
 
-   Initial_State_Id : Initial_State_Id_T := Initial_State_Expecting_Less_Sign;
+   Initial_State_Id : Initial_State_Id_T := Less_Sign;
 
    P : P_T := Contents'First;
 
-   CP : Aida.UTF8_Code_Point.T;
+   CP : Aida.UTF8.Code_Point;
 begin
    while P <= Contents'Last loop
       exit when Initial_State_Id = End_State;
@@ -709,226 +722,263 @@ begin
       pragma Loop_Variant (Increases => P);
       pragma Loop_Invariant (not Call_Result.Has_Failed);
       pragma Loop_Invariant
-        (Initial_State_Id /= Initial_State_Expecting_Less_Sign or
-           (Initial_State_Id = Initial_State_Expecting_Less_Sign
-            and then (P > Contents'First and Contents'Last >= Contents'First)));
+        (Initial_State_Id /= Less_Sign or
+           (Initial_State_Id = Less_Sign
+            and then (P > Contents'First and
+                  Contents'Last >= Contents'First)));
       pragma Loop_Invariant
-        (Initial_State_Id /= Initial_State_Expecting_Question_Mark or
-           (Initial_State_Id = Initial_State_Expecting_Question_Mark
+        (Initial_State_Id /= Question_Mark or
+           (Initial_State_Id = Question_Mark
             and then
-              (P > Contents'First + 1 and Contents'Last >= Contents'First + 1)));
+              (P > Contents'First + 1 and
+                   Contents'Last >= Contents'First + 1)));
       pragma Loop_Invariant
-        (Initial_State_Id /= Initial_State_Expecting_X or
-           (Initial_State_Id = Initial_State_Expecting_X
+        (Initial_State_Id /= X or
+           (Initial_State_Id = X
             and then
-              (P > Contents'First + 2 and Contents'Last >= Contents'First + 2)));
+              (P > Contents'First + 2 and
+                   Contents'Last >= Contents'First + 2)));
       pragma Loop_Invariant
-        (Initial_State_Id /= Initial_State_Expecting_XM or
-           (Initial_State_Id = Initial_State_Expecting_XM
+        (Initial_State_Id /= XM or
+           (Initial_State_Id = XM
             and then
-              (P > Contents'First + 3 and Contents'Last >= Contents'First + 3)));
+              (P > Contents'First + 3 and
+                   Contents'Last >= Contents'First + 3)));
       pragma Loop_Invariant
-        (Initial_State_Id /= Initial_State_Expecting_XML or
-           (Initial_State_Id = Initial_State_Expecting_XML
+        (Initial_State_Id /= XML or
+           (Initial_State_Id = XML
             and then
-              (P > Contents'First + 4 and Contents'Last >= Contents'First + 4)));
+              (P > Contents'First + 4 and
+                   Contents'Last >= Contents'First + 4)));
       pragma Loop_Invariant
-        (Initial_State_Id /= Initial_State_Expecting_XML_S or
-           (Initial_State_Id = Initial_State_Expecting_XML_S
+        (Initial_State_Id /= XML_S or
+           (Initial_State_Id = XML_S
             and then
-              (P > Contents'First + 5 and Contents'Last >= Contents'First + 5)));
+              (P > Contents'First + 5 and
+                   Contents'Last >= Contents'First + 5)));
       pragma Loop_Invariant
-        (Initial_State_Id /= Initial_State_Expecting_XML_S_V or
-           (Initial_State_Id = Initial_State_Expecting_XML_S_V
+        (Initial_State_Id /= XML_S_V or
+           (Initial_State_Id = XML_S_V
             and then
-              (P > Contents'First + 6 and Contents'Last >= Contents'First + 6)));
+              (P > Contents'First + 6 and
+                   Contents'Last >= Contents'First + 6)));
       pragma Loop_Invariant
-        (Initial_State_Id /= Initial_State_Expecting_XML_S_VE or
-           (Initial_State_Id = Initial_State_Expecting_XML_S_VE
+        (Initial_State_Id /= XML_S_VE or
+           (Initial_State_Id = XML_S_VE
             and then
-              (P > Contents'First + 7 and Contents'Last >= Contents'First + 7)));
+              (P > Contents'First + 7 and
+                   Contents'Last >= Contents'First + 7)));
       pragma Loop_Invariant
-        (Initial_State_Id /= Initial_State_Expecting_XML_S_VER or
-           (Initial_State_Id = Initial_State_Expecting_XML_S_VER
+        (Initial_State_Id /= XML_S_VER or
+           (Initial_State_Id = XML_S_VER
             and then
-              (P > Contents'First + 8 and Contents'Last >= Contents'First + 8)));
+              (P > Contents'First + 8 and
+                   Contents'Last >= Contents'First + 8)));
       pragma Loop_Invariant
-        (Initial_State_Id /= Initial_State_Expecting_XML_S_VERS or
-           (Initial_State_Id = Initial_State_Expecting_XML_S_VERS
+        (Initial_State_Id /= XML_S_VERS or
+           (Initial_State_Id = XML_S_VERS
             and then
-              (P > Contents'First + 9 and Contents'Last >= Contents'First + 9)));
+              (P > Contents'First + 9 and
+                   Contents'Last >= Contents'First + 9)));
       pragma Loop_Invariant
-        (Initial_State_Id /= Initial_State_Expecting_XML_S_VERSI or
-           (Initial_State_Id = Initial_State_Expecting_XML_S_VERSI
+        (Initial_State_Id /= XML_S_VERSI or
+           (Initial_State_Id = XML_S_VERSI
             and then
-              (P > Contents'First + 10 and Contents'Last >= Contents'First + 10)));
+              (P > Contents'First + 10 and
+                   Contents'Last >= Contents'First + 10)));
       pragma Loop_Invariant
-        (Initial_State_Id /= Initial_State_Expecting_XML_S_VERSIO or
-           (Initial_State_Id = Initial_State_Expecting_XML_S_VERSIO
+        (Initial_State_Id /= XML_S_VERSIO or
+           (Initial_State_Id = XML_S_VERSIO
             and then
-              (P > Contents'First + 11 and Contents'Last >= Contents'First + 11)));
+              (P > Contents'First + 11 and
+                   Contents'Last >= Contents'First + 11)));
       pragma Loop_Invariant
-        (Initial_State_Id /= Initial_State_Expecting_XML_S_VERSION or
-           (Initial_State_Id = Initial_State_Expecting_XML_S_VERSION
+        (Initial_State_Id /= XML_S_VERSION or
+           (Initial_State_Id = XML_S_VERSION
             and then
-              (P > Contents'First + 12 and Contents'Last >= Contents'First + 12)));
+              (P > Contents'First + 12 and
+                   Contents'Last >= Contents'First + 12)));
       pragma Loop_Invariant
-        (Initial_State_Id /= Initial_State_Expecting_XML_S_VERSION_E or
-           (Initial_State_Id = Initial_State_Expecting_XML_S_VERSION_E
+        (Initial_State_Id /= XML_S_VERSION_E or
+           (Initial_State_Id = XML_S_VERSION_E
             and then
-              (P > Contents'First + 13 and Contents'Last >= Contents'First + 13)));
+              (P > Contents'First + 13 and
+                   Contents'Last >= Contents'First + 13)));
       pragma Loop_Invariant
-        (Initial_State_Id /= Initial_State_Expecting_XML_S_VERSION_E_Q or
-           (Initial_State_Id = Initial_State_Expecting_XML_S_VERSION_E_Q
+        (Initial_State_Id /= XML_S_VERSION_E_Q or
+           (Initial_State_Id = XML_S_VERSION_E_Q
             and then
-              (P > Contents'First + 14 and Contents'Last >= Contents'First + 14)));
+              (P > Contents'First + 14 and
+                   Contents'Last >= Contents'First + 14)));
       pragma Loop_Invariant
-        (Initial_State_Id /= Initial_State_Expecting_XML_S_VERSION_E_Q_1 or
-           (Initial_State_Id = Initial_State_Expecting_XML_S_VERSION_E_Q_1
+        (Initial_State_Id /= XML_S_VERSION_E_Q_1 or
+           (Initial_State_Id = XML_S_VERSION_E_Q_1
             and then
-              (P > Contents'First + 15 and Contents'Last >= Contents'First + 15)));
+              (P > Contents'First + 15 and
+                   Contents'Last >= Contents'First + 15)));
       pragma Loop_Invariant
-        (Initial_State_Id /= Initial_State_Expecting_XML_S_VERSION_E_Q_1_P or
-           (Initial_State_Id = Initial_State_Expecting_XML_S_VERSION_E_Q_1_P
+        (Initial_State_Id /= XML_S_VERSION_E_Q_1_P or
+           (Initial_State_Id = XML_S_VERSION_E_Q_1_P
             and then
-              (P > Contents'First + 16 and Contents'Last >= Contents'First + 16)));
+              (P > Contents'First + 16 and
+                   Contents'Last >= Contents'First + 16)));
       pragma Loop_Invariant
-        (Initial_State_Id /= Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0 or
-           (Initial_State_Id = Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0
+        (Initial_State_Id /= XML_S_VERSION_E_Q_1_P_0 or
+           (Initial_State_Id = XML_S_VERSION_E_Q_1_P_0
             and then
-              (P > Contents'First + 17 and Contents'Last >= Contents'First + 17)));
+              (P > Contents'First + 17 and
+                   Contents'Last >= Contents'First + 17)));
       pragma Loop_Invariant
         (Initial_State_Id /=
-           Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q or
-             (Initial_State_Id = Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q
+           XML_S_VERSION_E_Q_1_P_0_Q or
+             (Initial_State_Id = XML_S_VERSION_E_Q_1_P_0_Q
               and then
-                (P > Contents'First + 18 and Contents'Last >= Contents'First + 18)));
+                (P > Contents'First + 18 and
+                       Contents'Last >= Contents'First + 18)));
       pragma Loop_Invariant
         (Initial_State_Id /=
-           Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S or
+           XML_S_VERSION_E_Q_1_P_0_Q_S or
              (Initial_State_Id =
-                  Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S
+                  XML_S_VERSION_E_Q_1_P_0_Q_S
               and then
-                (P > Contents'First + 19 and Contents'Last >= Contents'First + 19)));
+                (P > Contents'First + 19 and
+                       Contents'Last >= Contents'First + 19)));
       pragma Loop_Invariant
         (Initial_State_Id /=
-           Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_E or
+           XML_S_VERSION_E_Q_1_P_0_Q_S_E or
              (Initial_State_Id =
-                  Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_E
+                  XML_S_VERSION_E_Q_1_P_0_Q_S_E
               and then
-                (P > Contents'First + 20 and Contents'Last >= Contents'First + 20)));
+                (P > Contents'First + 20 and
+                       Contents'Last >= Contents'First + 20)));
       pragma Loop_Invariant
         (Initial_State_Id /=
-           Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_EN or
+           XML_S_VERSION_E_Q_1_P_0_Q_S_EN or
              (Initial_State_Id =
-                  Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_EN
+                  XML_S_VERSION_E_Q_1_P_0_Q_S_EN
               and then
-                (P > Contents'First + 21 and Contents'Last >= Contents'First + 21)));
+                (P > Contents'First + 21 and
+                       Contents'Last >= Contents'First + 21)));
       pragma Loop_Invariant
         (Initial_State_Id /=
-           Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENC or
+           XML_S_VERSION_E_Q_1_P_0_Q_S_ENC or
              (Initial_State_Id =
-                  Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENC
+                  XML_S_VERSION_E_Q_1_P_0_Q_S_ENC
               and then
-                (P > Contents'First + 22 and Contents'Last >= Contents'First + 22)));
+                (P > Contents'First + 22 and
+                       Contents'Last >= Contents'First + 22)));
       pragma Loop_Invariant
         (Initial_State_Id /=
-           Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCO or
+           XML_S_VERSION_E_Q_1_P_0_Q_S_ENCO or
              (Initial_State_Id =
-                  Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCO
+                  XML_S_VERSION_E_Q_1_P_0_Q_S_ENCO
               and then
-                (P > Contents'First + 23 and Contents'Last >= Contents'First + 23)));
+                (P > Contents'First + 23 and
+                       Contents'Last >= Contents'First + 23)));
       pragma Loop_Invariant
         (Initial_State_Id /=
-           Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCOD or
+           XML_S_VERSION_E_Q_1_P_0_Q_S_ENCOD or
              (Initial_State_Id =
-                  Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCOD
+                  XML_S_VERSION_E_Q_1_P_0_Q_S_ENCOD
               and then
-                (P > Contents'First + 24 and Contents'Last >= Contents'First + 24)));
+                (P > Contents'First + 24 and
+                       Contents'Last >= Contents'First + 24)));
       pragma Loop_Invariant
         (Initial_State_Id /=
-           Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODI or
+           XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODI or
              (Initial_State_Id =
-                  Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODI
+                  XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODI
               and then
-                (P > Contents'First + 25 and Contents'Last >= Contents'First + 25)));
+                (P > Contents'First + 25 and
+                       Contents'Last >= Contents'First + 25)));
       pragma Loop_Invariant
         (Initial_State_Id /=
-           Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODIN or
+           XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODIN or
              (Initial_State_Id =
-                  Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODIN
+                  XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODIN
               and then
-                (P > Contents'First + 26 and Contents'Last >= Contents'First + 26)));
+                (P > Contents'First + 26 and
+                       Contents'Last >= Contents'First + 26)));
       pragma Loop_Invariant
         (Initial_State_Id /=
-           Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING or
+           XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING or
              (Initial_State_Id =
-                  Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING
+                  XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING
               and then
-                (P > Contents'First + 27 and Contents'Last >= Contents'First + 27)));
+                (P > Contents'First + 27 and
+                       Contents'Last >= Contents'First + 27)));
       pragma Loop_Invariant
         (Initial_State_Id /=
-           Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E or
+           XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E or
              (Initial_State_Id =
-                  Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E
+                  XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E
               and then
-                (P > Contents'First + 28 and Contents'Last >= Contents'First + 28)));
+                (P > Contents'First + 28 and
+                       Contents'Last >= Contents'First + 28)));
       pragma Loop_Invariant
         (Initial_State_Id /=
-           Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q or
+           XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q or
              (Initial_State_Id =
-                  Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q
+                  XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q
               and then
-                (P > Contents'First + 29 and Contents'Last >= Contents'First + 29)));
+                (P > Contents'First + 29 and
+                       Contents'Last >= Contents'First + 29)));
       pragma Loop_Invariant
         (Initial_State_Id /=
-           Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_U or
+           XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_U or
              (Initial_State_Id =
-                  Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_U
+                  XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_U
               and then
-                (P > Contents'First + 30 and Contents'Last >= Contents'First + 30)));
+                (P > Contents'First + 30 and
+                       Contents'Last >= Contents'First + 30)));
       pragma Loop_Invariant
         (Initial_State_Id /=
-           Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UT or
+           XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UT or
              (Initial_State_Id =
-                  Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UT
+                  XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UT
               and then
-                (P > Contents'First + 31 and Contents'Last >= Contents'First + 31)));
+                (P > Contents'First + 31 and
+                       Contents'Last >= Contents'First + 31)));
       pragma Loop_Invariant
         (Initial_State_Id /=
-           Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF or
+           XML_S_VERSION_E_Q_1_P_0_Q_S_ENC_E_Q_UTF or
              (Initial_State_Id =
-                  Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF
+                  XML_S_VERSION_E_Q_1_P_0_Q_S_ENC_E_Q_UTF
               and then
-                (P > Contents'First + 32 and Contents'Last >= Contents'First + 32)));
+                (P > Contents'First + 32 and
+                       Contents'Last >= Contents'First + 32)));
       pragma Loop_Invariant
         (Initial_State_Id /=
-           Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D or
+           XML_S_VERSION_E_Q_1_P_0_Q_S_ENC_E_Q_UTF_D or
              (Initial_State_Id =
-                  Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D
+                  XML_S_VERSION_E_Q_1_P_0_Q_S_ENC_E_Q_UTF_D
               and then
-                (P > Contents'First + 33 and Contents'Last >= Contents'First + 33)));
+                (P > Contents'First + 33 and
+                       Contents'Last >= Contents'First + 33)));
       pragma Loop_Invariant
         (Initial_State_Id /=
-           Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D_8 or
+           XML_S_VERSION_E_Q_1_P_0_Q_S_ENC_E_Q_UTF_D_8 or
              (Initial_State_Id =
-                  Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D_8
+                  XML_S_VERSION_E_Q_1_P_0_Q_S_ENC_E_Q_UTF_D_8
               and then
-                (P > Contents'First + 34 and Contents'Last >= Contents'First + 34)));
+                (P > Contents'First + 34 and
+                       Contents'Last >= Contents'First + 34)));
       pragma Loop_Invariant
         (Initial_State_Id /=
-           Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D_8_Q or
+           XML_S_VERSION_E_Q_1_P_0_Q_S_ENC_E_Q_UTF_D_8_Q or
              (Initial_State_Id =
-                  Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D_8_Q
+                  XML_S_VERSION_E_Q_1_P_0_Q_S_ENC_E_Q_UTF_D_8_Q
               and then
-                (P > Contents'First + 35 and Contents'Last >= Contents'First + 35)));
+                (P > Contents'First + 35 and
+                       Contents'Last >= Contents'First + 35)));
       pragma Loop_Invariant
         (Initial_State_Id /=
-           Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D_8_Q_QM or
+           XML_S_VERSION_E_Q_1_P_0_Q_S_ENC_E_Q_UTF_D_8_Q_QM or
              (Initial_State_Id =
-                  Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D_8_Q_QM
+                  XML_S_VERSION_E_Q_1_P_0_Q_S_ENC_E_Q_UTF_D_8_Q_QM
               and then
-                (P > Contents'First + 36 and Contents'Last >= Contents'First + 36)));
+                (P > Contents'First + 36 and
+                       Contents'Last >= Contents'First + 36)));
 
       --  Aida.Text_IO.Put ("Extracted:");
       --  Aida.Text_IO.Put (Image (CP));
@@ -939,318 +989,318 @@ begin
       case Initial_State_Id is
          when End_State =>
             null;
-         when Initial_State_Expecting_Less_Sign =>
+         when Less_Sign =>
             if CP = Character'Pos (' ') then
                null;
             elsif CP = Character'Pos ('<') then
-               Initial_State_Id := Initial_State_Expecting_Question_Mark;
+               Initial_State_Id := Question_Mark;
             else
                Call_Result.Initialize
                  (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
-         when Initial_State_Expecting_Question_Mark =>
+         when Question_Mark =>
             if CP = Character'Pos ('?') then
-               Initial_State_Id := Initial_State_Expecting_X;
+               Initial_State_Id := X;
             else
                Call_Result.Initialize
                  (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
-         when Initial_State_Expecting_X =>
+         when X =>
             if CP = Character'Pos ('x') then
-               Initial_State_Id := Initial_State_Expecting_XM;
+               Initial_State_Id := XM;
             else
                Call_Result.Initialize
                  (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
-         when Initial_State_Expecting_XM =>
+         when XM =>
             if CP = Character'Pos ('m') then
-               Initial_State_Id := Initial_State_Expecting_XML;
+               Initial_State_Id := XML;
             else
                Call_Result.Initialize
                  (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
-         when Initial_State_Expecting_XML =>
+         when XML =>
             if CP = Character'Pos ('l') then
-               Initial_State_Id := Initial_State_Expecting_XML_S;
+               Initial_State_Id := XML_S;
             else
                Call_Result.Initialize
                  (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
-         when Initial_State_Expecting_XML_S =>
+         when XML_S =>
             if CP = Character'Pos (' ') then
-               Initial_State_Id := Initial_State_Expecting_XML_S_V;
+               Initial_State_Id := XML_S_V;
             else
                Call_Result.Initialize
                  (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
-         when Initial_State_Expecting_XML_S_V =>
+         when XML_S_V =>
             if CP = Character'Pos ('v') then
-               Initial_State_Id := Initial_State_Expecting_XML_S_VE;
+               Initial_State_Id := XML_S_VE;
             else
                Call_Result.Initialize
                  (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
-         when Initial_State_Expecting_XML_S_VE =>
+         when XML_S_VE =>
             if CP = Character'Pos ('e') then
-               Initial_State_Id := Initial_State_Expecting_XML_S_VER;
+               Initial_State_Id := XML_S_VER;
             else
                Call_Result.Initialize
                  (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
-         when Initial_State_Expecting_XML_S_VER =>
+         when XML_S_VER =>
             if CP = Character'Pos ('r') then
-               Initial_State_Id := Initial_State_Expecting_XML_S_VERS;
+               Initial_State_Id := XML_S_VERS;
             else
                Call_Result.Initialize
                  (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
-         when Initial_State_Expecting_XML_S_VERS =>
+         when XML_S_VERS =>
             if CP = Character'Pos ('s') then
-               Initial_State_Id := Initial_State_Expecting_XML_S_VERSI;
+               Initial_State_Id := XML_S_VERSI;
             else
                Call_Result.Initialize
                  (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
-         when Initial_State_Expecting_XML_S_VERSI =>
+         when XML_S_VERSI =>
             if CP = Character'Pos ('i') then
-               Initial_State_Id := Initial_State_Expecting_XML_S_VERSIO;
+               Initial_State_Id := XML_S_VERSIO;
             else
                Call_Result.Initialize
                  (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
-         when Initial_State_Expecting_XML_S_VERSIO =>
+         when XML_S_VERSIO =>
             if CP = Character'Pos ('o') then
-               Initial_State_Id := Initial_State_Expecting_XML_S_VERSION;
+               Initial_State_Id := XML_S_VERSION;
             else
                Call_Result.Initialize
                  (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
-         when Initial_State_Expecting_XML_S_VERSION =>
+         when XML_S_VERSION =>
             if CP = Character'Pos ('n') then
-               Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E;
+               Initial_State_Id := XML_S_VERSION_E;
             else
                Call_Result.Initialize
                  (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
-         when Initial_State_Expecting_XML_S_VERSION_E =>
+         when XML_S_VERSION_E =>
             if CP = Character'Pos ('=') then
-               Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q;
+               Initial_State_Id := XML_S_VERSION_E_Q;
             else
                Call_Result.Initialize
                  (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
-         when Initial_State_Expecting_XML_S_VERSION_E_Q =>
+         when XML_S_VERSION_E_Q =>
             if CP = Character'Pos ('"') then
-               Initial_State_Id := Initial_State_Expecting_XML_S_VERSION_E_Q_1;
+               Initial_State_Id := XML_S_VERSION_E_Q_1;
             else
                Call_Result.Initialize
                  (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
-         when Initial_State_Expecting_XML_S_VERSION_E_Q_1 =>
+         when XML_S_VERSION_E_Q_1 =>
             if CP = Character'Pos ('1') then
                Initial_State_Id :=
-                 Initial_State_Expecting_XML_S_VERSION_E_Q_1_P;
+                 XML_S_VERSION_E_Q_1_P;
             else
                Call_Result.Initialize
                  (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
-         when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P =>
+         when XML_S_VERSION_E_Q_1_P =>
             if CP = Character'Pos ('.') then
                Initial_State_Id :=
-                 Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0;
+                 XML_S_VERSION_E_Q_1_P_0;
             else
                Call_Result.Initialize
                  (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
-         when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0 =>
+         when XML_S_VERSION_E_Q_1_P_0 =>
             if CP = Character'Pos ('0') then
                Initial_State_Id :=
-                 Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q;
+                 XML_S_VERSION_E_Q_1_P_0_Q;
             else
                Call_Result.Initialize
                  (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
-         when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q =>
+         when XML_S_VERSION_E_Q_1_P_0_Q =>
             if CP = Character'Pos ('"') then
                Initial_State_Id :=
-                 Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S;
+                 XML_S_VERSION_E_Q_1_P_0_Q_S;
             else
                Call_Result.Initialize
                  (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
-         when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S =>
+         when XML_S_VERSION_E_Q_1_P_0_Q_S =>
             if CP = Character'Pos (' ') then
                Initial_State_Id :=
-                 Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_E;
+                 XML_S_VERSION_E_Q_1_P_0_Q_S_E;
             else
                Call_Result.Initialize
                  (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
-         when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_E =>
+         when XML_S_VERSION_E_Q_1_P_0_Q_S_E =>
             if CP = Character'Pos ('e') then
                Initial_State_Id :=
-                 Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_EN;
+                 XML_S_VERSION_E_Q_1_P_0_Q_S_EN;
             else
                Call_Result.Initialize
                  (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
-         when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_EN =>
+         when XML_S_VERSION_E_Q_1_P_0_Q_S_EN =>
             if CP = Character'Pos ('n') then
                Initial_State_Id :=
-                 Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENC;
+                 XML_S_VERSION_E_Q_1_P_0_Q_S_ENC;
             else
                Call_Result.Initialize
                  (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
-         when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENC =>
+         when XML_S_VERSION_E_Q_1_P_0_Q_S_ENC =>
             if CP = Character'Pos ('c') then
                Initial_State_Id :=
-                 Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCO;
+                 XML_S_VERSION_E_Q_1_P_0_Q_S_ENCO;
             else
                Call_Result.Initialize
                  (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
-         when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCO =>
+         when XML_S_VERSION_E_Q_1_P_0_Q_S_ENCO =>
             if CP = Character'Pos ('o') then
                Initial_State_Id :=
-                 Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCOD;
+                 XML_S_VERSION_E_Q_1_P_0_Q_S_ENCOD;
             else
                Call_Result.Initialize
                  (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
-         when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCOD =>
+         when XML_S_VERSION_E_Q_1_P_0_Q_S_ENCOD =>
             if CP = Character'Pos ('d') then
                Initial_State_Id :=
-                 Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODI;
+                 XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODI;
             else
                Call_Result.Initialize
                  (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
-         when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODI =>
+         when XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODI =>
             if CP = Character'Pos ('i') then
                Initial_State_Id :=
-                 Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODIN;
+                 XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODIN;
             else
                Call_Result.Initialize
                  (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
-         when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODIN =>
+         when XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODIN =>
             if CP = Character'Pos ('n') then
                Initial_State_Id :=
-                 Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING;
+                 XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING;
             else
                Call_Result.Initialize
                  (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
-         when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING =>
+         when XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING =>
             if CP = Character'Pos ('g') then
                Initial_State_Id :=
-                 Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E;
+                 XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E;
             else
                Call_Result.Initialize
                  (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
-         when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E =>
+         when XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E =>
             if CP = Character'Pos ('=') then
                Initial_State_Id :=
-                 Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q;
+                 XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q;
             else
                Call_Result.Initialize
                  (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
-         when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q =>
+         when XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q =>
             if CP = Character'Pos ('"') then
                Initial_State_Id :=
-                 Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_U;
+                 XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_U;
             else
                Call_Result.Initialize
                  (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
-         when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_U =>
+         when XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_U =>
             if CP = Character'Pos ('u') or CP = Character'Pos ('U') then
                Initial_State_Id :=
-                 Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UT;
+                 XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UT;
             else
                Call_Result.Initialize
                  (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
-         when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UT =>
+         when XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UT =>
             if CP = Character'Pos ('t') or CP = Character'Pos ('T') then
                Initial_State_Id :=
-                 Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF;
+                 XML_S_VERSION_E_Q_1_P_0_Q_S_ENC_E_Q_UTF;
             else
                Call_Result.Initialize
                  (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
-         when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF =>
+         when XML_S_VERSION_E_Q_1_P_0_Q_S_ENC_E_Q_UTF =>
             if CP = Character'Pos ('f') or CP = Character'Pos ('F') then
                Initial_State_Id :=
-                 Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D;
+                 XML_S_VERSION_E_Q_1_P_0_Q_S_ENC_E_Q_UTF_D;
             else
                Call_Result.Initialize
                  (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
-         when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D =>
+         when XML_S_VERSION_E_Q_1_P_0_Q_S_ENC_E_Q_UTF_D =>
             if CP = Character'Pos ('-') then
                Initial_State_Id :=
-                 Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D_8;
+                 XML_S_VERSION_E_Q_1_P_0_Q_S_ENC_E_Q_UTF_D_8;
             else
                Call_Result.Initialize
                  (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
-         when Initial_State_Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D_8 =>
+         when XML_S_VERSION_E_Q_1_P_0_Q_S_ENC_E_Q_UTF_D_8 =>
             if CP = Character'Pos ('8') then
                Initial_State_Id :=
-                 Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D_8_Q;
+                 XML_S_VERSION_E_Q_1_P_0_Q_S_ENC_E_Q_UTF_D_8_Q;
             else
                Call_Result.Initialize
                  (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
-         when Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D_8_Q =>
+         when XML_S_VERSION_E_Q_1_P_0_Q_S_ENC_E_Q_UTF_D_8_Q =>
             if CP = Character'Pos ('"') then
                Initial_State_Id :=
-                 Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D_8_Q_QM;
+                 XML_S_VERSION_E_Q_1_P_0_Q_S_ENC_E_Q_UTF_D_8_Q_QM;
             else
                Call_Result.Initialize
                  (XML_IDENTIFIER_ERROR_1, XML_IDENTIFIER_ERROR_2);
                exit;
             end if;
-         when Expecting_XML_S_VERSION_E_Q_1_P_0_Q_S_ENCODING_E_Q_UTF_D_8_Q_QM =>
+         when XML_S_VERSION_E_Q_1_P_0_Q_S_ENC_E_Q_UTF_D_8_Q_QM =>
             if CP = Character'Pos ('?') then
                if P <= Contents'Last then
                   Initial_State_Id := End_State;

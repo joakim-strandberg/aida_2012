@@ -43,7 +43,7 @@ package body Aida.UTF8.Tests is
 
       Source : constant String (1..1) := (1 => Character'Val (16#24#));
       Pointer : Integer := 1;
-      Value : Aida.UTF8_Code_Point.T;
+      Value : Aida.UTF8.Code_Point;
    begin
       Aida.UTF8.Get (Source      => Source,
                      Pointer     => Pointer,
@@ -60,7 +60,7 @@ package body Aida.UTF8.Tests is
       Source : constant String (1..2) := (1 => Character'Val (16#C2#),
                                           2 => Character'Val (16#A2#));
       Pointer : Integer := 1;
-      Value : Aida.UTF8_Code_Point.T;
+      Value : Aida.UTF8.Code_Point;
    begin
       Aida.UTF8.Get (Source      => Source,
                      Pointer     => Pointer,
@@ -78,7 +78,7 @@ package body Aida.UTF8.Tests is
                                           2 => Character'Val (16#82#),
                                           3 => Character'Val (16#AC#));
       Pointer : Integer := 1;
-      Value : Aida.UTF8_Code_Point.T;
+      Value : Aida.UTF8.Code_Point;
    begin
       Aida.UTF8.Get (Source      => Source,
                      Pointer     => Pointer,
@@ -96,7 +96,7 @@ package body Aida.UTF8.Tests is
                                           2 => Character'Val (16#AA#),
                                           3 => Character'Val (16#81#));
       Pointer : Integer := 1;
-      Value : Aida.UTF8_Code_Point.T;
+      Value : Aida.UTF8.Code_Point;
    begin
       Aida.UTF8.Get (Source      => Source,
                      Pointer     => Pointer,
@@ -115,7 +115,7 @@ package body Aida.UTF8.Tests is
                                           3 => Character'Val (16#8D#),
                                           4 => Character'Val (16#88#));
       Pointer : Integer := 1;
-      Value : Aida.UTF8_Code_Point.T;
+      Value : Aida.UTF8.Code_Point;
    begin
       Aida.UTF8.Get (Source      => Source,
                      Pointer     => Pointer,
@@ -134,7 +134,7 @@ package body Aida.UTF8.Tests is
                                           3 => Character'Val (16#80#),
                                           4 => Character'Val (16#81#));
       Pointer : Integer := 1;
-      Value : Aida.UTF8_Code_Point.T;
+      Value : Aida.UTF8.Code_Point;
    begin
       Aida.UTF8.Get (Source      => Source,
                      Pointer     => Pointer,
@@ -153,7 +153,7 @@ package body Aida.UTF8.Tests is
                                           3 => Character'Val (16#90#),
                                           4 => Character'Val (16#81#));
       Pointer : Integer := 1;
-      Value : Aida.UTF8_Code_Point.T;
+      Value : Aida.UTF8.Code_Point;
    begin
       Aida.UTF8.Get (Source      => Source,
                      Pointer     => Pointer,

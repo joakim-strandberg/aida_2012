@@ -1,5 +1,4 @@
 with Aida.UTF8;
-with Aida.UTF8_Code_Point;
 with Ada.Characters.Latin_1;
 with Aida.Text_IO;
 with Aida.Tagged_Bounded_Vector;
@@ -16,7 +15,7 @@ procedure Aida.JSON_SAX_Parse (Arg1        : in out Arg1_T;
 is
    use all type String;
    use all type Integer;
-   use all type Aida.UTF8_Code_Point.T;
+   use all type Aida.UTF8.Code_Point;
 
    type State_Id_Type is
      (
@@ -81,7 +80,8 @@ begin
 
          subtype Prev_P_T is Integer range Contents'First .. Contents'Last;
 
-         subtype Prev_Prev_P_T is Integer range Contents'First .. Contents'Last;
+         subtype Prev_Prev_P_T is Integer range
+           Contents'First .. Contents'Last;
 
          subtype Contents_Index_T is Integer range
            Contents'First .. Contents'Last;
@@ -90,7 +90,7 @@ begin
          Prev_P      : Prev_P_T := P;
          Prev_Prev_P : Prev_Prev_P_T; -- := Prev_P;
 
-         CP      : Aida.UTF8_Code_Point.T;
+         CP      : Aida.UTF8.Code_Point;
 
          Key_Name_First_Index : P_T := Contents_Index_T'First;
          Key_Name_Last_Index  : Contents_Index_T; -- := Contents_Index_T'First;
