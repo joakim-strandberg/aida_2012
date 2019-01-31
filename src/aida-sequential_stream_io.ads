@@ -6,7 +6,8 @@ package Aida.Sequential_Stream_IO with SPARK_Mode is
 
    subtype Stream_Element is Ada.Streams.Stream_Element;
 
-   function Calculate_Hash32 (Filename : String) return Aida.Hash32 with
+   function Calculate_Hash
+     (Filename : String) return Ada.Containers.Hash_Type with
      Global => null,
      Pre    => Aida.Directories.Exists (Filename);
 

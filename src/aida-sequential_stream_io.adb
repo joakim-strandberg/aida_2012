@@ -1,15 +1,16 @@
 package body Aida.Sequential_Stream_IO is
 
-   function Calculate_Hash32 (Filename : String) return Aida.Hash32 with
+   function Calculate_Hash
+     (Filename : String) return Ada.Containers.Hash_Type with
      SPARK_Mode => On
    is
       File : File_Type;
 
       Element : Ada.Streams.Stream_Element;
 
-      H : Aida.Hash32 := 0;
+      H : Ada.Containers.Hash_Type := 0;
 
-      use type Aida.Hash32;
+      use type Ada.Containers.Hash_Type;
    begin
       Open (File => File,
             Mode => In_File,
@@ -17,7 +18,7 @@ package body Aida.Sequential_Stream_IO is
 
       while not End_Of_File (File) loop
          Read (File, Element);
-         H := 3*H + Aida.Hash32 (Element);
+         H := 3*H + Ada.Containers.Hash_Type (Element);
       end loop;
 
       Close (File);
@@ -27,7 +28,7 @@ package body Aida.Sequential_Stream_IO is
       end if;
 
       return H;
-   end Calculate_Hash32;
+   end Calculate_Hash;
 
    procedure Create (File : in out File_Type;
                      Mode : File_Mode := Out_File;

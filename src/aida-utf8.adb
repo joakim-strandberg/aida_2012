@@ -2,8 +2,10 @@ package body Aida.UTF8 with
    SPARK_Mode
  is
 
-   procedure Get (Source :     String; Pointer : in out Int32;
-      Value              : out Aida.UTF8_Code_Point.T)
+   procedure Get
+     (Source  : String;
+      Pointer : in out Integer;
+      Value   : out Aida.UTF8_Code_Point.T)
    is
       Accum : Aida.UTF8_Code_Point.T'Base;
       Code  : Aida.UTF8_Code_Point.T'Base;
@@ -81,7 +83,7 @@ package body Aida.UTF8 with
       Accum : Aida.UTF8_Code_Point.T;
       pragma Unreferenced (Accum);
 
-      Index : Int32 := Source'First;
+      Index : Integer := Source'First;
    begin
       while Index <= Source'Last loop
          if Is_Valid_UTF8_Code_Point (Source, Index) then
@@ -94,12 +96,12 @@ package body Aida.UTF8 with
       return Index = Source'Last + 1;
    end Is_Valid_UTF8;
 
-   function Length (Source : String) return Nat32 is
-      Count : Nat32 := 0;
+   function Length (Source : String) return Natural is
+      Count : Natural := 0;
       Accum : Aida.UTF8_Code_Point.T;
       pragma Unreferenced (Accum);
 
-      Index : Int32 := Source'First;
+      Index : Integer := Source'First;
    begin
       while Index <= Source'Last loop
          if Is_Valid_UTF8_Code_Point (Source, Index) then
@@ -113,7 +115,7 @@ package body Aida.UTF8 with
       return Count;
    end Length;
 
-   procedure Put (Destination : in out String; Pointer : in out Int32;
+   procedure Put (Destination : in out String; Pointer : in out Integer;
       Value                   :        Aida.UTF8_Code_Point.T)
    is
    begin
@@ -146,8 +148,8 @@ package body Aida.UTF8 with
 
    function To_Lowercase (Value : String) return String is
       Result : String (1 .. Value'Length);
-      From   : Int32 := Value'First;
-      To     : Int32 := 1;
+      From   : Integer := Value'First;
+      To     : Integer := 1;
       Code   : Aida.UTF8_Code_Point.T;
    begin
       while From <= Value'Last loop
@@ -162,8 +164,8 @@ package body Aida.UTF8 with
 
    function To_Uppercase (Value : String) return String is
       Result : String (1 .. Value'Length);
-      From   : Int32 := Value'First;
-      To     : Int32 := 1;
+      From   : Integer := Value'First;
+      To     : Integer := 1;
       Code   : Aida.UTF8_Code_Point.T;
    begin
       while From <= Value'Last loop

@@ -1,7 +1,7 @@
-with "aida_basic_types.gpr";
-with "aida_containers.gpr";
-with "aida_utf8.gpr";
-with "aida_io.gpr";
+--with "aida_basic_types.gpr";
+--with "aida_containers.gpr";
+--with "aida_utf8.gpr";
+--with "aida_io.gpr";
 
 project Aida is
 
@@ -17,19 +17,6 @@ project Aida is
       when "Mac"     =>
          for Source_Dirs use ("src", "src/mac");
    end case;
-
-   for Source_Files use ("aida-json_dom_parser.adb",
-                         "aida-json_dom_parser.ads",
-                         "aida-json_sax_parse.adb",
-                         "aida-json_sax_parse.ads",
-                         "aida-xml_sax_parse.ads",
-                         "aida-xml_sax_parse.adb",
-                         "aida-xml_dom_parser.ads",
-                         "aida-xml_dom_parser.adb",
-                         "aida-os_lib.ads",
-                         "aida-application_locator.ads",
-                         "aida-application_locator.adb"
-                        );
 
    for Object_Dir use "obj";
 

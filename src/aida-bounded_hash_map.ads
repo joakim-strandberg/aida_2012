@@ -1,3 +1,4 @@
+with Ada.Containers;
 with Aida.Bounded_Vector;
 
 generic
@@ -7,17 +8,17 @@ generic
    with function Default_Key return Key_T;
    with function Default_Element return Element_T;
 
-   with function Hash (Key : Key_T) return Aida.Hash32;
+   with function Hash (Key : Key_T) return Ada.Containers.Hash_Type;
    with function Equivalent_Keys (Left, Right : Key_T) return Boolean;
 
    Max_Hash_Map_Size : Max_Hash_Map_Size_T;
 
-   Max_Collision_List_Size : Aida.Int32 := 0;
+   Max_Collision_List_Size : Integer := 0;
 package Aida.Bounded_Hash_Map is
    pragma Pure;
 
-   use all type Aida.Int32;
-   use all type Aida.Hash32;
+   use all type Integer;
+   use all type Ada.Containers.Hash_Type;
 
    type T is limited private with
      Default_Initial_Condition => Used_Capacity (T) = 0;
@@ -38,7 +39,7 @@ package Aida.Bounded_Hash_Map is
                     Key  : Key_T) return Boolean with
      Global => null;
 
-   function Used_Capacity (This : T) return Aida.Nat32 with
+   function Used_Capacity (This : T) return Natural with
      Global => null,
      Post   => Used_Capacity'Result <= Max_Collision_List_Size;
 
@@ -74,16 +75,16 @@ private
       end case;
    end record;
 
-   subtype Bucket_Index_T is Aida.Hash32 range Aida.Hash32'(0)..Aida.Hash32 (Max_Hash_Map_Size - 1);
+   subtype Bucket_Index_T is Ada.Containers.Hash_Type range Ada.Containers.Hash_Type'(0)..Ada.Containers.Hash_Type (Max_Hash_Map_Size - 1);
 
    type Bucket_Array_T is array (Bucket_Index_T) of Nullable_Node_T;
 
---   type Collision_Index_T is new Aida.Int32 range 1..Max_Collision_List_Size;
+--   type Collision_Index_T is new Integer range 1..Max_Collision_List_Size;
 
    function Default_Node return Node_T;
 
    package Collision_Vector is new Aida.Bounded_Vector
-     (Max_Last_Index  => Int32'First + Max_Collision_List_Size,
+     (Max_Last_Index  => Integer'First + Max_Collision_List_Size,
       Element_T       => Node_T,
       Default_Element => Default_Node);
 
@@ -95,16 +96,17 @@ private
          Collision_List : Collision_Vector.T := Collision_Vector.Empty_Vector;
       end record;
 
-   function Used_Capacity (This : T) return Aida.Nat32 is
-     (Aida.Nat32 ((Collision_Vector.Last_Index (This.Collision_List) + 1)
+   function Used_Capacity (This : T) return Natural is
+     (Natural ((Collision_Vector.Last_Index (This.Collision_List) + 1)
                     - Collision_Vector.First_Index (This.Collision_List)));
 
-   function Normalize_Index (H : Aida.Hash32) return Bucket_Index_T is
-     (if H < Aida.Hash32 (Max_Hash_Map_Size) then
+   function Normalize_Index (H : Ada.Containers.Hash_Type) return Bucket_Index_T is
+     (if H < Ada.Containers.Hash_Type (Max_Hash_Map_Size) then
            Bucket_Index_T (H)
       else
          Bucket_Index_T
-        (H - ((H / Hash32 (Max_Hash_Map_Size))) * Hash32 (Max_Hash_Map_Size)));
+        (H - ((H / Ada.Containers.Hash_Type (Max_Hash_Map_Size))) *
+             Ada.Containers.Hash_Type (Max_Hash_Map_Size)));
 
 --     function Exists (This : T;
 --                      Key  : Key_T) return Boolean is

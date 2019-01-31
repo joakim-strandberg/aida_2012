@@ -66,18 +66,18 @@ package Aida.UTF8 is
    use all type Aida.UTF8_Code_Point.T;
 
    function Is_Valid_UTF8_Code_Point (Source : String;
-      Pointer                                : Int32) return Boolean is
+      Pointer                                : Integer) return Boolean is
      ((Source'First <= Pointer and Pointer <= Source'Last)
       and then
       (if Character'Pos (Source (Pointer)) in 0 .. 16#7F# then
-         Pointer < Int32'Last
+         Pointer < Integer'Last
        else
          (Pointer < Source'Last
           and then
           (if
              Character'Pos (Source (Pointer)) in 16#C2# .. 16#DF# and
              Character'Pos (Source (Pointer + 1)) in 16#80# .. 16#BF#
-           then Pointer < Int32'Last - 1
+           then Pointer < Integer'Last - 1
            else
              (Pointer < Source'Last - 1
               and then
@@ -85,12 +85,12 @@ package Aida.UTF8 is
                  (Character'Pos (Source (Pointer)) = 16#E0# and
                   Character'Pos (Source (Pointer + 1)) in 16#A0# .. 16#BF# and
                   Character'Pos (Source (Pointer + 2)) in 16#80# .. 16#BF#)
-               then Pointer < Int32'Last - 2
+               then Pointer < Integer'Last - 2
                elsif
                  (Character'Pos (Source (Pointer)) in 16#E1# .. 16#EF# and
                   Character'Pos (Source (Pointer + 1)) in 16#80# .. 16#BF# and
                   Character'Pos (Source (Pointer + 2)) in 16#80# .. 16#BF#)
-               then Pointer < Int32'Last - 2
+               then Pointer < Integer'Last - 2
                else
                  (Pointer < Source'Last - 2
                   and then
@@ -101,7 +101,7 @@ package Aida.UTF8 is
                       Character'Pos (Source (Pointer + 2)) in
                         16#80# .. 16#BF# and
                       Character'Pos (Source (Pointer + 3)) in 16#80# .. 16#BF#)
-                   then Pointer < Int32'Last - 3
+                   then Pointer < Integer'Last - 3
                    elsif
                      (Character'Pos (Source (Pointer)) in 16#F1# .. 16#F3# and
                       Character'Pos (Source (Pointer + 1)) in
@@ -109,7 +109,7 @@ package Aida.UTF8 is
                       Character'Pos (Source (Pointer + 2)) in
                         16#80# .. 16#BF# and
                       Character'Pos (Source (Pointer + 3)) in 16#80# .. 16#BF#)
-                   then Pointer < Int32'Last - 3
+                   then Pointer < Integer'Last - 3
                    elsif
                      (Character'Pos (Source (Pointer)) = 16#F4# and
                       Character'Pos (Source (Pointer + 1)) in
@@ -117,7 +117,7 @@ package Aida.UTF8 is
                       Character'Pos (Source (Pointer + 2)) in
                         16#80# .. 16#BF# and
                       Character'Pos (Source (Pointer + 3)) in 16#80# .. 16#BF#)
-                   then Pointer < Int32'Last - 3
+                   then Pointer < Integer'Last - 3
                    else False))))))));
 
    --
@@ -132,11 +132,11 @@ package Aida.UTF8 is
    --   advanced to the first character following the input.  The  result  is
    --   returned through the parameter Value.
    --
-   procedure Get (Source :     String; Pointer : in out Int32;
+   procedure Get (Source :     String; Pointer : in out Integer;
       Value              : out Aida.UTF8_Code_Point.T) with
       Global => null,
       Pre    => Is_Valid_UTF8_Code_Point (Source, Pointer) and
-      Pointer < Int32'Last - 4,
+      Pointer < Integer'Last - 4,
       Post => Pointer <= Pointer'Old + 4 and
       (if Character'Pos (Source (Pointer'Old)) in 0 .. 16#7F# then
          Character'Pos (Source (Pointer'Old)) = Value and
@@ -176,7 +176,7 @@ package Aida.UTF8 is
 
    function Is_Valid_UTF8 (Source : String) return Boolean with
       Global => null,
-      Pre    => Source'Last < Int32'Last - 4;
+      Pre    => Source'Last < Integer'Last - 4;
 
       --
       --  Length -- The length of an UTF-8 string
@@ -187,9 +187,9 @@ package Aida.UTF8 is
       --
       --    The number of UTF-8 encoded code points in Source
       --
-   function Length (Source : String) return Nat32 with
+   function Length (Source : String) return Natural with
       Global => null,
-      Pre    => Source'Last < Int32'Last - 4;
+      Pre    => Source'Last < Integer'Last - 4;
 --     Post   => Length'Result <= Source'Length;
 
       --
@@ -203,21 +203,21 @@ package Aida.UTF8 is
       --  starting from the position Source (Pointer). Pointer is then advanced
       --  to the first character following the output.
       --
-   procedure Put (Destination : in out String; Pointer : in out Int32;
+   procedure Put (Destination : in out String; Pointer : in out Integer;
       Value                   :        Aida.UTF8_Code_Point.T) with
       Global => null,
       Pre    =>
-      ((Pointer in Destination'Range and Destination'Last < Int32'Last - 4)
+      ((Pointer in Destination'Range and Destination'Last < Integer'Last - 4)
        and then
-       (if Value <= 16#7F# then Pointer < Int32'Last
+       (if Value <= 16#7F# then Pointer < Integer'Last
         elsif Value <= 16#7FF# then
-          Pointer < Int32'Last - 1 and Pointer + 1 in Destination'Range
+          Pointer < Integer'Last - 1 and Pointer + 1 in Destination'Range
         elsif Value <= 16#FFFF# then
-          (Pointer < Int32'Last - 2
+          (Pointer < Integer'Last - 2
            and then
            (Pointer + 1 in Destination'Range and
             Pointer + 2 in Destination'Range))
-        else Pointer < Int32'Last - 3
+        else Pointer < Integer'Last - 3
           and then
           (Pointer + 1 in Destination'Range and
            Pointer + 2 in Destination'Range and
@@ -228,10 +228,10 @@ package Aida.UTF8 is
 
    function To_Lowercase (Value : String) return String with
       Global => null,
-      Pre    => Value'Last < Int32'Last - 4;
+      Pre    => Value'Last < Integer'Last - 4;
 
    function To_Uppercase (Value : String) return String with
       Global => null,
-      Pre    => Value'Last < Int32'Last - 4;
+      Pre    => Value'Last < Integer'Last - 4;
 
 end Aida.UTF8;

@@ -145,7 +145,7 @@ package Aida.UTF8_Code_Point with SPARK_Mode is
    type Code_Point is mod 2**32;
    subtype T is Code_Point range 0  .. 16#10FFFF#;
 
-   subtype Code_Point_String_Length is Pos32 range 1 .. 4;
+   subtype Code_Point_String_Length is Positive range 1 .. 4;
    --  Length of a String corresponding to a specific code point.
 
    --

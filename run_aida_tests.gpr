@@ -2,37 +2,37 @@ with "ahven";
 
 project Run_Aida_Tests is
 
-   for Source_Dirs use ("src/");
+   for Source_Dirs use ("src/tests");
    for Object_Dir use "obj";
    for Exec_Dir use "bin";
    for Main use ("run_aida_tests.adb");
 
-   for Source_Files use ("aida-bounded_hash_map_tests.ads",
-                         "aida-bounded_hash_map_tests.adb",
-                         "aida-bounded_string_tests.ads",
-                         "aida-bounded_string_tests.adb",
-                         "aida-bounded_vector_tests.ads",
-                         "aida-bounded_vector_tests.adb",
-                         "aida-json_dom_parser_tests.ads",
-                         "aida-json_dom_parser_tests.adb",
-                         "aida-json_sax_parse_tests.ads",
-                         "aida-json_sax_parse_tests.adb",
-                         "aida-json_parsing_tests_model.ads",
-                         "aida-json_parsing_tests_model.adb",
-                         "aida-tests.ads",
-                         "aida-tests.adb",
-                         "aida-utf8-tests.ads",
-                         "aida-utf8-tests.adb",
-                         "aida-xml_sax_parse_tests.ads",
-                         "aida-xml_sax_parse_tests.adb",
-                         "aida-xml_dom_parser_tests.ads",
-                         "aida-xml_dom_parser_tests.adb",
-                         "aida-subprogram_call_result_tests.ads",
-                         "aida-subprogram_call_result_tests.adb",
-                         "aida-integer_to_string_map_tests.ads",
-                         "aida-integer_to_string_map_tests.adb",
-                         "run_aida_tests.adb"
-                        );
+--     for Source_Files use ("aida-bounded_hash_map_tests.ads",
+--                           "aida-bounded_hash_map_tests.adb",
+--                           "aida-bounded_string_tests.ads",
+--                           "aida-bounded_string_tests.adb",
+--                           "aida-bounded_vector_tests.ads",
+--                           "aida-bounded_vector_tests.adb",
+--                           "aida-json_dom_parser_tests.ads",
+--                           "aida-json_dom_parser_tests.adb",
+--                           "aida-json_sax_parse_tests.ads",
+--                           "aida-json_sax_parse_tests.adb",
+--                           "aida-json_parsing_tests_model.ads",
+--                           "aida-json_parsing_tests_model.adb",
+--                           "aida-tests.ads",
+--                           "aida-tests.adb",
+--                           "aida-utf8-tests.ads",
+--                           "aida-utf8-tests.adb",
+--                           "aida-xml_sax_parse_tests.ads",
+--                           "aida-xml_sax_parse_tests.adb",
+--                           "aida-xml_dom_parser_tests.ads",
+--                           "aida-xml_dom_parser_tests.adb",
+--                           "aida-subprogram_call_result_tests.ads",
+--                           "aida-subprogram_call_result_tests.adb",
+--                           "aida-integer_to_string_map_tests.ads",
+--                           "aida-integer_to_string_map_tests.adb",
+--                           "run_aida_tests.adb"
+--                          );
 
    package Builder is
       for Default_Switches ("ada") use ("-j4");

@@ -3,12 +3,15 @@ with Aida.UTF8_Code_Point;
 with Ada.Characters.Latin_1;
 with Aida.Text_IO;
 
+pragma Elaborate_All (Aida.UTF8_Code_Point);
+pragma Elaborate_All (Aida.UTF8);
+
 package body Aida.Deepend_XML_SAX_Parser is
 
    -- Known unsupported issues: Escaping of text (for example &amp;)
    -- The stack roof may be hit if the comments and texts in the XML are HUGE.
    -- It should not be an issue in general.
-   procedure Parse (This        : in out SAX_Parser_T;
+   procedure Parse (This        : in out SAX_Parser;
                     Contents    : Standard.String;
                     Call_Result : in out Aida.Call_Result)
    is
@@ -105,8 +108,8 @@ package body Aida.Deepend_XML_SAX_Parser is
                                                                                   else
                                                                                      False);
 
-      XML_IDENTIFIER_ERROR_1 : constant Aida.Int32 := 0564906783;
-      XML_IDENTIFIER_ERROR_2 : constant Aida.Int32 := -1253063082;
+      XML_IDENTIFIER_ERROR_1 : constant Integer := 0564906783;
+      XML_IDENTIFIER_ERROR_2 : constant Integer := -1253063082;
 
       subtype P_T      is Integer range Contents'First..Contents'Last + 4;
       subtype Prev_P_T is Integer range Contents'First + 1..Contents'Last;
@@ -118,7 +121,7 @@ package body Aida.Deepend_XML_SAX_Parser is
 
       procedure Analyze_XML (P : in out P_T)
       is
-         Depth : Aida.Nat32 := 0;
+         Depth : Natural := 0;
 
          State_Id : State_Id_Type := Expecting_NL_Sign_Or_Space_Or_Less_Sign;
 
@@ -226,8 +229,8 @@ package body Aida.Deepend_XML_SAX_Parser is
                            exit;
                         end if;
 
-                        SAX_Parser_T'Class (This).Text ("",
-                                                        Call_Result);
+                        SAX_Parser'Class (This).Handle_Text
+                          ("", Call_Result);
 
                         if Call_Result.Has_Failed then
                            exit;
@@ -267,14 +270,17 @@ package body Aida.Deepend_XML_SAX_Parser is
                      if CP = Standard.Character'Pos (' ') then
                         Start_Tag_Name_Last_Index := Prev_Prev_P;
 
-                        SAX_Parser_T'Class (This).Start_Tag (Contents (Start_Tag_Name_First_Index..Start_Tag_Name_Last_Index),
-                                                             Call_Result);
+                        SAX_Parser'Class (This).Handle_Start_Tag
+                          (Contents
+                             (Start_Tag_Name_First_Index ..
+                                  Start_Tag_Name_Last_Index),
+                           Call_Result);
 
                         if Call_Result.Has_Failed then
                            exit;
                         end if;
 
-                        if Depth < Aida.Int32'Last then
+                        if Depth < Integer'Last then
                            Depth := Depth + 1;
                         else
                            Call_Result.Initialize (-1181908864, -0747101082);
@@ -285,14 +291,17 @@ package body Aida.Deepend_XML_SAX_Parser is
                      elsif CP = Standard.Character'Pos ('>') then
                         Start_Tag_Name_Last_Index := Prev_Prev_P;
 
-                        SAX_Parser_T'Class (This).Start_Tag (Contents (Start_Tag_Name_First_Index..Start_Tag_Name_Last_Index),
-                                                             Call_Result);
+                        SAX_Parser'Class (This).Handle_Start_Tag
+                          (Contents
+                             (Start_Tag_Name_First_Index ..
+                                  Start_Tag_Name_Last_Index),
+                           Call_Result);
 
                         if Call_Result.Has_Failed then
                            exit;
                         end if;
 
-                        if Depth < Aida.Int32'Last then
+                        if Depth < Integer'Last then
                            Depth := Depth + 1;
                         else
                            Call_Result.Initialize (-1064425179, -1548059736);
@@ -339,15 +348,18 @@ package body Aida.Deepend_XML_SAX_Parser is
                      if CP = Standard.Character'Pos ('>') then
                         State_Id := Expecting_NL_Sign_Or_Space_Or_Less_Sign;
 
-                        SAX_Parser_T'Class (This).Text ("",
-                                                        Call_Result);
+                        SAX_Parser'Class (This).Handle_Text
+                          ("", Call_Result);
 
                         if Call_Result.Has_Failed then
                            exit;
                         end if;
 
-                        SAX_Parser_T'Class (This).End_Tag (Contents (Start_Tag_Name_First_Index..Start_Tag_Name_Last_Index),
-                                                           Call_Result);
+                        SAX_Parser'Class (This).Handle_End_Tag
+                          (Contents
+                             (Start_Tag_Name_First_Index ..
+                                  Start_Tag_Name_Last_Index),
+                           Call_Result);
 
                         if Call_Result.Has_Failed then
                            exit;
@@ -412,9 +424,10 @@ package body Aida.Deepend_XML_SAX_Parser is
                            Name : Standard.String := Contents (Attribute_First_Index..Attribute_Last_Index);
                            Value : Standard.String := Contents (Attribute_Value_First_Index..Attribute_Value_Last_Index);
                         begin
-                           SAX_Parser_T'Class (This).Attribute (Name,
-                                                                Value,
-                                                                Call_Result);
+                           SAX_Parser'Class (This).Handle_Attribute
+                             (Name,
+                              Value,
+                              Call_Result);
                         end;
 
                         if Call_Result.Has_Failed then
@@ -429,8 +442,11 @@ package body Aida.Deepend_XML_SAX_Parser is
                         State_Id := Expecting_New_Tag_Or_Extracting_Tag_Value_And_Found_L;
                         Tag_Value_Last_Index := Prev_Prev_P;
 
-                        SAX_Parser_T'Class (This).Text (Contents (Tag_Value_First_Index..Tag_Value_Last_Index),
-                                                        Call_Result);
+                        SAX_Parser'Class (This).Handle_Text
+                          (Contents
+                             (Tag_Value_First_Index ..
+                                  Tag_Value_Last_Index),
+                           Call_Result);
 
                         if Call_Result.Has_Failed then
                            exit;
@@ -517,8 +533,10 @@ package body Aida.Deepend_XML_SAX_Parser is
                      end if;
                   when Extracting_CDATA_Found_Two_Square_Brackets =>
                      if CP = Standard.Character'Pos ('>') then
-                        SAX_Parser_T'Class (This).CDATA (Contents (Tag_Value_First_Index..Tag_Value_Last_Index),
-                                                         Call_Result);
+                        SAX_Parser'Class (This).Handle_CDATA
+                          (Contents
+                             (Tag_Value_First_Index ..Tag_Value_Last_Index),
+                           Call_Result);
 
                         if Call_Result.Has_Failed then
                            exit;
@@ -537,8 +555,11 @@ package body Aida.Deepend_XML_SAX_Parser is
 
                         End_Tag_Name_Last_Index := Prev_Prev_P;
 
-                        SAX_Parser_T'Class (This).End_Tag (Contents (End_Tag_Name_First_Index..End_Tag_Name_Last_Index),
-                                                           Call_Result);
+                        SAX_Parser'Class (This).Handle_End_Tag
+                          (Contents
+                             (End_Tag_Name_First_Index ..
+                                  End_Tag_Name_Last_Index),
+                           Call_Result);
 
                         if Call_Result.Has_Failed then
                            exit;
@@ -591,8 +612,10 @@ package body Aida.Deepend_XML_SAX_Parser is
                      end if;
                   when Init_Extracting_Comment_And_Found_Dash_Dash =>
                      if CP = Standard.Character'Pos ('>') then
-                        SAX_Parser_T'Class (This).Comment (Value       => Contents (Comment_First_Index..(P - 4)),
-                                                           Call_Result => Call_Result);
+                        SAX_Parser'Class (This).Handle_Comment
+                          (Value       =>
+                             Contents (Comment_First_Index..(P - 4)),
+                           Call_Result => Call_Result);
 
                         if Call_Result.Has_Failed then
                            exit;
@@ -618,8 +641,10 @@ package body Aida.Deepend_XML_SAX_Parser is
                      end if;
                   when Extracting_Comment_And_Found_Dash_Dash =>
                      if CP = Standard.Character'Pos ('>') then
-                        SAX_Parser_T'Class (This).Comment (Value       => Contents (Comment_First_Index..(P - 4)),
-                                                           Call_Result => Call_Result);
+                        SAX_Parser'Class (This).Handle_Comment
+                          (Value       =>
+                             Contents (Comment_First_Index..(P - 4)),
+                           Call_Result => Call_Result);
 
                         if Call_Result.Has_Failed then
                            exit;

@@ -62,5 +62,5 @@ procedure Aida.XML_SAX_Parse (Arg1        : in out Arg1_T;
   Global => null,
   Pre    =>
     (not Call_Result.Has_Failed and Contents'Length > 0 and
-       Contents'Last < Int32'Last - 4);
+       Contents'Last < Integer'Last - 4);
 pragma Annotate (GNATProve, Terminating, Aida.XML_SAX_Parse);

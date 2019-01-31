@@ -1,44 +1,54 @@
-with Aida;
 with Ada.Containers;
 with System.Storage_Pools.Subpools;
 
-use all type Ada.Containers.Count_Type;
+pragma Elaborate_All (System.Storage_Pools.Subpools);
 
 package Aida.Deepend_XML_SAX_Parser is
 
-   type SAX_Parser_T is tagged limited null record;
+   use all type Ada.Containers.Count_Type;
 
-   procedure Start_Tag (This        : in out SAX_Parser_T;
-                        Tag_Name    : in     Standard.String;
-                        Call_Result : in out Aida.Call_Result) is null;
+   type SAX_Parser is tagged limited null record;
 
-   procedure End_Tag (This        : in out SAX_Parser_T;
-                      Tag_Name    : in     Standard.String;
-                      Call_Result : in out Aida.Call_Result) is null;
+   procedure Handle_Start_Tag
+     (This        : in out SAX_Parser;
+      Tag_Name    : in     Standard.String;
+      Call_Result : in out Aida.Call_Result) is null;
+
+   procedure Handle_End_Tag
+     (This        : in out SAX_Parser;
+      Tag_Name    : in     Standard.String;
+      Call_Result : in out Aida.Call_Result) is null;
    -- It is the responsibility of the implementor of End_Tag to verify
    -- that the tag name corresponds to the expected tag name.
 
-   procedure Text (This        : in out SAX_Parser_T;
-                   Value       : in     Standard.String;
-                   Call_Result : in out Aida.Call_Result) is null;
+   procedure Handle_Text
+     (This        : in out SAX_Parser;
+      Value       : in     Standard.String;
+      Call_Result : in out Aida.Call_Result) is null;
 
-   procedure Attribute (This            : in out SAX_Parser_T;
-                        Attribute_Name  : in     Standard.String;
-                        Attribute_Value : in     Standard.String;
-                        Call_Result     : in out Aida.Call_Result) is null;
+   procedure Handle_Attribute
+     (This            : in out SAX_Parser;
+      Attribute_Name  : in     Standard.String;
+      Attribute_Value : in     Standard.String;
+      Call_Result     : in out Aida.Call_Result) is null;
 
-   procedure Comment (This        : in out SAX_Parser_T;
-                      Value       : in     Standard.String;
-                      Call_Result : in out Aida.Call_Result) is null;
+   procedure Handle_Comment
+     (This        : in out SAX_Parser;
+      Value       : in     Standard.String;
+      Call_Result : in out Aida.Call_Result) is null;
 
-   procedure CDATA (This        : in out SAX_Parser_T;
-                    Value       : in     Standard.String;
-                    Call_Result : in out Aida.Call_Result) is null;
+   procedure Handle_CDATA
+     (This        : in out SAX_Parser;
+      Value       : in     Standard.String;
+      Call_Result : in out Aida.Call_Result) is null;
 
-   procedure Parse (This        : in out SAX_Parser_T;
-                    Contents    : in     Standard.String;
-                    Call_Result : in out Aida.Call_Result) with
+   procedure Parse
+     (This        : in out SAX_Parser;
+      Contents    : in     Standard.String;
+      Call_Result : in out Aida.Call_Result) with
      Global => null,
-     Pre    => not Call_Result.Has_Failed and Contents'Length > 0 and Contents'Last < Integer'Last - 4;
+     Pre    =>
+       (not Call_Result.Has_Failed and
+          Contents'Length > 0 and Contents'Last < Integer'Last - 4);
 
 end Aida.Deepend_XML_SAX_Parser;

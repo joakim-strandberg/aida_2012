@@ -12,15 +12,15 @@ package Aida.Bounded_Hash_Map_Tests with SPARK_Mode is
 
 private
 
-   function Default_Key     return Aida.Int32 is (0);
-   function Default_Element return Aida.Int32 is (0);
+   function Default_Key     return Integer is (0);
+   function Default_Element return Integer is (0);
 
    package Int_To_Int_Hash_Map is new Aida.Bounded_Hash_Map
-     (Key_T                   => Aida.Int32,
-      Element_T               => Aida.Int32,
+     (Key_T                   => Integer,
+      Element_T               => Integer,
       Default_Key             => Default_Key,
       Default_Element         => Default_Element,
-      Hash                    => Aida.To_Hash32,
+      Hash                    => Aida.To_Hash_Type,
       Equivalent_Keys         => "=",
       Max_Hash_Map_Size       => 10,
       Max_Collision_List_Size => 10);

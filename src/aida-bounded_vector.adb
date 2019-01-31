@@ -9,7 +9,7 @@ package body Aida.Bounded_Vector is
    function "=" (L, R : T) return Boolean is (Last_Index (L) = Last_Index (R) and then
                                                 (for all I in Index_T range Index_T'First..Last_Index (L) => L.Items (I) = R.Items (I)));
 
-   function Max_Index (This : T) return Int32 is
+   function Max_Index (This : T) return Integer is
       pragma Unreferenced (This);
    begin
       return Max_Last_Index;

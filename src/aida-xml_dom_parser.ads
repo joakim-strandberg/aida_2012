@@ -7,10 +7,10 @@ pragma Elaborate_All (Aida.Bounded_Vector);
 pragma Elaborate_All (Aida.Tagged_Bounded_Vector);
 
 generic
-   Max_Chars        : Pos32;
-   Max_Strings      : Pos32;
-   Max_Nodes        : Pos32;
-   Max_Attributes   : Pos32;
+   Max_Chars        : Positive;
+   Max_Strings      : Positive;
+   Max_Nodes        : Positive;
+   Max_Attributes   : Positive;
 package Aida.XML_DOM_Parser is
 
    package Int_To_String_Map is new Aida.Integer_To_String_Map
@@ -18,11 +18,11 @@ package Aida.XML_DOM_Parser is
       Max_Strings => Max_Strings,
       Value_T     => String);
 
-   type Node_Id_T is new Int32 range 1 .. Max_Nodes;
+   type Node_Id_T is new Integer range 1 .. Max_Nodes;
 
    subtype Extended_Node_Id_T is Node_Id_T'Base range 0 .. Node_Id_T'Last;
 
-   type Attribute_Id_T is new Int32 range 1 .. Max_Attributes;
+   type Attribute_Id_T is new Integer range 1 .. Max_Attributes;
 
    subtype Extended_Attribute_Id_T is Attribute_Id_T'Base range
      0 .. Attribute_Id_T'Last;
@@ -183,7 +183,7 @@ package Aida.XML_DOM_Parser is
                     Call_Result : in out Aida.Call_Result) with
      Global    => null,
        Pre'Class => (not Call_Result.Has_Failed and XML_Message'Length > 0 and
-                       XML_Message'Last < Int32'Last - 4);
+                       XML_Message'Last < Integer'Last - 4);
 
 private
 
@@ -289,7 +289,7 @@ private
        Last_Attribute_Id => Extended_Attribute_Id_T'First));
 
    package Node_Vector is new Aida.Tagged_Bounded_Vector
-     (Max_Last_Index  => Int32'First + MAX_IDS,
+     (Max_Last_Index  => Integer'First + MAX_IDS,
       Element_T       => Current_Node_T,
       Default_Element => Default_Current_Node);
 

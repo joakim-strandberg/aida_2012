@@ -79,8 +79,8 @@ package body Aida.XML_SAX_Parse_Tests is
       type Specific_Max_Indices_T is limited private;
       type Specific_State_T is (<>);
       type Specific_Current_Ids_T is limited private;
-      Error_Code_1 : Aida.Int32;
-      Error_Code_2 : Aida.Int32;
+      Error_Code_1 : Integer;
+      Error_Code_2 : Integer;
    procedure Generic_Unused_CDATA (Result      : in out Specific_Storage_T;
                                    Max_Indices : in out Specific_Max_Indices_T;
                                    State       : in out Specific_State_T;
@@ -574,20 +574,20 @@ package body Aida.XML_SAX_Parse_Tests is
 
                if Attribute_Name = "fingers" then
                   declare
-                     I : Aida.Int32;
+                     I : Integer;
                      Has_Failed : Boolean;
                   begin
-                     Aida.To_Int32 (Attribute_Value,
-                                    I,
-                                    Has_Failed);
+                     Aida.To_Integer (Attribute_Value,
+                                      I,
+                                      Has_Failed);
 
                      if Has_Failed then
                         Call_Result.Initialize (-1415717893, 1464395596);
                      else
                         if
                           Current_Ids.Hand_Ids.Is_Non_Empty and
-                          I >= Aida.Int32 (Json_Parsing_Tests_Model.Hand_Def.Number_Of_Fingers_T'First) and
-                          I <= Aida.Int32 (Json_Parsing_Tests_Model.Hand_Def.Number_Of_Fingers_T'Last)
+                          I >= Integer (Json_Parsing_Tests_Model.Hand_Def.Number_Of_Fingers_T'First) and
+                          I <= Integer (Json_Parsing_Tests_Model.Hand_Def.Number_Of_Fingers_T'Last)
                         then
                            Storage.Hand (Current_Ids.Hand_Ids.Last_Element).Number_Of_Fingers :=
                              Json_Parsing_Tests_Model.Hand_Def.Number_Of_Fingers_T (I);

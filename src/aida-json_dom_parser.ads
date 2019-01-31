@@ -5,10 +5,10 @@ pragma Elaborate_All (Aida.Integer_To_String_Map);
 pragma Elaborate_All (Aida.Bounded_Vector);
 
 generic
-   Max_Chars        : Pos32;
-   Max_Strings      : Pos32;
-   Max_Nodes        : Pos32;
-   Max_Array_Values : Pos32;
+   Max_Chars        : Positive;
+   Max_Strings      : Positive;
+   Max_Nodes        : Positive;
+   Max_Array_Values : Positive;
 package Aida.JSON_DOM_Parser is
 
    package Int_To_String_Map is new Aida.Integer_To_String_Map
@@ -16,11 +16,11 @@ package Aida.JSON_DOM_Parser is
       Max_Strings => Max_Strings,
       Value_T     => Standard.String);
 
-   type Node_Index_T is new Int32 range 1 .. Max_Nodes;
+   type Node_Index_T is new Integer range 1 .. Max_Nodes;
 
    subtype Extended_Node_Id is Node_Index_T'Base range 0 .. Node_Index_T'Last;
 
-   type Array_Index is new Int32 range 1 .. Max_Array_Values;
+   type Array_Index is new Integer range 1 .. Max_Array_Values;
 
    subtype Extended_Array_Id is Array_Index'Base range 0 .. Array_Index'Last;
 
@@ -150,7 +150,7 @@ package Aida.JSON_DOM_Parser is
                     Call_Result  : in out Aida.Call_Result) with
      Global    => null,
        Pre'Class =>
-         not Call_Result.Has_Failed and JSON_Message'Last < Int32'Last - 4;
+         not Call_Result.Has_Failed and JSON_Message'Last < Integer'Last - 4;
 
 private
 
@@ -189,7 +189,7 @@ private
    MAX_IDS : constant := 10;
 
    package Node_Id_Vector is new Aida.Bounded_Vector
-     (Max_Last_Index  => Int32'First + MAX_IDS,
+     (Max_Last_Index  => Integer'First + MAX_IDS,
       Element_T       => Inside_Construct,
       Default_Element => Default_Inside_Construct);
 

@@ -2,30 +2,29 @@
 --
 -- 32-bit vector implementation designed to be able to hold around 4 billion number of items.
 --
--- For the Max_Last_Index parameter write Aida.Int32 + (max size of the vector).
+-- For the Max_Last_Index parameter write Integer + (max size of the vector).
 -- Example of a vector of integers with a maximum of 10 elements:
 --
---     use all type Aida.Int32;
+--     use all type Integer;
 --
---     function Get return Aida.Int32 is (0);
+--     function Get return Integer is (0);
 --     pragma Annotate (GNATprove, Terminating, Get);
 --
---     package BV is new Aida.Bounded_Vector2 (Max_Last_Index  => Aida.Int32'First + 10,
---                                             Element_T       => Aida.Int32,
+--     package BV is new Aida.Bounded_Vector2 (Max_Last_Index  => Integer'First + 10,
+--                                             Element_T       => Integer,
 --                                             Default_Element => Get);
 --
 generic
-   Max_Last_Index : Int32;
+   Max_Last_Index : Integer;
    type Element_T is private;
    with function Default_Element return Element_T;
-package Aida.Bounded_Vector is
-   pragma Pure;
+package Aida.Bounded_Vector with Pure is
 
-   pragma Assert (Max_Last_Index > Int32'First);
+   pragma Assert (Max_Last_Index > Integer'First);
 
-   subtype Extended_Index_T is Int32 range Int32'First..Max_Last_Index;
+   subtype Extended_Index_T is Integer range Integer'First..Max_Last_Index;
 
-   subtype Index_T is Extended_Index_T range Int32'First + 1..Extended_Index_T'Last;
+   subtype Index_T is Extended_Index_T range Integer'First + 1..Extended_Index_T'Last;
 
    type Elements_Array_T is array (Index_T range <>) of aliased Element_T;
 
@@ -33,7 +32,7 @@ package Aida.Bounded_Vector is
      Default_Initial_Condition => Is_Empty (T);
    -- The vector type is limited to avoid unnecessary copies
 
-   function Max_Index (This : T) return Int32 with
+   function Max_Index (This : T) return Integer with
      Global => null,
      Post   => Max_Index'Result = Max_Last_Index;
    pragma Annotate (GNATprove, Terminating, Max_Index);

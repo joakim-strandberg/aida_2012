@@ -98,4 +98,4 @@ procedure Aida.JSON_SAX_Parse (Arg1        : in out Arg1_T;
                                Contents    : String;
                                Call_Result : in out Aida.Call_Result) with
   Global => null,
-  Pre    => not Call_Result.Has_Failed and Contents'Last < Int32'Last - 4;
+  Pre    => not Call_Result.Has_Failed and Contents'Last < Integer'Last - 4;

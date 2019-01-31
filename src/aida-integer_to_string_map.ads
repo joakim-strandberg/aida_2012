@@ -1,16 +1,16 @@
 -- This is a key to value map where the keys are integers and the values are of String type.
 generic
-   Max_Chars : Pos32;
-   Max_Strings : Pos32;
+   Max_Chars : Positive;
+   Max_Strings : Positive;
    type Value_T is new Standard.String;
 package Aida.Integer_To_String_Map is
    pragma Pure;
 
-   subtype Key_T is Pos32 range 1..Max_Strings;
+   subtype Key_T is Positive range 1..Max_Strings;
 
-   subtype Available_Chars_T is Nat32 range 0..Max_Chars;
+   subtype Available_Chars_T is Natural range 0..Max_Chars;
 
-   subtype Available_Keys_T is Nat32 range 0..Max_Strings;
+   subtype Available_Keys_T is Natural range 0..Max_Strings;
 
    type T is tagged limited private with
      Default_Initial_Condition =>
@@ -38,11 +38,11 @@ package Aida.Integer_To_String_Map is
 
 private
 
-   subtype Char_Index_T is Nat32 range 1..Max_Chars;
+   subtype Char_Index_T is Natural range 1..Max_Chars;
 
-   subtype From_Index_T is Pos32 range 1..Char_Index_T'Last;
+   subtype From_Index_T is Positive range 1..Char_Index_T'Last;
 
-   subtype To_Index_T   is Nat32 range 0..Char_Index_T'Last;
+   subtype To_Index_T   is Natural range 0..Char_Index_T'Last;
 
    type Substring_T is record
       From : From_Index_T := 1;
@@ -51,9 +51,9 @@ private
 
    type Substring_Indexes_T is array (Key_T) of Substring_T;
 
-   subtype Next_T is Nat32 range 0..Char_Index_T'Last;
+   subtype Next_T is Natural range 0..Char_Index_T'Last;
 
-   subtype Next_Index_T is Nat32 range 0..Key_T'Last;
+   subtype Next_Index_T is Natural range 0..Key_T'Last;
 
    type T is tagged limited
       record
