@@ -3,7 +3,7 @@ with Ada.Containers;
 use all type Ada.Containers.Count_Type;
 
 generic
-   type Argument_Type is limited private;
+   type Argument_Type (<>) is limited private;
    with procedure Start_Tag
      (Argument    : in out Argument_Type;
       Tag_Name    : in     String;

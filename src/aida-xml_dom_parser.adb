@@ -525,8 +525,7 @@ package body Aida.XML_DOM_Parser is
 
    procedure Parse (This        : in out T;
                     XML_Message : String;
-                    Call_Result : in out Aida.Call_Result)
-   is
+                    Call_Result : in out Aida.Call_Result) is
    begin
       This.Max_Indices.Clear;
 

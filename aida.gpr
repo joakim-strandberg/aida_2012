@@ -1,7 +1,7 @@
 --with "aida_basic_types.gpr";
 --with "aida_containers.gpr";
 --with "aida_utf8.gpr";
---with "aida_io.gpr";
+with "deepend.gpr";
 
 project Aida is
 
