@@ -269,10 +269,6 @@ private
    function Has_Next_Node (This : Node_T) return Boolean is
      (This.Inner.My_Next_Node > Extended_Node_Id_T'First);
 
-   type T is new Public_Part_Def.Public_Part_T with record
-      Max_Indices : Max_Indices_Def.T;
-   end record;
-
    MAX_IDS : constant := 10;
 
    type Current_Node_T is record
@@ -293,15 +289,6 @@ private
       Element_T       => Current_Node_T,
       Default_Element => Default_Current_Node);
 
-   type State_T is (
-                    Expecting_Object_Start,
-                    -- seems to only apply to the root start tag
-                    Expecting_Default,
---  Attribute_Or_Text_Or_Comment_Or_CDATA_Or_Object_Start_Or_Object_End
-
-                    End_State
-                   );
-
    package Current_Ids_Def is
 
       type Current_Ids_T is tagged limited record
@@ -319,6 +306,21 @@ private
               This.Node_Ids.Last_Index = This.Node_Ids.Last_Index'Old + 1;
 
    end Current_Ids_Def;
+
+   type State_T is
+     (
+      Expecting_Object_Start,
+      -- seems to only apply to the root start tag
+      Expecting_Default,
+      --  Attribute_Or_Text_Or_Comment_Or_CDATA_Or_Object_Start_Or_Object_End
+      End_State
+     );
+
+   type T is new Public_Part_Def.Public_Part_T with record
+      Max_Indices : Max_Indices_Def.T;
+      Current_Ids : Current_Ids_Def.Current_Ids_T;
+      State       : State_T := Expecting_Object_Start;
+   end record;
 
    subtype Current_Ids_T is Current_Ids_Def.Current_Ids_T;
 
