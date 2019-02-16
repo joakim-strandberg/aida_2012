@@ -1,5 +1,13 @@
 package body Aida.Deepend.XML_DOM_Parser is
 
+   type State_T is
+     (
+      Expecting_Object_Start, -- seems to only apply to the root start tag
+      --  Expecting_Attribute_Or_Text_Or_Comment_Or_CDATA_Or_Object_Start_Or_Object_End,
+      Expecting_Default, -- Attribute_Or_Text_Or_Comment_Or_CDATA_Or_Object_Start_Or_Object_End
+      End_State
+     );
+
    function Name (This : Attribute) return String is
      (This.My_Name.all);
 
