@@ -1,3 +1,69 @@
+--  The code in this package originates from the work of Dmitry A. Kazakov,
+--  the Simple Components library. The changes can be summarized:
+--
+--  - Conversion from Ada95 to SPARK (Ada2012)
+--  - The subprograms have been grouped differently.
+--
+--  The original copyright notices:
+--                                                                    --
+--                                                                    --
+--  package Strings_Edit.UTF8       Copyright (c)  Dmitry A. Kazakov  --
+--  Interface                                      Luebeck            --
+--                                                 Spring, 2005       --
+--                                                                    --
+--                                Last revision :  21:03 21 Apr 2009  --
+--                                                                    --
+--  This  library  is  free software; you can redistribute it and/or  --
+--  modify it under the terms of the GNU General Public  License  as  --
+--  published by the Free Software Foundation; either version  2  of  --
+--  the License, or (at your option) any later version. This library  --
+--  is distributed in the hope that it will be useful,  but  WITHOUT  --
+--  ANY   WARRANTY;   without   even   the   implied   warranty   of  --
+--  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU  --
+--  General  Public  License  for  more  details.  You  should  have  --
+--  received  a  copy  of  the GNU General Public License along with  --
+--  this library; if not, write to  the  Free  Software  Foundation,  --
+--  Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.    --
+--                                                                    --
+--  As a special exception, if other files instantiate generics from  --
+--  this unit, or you link this unit with other files to produce  an  --
+--  executable, this unit does not by  itself  cause  the  resulting  --
+--  executable to be covered by the GNU General Public License. This  --
+--  exception  does not however invalidate any other reasons why the  --
+--  executable file might be covered by the GNU Public License.       --
+--
+--
+--
+--  package                         Copyright (c)  Dmitry A. Kazakov  --
+--     Strings_Edit.UTF8.Categorization            Luebeck            --
+--  Interface                                      Spring, 2008       --
+--                                                                    --
+--                                Last revision :  21:03 21 Apr 2009  --
+--                                                                    --
+--  This  library  is  free software; you can redistribute it and/or  --
+--  modify it under the terms of the GNU General Public  License  as  --
+--  published by the Free Software Foundation; either version  2  of  --
+--  the License, or (at your option) any later version. This library  --
+--  is distributed in the hope that it will be useful,  but  WITHOUT  --
+--  ANY   WARRANTY;   without   even   the   implied   warranty   of  --
+--  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU  --
+--  General  Public  License  for  more  details.  You  should  have  --
+--  received  a  copy  of  the GNU General Public License along with  --
+--  this library; if not, write to  the  Free  Software  Foundation,  --
+--  Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.    --
+--                                                                    --
+--  As a special exception, if other files instantiate generics from  --
+--  this unit, or you link this unit with other files to produce  an  --
+--  executable, this unit does not by  itself  cause  the  resulting  --
+--  executable to be covered by the GNU General Public License. This  --
+--  exception  does not however invalidate any other reasons why the  --
+--  executable file might be covered by the GNU Public License.       --
+--  ________________________________________________________________  --
+--
+--  This  package  provides  categorization of code points as defined by
+--  UnicodeData file.
+--
+
 package body Aida.UTF8 with
    SPARK_Mode
  is
@@ -1554,35 +1620,29 @@ package body Aida.UTF8 with
 
    function Image (Value : Code_Point) return String is
       Result  : String (1 .. 4) := (others => ' ');
-      Pointer : Integer := Result'First;
+      Pointer : Integer           := Result'First;
    begin
-      Aida.UTF8.Put (Result, Pointer, Value);
+      Put (Result, Pointer, Value);
       return Result (1 .. Pointer - 1);
    end Image;
 
    --  The Find procedure can be formally verified
    --  by SPARK GPL 2016, Level=None and it takes around 20 seconds:
    --
-   procedure Find
-     (Code  : Code_Point;
-      CA    : Categorization_Array;
-      Found : out Boolean;
-      Index : in out Categorization_Index) with
-     Global => null,
+   procedure Find (Code :     Code_Point; CA : Categorization_Array;
+      Found : out Boolean; Index : in out Categorization_Index) with
+      Global => null,
       Pre    =>
       (for all I in CA'Range =>
          (for all J in I .. CA'Last => CA (I).Code <= CA (J).Code));
 
-   procedure Find
-     (Code  : Code_Point;
-      CA    : Categorization_Array;
-      Found : out Boolean;
-      Index : in out Categorization_Index)
+   procedure Find (Code :     Code_Point; CA : Categorization_Array;
+      Found             : out Boolean; Index : in out Categorization_Index)
    is
       From    : Categorization_Index'Base := Mapping'First;
       To      : Categorization_Index'Base := Mapping'Last;
       This    : Categorization_Index;
-      Current : Code_Point;
+      Current : Code_Point_Base;
    begin
       while From <= To loop
          pragma Loop_Invariant (From >= CA'First);
@@ -2761,10 +2821,8 @@ package body Aida.UTF8 with
       return Category (Value) = Lu;
    end Is_Upper;
 
-   procedure Get
-     (Source  : String;
-      Pointer : in out Integer;
-      Value   : out Code_Point)
+   procedure Get (Source :     String; Pointer : in out Integer;
+      Value              : out Code_Point)
    is
       Accum : Code_Point_Base;
       Code  : Code_Point_Base;
@@ -2777,59 +2835,46 @@ package body Aida.UTF8 with
             Pointer := Pointer + 1;
          when 16#C2# .. 16#DF# => -- 2 bytes
             Accum   := (Code and 16#1F#) * 2**6;
-            Code := Code_Point (Character'Pos (Source (Pointer + 1)));
+            Code    := Code_Point (Character'Pos (Source (Pointer + 1)));
             Value   := Accum or (Code and 16#3F#);
             Pointer := Pointer + 2;
          when 16#E0# => -- 3 bytes
-            Code :=
-              Code_Point (Character'Pos (Source (Pointer + 1)));
-            Accum := (Code and 16#3F#) * 2**6;
-            Code  :=
-              Code_Point (Character'Pos (Source (Pointer + 2)));
+            Code    := Code_Point (Character'Pos (Source (Pointer + 1)));
+            Accum   := (Code and 16#3F#) * 2**6;
+            Code    := Code_Point (Character'Pos (Source (Pointer + 2)));
             Value   := Accum or (Code and 16#3F#);
             Pointer := Pointer + 3;
          when 16#E1# .. 16#EF# => -- 3 bytes
-            Accum := (Code and 16#0F#) * 2**12;
-            Code  :=
-              Code_Point (Character'Pos (Source (Pointer + 1)));
-            Accum := Accum or (Code and 16#3F#) * 2**6;
-            Code  :=
-              Code_Point (Character'Pos (Source (Pointer + 2)));
+            Accum   := (Code and 16#0F#) * 2**12;
+            Code    := Code_Point (Character'Pos (Source (Pointer + 1)));
+            Accum   := Accum or (Code and 16#3F#) * 2**6;
+            Code    := Code_Point (Character'Pos (Source (Pointer + 2)));
             Value   := Accum or (Code and 16#3F#);
             Pointer := Pointer + 3;
          when 16#F0# => -- 4 bytes
-            Code :=
-              Code_Point (Character'Pos (Source (Pointer + 1)));
-            Accum := (Code and 16#3F#) * 2**12;
-            Code  :=
-              Code_Point (Character'Pos (Source (Pointer + 2)));
-            Accum := Accum or (Code and 16#3F#) * 2**6;
-            Code  :=
-              Code_Point (Character'Pos (Source (Pointer + 3)));
+            Code    := Code_Point (Character'Pos (Source (Pointer + 1)));
+            Accum   := (Code and 16#3F#) * 2**12;
+            Code    := Code_Point (Character'Pos (Source (Pointer + 2)));
+            Accum   := Accum or (Code and 16#3F#) * 2**6;
+            Code    := Code_Point (Character'Pos (Source (Pointer + 3)));
             Value   := Accum or (Code and 16#3F#);
             Pointer := Pointer + 4;
          when 16#F1# .. 16#F3# => -- 4 bytes
-            Accum := (Code and 16#07#) * 2**18;
-            Code  :=
-              Code_Point (Character'Pos (Source (Pointer + 1)));
-            Accum := Accum or (Code and 16#3F#) * 2**12;
-            Code  :=
-              Code_Point (Character'Pos (Source (Pointer + 2)));
-            Accum := Accum or (Code and 16#3F#) * 2**6;
-            Code  :=
-              Code_Point (Character'Pos (Source (Pointer + 3)));
+            Accum   := (Code and 16#07#) * 2**18;
+            Code    := Code_Point (Character'Pos (Source (Pointer + 1)));
+            Accum   := Accum or (Code and 16#3F#) * 2**12;
+            Code    := Code_Point (Character'Pos (Source (Pointer + 2)));
+            Accum   := Accum or (Code and 16#3F#) * 2**6;
+            Code    := Code_Point (Character'Pos (Source (Pointer + 3)));
             Value   := Accum or (Code and 16#3F#);
             Pointer := Pointer + 4;
          when 16#F4# => -- 4 bytes
-            Accum := (Code and 16#07#) * 2**18;
-            Code  :=
-              Code_Point (Character'Pos (Source (Pointer + 1)));
-            Accum := Accum or (Code and 16#3F#) * 2**12;
-            Code  :=
-              Code_Point (Character'Pos (Source (Pointer + 2)));
-            Accum := Accum or (Code and 16#3F#) * 2**6;
-            Code  :=
-              Code_Point (Character'Pos (Source (Pointer + 3)));
+            Accum   := (Code and 16#07#) * 2**18;
+            Code    := Code_Point (Character'Pos (Source (Pointer + 1)));
+            Accum   := Accum or (Code and 16#3F#) * 2**12;
+            Code    := Code_Point (Character'Pos (Source (Pointer + 2)));
+            Accum   := Accum or (Code and 16#3F#) * 2**6;
+            Code    := Code_Point (Character'Pos (Source (Pointer + 3)));
             Value   := Accum or (Code and 16#3F#);
             Pointer := Pointer + 4;
          when others =>
@@ -2914,9 +2959,9 @@ package body Aida.UTF8 with
       while From <= Value'Last loop
          pragma Assume (Is_Valid_UTF8_Code_Point (Value, From));
 
-         Aida.UTF8.Get (Value, From, Code);
+         Get (Value, From, Code);
          Code := To_Lowercase (Code);
-         Aida.UTF8.Put (Result, To, Code);
+         Put (Result, To, Code);
       end loop;
       return Result (1 .. To - 1);
    end To_Lowercase;
@@ -2930,9 +2975,9 @@ package body Aida.UTF8 with
       while From <= Value'Last loop
          pragma Assume (Is_Valid_UTF8_Code_Point (Value, From));
 
-         Aida.UTF8.Get (Value, From, Code);
+         Get (Value, From, Code);
          Code := To_Uppercase (Code);
-         Aida.UTF8.Put (Result, To, Code);
+         Put (Result, To, Code);
       end loop;
       return Result (1 .. To - 1);
    end To_Uppercase;
