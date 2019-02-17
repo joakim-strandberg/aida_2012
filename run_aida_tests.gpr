@@ -7,47 +7,26 @@ project Run_Aida_Tests is
    for Exec_Dir use "bin";
    for Main use ("run_aida_tests.adb");
 
---     for Source_Files use ("aida-bounded_hash_map_tests.ads",
---                           "aida-bounded_hash_map_tests.adb",
---                           "aida-bounded_string_tests.ads",
---                           "aida-bounded_string_tests.adb",
---                           "aida-bounded_vector_tests.ads",
---                           "aida-bounded_vector_tests.adb",
---                           "aida-json_dom_parser_tests.ads",
---                           "aida-json_dom_parser_tests.adb",
---                           "aida-json_sax_parse_tests.ads",
---                           "aida-json_sax_parse_tests.adb",
---                           "aida-json_parsing_tests_model.ads",
---                           "aida-json_parsing_tests_model.adb",
---                           "aida-tests.ads",
---                           "aida-tests.adb",
---                           "aida-utf8-tests.ads",
---                           "aida-utf8-tests.adb",
---                           "aida-xml_sax_parse_tests.ads",
---                           "aida-xml_sax_parse_tests.adb",
---                           "aida-xml_dom_parser_tests.ads",
---                           "aida-xml_dom_parser_tests.adb",
---                           "aida-subprogram_call_result_tests.ads",
---                           "aida-subprogram_call_result_tests.adb",
---                           "aida-integer_to_string_map_tests.ads",
---                           "aida-integer_to_string_map_tests.adb",
---                           "run_aida_tests.adb"
---                          );
+   for Create_Missing_Dirs use "true";
+   --  To be able to compile this gpr file with
+   --  "gprbuild run_aida_tests.gpr" instead of
+   --  "gprbuild -p run_aida_tests.gpr"
 
    package Builder is
       for Default_Switches ("ada") use ("-j4");
    end Builder;
 
    package Compiler is
-      for Default_Switches ("ada") use ("-gnat12",
-                                        "-g",
-                                        "-gnatf",                      --  Full, verbose error messages
-                                        "-gnatwa",                     --  All optional warnings
-                                        "-gnatVa",                     --  All validity checks
-                                        "-gnatwe",                     --  Treat warnings as errors
-                                        "-gnata",                     --  Enable assertions
-                                        "-Wall"                       --  All GCC warnings
-                                       );
+      for Default_Switches ("ada") use
+        ("-gnat12",
+         "-g",
+         "-gnatf",                     --  Full, verbose error messages
+         "-gnatwa",                    --  All optional warnings
+         "-gnatVa",                    --  All validity checks
+         "-gnatwe",                    --  Treat warnings as errors
+         "-gnata",                     --  Enable assertions
+         "-Wall"                       --  All GCC warnings
+        );
    end Compiler;
 
    package Linker is
@@ -55,7 +34,7 @@ project Run_Aida_Tests is
    end Linker;
 
    package Binder is
-      for Default_Switches ("ada") use ("-E");
+      for Default_Switches ("ada") use ("-Es");
    end Binder;
 
 end Run_Aida_Tests;

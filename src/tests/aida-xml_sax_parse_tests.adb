@@ -496,7 +496,9 @@ package body Aida.XML_SAX_Parse_Tests is
 
       procedure Text (Argument    : in out Argument_Type;
                       Value       : String;
-                      Call_Result : in out Aida.Call_Result) is
+                      Call_Result : in out Aida.Call_Result)
+      is
+         pragma Unmodified (Argument);
       begin
          case Argument.State is
             when Expecting_Hand_Start_Tag |

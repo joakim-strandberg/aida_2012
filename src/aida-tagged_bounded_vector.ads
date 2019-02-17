@@ -118,4 +118,7 @@ private
          My_Last_Index  : Extended_Index_T := Extended_Index_T'First;
       end record;
 
+   function Is_Full (This : T) return Boolean is
+     (This.My_Last_Index = Extended_Index_T'Last);
+
 end Aida.Tagged_Bounded_Vector;

@@ -195,6 +195,14 @@ is
                  (State_Id /= Extracting_Attribute_Name or
                     (State_Id = Extracting_Attribute_Name
                      and then (Attribute_First_Index < P)));
+               pragma Loop_Invariant
+                 (State_Id /= Extracting_CDATA_Found_Square_Bracket or
+                    (State_Id = Extracting_CDATA_Found_Square_Bracket
+                     and then (Tag_Value_Last_Index < P)));
+               pragma Loop_Invariant
+                 (State_Id /= Extracting_CDATA_Found_Two_Square_Brackets or
+                    (State_Id = Extracting_CDATA_Found_Two_Square_Brackets
+                     and then (Tag_Value_Last_Index < P)));
 
                --  Aida.Text_IO.Put ("Extracted:");
                --  Aida.Text_IO.Put (Image (CP));
